@@ -19,14 +19,21 @@
 
 ## Domains
 
-    ```
-        +-- shared-net/
-        |   +-- Shared/
-    ```
+```
++-- shared-net/
+|   +-- Shared/
+|   +-- Shared.Service/
+```
 
 
 ### Shared
+
     Empty main project
+
+
+### Shared.Service
+
+    Base service definition
 
 
 ## Git
