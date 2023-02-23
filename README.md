@@ -1,6 +1,6 @@
 # Shared .Net
 
-	Jorge Costa Maciá
+	Jorge Costa Macia
 
 	https://github.com/JorgeCostaMacia/
 	https://bitbucket.org/jorgecostamacia/
@@ -13,7 +13,7 @@
 
     Shared .Net solution to develop and share nuggets and libraries.
     
-    It´s apply DDD and CQRS architecture.
+    Its apply DDD and CQRS architecture.
     All projects just have the logic of one domain concept.
 
 

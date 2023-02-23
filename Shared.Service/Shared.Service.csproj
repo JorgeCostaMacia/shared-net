@@ -9,7 +9,7 @@
     <Title>$(AssemblyName)</Title>
     <Company>$(Authors)</Company>
     <Authors>JorgeCostaMacia</Authors>
-    <Description>Service base</Description>
+    <Description>Shared service base</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
