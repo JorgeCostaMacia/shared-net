@@ -2,7 +2,7 @@
 
 namespace Shared.Bus.Event.Domain
 {
-    public abstract class IAggregateEventHandler : IAggregateMessageHandler
+    public abstract class IAggregateEventHandler : IAggregateMessageHandler, IEventHandler
     {
     }
 }
