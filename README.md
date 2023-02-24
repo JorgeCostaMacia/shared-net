@@ -23,6 +23,7 @@
 +-- shared-net/
 |   +-- Shared/
 |   +-- Shared.Aggregate/
+|   +-- Shared.Aggregate.Message/
 |   +-- Shared.Application/
 |   +-- Shared.Context/
 |   +-- Shared.Data.Persistence/
@@ -38,6 +39,11 @@
 ### Shared.Aggregate
 
     Base aggregate
+
+
+### Shared.Aggregate
+
+    Base aggregate message
 
 
 ### Shared.Application
