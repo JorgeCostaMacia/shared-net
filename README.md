@@ -27,6 +27,7 @@
 |   |   +-- Shared.Application/
 |   |   +-- Shared.Bus/
 |   |   |   +-- Shared.Bus.Message/
+|   |   |   +-- Shared.Bus.Command/
 |   |   |   +-- Shared.Bus.Query/
 |   |   |   +-- Shared.Bus.Event/
 |   |   +-- Shared.Context/
@@ -48,6 +49,11 @@
 ### Shared.Aggregate.Message
 
     Base Aggregate Message And Aggregates
+
+
+### Shared.Aggregate.Command
+
+    Base Aggregate Message Command And Aggregates
 
 
 ### Shared.Aggregate.Query
