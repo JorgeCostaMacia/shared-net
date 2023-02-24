@@ -1,0 +1,31 @@
+﻿using Shared.Exception.Domain;
+
+namespace Shared.ValueObject.Exception.Domain
+{
+    public class OrderByValueObjectConstraintException : IConstraintException<string>
+    {
+        public OrderByValueObjectConstraintException(string value, List<string> constraints) : base("OrderByValueObject", value, constraints, new Guid("cb76bd2d-e350-476d-bc72-c1a70d47451d"), "OrderByValueObject Constraint Exception")
+        {
+        }
+
+        public OrderByValueObjectConstraintException(string value, List<string> constraints, System.Exception inner) : base("OrderByValueObject", value, constraints, new Guid("cb76bd2d-e350-476d-bc72-c1a70d47451d"), "OrderByValueObject Constraint Exception", inner)
+        {
+        }
+
+        public OrderByValueObjectConstraintException(string value, List<string> constraints, string message) : base("OrderByValueObject", value, constraints, new Guid("cb76bd2d-e350-476d-bc72-c1a70d47451d"), message)
+        {
+        }
+
+        public OrderByValueObjectConstraintException(string value, List<string> constraints, string message, System.Exception inner) : base("OrderByValueObject", value, constraints, new Guid("cb76bd2d-e350-476d-bc72-c1a70d47451d"), message, inner)
+        {
+        }
+
+        public OrderByValueObjectConstraintException(string value, List<string> constraints, Guid id, string message) : base("OrderByValueObject", value, constraints, id, message)
+        {
+        }
+
+        public OrderByValueObjectConstraintException(string value, List<string> constraints, Guid id, string message, System.Exception inner) : base("OrderByValueObject", value, constraints, id, message, inner)
+        {
+        }
+    }
+}

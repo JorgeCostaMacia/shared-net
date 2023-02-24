@@ -1,6 +1,6 @@
 # Shared .Net
 
-	Jorge Costa Maciá
+	Jorge Costa Macia
 
 	https://github.com/JorgeCostaMacia/
 	https://bitbucket.org/jorgecostamacia/
@@ -13,20 +13,125 @@
 
     Shared .Net solution to develop and share nuggets and libraries.
     
-    It´s apply DDD and CQRS architecture.
+    Its apply DDD and CQRS architecture.
     All projects just have the logic of one domain concept.
 
 
 ## Domains
 
-    ```
-        +-- shared-net/
-        |   +-- Shared/
-    ```
+```
++-- Shared
+|   +-- Aggregate
+|   |   +-- Exception
+|   |   +-- Message
+|   |   +-- Root
+|   +-- Application
+|   +-- Bus
+|   |   +-- Command
+|   |   +-- Event
+|   |   +-- Message
+|   |   +-- Query
+|   +-- Context
+|   +-- Data
+|   |   +-- Persistence
+|   +-- Exception
+|   +-- Service
+|   +-- Util
+|   |   +-- Expression
+|   +-- ValueObject
+|   |   +-- Exception
+|   |   +-- Validator
+```
 
 
 ### Shared
-    Empty main project
+
+    Empty Main Project
+
+
+### Shared.Aggregate
+
+    Base Aggregate
+
+
+### Shared.Aggregate.Exception
+
+    Base Aggregate Exception
+
+
+### Shared.Aggregate.Message
+
+    Base Aggregate Message
+
+
+### Shared.Aggregate.Root
+
+    Base Aggregate Root
+
+
+### Shared.Application
+
+    Base Application Service
+
+
+### Shared.Bus.Command
+
+    Base Bus Message Command And Aggregates
+
+
+### Shared.Bus.Event
+
+    Base Bus Message Event And Aggregates
+
+
+### Shared.Bus.Message
+
+    Base Bus Message And Aggregates
+
+
+### Shared.Bus.Query
+
+    Base Bus Message Query And Aggregates
+
+
+### Shared.Context
+
+    Base Context
+
+
+### Shared.Data.Persistence
+
+    Base Data Persistence
+
+
+### Shared.Exception
+
+    Base Domain Exception And Aggregates
+
+
+### Shared.Service
+
+    Base Service
+
+
+### Shared.Util.Expression
+
+    Utils to manage expressions
+
+
+### Shared.ValueObject
+
+    Base ValueObject
+
+
+### Shared.ValueObject.Exception
+
+    Base ValueObject Exceptions
+
+
+### Shared.ValueObject.Validator
+
+    Base ValueObject Validators
 
 
 ## Git
