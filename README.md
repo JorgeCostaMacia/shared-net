@@ -24,6 +24,7 @@
 |   +-- Shared/
 |   |   +-- Shared.Aggregate/
 |   |   |   +-- Shared.Aggregate.Message/
+|   |   |   +-- Shared.Aggregate.Root/
 |   |   +-- Shared.Application/
 |   |   +-- Shared.Bus/
 |   |   |   +-- Shared.Bus.Message/
@@ -49,6 +50,11 @@
 ### Shared.Aggregate.Message
 
     Base Aggregate Message And Aggregates
+
+
+### Shared.Aggregate.Root
+
+    Base Aggregate Root
 
 
 ### Shared.Aggregate.Command
