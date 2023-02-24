@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Aggregate.Message", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Bus.Message", "Shared.Bus.Message\Shared.Bus.Message.csproj", "{D61A77B1-9E15-4B32-9F98-1F1402D95312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Bus.Event", "Shared.Bus.Event\Shared.Bus.Event.csproj", "{53A7DA16-A823-4D4F-9FB7-AFD406B49876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Bus.Event", "Shared.Bus.Event\Shared.Bus.Event.csproj", "{53A7DA16-A823-4D4F-9FB7-AFD406B49876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Bus.Query", "Shared.Bus.Query\Shared.Bus.Query.csproj", "{D06AC56C-5DC1-4DD4-9080-CC7105483C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{53A7DA16-A823-4D4F-9FB7-AFD406B49876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53A7DA16-A823-4D4F-9FB7-AFD406B49876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53A7DA16-A823-4D4F-9FB7-AFD406B49876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D06AC56C-5DC1-4DD4-9080-CC7105483C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D06AC56C-5DC1-4DD4-9080-CC7105483C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D06AC56C-5DC1-4DD4-9080-CC7105483C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D06AC56C-5DC1-4DD4-9080-CC7105483C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
