@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>shared,service,ddd,hexagonal,cqrs,base</PackageTags>
+    <PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,service</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

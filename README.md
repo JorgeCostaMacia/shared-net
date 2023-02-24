@@ -22,6 +22,7 @@
 ```
 +-- shared-net/
 |   +-- Shared/
+|   +-- Shared.Application/
 |   +-- Shared.Service/
 ```
 
@@ -31,9 +32,14 @@
     Empty main project
 
 
+### Shared.Application
+
+    Base application service
+
+
 ### Shared.Service
 
-    Base service definition
+    Base service
 
 
 ## Git
