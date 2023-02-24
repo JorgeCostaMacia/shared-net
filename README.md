@@ -22,6 +22,7 @@
 ```
 +-- shared-net/
 |   +-- Shared/
+|   +-- Shared.Aggregate/
 |   +-- Shared.Application/
 |   +-- Shared.Context/
 |   +-- Shared.Data.Persistence/
@@ -32,6 +33,11 @@
 ### Shared
 
     Empty main project
+
+
+### Shared.Aggregate
+
+    Base aggregate
 
 
 ### Shared.Application

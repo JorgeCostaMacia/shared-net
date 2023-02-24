@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Service", "Shared.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Application", "Shared.Application\Shared.Application.csproj", "{059DA716-23D6-4A1E-891E-53C0037FA7BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Data.Persistence", "Shared.Data.Persistence\Shared.Data.Persistence.csproj", "{894109A0-E998-4652-9FCA-CFFB3964E10F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Data.Persistence", "Shared.Data.Persistence\Shared.Data.Persistence.csproj", "{894109A0-E998-4652-9FCA-CFFB3964E10F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Context", "Shared.Context\Shared.Context.csproj", "{CD165E2A-D5E1-4EEB-9C75-56321046F7ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Context", "Shared.Context\Shared.Context.csproj", "{CD165E2A-D5E1-4EEB-9C75-56321046F7ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate", "Shared.Aggregate\Shared.Aggregate.csproj", "{C84C2987-882A-4824-8FDC-DD8EBD78238A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CD165E2A-D5E1-4EEB-9C75-56321046F7ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD165E2A-D5E1-4EEB-9C75-56321046F7ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD165E2A-D5E1-4EEB-9C75-56321046F7ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C84C2987-882A-4824-8FDC-DD8EBD78238A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C84C2987-882A-4824-8FDC-DD8EBD78238A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C84C2987-882A-4824-8FDC-DD8EBD78238A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C84C2987-882A-4824-8FDC-DD8EBD78238A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
