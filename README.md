@@ -20,20 +20,22 @@
 ## Domains
 
 ```
-+-- shared-net/
-|   +-- Shared/
-|   |   +-- Shared.Aggregate/
-|   |   |   +-- Shared.Aggregate.Message/
-|   |   |   +-- Shared.Aggregate.Root/
-|   |   +-- Shared.Application/
-|   |   +-- Shared.Bus/
-|   |   |   +-- Shared.Bus.Message/
-|   |   |   +-- Shared.Bus.Command/
-|   |   |   +-- Shared.Bus.Query/
-|   |   |   +-- Shared.Bus.Event/
-|   |   +-- Shared.Context/
-|   |   +-- Shared.Data.Persistence/
-|   |   +-- Shared.Service/
++-- Shared
+|   +-- Aggregate
+|   |   +-- Exception
+|   |   +-- Message
+|   |   +-- Root
+|   +-- Application
+|   +-- Bus
+|   |   +-- Command
+|   |   +-- Event
+|   |   +-- Message
+|   |   +-- Query
+|   +-- Context
+|   +-- Data
+|   |   +-- Persistence
+|   +-- Exception
+|   +-- Service
 ```
 
 
@@ -47,9 +49,14 @@
     Base Aggregate
 
 
+### Shared.Aggregate.Exception
+
+    Base Aggregate Exception
+
+
 ### Shared.Aggregate.Message
 
-    Base Aggregate Message And Aggregates
+    Base Aggregate Message
 
 
 ### Shared.Aggregate.Root
@@ -57,29 +64,29 @@
     Base Aggregate Root
 
 
-### Shared.Aggregate.Command
-
-    Base Aggregate Message Command And Aggregates
-
-
-### Shared.Aggregate.Query
-
-    Base Aggregate Message Query And Aggregates
-
-
-### Shared.Aggregate.Event
-
-    Base Aggregate Message Event And Aggregates
-
-
 ### Shared.Application
 
     Base Application Service
 
 
+### Shared.Bus.Command
+
+    Base Bus Message Command And Aggregates
+
+
+### Shared.Bus.Event
+
+    Base Bus Message Event And Aggregates
+
+
 ### Shared.Bus.Message
 
     Base Bus Message And Aggregates
+
+
+### Shared.Bus.Query
+
+    Base Bus Message Query And Aggregates
 
 
 ### Shared.Context
@@ -90,6 +97,11 @@
 ### Shared.Data.Persistence
 
     Base Data Persistence
+
+
+### Shared.Exception
+
+    Base Domain Exception And Aggregates
 
 
 ### Shared.Service
