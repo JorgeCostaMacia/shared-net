@@ -36,6 +36,9 @@
 |   |   +-- Persistence
 |   +-- Exception
 |   +-- Service
+|   +-- ValueObject
+|   |   +-- Exception
+|   |   +-- Validator
 ```
 
 
@@ -107,6 +110,21 @@
 ### Shared.Service
 
     Base Service
+
+
+### Shared.ValueObject
+
+    Base ValueObject
+
+
+### Shared.ValueObject.Exception
+
+    Base ValueObject Exceptions
+
+
+### Shared.ValueObject.Validator
+
+    Base ValueObject Validators
 
 
 ## Git

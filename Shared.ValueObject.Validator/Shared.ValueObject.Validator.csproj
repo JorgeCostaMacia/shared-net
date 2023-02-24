@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
+	<VersionPrefix>1.0.0</VersionPrefix>
+	<Title>$(AssemblyName)</Title>
+	<Company>$(Authors)</Company>
+	<Authors>JorgeCostaMacia</Authors>
+	<Description>Shared value object exception base</Description>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
+	<RepositoryType>git</RepositoryType>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,valueObject, value object, exception, validator</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="1.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject.Exception" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>
