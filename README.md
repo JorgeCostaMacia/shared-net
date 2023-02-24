@@ -22,12 +22,14 @@
 ```
 +-- shared-net/
 |   +-- Shared/
-|   +-- Shared.Aggregate/
-|   +-- Shared.Aggregate.Message/
-|   +-- Shared.Application/
-|   +-- Shared.Context/
-|   +-- Shared.Data.Persistence/
-|   +-- Shared.Service/
+|   |   +-- Shared.Aggregate/
+|   |   |   +-- Shared.Aggregate.Message/
+|   |   +-- Shared.Application/
+|   |   +-- Shared.Bus/
+|   |   |   +-- Shared.Bus.Message/
+|   |   +-- Shared.Context/
+|   |   +-- Shared.Data.Persistence/
+|   |   +-- Shared.Service/
 ```
 
 
@@ -41,7 +43,7 @@
     Base aggregate
 
 
-### Shared.Aggregate
+### Shared.Aggregate.Message
 
     Base aggregate message
 
@@ -49,6 +51,11 @@
 ### Shared.Application
 
     Base application service
+
+
+### Shared.Bus.Message
+
+    Base bus message
 
 
 ### Shared.Context
