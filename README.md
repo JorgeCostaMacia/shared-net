@@ -27,6 +27,7 @@
 |   |   +-- Shared.Application/
 |   |   +-- Shared.Bus/
 |   |   |   +-- Shared.Bus.Message/
+|   |   |   +-- Shared.Bus.Event/
 |   |   +-- Shared.Context/
 |   |   +-- Shared.Data.Persistence/
 |   |   +-- Shared.Service/
@@ -35,27 +36,32 @@
 
 ### Shared
 
-    Empty main project
+    Empty Main Project
 
 
 ### Shared.Aggregate
 
-    Base aggregate
+    Base Aggregate
 
 
 ### Shared.Aggregate.Message
 
-    Base aggregate message
+    Base Aggregate Message And Aggregates
+
+
+### Shared.Aggregate.Event
+
+    Base Aggregate Message Event And Aggregates
 
 
 ### Shared.Application
 
-    Base application service
+    Base Application Service
 
 
 ### Shared.Bus.Message
 
-    Base bus message
+    Base Bus Message And Aggregates
 
 
 ### Shared.Context
@@ -70,7 +76,7 @@
 
 ### Shared.Service
 
-    Base service
+    Base Service
 
 
 ## Git
