@@ -36,6 +36,8 @@
 |   |   +-- Persistence
 |   +-- Exception
 |   +-- Service
+|   +-- Util
+|   |   +-- Expression
 |   +-- ValueObject
 |   |   +-- Exception
 |   |   +-- Validator
@@ -110,6 +112,11 @@
 ### Shared.Service
 
     Base Service
+
+
+### Shared.Util.Expression
+
+    Utils to manage expressions
 
 
 ### Shared.ValueObject

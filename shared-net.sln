@@ -31,11 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Aggregate.Exception"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Exception", "Shared.Exception\Shared.Exception.csproj", "{7789C7CB-9C05-40F5-B9CA-8EF941EC073F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.ValueObject", "Shared.ValueObject\Shared.ValueObject.csproj", "{CFF9E428-F730-4441-9F31-C7C2EF4D08EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ValueObject", "Shared.ValueObject\Shared.ValueObject.csproj", "{CFF9E428-F730-4441-9F31-C7C2EF4D08EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.ValueObject.Exception", "Shared.ValueObject.Exception\Shared.ValueObject.Exception.csproj", "{126C3347-39E1-483E-829F-7E966BA40BA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ValueObject.Exception", "Shared.ValueObject.Exception\Shared.ValueObject.Exception.csproj", "{126C3347-39E1-483E-829F-7E966BA40BA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.ValueObject.Validator", "Shared.ValueObject.Validator\Shared.ValueObject.Validator.csproj", "{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ValueObject.Validator", "Shared.ValueObject.Validator\Shared.ValueObject.Validator.csproj", "{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Util.Expression", "Shared.Util.Expression\Shared.Util.Expression.csproj", "{0364CBB3-58A8-4440-B6FA-98DF1931B13C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,10 @@ Global
 		{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
