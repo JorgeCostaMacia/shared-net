@@ -23,6 +23,8 @@
 +-- shared-net/
 |   +-- Shared/
 |   +-- Shared.Application/
+|   +-- Shared.Context/
+|   +-- Shared.Data.Persistence/
 |   +-- Shared.Service/
 ```
 
@@ -35,6 +37,16 @@
 ### Shared.Application
 
     Base application service
+
+
+### Shared.Context
+
+    Base Context
+
+
+### Shared.Data.Persistence
+
+    Base Data Persistence
 
 
 ### Shared.Service
