@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class DateTimeRangeValueObjectConstraintException : IConstraintException<DateTime>
     {
+        public DateTimeRangeValueObjectConstraintException(string property, DateTime value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public DateTimeRangeValueObjectConstraintException(string property, DateTime value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public DateTimeRangeValueObjectConstraintException(DateTime value, List<string> constraints) : base("DateTimeRangeValueObject", value, constraints, new Guid("cbb92bf8-887e-4adc-a255-bf87aacd73ce"), "DateTimeRangeValueObject Constraint Exception")
         {
         }

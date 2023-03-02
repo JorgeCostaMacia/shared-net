@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class GroupTypeValueObjectConstraintException : IConstraintException<int>
     {
+        public GroupTypeValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public GroupTypeValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public GroupTypeValueObjectConstraintException(int value, List<string> constraints) : base("GroupTypeValueObject", value, constraints, new Guid("0987410e-b997-44b0-aee4-34d579723201"), "GroupTypeValueObject Constraint Exception")
         {
         }

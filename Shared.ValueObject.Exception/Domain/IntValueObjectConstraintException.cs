@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class IntValueObjectConstraintException : IConstraintException<int>
     {
+        public IntValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public IntValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public IntValueObjectConstraintException(int value, List<string> constraints) : base("IntValueObject", value, constraints, new Guid("f93ef42d-4b96-4583-a55b-cad3ed54cffb"), "IntValueObject Constraint Exception")
         {
         }

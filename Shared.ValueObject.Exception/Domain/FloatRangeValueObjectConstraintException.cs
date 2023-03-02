@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class FloatRangeValueObjectConstraintException : IConstraintException<float>
     {
+        public FloatRangeValueObjectConstraintException(string property, float value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public FloatRangeValueObjectConstraintException(string property, float value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public FloatRangeValueObjectConstraintException(float value, List<string> constraints) : base("FloatRangeValueObject", value, constraints, new Guid("13bad58b-3e41-4b31-9660-72934e5cc5da"), "FloatRangeValueObject Constraint Exception")
         {
         }

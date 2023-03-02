@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class PageNumberValueObjectConstraintException : IConstraintException<int>
     {
+        public PageNumberValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public PageNumberValueObjectConstraintException(string property, int value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public PageNumberValueObjectConstraintException(int value, List<string> constraints) : base("PageNumberValueObject", value, constraints, new Guid("df74e0e0-e20c-4135-b583-690f15b8ac1d"), "PageNumberValueObject Constraint Exception")
         {
         }
