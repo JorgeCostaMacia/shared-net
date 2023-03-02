@@ -4,6 +4,14 @@ namespace Shared.ValueObject.Exception.Domain
 {
     public class ListValueObjectConstraintException<T> : IConstraintException<List<T>>
     {
+        public ListValueObjectConstraintException(string property, List<T> value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public ListValueObjectConstraintException(string property, List<T> value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
+
         public ListValueObjectConstraintException(List<T> value, List<string> constraints) : base("ListValueObject", value, constraints, new Guid("142884e2-5a8d-49d5-a4de-222b57b0ad09"), "ListValueObject Constraint Exception")
         {
         }

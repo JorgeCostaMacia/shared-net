@@ -27,5 +27,13 @@ namespace Shared.ValueObject.Exception.Domain
         public FloatValueObjectConstraintException(float value, List<string> constraints, Guid id, string message, System.Exception inner) : base("FloatValueObject", value, constraints, id, message, inner)
         {
         }
+
+        public FloatValueObjectConstraintException(string property, float value, List<string> constraints, Guid id, string message) : base(property, value, constraints, id, message)
+        {
+        }
+
+        public FloatValueObjectConstraintException(string property, float value, List<string> constraints, Guid id, string message, System.Exception inner) : base(property, value, constraints, id, message, inner)
+        {
+        }
     }
 }
