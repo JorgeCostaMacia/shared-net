@@ -14,10 +14,22 @@ namespace Shared.Aggregate.Message.Domain
             AggregateOccurredAt = aggregateOccurredAt;
         }
 
+        public IAggregateMessage(DateTime aggregateOccurredAt)
+        {
+            AggregateId = Guid.NewGuid();
+            AggregateOccurredAt = aggregateOccurredAt;
+        }
+
+        public IAggregateMessage(Guid aggregateId)
+        {
+            AggregateId = aggregateId;
+            AggregateOccurredAt = DateTime.UtcNow;
+        }
+
         public IAggregateMessage()
         {
             AggregateId = Guid.NewGuid();
-            AggregateOccurredAt = new DateTime();
+            AggregateOccurredAt = DateTime.UtcNow;
         }
     }
 }
