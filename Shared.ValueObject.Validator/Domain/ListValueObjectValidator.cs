@@ -5,26 +5,21 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class ListValueObjectValidator<T> : AbstractValidator<ListValueObject<T>>
+    public class ListValueObjectValidator<T> : AbstractValidator<ListValueObject<T>>, Shared.Validator.Domain.IValidator
     {
-        public ListValueObjectValidator()
+        public ListValueObjectValidator(string name = "ListValueObject")
         {
             //RuleFor(v => v.Value)
-            //    .NotEmpty();
+            //    .NotEmpty()
+            //    .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<ListValueObject<T>> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            List<T> value = new List<T>();
+            List<T> Value = result.Errors.Count > 0 ? (List<T>)result.Errors.First().AttemptedValue : new List<T>();
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (List<T>)error.AttemptedValue;
-            }
-
-            throw new ListValueObjectConstraintException<T>(value, errors, new ValidationException(result.Errors));
+            throw new ListValueObjectConstraintException<T>(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

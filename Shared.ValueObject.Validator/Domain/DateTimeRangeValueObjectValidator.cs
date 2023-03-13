@@ -5,33 +5,27 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class DateTimeRangeValueObjectValidator : AbstractValidator<DateTimeRangeValueObject>
+    public class DateTimeRangeValueObjectValidator : AbstractValidator<DateTimeRangeValueObject>, Shared.Validator.Domain.IValidator
     {
-        public DateTimeRangeValueObjectValidator()
+        public DateTimeRangeValueObjectValidator(string nameStart = "DateTimeRangeValueObject.Start", string nameEnd = "DateTimeRangeValueObject.End")
         {
             RuleFor(v => v.ValueStart)
-                .GreaterThanOrEqualTo(new DateTime(1965, 1, 1, 0, 0, 0, 0))
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date.AddYears(-100))
                 .LessThanOrEqualTo(v => v.ValueEnd)
-                .WithName("DateTimeRangeValueObject.Start");
+                .WithName(nameStart);
 
             RuleFor(v => v.ValueEnd)
                 .GreaterThanOrEqualTo(v => v.ValueStart)
-                .LessThanOrEqualTo(new DateTime(2200, 1, 1, 0, 0, 0, 0))
-                .WithName("DateTimeRangeValueObject.End");
+                .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100))
+                .WithName(nameEnd);
         }
 
         protected override void RaiseValidationException(ValidationContext<DateTimeRangeValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            DateTime value = new DateTime();
+            DateTime Value = result.Errors.Count > 0 ? (DateTime)result.Errors.First().AttemptedValue : new DateTime();
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (DateTime)error.AttemptedValue;
-            }
-
-            throw new DateTimeRangeValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new DateTimeRangeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

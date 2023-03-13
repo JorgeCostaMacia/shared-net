@@ -5,28 +5,22 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class IntValueObjectValidator : AbstractValidator<IntValueObject>
+    public class IntValueObjectValidator : AbstractValidator<IntValueObject>, Shared.Validator.Domain.IValidator
     {
-        public IntValueObjectValidator()
+        public IntValueObjectValidator(string name = "IntValueObject")
         {
             RuleFor(v => v.Value)
-                .GreaterThan(-2147483648)
-                .LessThan(2147483647)
-                .WithName("IntValueObject");
+                .GreaterThanOrEqualTo(int.MinValue)
+                .LessThanOrEqualTo(int.MaxValue)
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<IntValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            int value = 0;
+            int Value = result.Errors.Count > 0 ? (int)result.Errors.First().AttemptedValue : 0;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (int)error.AttemptedValue;
-            }
-
-            throw new IntValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new IntValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

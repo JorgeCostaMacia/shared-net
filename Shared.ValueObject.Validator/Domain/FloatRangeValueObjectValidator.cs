@@ -5,33 +5,27 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueObject>
+    public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueObject>, Shared.Validator.Domain.IValidator
     {
-        public FloatRangeValueObjectValidator()
+        public FloatRangeValueObjectValidator(string nameStart = "FloatRangeValueObject.Start", string nameEnd = "FloatRangeValueObject.End")
         {
             RuleFor(v => v.ValueStart)
-                      .GreaterThanOrEqualTo(-2147483648)
-                      .LessThanOrEqualTo(v => v.ValueEnd)
-                      .WithName("FloatRangeValueObject.Start");
+                .GreaterThanOrEqualTo(float.MinValue)
+                .LessThanOrEqualTo(v => v.ValueEnd)
+                .WithName(nameStart);
 
             RuleFor(v => v.ValueEnd)
                 .GreaterThanOrEqualTo(v => v.ValueStart)
-                .LessThanOrEqualTo(2147483647)
-                .WithName("FloatRangeValueObject.End");
+                .LessThanOrEqualTo(float.MaxValue)
+                .WithName(nameEnd);
         }
 
         protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            float value = 0;
+            float Value = result.Errors.Count > 0 ? (float)result.Errors.First().AttemptedValue : 0;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (float)error.AttemptedValue;
-            }
-
-            throw new FloatRangeValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new FloatRangeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using Shared.Service.Domain;
-
-namespace Shared.Application.Domain
+﻿namespace Shared.Application.Domain
 {
-    public interface IApplication : IService
+    public interface IApplication
     {
     }
 }

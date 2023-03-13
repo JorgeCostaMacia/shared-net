@@ -23,7 +23,13 @@
 +-- Shared
 |   +-- Aggregate
 |   |   +-- Exception
+|   |   |   +-- ValueObject
+|   |   |   |   +-- Exception
+|   |   |   |   +-- Validator
 |   |   +-- Message
+|   |   |   +-- ValueObject
+|   |   |   |   +-- Exception
+|   |   |   |   +-- Validator
 |   |   +-- Root
 |   +-- Application
 |   +-- Bus
@@ -38,6 +44,7 @@
 |   +-- Service
 |   +-- Util
 |   |   +-- Expression
+|   +-- Validator
 |   +-- ValueObject
 |   |   +-- Exception
 |   |   +-- Validator
@@ -46,7 +53,7 @@
 
 ### Shared
 
-    Empty Main Project
+    Base Main Project With All Libs
 
 
 ### Shared.Aggregate
@@ -58,10 +65,39 @@
 
     Base Aggregate Exception
 
+    
+### Shared.Aggregate.Exception.ValueObject
+
+    Base Exception Aggregate ValueObject
+
+
+### Shared.Aggregate.Exception.ValueObject.Exception
+
+    Base Exception Aggregate ValueObject Exceptions
+
+
+### Shared.Aggregate.Exception.ValueObject.Validator
+
+    Base Exception Aggregate ValueObject Validators
 
 ### Shared.Aggregate.Message
 
     Base Aggregate Message
+
+
+### Shared.Aggregate.Message.ValueObject
+
+    Base Message Aggregate ValueObject
+
+
+### Shared.Aggregate.Message.ValueObject.Exception
+
+    Base Message Aggregate ValueObject Exceptions
+
+
+### Shared.Aggregate.Message.ValueObject.Validator
+
+    Base Message Aggregate ValueObject Validators
 
 
 ### Shared.Aggregate.Root
@@ -117,6 +153,11 @@
 ### Shared.Util.Expression
 
     Utils to manage expressions
+
+
+### Shared.Validator
+
+    Base Validators
 
 
 ### Shared.ValueObject

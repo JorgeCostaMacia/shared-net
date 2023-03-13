@@ -5,28 +5,22 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueObject>
+    public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueObject>, Shared.Validator.Domain.IValidator
     {
-        public PageNumberValueObjectValidator()
+        public PageNumberValueObjectValidator(string name = "PageNumberValueObject")
         {
             RuleFor(v => v.Value)
-                .GreaterThan(0)
-                .LessThan(2147483647)
-                .WithName("PageNumberValueObject");
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(int.MaxValue)
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            int value = 0;
+            int Value = result.Errors.Count > 0 ? (int)result.Errors.First().AttemptedValue : 0;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (int)error.AttemptedValue;
-            }
-
-            throw new PageNumberValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new PageNumberValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

@@ -37,7 +37,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ValueObject.Exceptio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.ValueObject.Validator", "Shared.ValueObject.Validator\Shared.ValueObject.Validator.csproj", "{7FC860F9-9F92-423D-90CC-C6AA7C2E3AE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Util.Expression", "Shared.Util.Expression\Shared.Util.Expression.csproj", "{0364CBB3-58A8-4440-B6FA-98DF1931B13C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Util.Expression", "Shared.Util.Expression\Shared.Util.Expression.csproj", "{0364CBB3-58A8-4440-B6FA-98DF1931B13C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Message.ValueObject", "Shared.Aggregate.Message.ValueObject\Shared.Aggregate.Message.ValueObject.csproj", "{B17A1272-9D09-444D-ABF1-124747B5124C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Exception.ValueObject", "Shared.Aggregate.Exception.ValueObject\Shared.Aggregate.Exception.ValueObject.csproj", "{AA17F16E-FC45-4A12-BD02-1F7D0889494B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Exception.ValueObject.Exception", "Shared.Aggregate.Exception.ValueObject.Exception\Shared.Aggregate.Exception.ValueObject.Exception.csproj", "{481AA939-B970-4E31-9D5F-D8F1A677B5CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Exception.ValueObject.Validator", "Shared.Aggregate.Exception.ValueObject.Validator\Shared.Aggregate.Exception.ValueObject.Validator.csproj", "{90CD6D84-AC21-42C9-A126-5DC686E8FC30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Message.ValueObject.Exception", "Shared.Aggregate.Message.ValueObject.Exception\Shared.Aggregate.Message.ValueObject.Exception.csproj", "{D80549AA-AE03-4B9D-81A5-2E1DCF666B14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Aggregate.Message.ValueObject.Validator", "Shared.Aggregate.Message.ValueObject.Validator\Shared.Aggregate.Message.ValueObject.Validator.csproj", "{EC78B197-6495-421E-A9A5-D4E8AC699295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Validator", "Shared.Validator\Shared.Validator.csproj", "{499A0172-DEF1-45A8-81D9-45CDC8E25873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +131,34 @@ Global
 		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0364CBB3-58A8-4440-B6FA-98DF1931B13C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B17A1272-9D09-444D-ABF1-124747B5124C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B17A1272-9D09-444D-ABF1-124747B5124C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B17A1272-9D09-444D-ABF1-124747B5124C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B17A1272-9D09-444D-ABF1-124747B5124C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA17F16E-FC45-4A12-BD02-1F7D0889494B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA17F16E-FC45-4A12-BD02-1F7D0889494B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA17F16E-FC45-4A12-BD02-1F7D0889494B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA17F16E-FC45-4A12-BD02-1F7D0889494B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481AA939-B970-4E31-9D5F-D8F1A677B5CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481AA939-B970-4E31-9D5F-D8F1A677B5CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481AA939-B970-4E31-9D5F-D8F1A677B5CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481AA939-B970-4E31-9D5F-D8F1A677B5CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CD6D84-AC21-42C9-A126-5DC686E8FC30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CD6D84-AC21-42C9-A126-5DC686E8FC30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CD6D84-AC21-42C9-A126-5DC686E8FC30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CD6D84-AC21-42C9-A126-5DC686E8FC30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D80549AA-AE03-4B9D-81A5-2E1DCF666B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D80549AA-AE03-4B9D-81A5-2E1DCF666B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D80549AA-AE03-4B9D-81A5-2E1DCF666B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D80549AA-AE03-4B9D-81A5-2E1DCF666B14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC78B197-6495-421E-A9A5-D4E8AC699295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC78B197-6495-421E-A9A5-D4E8AC699295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC78B197-6495-421E-A9A5-D4E8AC699295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC78B197-6495-421E-A9A5-D4E8AC699295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499A0172-DEF1-45A8-81D9-45CDC8E25873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499A0172-DEF1-45A8-81D9-45CDC8E25873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499A0172-DEF1-45A8-81D9-45CDC8E25873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499A0172-DEF1-45A8-81D9-45CDC8E25873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
