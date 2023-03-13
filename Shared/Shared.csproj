@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>1.0.0</VersionPrefix>
+	<VersionPrefix>2.0.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -28,9 +28,12 @@
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Exception" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Exception.ValueObject" Version="1.0.3" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Exception.ValueObject.Exception" Version="1.0.4" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Exception.ValueObject.Exception" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Exception.ValueObject.Validator" Version="2.0.1" />
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Message" Version="1.0.2" />
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Message.ValueObject" Version="1.0.3" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Message.ValueObject.Exception" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Message.ValueObject.Validator" Version="2.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate.Root" Version="1.0.2" />
     <PackageReference Include="JorgeCostaMacia.Shared.Application" Version="2.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="1.0.2" />
@@ -44,8 +47,8 @@
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="1.1.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject.Exception" Version="1.1.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject.Validator" Version="1.1.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject.Exception" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject.Validator" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

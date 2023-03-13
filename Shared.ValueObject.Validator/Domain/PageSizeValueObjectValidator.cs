@@ -15,12 +15,6 @@ namespace Shared.ValueObject.Validator.Domain
                 .WithName(name);
         }
 
-        protected override void RaiseValidationException(ValidationContext<PageSizeValueObject> context, ValidationResult result)
-        {
-            int Value = result.Errors.Count > 0 ? (int)result.Errors.First().AttemptedValue : 0;
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new PageSizeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<PageSizeValueObject> context, ValidationResult result) => throw new PageSizeValueObjectConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

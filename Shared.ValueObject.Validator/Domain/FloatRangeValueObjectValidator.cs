@@ -20,12 +20,6 @@ namespace Shared.ValueObject.Validator.Domain
                 .WithName(nameEnd);
         }
 
-        protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result)
-        {
-            float Value = result.Errors.Count > 0 ? (float)result.Errors.First().AttemptedValue : 0;
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new FloatRangeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

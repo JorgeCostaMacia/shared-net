@@ -15,12 +15,6 @@ namespace Shared.ValueObject.Validator.Domain
                 .WithName(name);
         }
 
-        protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result)
-        {
-            DateTime Value = result.Errors.Count > 0 ? (DateTime)result.Errors.First().AttemptedValue : new DateTime();
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new DateTimeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result) => throw new DateTimeValueObjectConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

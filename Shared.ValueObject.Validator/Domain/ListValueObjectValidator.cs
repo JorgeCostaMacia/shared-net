@@ -14,12 +14,6 @@ namespace Shared.ValueObject.Validator.Domain
             //    .WithName(name);
         }
 
-        protected override void RaiseValidationException(ValidationContext<ListValueObject<T>> context, ValidationResult result)
-        {
-            List<T> Value = result.Errors.Count > 0 ? (List<T>)result.Errors.First().AttemptedValue : new List<T>();
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new ListValueObjectConstraintException<T>(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<ListValueObject<T>> context, ValidationResult result) => throw new ListValueObjectConstraintException<T>(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

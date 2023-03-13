@@ -14,12 +14,6 @@ namespace Shared.ValueObject.Validator.Domain
             //    .WithName(name);
         }
 
-        protected override void RaiseValidationException(ValidationContext<BoolValueObject> context, ValidationResult result)
-        {
-            bool Value = result.Errors.Count > 0 ? (bool)result.Errors.First().AttemptedValue : false;
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new BoolValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<BoolValueObject> context, ValidationResult result) => throw new BoolValueObjectConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

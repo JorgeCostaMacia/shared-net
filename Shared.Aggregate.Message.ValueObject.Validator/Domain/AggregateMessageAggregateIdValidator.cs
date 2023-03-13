@@ -12,12 +12,6 @@ namespace Shared.Aggregate.Message.ValueObject.Validator.Domain
             Include(new UuidValueObjectValidator("AggregateMessage.AggregateId"));
         }
 
-        protected override void RaiseValidationException(ValidationContext<AggregateMessageAggregateId> context, ValidationResult result)
-        {
-            Guid Value = result.Errors.Count > 0 ? (Guid)result.Errors.First().AttemptedValue : new Guid();
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new AggregateMessageAggregateIdConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<AggregateMessageAggregateId> context, ValidationResult result) => throw new AggregateMessageAggregateIdConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }

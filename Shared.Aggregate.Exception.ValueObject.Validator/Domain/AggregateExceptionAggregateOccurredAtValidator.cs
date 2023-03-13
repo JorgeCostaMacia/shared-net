@@ -16,12 +16,6 @@ namespace Shared.Aggregate.Exception.ValueObject.Validator.Domain
                 .WithName("AggregateException.AggregateOccurredAt");
         }
 
-        protected override void RaiseValidationException(ValidationContext<AggregateExceptionAggregateOccurredAt> context, ValidationResult result)
-        {
-            DateTime Value = result.Errors.Count > 0 ? (DateTime)result.Errors.First().AttemptedValue : new DateTime();
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new AggregateExceptionAggregateOccurredAtConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<AggregateExceptionAggregateOccurredAt> context, ValidationResult result) => throw new AggregateExceptionAggregateOccurredAtConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }
