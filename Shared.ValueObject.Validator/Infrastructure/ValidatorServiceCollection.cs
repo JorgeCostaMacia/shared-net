@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.ValueObject.Domain;
 using Shared.ValueObject.Validator.Domain;
@@ -8,10 +7,7 @@ namespace Shared.ValueObject.Validator.Infrastructure
 {
     public static class ValidatorServiceCollection
     {
-        //public static IServiceCollection AddValueObjectValidatorService(this IServiceCollection services) => services;
-        public static IServiceCollection AddValueObjectValidatorService(this IServiceCollection services, IConfiguration config) => services;
-
-        public static IServiceCollection AddVReproServicesNsCanProService(this IServiceCollection services)
+        public static IServiceCollection AddValueObjectValidatorService(this IServiceCollection services)
         {
             services
                 .AddScoped<IValidator<BoolValueObject>, BoolValueObjectValidator>()

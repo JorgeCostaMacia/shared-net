@@ -5,28 +5,22 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class FloatValueObjectValidator : AbstractValidator<FloatValueObject>
+    public class FloatValueObjectValidator : AbstractValidator<FloatValueObject>, Shared.Validator.Domain.IValidator
     {
-        public FloatValueObjectValidator()
+        public FloatValueObjectValidator(string name = "FloatValueObject")
         {
             RuleFor(v => v.Value)
-                  .GreaterThan(-2147483648)
-                  .LessThan(2147483647)
-                .WithName("FloatValueObject");
+                .GreaterThanOrEqualTo(float.MinValue)
+                .LessThanOrEqualTo(float.MaxValue)
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            float value = 0;
+            float Value = result.Errors.Count > 0 ? (float)result.Errors.First().AttemptedValue : 0;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (float)error.AttemptedValue;
-            }
-
-            throw new FloatValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new FloatValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

@@ -5,26 +5,21 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>
+    public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>, Shared.Validator.Domain.IValidator
     {
-        public UuidValueObjectValidator()
+        public UuidValueObjectValidator(string name = "UuidValueObject")
         {
-            //RuleFor(v => v.Value)
-            //      .Length(0, 255);
+            RuleFor(v => v.Value)
+                .NotEmpty()
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            Guid value = new Guid();
+            Guid Value = result.Errors.Count > 0 ? (Guid)result.Errors.First().AttemptedValue : new Guid();
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (Guid)error.AttemptedValue;
-            }
-
-            throw new UuidValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new UuidValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

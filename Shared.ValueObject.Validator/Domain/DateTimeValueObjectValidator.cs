@@ -5,28 +5,22 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObject>
+    public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObject>, Shared.Validator.Domain.IValidator
     {
-        public DateTimeValueObjectValidator()
+        public DateTimeValueObjectValidator(string name = "DateTimeValueObject")
         {
             RuleFor(v => v.Value)
-                .GreaterThanOrEqualTo(new DateTime(1965, 1, 1, 0, 0, 0, 0))
-                .LessThanOrEqualTo(new DateTime(2200, 1, 1, 0, 0, 0, 0))
-                .WithName("DateTimeValueObject");
+                .GreaterThanOrEqualTo(DateTime.UtcNow.Date.AddYears(-100))
+                .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100))
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            DateTime value = new DateTime();
+            DateTime Value = result.Errors.Count > 0 ? (DateTime)result.Errors.First().AttemptedValue : new DateTime();
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (DateTime)error.AttemptedValue;
-            }
-
-            throw new DateTimeValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new DateTimeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

@@ -5,26 +5,21 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class BoolValueObjectValidator : AbstractValidator<BoolValueObject>
+    public class BoolValueObjectValidator : AbstractValidator<BoolValueObject>, Shared.Validator.Domain.IValidator
     {
-        public BoolValueObjectValidator()
+        public BoolValueObjectValidator(string name = "BoolValueObject")
         {
             //RuleFor(v => v.Value)
             //    .NotEmpty();
+            //    .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<BoolValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            bool value = false;
+            bool Value = result.Errors.Count > 0 ? (bool)result.Errors.First().AttemptedValue : false;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (bool)error.AttemptedValue;
-            }
-
-            throw new BoolValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new BoolValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

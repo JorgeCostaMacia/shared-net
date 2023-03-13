@@ -5,28 +5,23 @@ using Shared.ValueObject.Exception.Domain;
 
 namespace Shared.ValueObject.Validator.Domain
 {
-    public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObject>
+    public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObject>, Shared.Validator.Domain.IValidator
     {
-        public OrderTypeValueObjectValidator()
+        public OrderTypeValueObjectValidator(string name = "OrderTypeValueObject")
         {
             RuleFor(v => v.Value)
-                .GreaterThan(0)
-                .LessThan(3)
-                .WithName("OrderTypeValueObject");
+                .NotEmpty()
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(int.MaxValue)
+                .WithName(name);
         }
 
         protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result)
         {
-            List<string> errors = new List<string>();
-            int value = 0;
+            int Value = result.Errors.Count > 0 ? (int)result.Errors.First().AttemptedValue : 0;
+            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
 
-            foreach (var error in result.Errors)
-            {
-                errors.Add(error.ErrorMessage);
-                value = (int)error.AttemptedValue;
-            }
-
-            throw new OrderTypeValueObjectConstraintException(value, errors, new ValidationException(result.Errors));
+            throw new OrderTypeValueObjectConstraintException(Value, Constraint, new ValidationException(result.Errors));
         }
     }
 }

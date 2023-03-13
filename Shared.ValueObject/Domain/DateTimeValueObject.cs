@@ -4,30 +4,29 @@
     {
         public DateTime Value { get; }
 
-
         public DateTimeValueObject()
         {
-            Value = DateTime.Now;
+            Value = DateTime.UtcNow;
         }
 
         public DateTimeValueObject(DateTime value)
         {
-            Value = value;
+            Value = value.ToUniversalTime();
         }
 
         public DateTimeValueObject(int value)
         {
-            Value = new DateTime(1965, 1, 1, 0, 0, 0, 0).AddSeconds(value);
+            Value = new DateTime(value, DateTimeKind.Utc);
         }
 
         public DateTimeValueObject(float value)
         {
-            Value = new DateTime(1965, 1, 1, 0, 0, 0, 0).AddSeconds(value);
+            Value = new DateTime((int)value, DateTimeKind.Utc);
         }
 
         public DateTimeValueObject(string value)
         {
-            Value = DateTime.Parse(value);
+            Value = DateTime.Parse(value).ToUniversalTime();
         }
     }
 }
