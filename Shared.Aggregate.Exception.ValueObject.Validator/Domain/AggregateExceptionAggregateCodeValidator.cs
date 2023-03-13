@@ -17,12 +17,6 @@ namespace Shared.Aggregate.Exception.ValueObject.Validator.Domain
                 .WithName("AggregateException.AggregateCode");
         }
 
-        protected override void RaiseValidationException(ValidationContext<AggregateExceptionAggregateCode> context, ValidationResult result)
-        {
-            int Value = result.Errors.Count > 0 ? (int)result.Errors.First().AttemptedValue : 0;
-            List<string> Constraint = result.Errors.Select(e => e.ErrorMessage).ToList();
-
-            throw new AggregateExceptionAggregateCodeConstraintException(Value, Constraint, new ValidationException(result.Errors));
-        }
+        protected override void RaiseValidationException(ValidationContext<AggregateExceptionAggregateCode> context, ValidationResult result) => throw new AggregateExceptionAggregateCodeConstraintException(context.InstanceToValidate, result.Errors.Select(e => e.ErrorMessage).ToList(), new ValidationException(result.Errors));
     }
 }
