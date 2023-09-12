@@ -1,0 +1,84 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Prod
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  nuget_build: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3  
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Pack Shared
+      run: dotnet pack Shared/Shared.csproj -c Release -o nuget
+    - name: Pack Shared.Aggregate
+      run: dotnet pack Shared.Aggregate/Shared.Aggregate.csproj -c Release -o nuget 
+    - name: Pack Shared.Aggregate.Exception
+      run: dotnet pack Shared.Aggregate.Exception/Shared.Aggregate.Exception.csproj -c Release -o nuget
+    - name: Pack Shared.Aggregate.Exception.ValueObject
+      run: dotnet pack Shared.Aggregate.Exception.ValueObject/Shared.Aggregate.Exception.ValueObject.csproj -c Release -o nuget
+    - name: Pack Shared.Aggregate.Message
+      run: dotnet pack Shared.Aggregate.Message/Shared.Aggregate.Message.csproj -c Release -o nuget
+    - name: Pack Shared.Aggregate.Message.ValueObject
+      run: dotnet pack Shared.Aggregate.Message.ValueObject/Shared.Aggregate.Message.ValueObject.csproj -c Release -o nuget 
+    - name: Pack Shared.Aggregate.Root
+      run: dotnet pack Shared.Aggregate.Root/Shared.Aggregate.Root.csproj -c Release -o nuget   
+    - name: Pack Shared.Application
+      run: dotnet pack Shared.Application/Shared.Application.csproj -c Release -o nuget
+    - name: Pack Shared.Bus.Command
+      run: dotnet pack Shared.Bus.Command/Shared.Bus.Command.csproj -c Release -o nuget
+    - name: Pack Shared.Bus.Event
+      run: dotnet pack Shared.Bus.Event/Shared.Bus.Event.csproj -c Release -o nuget
+    - name: Pack Shared.Bus.Message
+      run: dotnet pack Shared.Bus.Message/Shared.Bus.Message.csproj -c Release -o nuget
+    - name: Pack Shared.Aggregate.Root
+      run: dotnet pack Shared.Bus.Query/Shared.Bus.Query.csproj -c Release -o nuget
+    - name: Pack Shared.Context
+      run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
+    - name: Pack Shared.Data.Persistence
+      run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
+    - name: Pack Shared.Exception
+      run: dotnet pack Shared.Exception/Shared.Exception.csproj -c Release -o nuget
+    - name: Pack Shared.Service
+      run: dotnet pack Shared.Service/Shared.Service.csproj -c Release -o nuget
+    - name: Pack Shared.Util.Expression
+      run: dotnet pack Shared.Util.Expression/Shared.Util.Expression.csproj -c Release -o nuget
+    - name: Pack Shared.Validator
+      run: dotnet pack Shared.Validator/Shared.Validator.csproj -c Release -o nuget
+    - name: Pack Shared.ValueObject
+      run: dotnet pack Shared.ValueObject/Shared.ValueObject.csproj -c Release -o nuget     
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: nuget
+        path: nuget/*
+        retention-days: 5
+        if-no-files-found: error 
+  nuget_deploy:
+    needs: nuget_build
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Download Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: nuget
+        path: nuget
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Push NuGet
+      run: |
+        for RES in $(ls ./nuget)
+        do
+        dotnet nuget push ./nuget/$RES -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+        done
