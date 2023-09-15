@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="1.0.4" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
