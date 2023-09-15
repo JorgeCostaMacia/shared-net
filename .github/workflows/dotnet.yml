@@ -5,9 +5,9 @@ name: Prod
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   nuget_build: 
@@ -22,16 +22,6 @@ jobs:
       run: dotnet pack Shared/Shared.csproj -c Release -o nuget
     - name: Pack Shared.Aggregate
       run: dotnet pack Shared.Aggregate/Shared.Aggregate.csproj -c Release -o nuget 
-    - name: Pack Shared.Aggregate.Exception
-      run: dotnet pack Shared.Aggregate.Exception/Shared.Aggregate.Exception.csproj -c Release -o nuget
-    - name: Pack Shared.Aggregate.Exception.ValueObject
-      run: dotnet pack Shared.Aggregate.Exception.ValueObject/Shared.Aggregate.Exception.ValueObject.csproj -c Release -o nuget
-    - name: Pack Shared.Aggregate.Message
-      run: dotnet pack Shared.Aggregate.Message/Shared.Aggregate.Message.csproj -c Release -o nuget
-    - name: Pack Shared.Aggregate.Message.ValueObject
-      run: dotnet pack Shared.Aggregate.Message.ValueObject/Shared.Aggregate.Message.ValueObject.csproj -c Release -o nuget 
-    - name: Pack Shared.Aggregate.Root
-      run: dotnet pack Shared.Aggregate.Root/Shared.Aggregate.Root.csproj -c Release -o nuget   
     - name: Pack Shared.Application
       run: dotnet pack Shared.Application/Shared.Application.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Command
@@ -39,8 +29,6 @@ jobs:
     - name: Pack Shared.Bus.Event
       run: dotnet pack Shared.Bus.Event/Shared.Bus.Event.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Message
-      run: dotnet pack Shared.Bus.Message/Shared.Bus.Message.csproj -c Release -o nuget
-    - name: Pack Shared.Aggregate.Root
       run: dotnet pack Shared.Bus.Query/Shared.Bus.Query.csproj -c Release -o nuget
     - name: Pack Shared.Context
       run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
@@ -48,6 +36,8 @@ jobs:
       run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
     - name: Pack Shared.Exception
       run: dotnet pack Shared.Exception/Shared.Exception.csproj -c Release -o nuget
+    - name: Pack Shared.Root
+      run: dotnet pack Shared.Root/Shared.Root.csproj -c Release -o nuget
     - name: Pack Shared.Service
       run: dotnet pack Shared.Service/Shared.Service.csproj -c Release -o nuget
     - name: Pack Shared.Util.Expression
