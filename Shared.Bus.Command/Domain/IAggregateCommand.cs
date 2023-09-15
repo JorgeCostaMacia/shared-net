@@ -2,9 +2,7 @@
 {
     public abstract class IAggregateCommand : Message.Domain.IAggregateMessage, ICommand
     {
-        public IAggregateCommand(Guid aggregateId, DateTime aggregateOccurredAt) : base(aggregateId, aggregateOccurredAt) { }
-        public IAggregateCommand(DateTime aggregateOccurredAt) : base(aggregateOccurredAt) { }
-        public IAggregateCommand(Guid aggregateId) : base(aggregateId) { }
-        public IAggregateCommand() : base() { }
+        protected IAggregateCommand(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : base(aggregateId, aggregateName, aggregateOccurredAt) { }
+        protected IAggregateCommand(string aggregateName) : base(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
     }
 }
