@@ -2,23 +2,33 @@
 
 namespace Shared.ValueObject.Domain
 {
-    public class IntRangeValueObject : RangeValueObject<int>
+    public class IntRangeValueObject : IValueObject
     {
-        public IntRangeValueObject(int valueStart, int valueEnd) : base(valueStart, valueEnd)
+        public IntValueObject ValueStart { get; }
+        public IntValueObject ValueEnd { get; }
+
+        public IntRangeValueObject(IntValueObject valueStart, IntValueObject valueEnd)
         {
+            ValueStart = valueStart;
+            ValueEnd = valueEnd;
         }
 
-        public static new IntRangeValueObject Create(int valueStart, int valueEnd, bool validate = true)
+        public static IntRangeValueObject Create(IntValueObject valueStart, IntValueObject valueEnd, bool validate = true)
         {
-            IntRangeValueObject ValueObject = new IntRangeValueObject(ToValue(valueStart), ToValue(valueEnd));
+            IntRangeValueObject ValueObject = new IntRangeValueObject(valueStart, valueEnd);
             if (validate) new IntRangeValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static IntRangeValueObject Create() => new IntRangeValueObject(0, 0);
-        public static IntRangeValueObject Create(IntValueObject valueStart, IntValueObject valueEnd, bool validate = true) => Create(valueStart.Value, valueEnd.Value, validate);
+        public static IntRangeValueObject Create() => new IntRangeValueObject(IntValueObject.Create(0), IntValueObject.Create(0));
+        public static IntRangeValueObject Create(int valueStart, int valueEnd, bool validate = true) => Create(IntValueObject.Create(valueStart, false), IntValueObject.Create(valueEnd, false), validate);
 
-        protected static int ToValue(int value) => value;
+        public override bool Equals(object? obj) => obj is IntRangeValueObject @object && GetType() == @object.GetType() && ValueStart == @object.ValueStart && ValueEnd == @object.ValueEnd;
+        public override int GetHashCode() => HashCode.Combine(ValueStart.Value, ValueEnd.Value);
+        public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+
+        public static bool operator ==(IntRangeValueObject? left, IntRangeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
+        public static bool operator !=(IntRangeValueObject? left, IntRangeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
     }
 }

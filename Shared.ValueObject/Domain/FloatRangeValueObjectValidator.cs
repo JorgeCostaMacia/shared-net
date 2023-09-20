@@ -7,16 +7,20 @@ namespace Shared.ValueObject.Domain
     {
         public FloatRangeValueObjectValidator(string nameStart = "FloatRangeValueObject.Start", string nameEnd = "FloatRangeValueObject.End")
         {
-            Include(new RangeValueObjectValidator<float>(nameStart, nameEnd));
-
             RuleFor(v => v.ValueStart)
-                .GreaterThanOrEqualTo(float.MinValue)
-                .LessThanOrEqualTo(v => v.ValueEnd)
-                .WithName(nameStart);
+                .SetValidator(new FloatValueObjectValidator(nameEnd))
+                .WithName(nameEnd);
 
             RuleFor(v => v.ValueEnd)
-                .GreaterThanOrEqualTo(v => v.ValueStart)
-                .LessThanOrEqualTo(float.MaxValue)
+                .SetValidator(new FloatValueObjectValidator(nameEnd))
+                .WithName(nameEnd);
+
+            RuleFor(v => v.ValueStart.Value)
+                .LessThanOrEqualTo(v => v.ValueEnd.Value)
+                .WithName(nameStart);
+
+            RuleFor(v => v.ValueEnd.Value)
+                .GreaterThanOrEqualTo(v => v.ValueStart.Value)
                 .WithName(nameEnd);
         }
 

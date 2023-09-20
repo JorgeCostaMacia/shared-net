@@ -34,29 +34,15 @@ namespace Shared.ValueObject.Domain
         protected static DateTime ToValue(string value) => DateTime.Parse(value);
         protected static DateTime ToValue(string valueDate, string valueTime) => DateOnly.FromDateTime(DateTime.Parse(valueDate)).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime)));
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        public override bool Equals(object? obj) => obj is DateTimeValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
+        public override int GetHashCode() => HashCode.Combine(Value);
+        public override string ToString() => Value.ToString();
 
-        public static bool operator >(DateTimeValueObject left, DateTimeValueObject right)
-        {
-            return left.Value > right.Value;
-        }
-
-        public static bool operator <(DateTimeValueObject left, DateTimeValueObject right)
-        {
-            return left.Value < right.Value;
-        }
-
-        public static bool operator >=(DateTimeValueObject left, DateTimeValueObject right)
-        {
-            return left.Value >= right.Value;
-        }
-
-        public static bool operator <=(DateTimeValueObject left, DateTimeValueObject right)
-        {
-            return left.Value <= right.Value;
-        }
+        public static bool operator ==(DateTimeValueObject? left, DateTimeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
+        public static bool operator !=(DateTimeValueObject? left, DateTimeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
+        public static bool operator >(DateTimeValueObject left, DateTimeValueObject right) => left.Value > right.Value;
+        public static bool operator <(DateTimeValueObject left, DateTimeValueObject right) => left.Value < right.Value;
+        public static bool operator >=(DateTimeValueObject left, DateTimeValueObject right) => left.Value >= right.Value;
+        public static bool operator <=(DateTimeValueObject left, DateTimeValueObject right) => left.Value <= right.Value;
     }
 }

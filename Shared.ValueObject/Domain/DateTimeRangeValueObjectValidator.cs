@@ -7,16 +7,20 @@ namespace Shared.ValueObject.Domain
     {
         public DateTimeRangeValueObjectValidator(string nameStart = "DateTimeRangeValueObject.Start", string nameEnd = "DateTimeRangeValueObject.End")
         {
-            Include(new RangeValueObjectValidator<DateTime>(nameStart, nameEnd));
-
             RuleFor(v => v.ValueStart)
-                .GreaterThanOrEqualTo(DateTime.UtcNow.Date.AddYears(-100))
-                .LessThanOrEqualTo(v => v.ValueEnd)
-                .WithName(nameStart);
+                .SetValidator(new DateTimeValueObjectValidator(nameEnd))
+                .WithName(nameEnd);
 
             RuleFor(v => v.ValueEnd)
-                .GreaterThanOrEqualTo(v => v.ValueStart)
-                .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100))
+                .SetValidator(new DateTimeValueObjectValidator(nameEnd))
+                .WithName(nameEnd);
+
+            RuleFor(v => v.ValueStart.Value)
+                .LessThanOrEqualTo(v => v.ValueEnd.Value)
+                .WithName(nameStart);
+
+            RuleFor(v => v.ValueEnd.Value)
+                .GreaterThanOrEqualTo(v => v.ValueStart.Value)
                 .WithName(nameEnd);
         }
 

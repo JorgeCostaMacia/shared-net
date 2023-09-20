@@ -31,29 +31,15 @@ namespace Shared.ValueObject.Domain
         protected static float ToValue(bool value) => value ? 1 : 0;
         protected static float ToValue(DateTime value) => (float)new TimeSpan(value.Ticks).TotalSeconds;
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        public override bool Equals(object? obj) => obj is FloatValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
+        public override int GetHashCode() => HashCode.Combine(Value);
+        public override string ToString() => Value.ToString();
 
-        public static bool operator >(FloatValueObject left, FloatValueObject right)
-        {
-            return left.Value > right.Value;
-        }
-
-        public static bool operator <(FloatValueObject left, FloatValueObject right)
-        {
-            return left.Value < right.Value;
-        }
-
-        public static bool operator >=(FloatValueObject left, FloatValueObject right)
-        {
-            return left.Value >= right.Value;
-        }
-
-        public static bool operator <=(FloatValueObject left, FloatValueObject right)
-        {
-            return left.Value <= right.Value;
-        }
+        public static bool operator ==(FloatValueObject? left, FloatValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
+        public static bool operator !=(FloatValueObject? left, FloatValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
+        public static bool operator >(FloatValueObject left, FloatValueObject right) => left.Value > right.Value;
+        public static bool operator <(FloatValueObject left, FloatValueObject right) => left.Value < right.Value;
+        public static bool operator >=(FloatValueObject left, FloatValueObject right) => left.Value >= right.Value;
+        public static bool operator <=(FloatValueObject left, FloatValueObject right) => left.Value <= right.Value;
     }
 }
