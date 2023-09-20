@@ -25,9 +25,11 @@ namespace Shared.ValueObject.Domain
         protected static Guid ToValue(Guid value) => value;
         protected static Guid ToValue(string value) => new Guid(value.Trim());
 
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value;
-        }
+        public override bool Equals(object? obj) => obj is UuidValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
+        public override int GetHashCode() => HashCode.Combine(Value);
+        public override string ToString() => Value.ToString();
+
+        public static bool operator ==(UuidValueObject? left, UuidValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
+        public static bool operator !=(UuidValueObject left, UuidValueObject right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
     }
 }

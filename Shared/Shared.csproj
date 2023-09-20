@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>7.0.0</VersionPrefix>
+	<VersionPrefix>7.1.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -38,7 +38,7 @@
     <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="4.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="4.1.0" />
   </ItemGroup>
 
 </Project>
