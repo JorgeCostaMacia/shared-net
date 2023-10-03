@@ -31,6 +31,7 @@
 |   +-- Context
 |   +-- Data
 |   |   +-- Persistence
+|   +-- Entity
 |   +-- Exception
 |   +-- Root
 |   +-- Service
@@ -84,6 +85,11 @@
 ### Shared.Data.Persistence
 
     Base Data Persistence
+
+    
+### Shared.Entity
+
+    Base Domain Entity And Aggregates
 
 
 ### Shared.Exception

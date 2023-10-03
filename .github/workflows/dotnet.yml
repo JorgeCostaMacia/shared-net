@@ -34,6 +34,8 @@ jobs:
       run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
     - name: Pack Shared.Data.Persistence
       run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
+    - name: Pack Shared.Entity
+      run: dotnet pack Shared.Entity/Shared.Entity.csproj -c Release -o nuget
     - name: Pack Shared.Exception
       run: dotnet pack Shared.Exception/Shared.Exception.csproj -c Release -o nuget
     - name: Pack Shared.Root
