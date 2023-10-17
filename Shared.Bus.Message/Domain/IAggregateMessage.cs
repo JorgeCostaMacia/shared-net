@@ -4,9 +4,9 @@ namespace Shared.Bus.Message.Domain
 {
     public abstract class IAggregateMessage : IMessage, IAggregate
     {
-        public Guid AggregateId { get; }
-        public string AggregateName { get; }
-        public DateTime AggregateOccurredAt { get; }
+        public Guid AggregateId { get; init; }
+        public string AggregateName { get; init; }
+        public DateTime AggregateOccurredAt { get; init; }
 
         protected IAggregateMessage(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt)
         {

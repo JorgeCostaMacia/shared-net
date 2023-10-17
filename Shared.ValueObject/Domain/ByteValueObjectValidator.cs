@@ -7,12 +7,7 @@ namespace Shared.ValueObject.Domain
     {
         public ByteValueObjectValidator(string name = "ByteValueObject")
         {
-            RuleFor(v => v.Value)
-                .NotEmpty()
-                .WithName(name);
-
             RuleFor(x => "0x" + BitConverter.ToString(x.Value).Replace("-", ""))
-                .NotEmpty()
                 .MinimumLength(0)
                 .MaximumLength(2147483647)
                 .WithName(name);

@@ -4,10 +4,10 @@ namespace Shared.Exception.Domain
 {
     public abstract class IAggregateException : System.Exception, IException, IAggregate
     {
-        public Guid AggregateId { get; }
-        public Guid AggregateTypeId { get; }
-        public int AggregateCode { get; }
-        public DateTime AggregateOccurredAt { get; }
+        public Guid AggregateId { get; init; }
+        public Guid AggregateTypeId { get; init; }
+        public int AggregateCode { get; init; }
+        public DateTime AggregateOccurredAt { get; init; }
 
         protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? inner) : base(message, inner)
         {

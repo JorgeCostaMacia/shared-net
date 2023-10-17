@@ -8,14 +8,14 @@ namespace Shared.ValueObject.Domain
         {
         }
 
-        public static new UrlValueObject Create(string value, bool validate = true)
+        public static new UrlValueObject From(string value, bool validate = true)
         {
-            UrlValueObject ValueObject = new UrlValueObject(ToValue(value));
+            UrlValueObject ValueObject = new UrlValueObject(Convert(value));
             if (validate) new UrlValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static new UrlValueObject Create() => new UrlValueObject("");
+        public static new UrlValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : null;
     }
 }
