@@ -8,16 +8,16 @@ namespace Shared.ValueObject.Domain
         {
         }
 
-        public new static IpValueObject Create(string value, bool validate = true)
+        public new static IpValueObject From(string value, bool validate = true)
         {
-            IpValueObject ValueObject = new IpValueObject(ToValue(value));
+            IpValueObject ValueObject = new IpValueObject(Convert(value));
             if (validate) new IpValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public new static IpValueObject Create() => new IpValueObject("0.0.0.0");
+        public new static IpValueObject From() => From("0.0.0.0");
 
-        protected new static string ToValue(string value) => value.Trim();
+        public static new IpValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : From();
     }
 }

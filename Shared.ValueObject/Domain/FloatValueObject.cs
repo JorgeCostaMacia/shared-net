@@ -4,32 +4,41 @@ namespace Shared.ValueObject.Domain
 {
     public class FloatValueObject : IValueObject
     {
-        public float Value { get; }
+        public float Value { get; init; }
 
         public FloatValueObject(float value)
         {
             Value = value;
         }
 
-        public static FloatValueObject Create(float value, bool validate = true)
+        public static FloatValueObject From(float value, bool validate = true)
         {
-            FloatValueObject ValueObject = new FloatValueObject(ToValue(value));
+            FloatValueObject ValueObject = new FloatValueObject(Convert(value));
             if (validate) new FloatValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static FloatValueObject Create() => new FloatValueObject(0);
-        public static FloatValueObject Create(int value, bool validate = true) => Create(ToValue(value), validate);
-        public static FloatValueObject Create(string value, bool validate = true) => Create(ToValue(value), validate);
-        public static FloatValueObject Create(bool value, bool validate = true) => Create(ToValue(value), validate);
-        public static FloatValueObject Create(DateTime value, bool validate = true) => Create(ToValue(value), validate);
+        public static FloatValueObject From() => From(0);
+        public static FloatValueObject From(string value, bool validate = true) => From(Convert(value), validate);
+        public static FloatValueObject From(int value, bool validate = true) => From(Convert(value), validate);
+        public static FloatValueObject From(decimal value, bool validate = true) => From(Convert(value), validate);
+        public static FloatValueObject From(bool value, bool validate = true) => From(Convert(value), validate);
+        public static FloatValueObject From(DateTime value, bool validate = true) => From(Convert(value), validate);
 
-        protected static float ToValue(float value) => value;
-        protected static float ToValue(string value) => float.Parse(value);
-        protected static float ToValue(int value) => value;
-        protected static float ToValue(bool value) => value ? 1 : 0;
-        protected static float ToValue(DateTime value) => (float)new TimeSpan(value.Ticks).TotalSeconds;
+        public static FloatValueObject? FromOrDefault(float? value, bool validate = true) => value != null ? From((float)value, validate) : From();
+        public static FloatValueObject? FromOrDefault(string? value, bool validate = true) => value != null ? From(value, validate) : From();
+        public static FloatValueObject? FromOrDefault(int? value, bool validate = true) => value != null ? From((int)value, validate) : From();
+        public static FloatValueObject? FromOrDefault(decimal? value, bool validate = true) => value != null ? From((decimal)value, validate) : From();
+        public static FloatValueObject? FromOrDefault(bool? value, bool validate = true) => value != null ? From((bool)value, validate) : From();
+        public static FloatValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
+
+        protected static float Convert(float value) => value;
+        protected static float Convert(string value) => float.Parse(value);
+        protected static float Convert(int value) => value;
+        protected static float Convert(decimal value) => (float)value;
+        protected static float Convert(bool value) => value ? 1 : 0;
+        protected static float Convert(DateTime value) => (float)new TimeSpan(value.Ticks).TotalSeconds;
 
         public override bool Equals(object? obj) => obj is FloatValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
         public override int GetHashCode() => HashCode.Combine(Value);

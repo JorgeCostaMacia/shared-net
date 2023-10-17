@@ -4,7 +4,7 @@ namespace Shared.Exception.Domain
 {
     public class IErrorException : IAggregateException
     {
-        public IImmutableList<string> Errors { get; protected set; }
+        public IImmutableList<string> Errors { get; init; }
 
         protected IErrorException(IEnumerable<string> errors, Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
         {

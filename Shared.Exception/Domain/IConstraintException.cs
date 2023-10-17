@@ -5,7 +5,7 @@ namespace Shared.Exception.Domain
 {
     public abstract class IConstraintException : IAggregateException
     {
-        public ImmutableList<ValidationFailure> Constraints { get; }
+        public ImmutableList<ValidationFailure> Constraints { get; init; }
 
         protected IConstraintException(IEnumerable<ValidationFailure> constraints, Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
         {

@@ -8,21 +8,17 @@ namespace Shared.ValueObject.Domain
         {
         }
 
-        public static new OrderByValueObject Create(string value, bool validate = true)
+        public static new OrderByValueObject From(string value, bool validate = true)
         {
-            OrderByValueObject ValueObject = new OrderByValueObject(ToValue(value));
+            OrderByValueObject ValueObject = new OrderByValueObject(Convert(value));
             if (validate) new OrderByValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static new OrderByValueObject Create() => new OrderByValueObject(string.Empty);
-        public static new OrderByValueObject Create(int value, bool validate = true) => Create(ToValue(value), validate);
-        public static new OrderByValueObject Create(float value, bool validate = true) => Create(ToValue(value), validate);
-        public static new OrderByValueObject Create(bool value, bool validate = true) => Create(ToValue(value), validate);
-        public static new OrderByValueObject Create(DateTime value, bool validate = true) => Create(ToValue(value), validate);
-        public static new OrderByValueObject Create(Guid value, bool validate = true) => Create(ToValue(value), validate);
+        public static new OrderByValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : null;
 
-        protected static new string ToValue(string value) => StringValueObject.ToValue(value).ToUpper();
+        protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+
     }
 }

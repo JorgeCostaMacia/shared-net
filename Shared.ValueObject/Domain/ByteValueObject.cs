@@ -5,26 +5,29 @@ namespace Shared.ValueObject.Domain
 {
     public class ByteValueObject : IValueObject
     {
-        public byte[] Value { get; }
+        public byte[] Value { get; init; }
 
         public ByteValueObject(byte[] value)
         {
             Value = value;
         }
 
-        public static ByteValueObject Create(byte[] value, bool validate = true)
+        public static ByteValueObject From(byte[] value, bool validate = true)
         {
-            ByteValueObject ValueObject = new ByteValueObject(ToValue(value));
+            ByteValueObject ValueObject = new ByteValueObject(Convert(value));
             if (validate) new ByteValueObjectValidator().ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static ByteValueObject Create() => new ByteValueObject(Array.Empty<byte>());
-        public static ByteValueObject Create(string value, bool validate = true) => Create(ToValue(value), validate);
+        public static ByteValueObject From() => From(Array.Empty<byte>());
+        public static ByteValueObject From(string value, bool validate = true) => From(Convert(value), validate);
 
-        protected static byte[] ToValue(byte[] value) => value;
-        protected static byte[] ToValue(string value) => Convert.FromBase64String(value.Trim());
+        public static ByteValueObject? FromOrDefault(byte[]? value, bool validate = true) => value != null ? From(value, validate) : From();
+        public static ByteValueObject? FromOrDefault(string? value, bool validate = true) => value != null && value.Trim() != "" ? From(value, validate) : From();
+
+        protected static byte[] Convert(byte[] value) => value;
+        protected static byte[] Convert(string value) => System.Convert.FromBase64String(value.Trim());
 
         public override bool Equals(object? obj) => obj is ByteValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
         public override int GetHashCode() => HashCode.Combine(Value);
