@@ -38,8 +38,8 @@ namespace Shared.ValueObject.Domain
         protected static DateTime Convert(DateTime value) => value.ToUniversalTime();
         protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond).AddMicroseconds(valueTime.Microsecond);
         protected static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => valueDate.ToDateTime(valueTime, DateTimeKind.Utc);
-        protected static DateTime Convert(string value) => DateTime.Parse(value);
-        protected static DateTime Convert(string valueDate, string valueTime) => DateOnly.FromDateTime(DateTime.Parse(valueDate)).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime)));
+        protected static DateTime Convert(string value) => DateTime.Parse(value.Trim());
+        protected static DateTime Convert(string valueDate, string valueTime) => DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim())).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim())));
         protected static DateTime Convert(int value) => new DateTime(value, DateTimeKind.Utc);
         protected static DateTime Convert(float value) => new DateTime((int)value, DateTimeKind.Utc);
         protected static DateTime Convert(decimal value) => new DateTime((int)value, DateTimeKind.Utc);

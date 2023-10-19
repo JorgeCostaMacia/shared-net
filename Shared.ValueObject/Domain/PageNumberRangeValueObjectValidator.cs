@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using System.Xml.Linq;
 
 namespace Shared.ValueObject.Domain
 {

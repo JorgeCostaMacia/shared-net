@@ -1,6 +1,5 @@
 ﻿using FluentValidation.Results;
 using Shared.Exception.Domain;
-using System.Collections.Immutable;
 
 namespace Shared.ValueObject.Domain
 {

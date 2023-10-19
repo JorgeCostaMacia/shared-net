@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Collections;
 
 namespace Shared.ValueObject.Domain
 {

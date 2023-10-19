@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.ComponentModel.DataAnnotations;
 
 namespace Shared.ValueObject.Domain
 {
@@ -31,7 +30,7 @@ namespace Shared.ValueObject.Domain
         public static BoolValueObject? FromOrDefault(float? value, bool validate = true) => value != null ? From((float)value, validate) : From();
 
         protected static bool Convert(bool value) => value;
-        protected static bool Convert(string value) => value.ToUpper() == "TRUE" || value.ToUpper() == "1" || value.ToUpper() == "SI" || value.ToUpper() == "YES";
+        protected static bool Convert(string value) => value.Trim().ToUpper() == "TRUE" || value.Trim().ToUpper() == "1" || value.Trim().ToUpper() == "SI" || value.Trim().ToUpper() == "YES";
         protected static bool Convert(int value) => value == 1;
         protected static bool Convert(float value) => (int)value == 1;
 

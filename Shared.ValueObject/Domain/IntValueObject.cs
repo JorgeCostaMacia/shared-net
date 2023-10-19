@@ -34,7 +34,7 @@ namespace Shared.ValueObject.Domain
         public static IntValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
 
         protected static int Convert(int value) => value;
-        protected static int Convert(string value) => System.Convert.ToInt32(value);
+        protected static int Convert(string value) => System.Convert.ToInt32(value.Trim());
         protected static int Convert(float value) => System.Convert.ToInt32(value);
         protected static int Convert(decimal value) => System.Convert.ToInt32(value);
         protected static int Convert(bool value) => System.Convert.ToInt32(value);
