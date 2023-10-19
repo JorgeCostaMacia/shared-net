@@ -33,13 +33,13 @@
     <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="2.0.1" />
     <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Data.Persistence" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="1.0.1" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="1.0.2" />
     <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="7.1.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Root" Version="1.0.1" />
     <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="1.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="5.0.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="5.0.3" />
   </ItemGroup>
 
 </Project>
