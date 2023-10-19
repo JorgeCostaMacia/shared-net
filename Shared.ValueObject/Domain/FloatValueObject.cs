@@ -34,7 +34,7 @@ namespace Shared.ValueObject.Domain
         public static FloatValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
 
         protected static float Convert(float value) => value;
-        protected static float Convert(string value) => float.Parse(value);
+        protected static float Convert(string value) => float.Parse(value.Trim());
         protected static float Convert(int value) => value;
         protected static float Convert(decimal value) => (float)value;
         protected static float Convert(bool value) => value ? 1 : 0;

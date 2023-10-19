@@ -26,8 +26,15 @@ namespace Shared.ValueObject.Domain
         public static DecimalValueObject From(bool value, bool validate = true) => From(Convert(value), validate);
         public static DecimalValueObject From(DateTime value, bool validate = true) => From(Convert(value), validate);
 
+        public static DecimalValueObject? FromOrDefault(decimal? value, bool validate = true) => value != null ? From((decimal)value, validate) : From();
+        public static DecimalValueObject? FromOrDefault(string? value, bool validate = true) => value != null ? From(value, validate) : From();
+        public static DecimalValueObject? FromOrDefault(int? value, bool validate = true) => value != null ? From((int)value, validate) : From();
+        public static DecimalValueObject? FromOrDefault(float? value, bool validate = true) => value != null ? From((float)value, validate) : From();
+        public static DecimalValueObject? FromOrDefault(bool? value, bool validate = true) => value != null ? From((bool)value, validate) : From();
+        public static DecimalValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
+
         protected static decimal Convert(decimal value) => value;
-        protected static decimal Convert(string value) => decimal.Parse(value);
+        protected static decimal Convert(string value) => decimal.Parse(value.Trim());
         protected static decimal Convert(int value) => value;
         protected static decimal Convert(float value) => System.Convert.ToDecimal(value);
         protected static decimal Convert(bool value) => value ? 1 : 0;
