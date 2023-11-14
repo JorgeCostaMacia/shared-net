@@ -24,11 +24,6 @@ namespace Shared.ValueObject.Domain
         public static BoolValueObject From(int value, bool validate = true) => From(Convert(value), validate);
         public static BoolValueObject From(float value, bool validate = true) => From(Convert(value), validate);
 
-        public static BoolValueObject? FromOrDefault(bool? value, bool validate = true) => value != null ? From((bool)value, validate) : From();
-        public static BoolValueObject? FromOrDefault(string? value, bool validate = true) => value != null ? From(value, validate) : From();
-        public static BoolValueObject? FromOrDefault(int? value, bool validate = true) => value != null ? From((int)value, validate) : From();
-        public static BoolValueObject? FromOrDefault(float? value, bool validate = true) => value != null ? From((float)value, validate) : From();
-
         protected static bool Convert(bool value) => value;
         protected static bool Convert(string value) => value.Trim().ToUpper() == "TRUE" || value.Trim().ToUpper() == "1" || value.Trim().ToUpper() == "SI" || value.Trim().ToUpper() == "YES";
         protected static bool Convert(int value) => value == 1;

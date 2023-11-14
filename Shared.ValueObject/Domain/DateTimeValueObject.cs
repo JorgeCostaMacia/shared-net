@@ -27,14 +27,6 @@ namespace Shared.ValueObject.Domain
         public static DateTimeValueObject From(float value, bool validate = true) => From(Convert(value), validate);
         public static DateTimeValueObject From(decimal value, bool validate = true) => From(Convert(value), validate);
 
-        public static DateTimeValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(DateTime? valueDate, DateTime? valueTime, bool validate = true) => valueDate != null && valueTime != null ? From((DateTime)valueDate, (DateTime)valueTime, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(DateOnly? valueDate, TimeOnly? valueTime, bool validate = true) => valueDate != null && valueTime != null ? From((DateOnly)valueDate, (TimeOnly)valueTime, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(string? value, bool validate = true) => value != null && value.Trim() != "" ? From(value, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(int? value, bool validate = true) => value != null && value != 0 ? From((int)value, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(float? value, bool validate = true) => value != null && value != 0 ? From((float)value, validate) : From();
-        public static DateTimeValueObject? FromOrDefault(decimal? value, bool validate = true) => value != null && value != 0 ? From((decimal)value, validate) : From();
-
         protected static DateTime Convert(DateTime value) => value.ToUniversalTime();
         protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond).AddMicroseconds(valueTime.Microsecond);
         protected static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => valueDate.ToDateTime(valueTime, DateTimeKind.Utc);

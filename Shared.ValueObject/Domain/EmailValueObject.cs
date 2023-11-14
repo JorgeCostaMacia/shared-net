@@ -15,7 +15,5 @@ namespace Shared.ValueObject.Domain
 
             return ValueObject;
         }
-
-        public static new EmailValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : null;
     }
 }

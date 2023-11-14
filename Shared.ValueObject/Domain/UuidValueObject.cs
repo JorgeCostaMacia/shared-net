@@ -22,9 +22,6 @@ namespace Shared.ValueObject.Domain
         public static UuidValueObject From() => From(Guid.NewGuid());
         public static UuidValueObject From(string value, bool validate = true) => From(Convert(value), validate);
 
-        public static UuidValueObject? FromOrDefault(Guid? value, bool validate = true) => value != null ? From((Guid)value, validate) : From();
-        public static UuidValueObject? FromOrDefault(string? value, bool validate = true) => value != null && value.Trim() != "" ? From(value, validate) : From();
-
         protected static Guid Convert(Guid value) => value;
         protected static Guid Convert(string value) => new Guid(value.Trim());
 

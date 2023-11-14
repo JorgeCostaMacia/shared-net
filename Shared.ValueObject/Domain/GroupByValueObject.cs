@@ -16,8 +16,6 @@ namespace Shared.ValueObject.Domain
             return ValueObject;
         }
 
-        public static new GroupByValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : null;
-
         protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
     }
 }
