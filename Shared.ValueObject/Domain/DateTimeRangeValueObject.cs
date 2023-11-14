@@ -28,13 +28,6 @@ namespace Shared.ValueObject.Domain
         public static DateTimeRangeValueObject From(float valueStart, float valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
         public static DateTimeRangeValueObject From(decimal valueStart, decimal valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
 
-        public static DateTimeRangeValueObject? FromOrDefault(DateTimeValueObject? valueStart, DateTimeValueObject? valueEnd, bool validate = true) => valueStart != null && valueEnd != null ? From(valueStart, valueEnd, validate) : From();
-        public static DateTimeRangeValueObject? FromOrDefault(DateTime? valueStart, DateTime? valueEnd, bool validate = true) => valueStart != null && valueEnd != null ? From((DateTime)valueStart, (DateTime)valueEnd, validate) : From();
-        public static DateTimeRangeValueObject? FromOrDefault(string? valueStart, string? valueEnd, bool validate = true) => valueStart != null && valueEnd != null && valueStart.Trim() != "" && valueEnd.Trim() != "" ? From(valueStart, valueEnd, validate) : From();
-        public static DateTimeRangeValueObject? FromOrDefault(int? valueStart, int? valueEnd, bool validate = true) => valueStart != null && valueEnd != null && valueStart != 0 && valueEnd != 0 ? From((int)valueStart, (int)valueEnd, validate) : From();
-        public static DateTimeRangeValueObject? FromOrDefault(float? valueStart, float? valueEnd, bool validate = true) => valueStart != null && valueEnd != null && valueStart != 0 && valueEnd != 0 ? From((float)valueStart, (float)valueEnd, validate) : From();
-        public static DateTimeRangeValueObject? FromOrDefault(decimal? valueStart, decimal? valueEnd, bool validate = true) => valueStart != null && valueEnd != null && valueStart != 0 && valueEnd != 0 ? From((decimal)valueStart, (decimal)valueEnd, validate) : From();
-
         public override bool Equals(object? obj) => obj is DateTimeRangeValueObject @object && GetType() == @object.GetType() && ValueStart == @object.ValueStart && ValueEnd == @object.ValueEnd;
         public override int GetHashCode() => HashCode.Combine(ValueStart, ValueEnd);
         public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();

@@ -22,9 +22,6 @@ namespace Shared.ValueObject.Domain
         public static ByteValueObject From() => From(Array.Empty<byte>());
         public static ByteValueObject From(string value, bool validate = true) => From(Convert(value), validate);
 
-        public static ByteValueObject? FromOrDefault(byte[]? value, bool validate = true) => value != null ? From(value, validate) : From();
-        public static ByteValueObject? FromOrDefault(string? value, bool validate = true) => value != null && value.Trim() != "" ? From(value, validate) : From();
-
         protected static byte[] Convert(byte[] value) => value;
         protected static byte[] Convert(string value) => System.Convert.FromBase64String(value.Trim());
 

@@ -27,14 +27,6 @@ namespace Shared.ValueObject.Domain
         public static StringValueObject From(DateTime value, bool validate = true) => From(Convert(value), validate);
         public static StringValueObject From(Guid value, bool validate = true) => From(Convert(value), validate);
 
-        public static StringValueObject? FromOrDefault(string? value, bool validate = true) => value != null ? From(value, validate) : From();
-        public static StringValueObject? FromOrDefault(int? value, bool validate = true) => value != null ? From((int)value, validate) : From();
-        public static StringValueObject? FromOrDefault(float? value, bool validate = true) => value != null ? From((float)value, validate) : From();
-        public static StringValueObject? FromOrDefault(decimal? value, bool validate = true) => value != null ? From((decimal)value, validate) : From();
-        public static StringValueObject? FromOrDefault(bool? value, bool validate = true) => value != null ? From((bool)value, validate) : From();
-        public static StringValueObject? FromOrDefault(DateTime? value, bool validate = true) => value != null ? From((DateTime)value, validate) : From();
-        public static StringValueObject? FromOrDefault(Guid? value, bool validate = true) => value != null ? From((Guid)value, validate) : From();
-
         protected static string Convert(string value) => value.Trim();
         protected static string Convert(int value) => value.ToString();
         protected static string Convert(float value) => value.ToString();

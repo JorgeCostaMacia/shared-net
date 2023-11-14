@@ -18,8 +18,6 @@ namespace Shared.ValueObject.Domain
 
         public static new OrderTypeValueObject From() => From("ASC");
 
-        public static new OrderTypeValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : From();
-
         protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
     }
 }

@@ -17,7 +17,5 @@ namespace Shared.ValueObject.Domain
         }
 
         public new static JsonValueObject From() => From("{}");
-
-        public static new JsonValueObject? FromOrDefault(string? value, bool validate = true) => value != null && Convert(value) != "" ? From(value, validate) : From();
     }
 }
