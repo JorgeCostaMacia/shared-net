@@ -27,7 +27,7 @@ namespace Shared.ValueObject.Domain
         public static IntValueObject From(DateTime value, bool validate = true) => From(Convert(value), validate);
 
         protected static int Convert(int value) => value;
-        protected static int Convert(string value) => System.Convert.ToInt32(value.Trim());
+        protected static int Convert(string value) => System.Convert.ToInt32(float.Parse(value.Trim()));
         protected static int Convert(float value) => System.Convert.ToInt32(value);
         protected static int Convert(decimal value) => System.Convert.ToInt32(value);
         protected static int Convert(bool value) => System.Convert.ToInt32(value);
