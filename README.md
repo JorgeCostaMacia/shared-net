@@ -28,6 +28,7 @@
 |   |   +-- Event
 |   |   +-- Message
 |   |   +-- Query
+|   |   +-- Service
 |   +-- Context
 |   +-- Data
 |   |   +-- Persistence
@@ -75,6 +76,11 @@
 ### Shared.Bus.Query
 
     Base Bus Message Query And Aggregates
+
+
+### Shared.Bus.Service
+
+    Base Bus Message Service And Infra Configurations
 
 
 ### Shared.Context
