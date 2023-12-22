@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>7.5.0</VersionPrefix>
+	<VersionPrefix>8.0.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -25,22 +25,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Application" Version="3.0.2" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="2.0.1" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="2.0.1" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="2.1.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="2.0.1" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Service" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Data.Persistence" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="1.0.2" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="7.1.2" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Root" Version="1.0.1" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="1.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="5.0.6" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Application" Version="4.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="3.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="3.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="3.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="3.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Service" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Data.Persistence" Version="2.0.3" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="8.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Root" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="2.0.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="2.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="2.0.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
