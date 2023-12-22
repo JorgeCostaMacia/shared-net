@@ -1,6 +1,8 @@
-﻿namespace InstitutoBernabeu.TTT.Bus
+﻿using Shared.Service.Domain;
+
+namespace InstitutoBernabeu.TTT.Bus
 {
-    public class BusOptionsService
+    public class BusOptionsService : IOptionsService
     {
         public string Url { get; set; } = string.Empty;
         public ushort Port { get; set; } = 0;
