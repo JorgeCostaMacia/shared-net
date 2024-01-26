@@ -1,6 +1,6 @@
 ﻿using Shared.Service.Domain;
 
-namespace InstitutoBernabeu.TTT.Bus
+namespace Shared.Bus.Service.Infrastructure
 {
     public class BusOptionsService : IOptionsService
     {

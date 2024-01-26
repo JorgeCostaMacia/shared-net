@@ -22,8 +22,8 @@ jobs:
       run: dotnet pack Shared/Shared.csproj -c Release -o nuget
     - name: Pack Shared.Aggregate
       run: dotnet pack Shared.Aggregate/Shared.Aggregate.csproj -c Release -o nuget 
-    - name: Pack Shared.Application
-      run: dotnet pack Shared.Application/Shared.Application.csproj -c Release -o nuget
+    - name: Pack Shared.Application.Service
+      run: dotnet pack Shared.Application.Service/Shared.Application.Service.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Command
       run: dotnet pack Shared.Bus.Command/Shared.Bus.Command.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Event
@@ -34,6 +34,8 @@ jobs:
       run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
     - name: Pack Shared.Data.Persistence
       run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
+    - name: Pack Shared.Domain.Service
+      run: dotnet pack Shared.Domain.Service/Shared.Domain.Service.csproj -c Release -o nuget
     - name: Pack Shared.Entity
       run: dotnet pack Shared.Entity/Shared.Entity.csproj -c Release -o nuget
     - name: Pack Shared.Exception

@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>2.0.3</VersionPrefix>
+	<VersionPrefix>2.0.4</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="2.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="2.0.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="2.1.0" />
   </ItemGroup>
 
 </Project>
