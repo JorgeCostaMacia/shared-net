@@ -23,6 +23,7 @@
 +-- Shared
 |   +-- Aggregate
 |   +-- Application
+|   |   +-- Service
 |   +-- Bus
 |   |   +-- Command
 |   |   +-- Event
@@ -32,6 +33,8 @@
 |   +-- Context
 |   +-- Data
 |   |   +-- Persistence
+|   +-- Domain
+|   |   +-- Service
 |   +-- Entity
 |   +-- Exception
 |   +-- Root
@@ -53,7 +56,7 @@
     Base Aggregate
 
 
-### Shared.Application
+### Shared.Application.Service
 
     Base Application Service
 
@@ -92,7 +95,12 @@
 
     Base Data Persistence
 
+
+### Shared.Domain.Service
+
+    Base Domain Service
     
+
 ### Shared.Entity
 
     Base Domain Entity And Aggregates

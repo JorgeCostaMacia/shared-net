@@ -2,7 +2,7 @@
 
 namespace Shared.Application.Domain
 {
-    public interface IApplication : IService
+    public interface IServiceApplication : IService
     {
     }
 }
