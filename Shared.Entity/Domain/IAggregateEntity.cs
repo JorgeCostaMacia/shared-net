@@ -1,28 +1,20 @@
 ﻿using Shared.Aggregate.Domain;
 using Shared.Bus.Event.Domain;
 
-namespace Shared.Entity.Domain
+namespace Shared.Entity.Domain;
+
+public abstract class IAggregateEntity(IEnumerable<IEvent> aggregateEvents) : IEntity, IAggregate
 {
-    public abstract class IAggregateEntity : IEntity, IAggregate
+    private List<IEvent> AggregateEvents { get; init; } = aggregateEvents.ToList();
+
+    public void AddAggregateEvents(IEvent aggregateEvent) => AggregateEvents.Add(aggregateEvent);
+    public void AddAggregateEvents(IEnumerable<IEvent> aggregateEvent) => AggregateEvents.AddRange(aggregateEvent);
+
+    public IEnumerable<IEvent> PullAggregateEvents()
     {
-        private List<IEvent> AggregateEvents { get; set; } = new List<IEvent>();
+        IEnumerable<IEvent> AggregateEventsAux = AggregateEvents;
+        AggregateEvents.Clear();
 
-        public void AddAggregateEvent(IEvent aggregate)
-        {
-            AggregateEvents.Add(aggregate);
-        }
-
-        public void AddAggregateEvent(IEnumerable<IEvent> aggregate)
-        {
-            AggregateEvents.AddRange(aggregate.ToList());
-        }
-
-        public List<IEvent> PullAggregateEvents()
-        {
-            List<IEvent> AggregateEventsAux = AggregateEvents;
-            AggregateEvents = new List<IEvent>();
-
-            return AggregateEventsAux;
-        }
+        return AggregateEventsAux;
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace Shared.Root.Domain
+﻿namespace Shared.Root.Domain;
+
+public interface IRoot
 {
-    public interface IRoot
-    {
-    }
 }

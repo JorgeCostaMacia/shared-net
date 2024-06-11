@@ -1,6 +1,5 @@
-﻿namespace Shared.Service.Domain
+﻿namespace Shared.Service.Domain;
+
+public interface IOptionsService
 {
-    public interface IOptionsService
-    {
-    }
 }

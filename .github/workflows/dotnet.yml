@@ -13,11 +13,11 @@ jobs:
   nuget_build: 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3  
+    - uses: actions/checkout@v4 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: Pack Shared
       run: dotnet pack Shared/Shared.csproj -c Release -o nuget
     - name: Pack Shared.Aggregate
@@ -62,14 +62,14 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - name: Download Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nuget
         path: nuget
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     - name: Push NuGet
       run: |
         for RES in $(ls ./nuget)
