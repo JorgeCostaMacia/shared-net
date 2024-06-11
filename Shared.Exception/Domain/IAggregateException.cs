@@ -2,7 +2,7 @@
 
 namespace Shared.Exception.Domain
 {
-    public abstract class IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? inner) : System.Exception(message, inner), IException, IAggregate
+    public abstract class IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? inner) : System.Exception($"{aggregateId}/{aggregateTypeId}: {message}", inner), IException, IAggregate
     {
         public Guid AggregateId { get; init; } = aggregateId;
         public Guid AggregateTypeId { get; init; } = aggregateTypeId;
