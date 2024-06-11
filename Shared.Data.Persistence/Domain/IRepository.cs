@@ -1,8 +1,7 @@
 ﻿using Shared.Service.Domain;
 
-namespace Shared.Data.Persistence.Domain
+namespace Shared.Data.Persistence.Domain;
+
+public interface IRepository : IService
 {
-    public interface IRepository : IService
-    {
-    }
 }

@@ -1,8 +1,7 @@
 ﻿using Shared.Context.Domain;
 
-namespace Shared.Data.Persistence.Domain
+namespace Shared.Data.Persistence.Domain;
+
+public interface IDataContext : IContext
 {
-    public interface IDataContext : IContext
-    {
-    }
 }
