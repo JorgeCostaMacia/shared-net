@@ -8,5 +8,5 @@ public abstract class IAggregateMessage(Guid aggregateId, string aggregateName, 
     public string AggregateName { get; init; } = aggregateName;
     public DateTime AggregateOccurredAt { get; init; } = aggregateOccurredAt;
 
-    public static string AggregateRoute(Version version) => throw new NotImplementedException();
+    public static string AggregateRoute() => throw new NotImplementedException();
 }
