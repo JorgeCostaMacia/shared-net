@@ -1,8 +1,6 @@
-﻿namespace Shared.Bus.Event.Domain
+﻿namespace Shared.Bus.Event.Domain;
+
+public abstract class IAggregateEvent(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : Message.Domain.IAggregateMessage(aggregateId, aggregateName, aggregateOccurredAt), IEvent
 {
-    public abstract class IAggregateEvent : Message.Domain.IAggregateMessage, IEvent
-    {
-        protected IAggregateEvent(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : base(aggregateId, aggregateName, aggregateOccurredAt) { }
-        protected IAggregateEvent(string aggregateName) : base(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
-    }
+    public IAggregateEvent(string aggregateName) : this(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
 }

@@ -6,6 +6,6 @@ namespace Shared.Exception.Domain
     {
         public IImmutableList<string> Errors { get; init; } = errors.ToImmutableList();
 
-        protected IErrorException(IEnumerable<string> errors, Guid aggregateTypeId, string message, System.Exception? inner) : this(errors, Guid.NewGuid(), aggregateTypeId, 500, DateTime.UtcNow, $"{message} => {string.Join(",", errors)}", inner) { }
+        public IErrorException(IEnumerable<string> errors, Guid aggregateTypeId, string message, System.Exception? inner) : this(errors, Guid.NewGuid(), aggregateTypeId, 500, DateTime.UtcNow, $"{message} => {string.Join(",", errors)}", inner) { }
     }
 }

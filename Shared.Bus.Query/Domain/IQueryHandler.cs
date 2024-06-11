@@ -1,8 +1,7 @@
 ﻿using Shared.Bus.Message.Domain;
 
-namespace Shared.Bus.Query.Domain
+namespace Shared.Bus.Query.Domain;
+
+public interface IQueryHandler : IMessageHandler
 {
-    public interface IQueryHandler : IMessageHandler
-    {
-    }
 }
