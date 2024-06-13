@@ -40,7 +40,7 @@
     <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="2.2.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="2.2.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="2.1.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="6.0.1" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="7.0.0" />
     <PackageReference Include="Shared.Domain.Service" Version="2.0.0" />
   </ItemGroup>
 
