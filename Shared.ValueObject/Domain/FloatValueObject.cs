@@ -2,29 +2,24 @@
 
 namespace Shared.ValueObject.Domain
 {
-    public class FloatValueObject : IValueObject
+    public class FloatValueObject(float value) : IValueObject
     {
-        public float Value { get; init; }
+        public float Value { get; init; } = value;
 
-        public FloatValueObject(float value)
-        {
-            Value = value;
-        }
-
-        public static FloatValueObject From(float value, bool validate = true)
+        public static FloatValueObject Create(float value, IValidator<FloatValueObject>? validator = null)
         {
             FloatValueObject ValueObject = new FloatValueObject(Convert(value));
-            if (validate) new FloatValueObjectValidator().ValidateAndThrow(ValueObject);
+            validator?.ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }
 
-        public static FloatValueObject From() => From(0);
-        public static FloatValueObject From(string value, bool validate = true) => From(Convert(value), validate);
-        public static FloatValueObject From(int value, bool validate = true) => From(Convert(value), validate);
-        public static FloatValueObject From(decimal value, bool validate = true) => From(Convert(value), validate);
-        public static FloatValueObject From(bool value, bool validate = true) => From(Convert(value), validate);
-        public static FloatValueObject From(DateTime value, bool validate = true) => From(Convert(value), validate);
+        public static FloatValueObject Create(IValidator<FloatValueObject>? validator = null) => Create(0, validator);
+        public static FloatValueObject Create(string value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
+        public static FloatValueObject Create(int value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
+        public static FloatValueObject Create(decimal value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
+        public static FloatValueObject Create(bool value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
+        public static FloatValueObject Create(DateTime value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
 
         protected static float Convert(float value) => value;
         protected static float Convert(string value) => float.Parse(value.Trim());

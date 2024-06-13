@@ -1,38 +1,31 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class DateTimeRangeValueObject(DateTimeValueObject valueStart, DateTimeValueObject valueEnd) : IValueObject
 {
-    public class DateTimeRangeValueObject : IValueObject
+    public DateTimeValueObject ValueStart { get; init; } = valueStart;
+    public DateTimeValueObject ValueEnd { get; init; } = valueEnd;
+
+    public static DateTimeRangeValueObject Create(DateTimeValueObject valueStart, DateTimeValueObject valueEnd, IValidator<DateTimeRangeValueObject>? validator = null)
     {
-        public DateTimeValueObject ValueStart { get; init; }
-        public DateTimeValueObject ValueEnd { get; init; }
+        DateTimeRangeValueObject ValueObject = new DateTimeRangeValueObject(valueStart, valueEnd);
+        validator?.ValidateAndThrow(ValueObject);
 
-        public DateTimeRangeValueObject(DateTimeValueObject valueStart, DateTimeValueObject valueEnd)
-        {
-            ValueStart = valueStart;
-            ValueEnd = valueEnd;
-        }
-
-        public static DateTimeRangeValueObject From(DateTimeValueObject valueStart, DateTimeValueObject valueEnd, bool validate = true)
-        {
-            DateTimeRangeValueObject ValueObject = new DateTimeRangeValueObject(valueStart, valueEnd);
-            if (validate) new DateTimeRangeValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public static DateTimeRangeValueObject From() => From(DateTime.UtcNow.Date, DateTime.UtcNow.Date);
-        public static DateTimeRangeValueObject From(DateTime valueStart, DateTime valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
-        public static DateTimeRangeValueObject From(string valueStart, string valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
-        public static DateTimeRangeValueObject From(int valueStart, int valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
-        public static DateTimeRangeValueObject From(float valueStart, float valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
-        public static DateTimeRangeValueObject From(decimal valueStart, decimal valueEnd, bool validate = true) => From(DateTimeValueObject.From(valueStart, false), DateTimeValueObject.From(valueEnd, false), validate);
-
-        public override bool Equals(object? obj) => obj is DateTimeRangeValueObject @object && GetType() == @object.GetType() && ValueStart == @object.ValueStart && ValueEnd == @object.ValueEnd;
-        public override int GetHashCode() => HashCode.Combine(ValueStart, ValueEnd);
-        public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
-
-        public static bool operator ==(DateTimeRangeValueObject? left, DateTimeRangeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-        public static bool operator !=(DateTimeRangeValueObject? left, DateTimeRangeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
+        return ValueObject;
     }
+
+    public static DateTimeRangeValueObject Create(IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(DateTime.UtcNow.Date), DateTimeValueObject.Create(DateTime.UtcNow.Date), validator);
+    public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+    public static DateTimeRangeValueObject Create(string valueStart, string valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+    public static DateTimeRangeValueObject Create(int valueStart, int valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+    public static DateTimeRangeValueObject Create(float valueStart, float valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+    public static DateTimeRangeValueObject Create(decimal valueStart, decimal valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+
+    public override bool Equals(object? obj) => obj is DateTimeRangeValueObject @object && GetType() == @object.GetType() && ValueStart == @object.ValueStart && ValueEnd == @object.ValueEnd;
+    public override int GetHashCode() => HashCode.Combine(ValueStart, ValueEnd);
+    public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+
+    public static bool operator ==(DateTimeRangeValueObject? left, DateTimeRangeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
+    public static bool operator !=(DateTimeRangeValueObject? left, DateTimeRangeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
 }

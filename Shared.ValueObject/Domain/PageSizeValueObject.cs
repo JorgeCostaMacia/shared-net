@@ -1,24 +1,19 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class PageSizeValueObject(int value) : IntValueObject(value)
 {
-    public class PageSizeValueObject : IntValueObject
+    public static PageSizeValueObject Create(int value, IValidator<PageSizeValueObject>? validator = null)
     {
-        public PageSizeValueObject(int value) : base(value)
-        {
-        }
+        PageSizeValueObject ValueObject = new PageSizeValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static new PageSizeValueObject From(int value, bool validate = true)
-        {
-            PageSizeValueObject ValueObject = new PageSizeValueObject(Convert(value));
-            if (validate) new PageSizeValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public static new PageSizeValueObject From() => From(10000);
-        public static new PageSizeValueObject From(string value, bool validate = true) => From(Convert(value), validate);
-        public static new PageSizeValueObject From(float value, bool validate = true) => From(Convert(value), validate);
-        public static new PageSizeValueObject From(decimal value, bool validate = true) => From(Convert(value), validate);
+        return ValueObject;
     }
+
+    public static PageSizeValueObject Create(IValidator<PageSizeValueObject>? validator = null) => Create(10000, validator);
+    public static PageSizeValueObject Create(string value, IValidator<PageSizeValueObject>? validator = null) => Create(Convert(value), validator);
+    public static PageSizeValueObject Create(float value, IValidator<PageSizeValueObject>? validator = null) => Create(Convert(value), validator);
+    public static PageSizeValueObject Create(decimal value, IValidator<PageSizeValueObject>? validator = null) => Create(Convert(value), validator);
 }

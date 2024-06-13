@@ -11,7 +11,6 @@ namespace Shared.ValueObject.Domain
 
             RuleFor(v => v.Value)
                  .NotEmpty()
-                 .MinimumLength(1)
                  .EmailAddress()
                  .WithName(name);
         }

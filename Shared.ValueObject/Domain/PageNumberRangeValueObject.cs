@@ -1,25 +1,20 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class PageNumberRangeValueObject(PageNumberValueObject valueStart, PageNumberValueObject valueEnd) : IntRangeValueObject(valueStart, valueEnd)
 {
-    public class PageNumberRangeValueObject : IntRangeValueObject
+    public static PageNumberRangeValueObject Create(PageNumberValueObject valueStart, PageNumberValueObject valueEnd, IValidator<PageNumberRangeValueObject>? validator = null)
     {
-        public PageNumberRangeValueObject(PageNumberValueObject valueStart, PageNumberValueObject valueEnd) : base(valueStart, valueEnd)
-        {
-        }
+        PageNumberRangeValueObject ValueObject = new PageNumberRangeValueObject(valueStart, valueEnd);
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static PageNumberRangeValueObject From(PageNumberValueObject valueStart, PageNumberValueObject valueEnd, bool validate = true)
-        {
-            PageNumberRangeValueObject ValueObject = new PageNumberRangeValueObject(valueStart, valueEnd);
-            if (validate) new PageNumberRangeValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public static new PageNumberRangeValueObject From() => From(1, 1);
-        public static new PageNumberRangeValueObject From(int valueStart, int valueEnd, bool validate = true) => From(PageNumberValueObject.From(valueStart, false), PageNumberValueObject.From(valueEnd, false), validate);
-        public static new PageNumberRangeValueObject From(string valueStart, string valueEnd, bool validate = true) => From(PageNumberValueObject.From(valueStart, false), PageNumberValueObject.From(valueEnd, false), validate);
-        public static new PageNumberRangeValueObject From(float valueStart, float valueEnd, bool validate = true) => From(PageNumberValueObject.From(valueStart, false), PageNumberValueObject.From(valueEnd, false), validate);
-        public static new PageNumberRangeValueObject From(decimal valueStart, decimal valueEnd, bool validate = true) => From(PageNumberValueObject.From(valueStart, false), PageNumberValueObject.From(valueEnd, false), validate);
+        return ValueObject;
     }
+
+    public static PageNumberRangeValueObject Create(IValidator<PageNumberRangeValueObject>? validator = null) => Create(PageNumberValueObject.Create(1), PageNumberValueObject.Create(1), validator);
+    public static PageNumberRangeValueObject Create(int valueStart, int valueEnd, IValidator<PageNumberRangeValueObject>? validator = null) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd), validator);
+    public static PageNumberRangeValueObject Create(string valueStart, string valueEnd, IValidator<PageNumberRangeValueObject>? validator = null) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd), validator);
+    public static PageNumberRangeValueObject Create(float valueStart, float valueEnd, IValidator<PageNumberRangeValueObject>? validator = null) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd), validator);
+    public static PageNumberRangeValueObject Create(decimal valueStart, decimal valueEnd, IValidator<PageNumberRangeValueObject>? validator = null) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd), validator);
 }

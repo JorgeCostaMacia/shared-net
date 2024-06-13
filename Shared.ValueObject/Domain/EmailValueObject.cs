@@ -2,16 +2,12 @@
 
 namespace Shared.ValueObject.Domain
 {
-    public class EmailValueObject : StringValueObject
+    public class EmailValueObject(string value) : StringValueObject(value)
     {
-        public EmailValueObject(string value) : base(value)
-        {
-        }
-
-        public static new EmailValueObject From(string value, bool validate = true)
+        public static EmailValueObject Create(string value, IValidator<EmailValueObject>? validator = null)
         {
             EmailValueObject ValueObject = new EmailValueObject(Convert(value));
-            if (validate) new EmailValueObjectValidator().ValidateAndThrow(ValueObject);
+            validator?.ValidateAndThrow(ValueObject);
 
             return ValueObject;
         }

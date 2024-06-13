@@ -1,23 +1,18 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class OrderTypeValueObject(string value) : StringValueObject(value)
 {
-    public class OrderTypeValueObject : StringValueObject
+    public static OrderTypeValueObject Create(string value, IValidator<OrderTypeValueObject>? validator = null)
     {
-        public OrderTypeValueObject(string value) : base(value)
-        {
-        }
+        OrderTypeValueObject ValueObject = new OrderTypeValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static new OrderTypeValueObject From(string value, bool validate = true)
-        {
-            OrderTypeValueObject ValueObject = new OrderTypeValueObject(Convert(value));
-            if (validate) new OrderTypeValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public static new OrderTypeValueObject From() => From("ASC");
-
-        protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+        return ValueObject;
     }
+
+    public static OrderTypeValueObject Create(IValidator<OrderTypeValueObject>? validator = null) => Create("ASC", validator);
+
+    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }
