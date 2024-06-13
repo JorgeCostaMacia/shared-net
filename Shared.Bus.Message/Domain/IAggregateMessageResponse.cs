@@ -1,18 +1,10 @@
 ﻿using Shared.Aggregate.Domain;
 
-namespace Shared.Bus.Message.Domain
-{
-    public abstract class IAggregateMessageResponse : IMessageResponse, IAggregate
-    {
-        public Guid AggregateId { get; init; }
-        public string AggregateName { get; init; }
-        public DateTime AggregateOccurredAt { get; init; }
+namespace Shared.Bus.Message.Domain;
 
-        protected IAggregateMessageResponse(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt)
-        {
-            AggregateId = aggregateId;
-            AggregateName = aggregateName;
-            AggregateOccurredAt = aggregateOccurredAt;
-        }
-    }
+public abstract class IAggregateMessageResponse(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : IMessageResponse, IAggregate
+{
+    public Guid AggregateId { get; init; } = aggregateId;
+    public string AggregateName { get; init; } = aggregateName;
+    public DateTime AggregateOccurredAt { get; init; } = aggregateOccurredAt;
 }

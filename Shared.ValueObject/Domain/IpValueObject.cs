@@ -1,21 +1,16 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class IpValueObject(string value) : StringValueObject(value)
 {
-    public class IpValueObject : StringValueObject
+    public static IpValueObject Create(string value, IValidator<IpValueObject>? validator = null)
     {
-        public IpValueObject(string value) : base(value)
-        {
-        }
+        IpValueObject ValueObject = new IpValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public new static IpValueObject From(string value, bool validate = true)
-        {
-            IpValueObject ValueObject = new IpValueObject(Convert(value));
-            if (validate) new IpValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public new static IpValueObject From() => From("0.0.0.0");
+        return ValueObject;
     }
+
+    public static IpValueObject Create(IValidator<IpValueObject>? validator = null) => Create("0.0.0.0", validator);
 }

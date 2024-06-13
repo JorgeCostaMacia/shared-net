@@ -1,24 +1,19 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class PageNumberValueObject(int value) : IntValueObject(value)
 {
-    public class PageNumberValueObject : IntValueObject
+    public static PageNumberValueObject Create(int value, IValidator<PageNumberValueObject>? validator = null)
     {
-        public PageNumberValueObject(int value) : base(value)
-        {
-        }
+        PageNumberValueObject ValueObject = new PageNumberValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static new PageNumberValueObject From(int value, bool validate = true)
-        {
-            PageNumberValueObject ValueObject = new PageNumberValueObject(Convert(value));
-            if (validate) new PageNumberValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public static new PageNumberValueObject From() => From(1);
-        public static new PageNumberValueObject From(string value, bool validate = true) => From(Convert(value), validate);
-        public static new PageNumberValueObject From(float value, bool validate = true) => From(Convert(value), validate);
-        public static new PageNumberValueObject From(decimal value, bool validate = true) => From(Convert(value), validate);
+        return ValueObject;
     }
+
+    public static PageNumberValueObject Create(IValidator<PageNumberValueObject>? validator = null) => Create(1, validator);
+    public static PageNumberValueObject Create(string value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
+    public static PageNumberValueObject Create(float value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
+    public static PageNumberValueObject Create(decimal value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
 }

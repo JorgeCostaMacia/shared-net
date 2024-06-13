@@ -1,21 +1,17 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class GroupByValueObject(string value) : StringValueObject(value)
 {
-    public class GroupByValueObject : StringValueObject
+
+    public static GroupByValueObject Create(string value, IValidator<GroupByValueObject>? validator = null)
     {
-        public GroupByValueObject(string value) : base(value)
-        {
-        }
+        GroupByValueObject ValueObject = new GroupByValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static new GroupByValueObject From(string value, bool validate = true)
-        {
-            GroupByValueObject ValueObject = new GroupByValueObject(Convert(value));
-            if (validate) new GroupByValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+        return ValueObject;
     }
+
+    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }

@@ -1,8 +1,7 @@
 ﻿using Shared.Bus.Message.Domain;
 
-namespace Shared.Bus.Command.Domain
+namespace Shared.Bus.Command.Domain;
+
+public interface ICommandBus : IMessageBus
 {
-    public interface ICommandBus : IMessageBus
-    {
-    }
 }

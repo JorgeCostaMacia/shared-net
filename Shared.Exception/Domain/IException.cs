@@ -1,6 +1,5 @@
-﻿namespace Shared.Exception.Domain
+﻿namespace Shared.Exception.Domain;
+
+public interface IException
 {
-    public interface IException
-    {
-    }
 }

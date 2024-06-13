@@ -1,8 +1,7 @@
 ﻿using Shared.Bus.Message.Domain;
 
-namespace Shared.Bus.Command.Domain
+namespace Shared.Bus.Command.Domain;
+
+public abstract class IAggregateCommandHandler : IAggregateMessageHandler, ICommandHandler
 {
-    public abstract class IAggregateCommandHandler : IAggregateMessageHandler, ICommandHandler
-    {
-    }
 }

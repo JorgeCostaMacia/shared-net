@@ -1,21 +1,16 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class JsonValueObject(string value) : StringValueObject(value)
 {
-    public class JsonValueObject : StringValueObject
+    public static JsonValueObject Create(string value, IValidator<JsonValueObject>? validator = null)
     {
-        public JsonValueObject(string value) : base(value)
-        {
-        }
+        JsonValueObject ValueObject = new JsonValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public new static JsonValueObject From(string value, bool validate = true)
-        {
-            JsonValueObject ValueObject = new JsonValueObject(Convert(value));
-            if (validate) new JsonValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
-
-        public new static JsonValueObject From() => From("{}");
+        return ValueObject;
     }
+
+    public static JsonValueObject Create(IValidator<JsonValueObject>? validator = null) => Create("{}", validator);
 }

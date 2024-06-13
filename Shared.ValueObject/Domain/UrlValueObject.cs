@@ -1,19 +1,14 @@
 ﻿using FluentValidation;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class UrlValueObject(string value) : StringValueObject(value)
 {
-    public class UrlValueObject : StringValueObject
+    public static UrlValueObject Create(string value, IValidator<UrlValueObject>? validator = null)
     {
-        public UrlValueObject(string value) : base(value)
-        {
-        }
+        UrlValueObject ValueObject = new UrlValueObject(Convert(value));
+        validator?.ValidateAndThrow(ValueObject);
 
-        public static new UrlValueObject From(string value, bool validate = true)
-        {
-            UrlValueObject ValueObject = new UrlValueObject(Convert(value));
-            if (validate) new UrlValueObjectValidator().ValidateAndThrow(ValueObject);
-
-            return ValueObject;
-        }
+        return ValueObject;
     }
 }

@@ -3,18 +3,10 @@ using System.Collections.Immutable;
 
 namespace Shared.Exception.Domain
 {
-    public abstract class IConstraintException : IAggregateException
+    public abstract class IConstraintException(IEnumerable<ValidationFailure> constraints, Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner) : IAggregateException(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
     {
-        public ImmutableList<ValidationFailure> Constraints { get; init; }
+        public ImmutableList<ValidationFailure> Constraints { get; init; } = constraints.ToImmutableList();
 
-        protected IConstraintException(IEnumerable<ValidationFailure> constraints, Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
-        {
-            Constraints = constraints.ToImmutableList();
-        }
-
-        protected IConstraintException(IEnumerable<ValidationFailure> constraints, Guid aggregateTypeId, string message, System.Exception? inner) : base(Guid.NewGuid(), aggregateTypeId, 400, DateTime.UtcNow, $"{message} => {string.Join(",", constraints.Select(failure => failure.PropertyName + ": " + failure.ErrorMessage))}", inner)
-        {
-            Constraints = constraints.ToImmutableList();
-        }
+        public IConstraintException(IEnumerable<ValidationFailure> constraints, Guid aggregateTypeId, string message, System.Exception? inner) : this(constraints, Guid.NewGuid(), aggregateTypeId, 400, DateTime.UtcNow, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", inner) { }
     }
 }

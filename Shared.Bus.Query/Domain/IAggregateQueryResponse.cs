@@ -1,8 +1,6 @@
-﻿namespace Shared.Bus.Query.Domain
+﻿namespace Shared.Bus.Query.Domain;
+
+public abstract class IAggregateQueryResponse(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : Message.Domain.IAggregateMessageResponse(aggregateId, aggregateName, aggregateOccurredAt), IQuery
 {
-    public abstract class IAggregateQueryResponse : Message.Domain.IAggregateMessageResponse, IQuery
-    {
-        protected IAggregateQueryResponse(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : base(aggregateId, aggregateName, aggregateOccurredAt) { }
-        protected IAggregateQueryResponse(string aggregateName) : base(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
-    }
+    public IAggregateQueryResponse(string aggregateName) : this(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
 }
