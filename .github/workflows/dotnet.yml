@@ -51,7 +51,7 @@ jobs:
     - name: Pack Shared.ValueObject
       run: dotnet pack Shared.ValueObject/Shared.ValueObject.csproj -c Release -o nuget     
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: nuget/*
