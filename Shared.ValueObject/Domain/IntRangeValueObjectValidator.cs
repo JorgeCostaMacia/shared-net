@@ -24,5 +24,5 @@ public class IntRangeValueObjectValidator : AbstractValidator<IntRangeValueObjec
             .WithName(name + ".End");
     }
 
-    protected override void RaiseValidationException(ValidationContext<IntRangeValueObject> context, ValidationResult result) => throw new IntRangeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<IntRangeValueObject> context, ValidationResult result) => throw new IntRangeValueObjectConstraintException(null, result.Errors);
 }

@@ -2,10 +2,16 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class FloatRangeValueObject(FloatValueObject valueStart, FloatValueObject valueEnd) : IValueObject
+public class FloatRangeValueObject : IValueObject
 {
-    public FloatValueObject ValueStart { get; init; } = valueStart;
-    public FloatValueObject ValueEnd { get; init; } = valueEnd;
+    public FloatValueObject ValueStart { get; init; }
+    public FloatValueObject ValueEnd { get; init; }
+
+    public FloatRangeValueObject(FloatValueObject valueStart, FloatValueObject valueEnd)
+    {
+        ValueStart = valueStart;
+        ValueEnd = valueEnd;
+    }
 
     public static FloatRangeValueObject Create(FloatValueObject valueStart, FloatValueObject valueEnd, IValidator<FloatRangeValueObject>? validator = null)
     {

@@ -9,5 +9,5 @@ public class BoolValueObjectValidator : AbstractValidator<BoolValueObject>, Shar
     {
     }
 
-    protected override void RaiseValidationException(ValidationContext<BoolValueObject> context, ValidationResult result) => throw new BoolValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<BoolValueObject> context, ValidationResult result) => throw new BoolValueObjectConstraintException(null, result.Errors);
 }

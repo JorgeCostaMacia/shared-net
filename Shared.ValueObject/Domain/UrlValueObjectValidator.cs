@@ -16,5 +16,5 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>, Shared
             .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(null, result.Errors);
 }

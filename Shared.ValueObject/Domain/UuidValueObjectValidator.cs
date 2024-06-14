@@ -12,5 +12,5 @@ public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>, Vali
             .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result) => throw new UuidValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result) => throw new UuidValueObjectConstraintException(null, result.Errors);
 }

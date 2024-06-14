@@ -24,5 +24,5 @@ public class DateTimeRangeValueObjectValidator : AbstractValidator<DateTimeRange
             .WithName(name + ".End");
     }
 
-    protected override void RaiseValidationException(ValidationContext<DateTimeRangeValueObject> context, ValidationResult result) => throw new DateTimeRangeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<DateTimeRangeValueObject> context, ValidationResult result) => throw new DateTimeRangeValueObjectConstraintException(null, result.Errors);
 }

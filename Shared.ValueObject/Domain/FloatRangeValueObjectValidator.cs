@@ -24,5 +24,5 @@ public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueO
             .WithName(name + ".End");
     }
 
-    protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(null, result.Errors);
 }

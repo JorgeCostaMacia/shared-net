@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class BoolValueObject(bool value) : IValueObject
+public class BoolValueObject : IValueObject
 {
-    public bool Value { get; init; } = value;
+    public bool Value { get; init; }
+
+    public BoolValueObject(bool value)
+    {
+        Value = value;
+    }
 
     public static BoolValueObject Create(bool value, IValidator<BoolValueObject>? validator = null)
     {

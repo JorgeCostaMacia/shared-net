@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class OrderTypeValueObject(string value) : StringValueObject(value)
+public class OrderTypeValueObject : StringValueObject
 {
+    public OrderTypeValueObject(string value) : base(value) { }
+
     public static OrderTypeValueObject Create(string value, IValidator<OrderTypeValueObject>? validator = null)
     {
         OrderTypeValueObject ValueObject = new OrderTypeValueObject(Convert(value));

@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class DecimalValueObject(decimal value) : IValueObject
+public class DecimalValueObject : IValueObject
 {
-    public decimal Value { get; init; } = value;
+    public decimal Value { get; init; }
+
+    public DecimalValueObject(decimal value)
+    {
+        Value = value;
+    }
 
     public static DecimalValueObject Create(decimal value, IValidator<DecimalValueObject>? validator = null)
     {

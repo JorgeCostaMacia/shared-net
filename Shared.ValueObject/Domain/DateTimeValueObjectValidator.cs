@@ -14,5 +14,5 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
             .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result) => throw new DateTimeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result) => throw new DateTimeValueObjectConstraintException(null, result.Errors);
 }

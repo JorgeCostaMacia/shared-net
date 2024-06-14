@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class StringValueObject(string value) : IValueObject
+public class StringValueObject : IValueObject
 {
-    public string Value { get; init; } = value;
+    public string Value { get; init; }
+
+    public StringValueObject(string value)
+    {
+        Value = value;
+    }
 
     public static StringValueObject Create(string value, IValidator<StringValueObject>? validator = null)
     {

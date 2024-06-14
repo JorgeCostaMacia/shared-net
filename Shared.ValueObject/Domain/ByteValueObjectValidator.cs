@@ -13,5 +13,5 @@ public class ByteValueObjectValidator : AbstractValidator<ByteValueObject>, Shar
             .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<ByteValueObject> context, ValidationResult result) => throw new ByteValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<ByteValueObject> context, ValidationResult result) => throw new ByteValueObjectConstraintException(null, result.Errors);
 }

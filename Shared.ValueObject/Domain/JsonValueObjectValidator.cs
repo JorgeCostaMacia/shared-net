@@ -17,5 +17,5 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>, Shar
              .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<JsonValueObject> context, ValidationResult result) => throw new JsonValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<JsonValueObject> context, ValidationResult result) => throw new JsonValueObjectConstraintException(null, result.Errors);
 }

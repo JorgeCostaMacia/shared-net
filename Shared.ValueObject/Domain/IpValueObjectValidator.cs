@@ -18,5 +18,5 @@ public class IpValueObjectValidator : AbstractValidator<IpValueObject>, Shared.V
              .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<IpValueObject> context, ValidationResult result) => throw new IpValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<IpValueObject> context, ValidationResult result) => throw new IpValueObjectConstraintException(null, result.Errors);
 }

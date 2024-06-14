@@ -14,5 +14,5 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
              .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<GroupByValueObject> context, ValidationResult result) => throw new GroupByValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<GroupByValueObject> context, ValidationResult result) => throw new GroupByValueObjectConstraintException(null, result.Errors);
 }

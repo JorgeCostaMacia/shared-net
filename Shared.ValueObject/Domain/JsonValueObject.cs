@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class JsonValueObject(string value) : StringValueObject(value)
+public class JsonValueObject : StringValueObject
 {
+    public JsonValueObject(string value) : base(value) { }
+
     public static JsonValueObject Create(string value, IValidator<JsonValueObject>? validator = null)
     {
         JsonValueObject ValueObject = new JsonValueObject(Convert(value));

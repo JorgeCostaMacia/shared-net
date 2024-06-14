@@ -2,10 +2,16 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class DateTimeRangeValueObject(DateTimeValueObject valueStart, DateTimeValueObject valueEnd) : IValueObject
+public class DateTimeRangeValueObject : IValueObject
 {
-    public DateTimeValueObject ValueStart { get; init; } = valueStart;
-    public DateTimeValueObject ValueEnd { get; init; } = valueEnd;
+    public DateTimeValueObject ValueStart { get; init; }
+    public DateTimeValueObject ValueEnd { get; init; }
+
+    public DateTimeRangeValueObject(DateTimeValueObject valueStart, DateTimeValueObject valueEnd)
+    {
+        ValueStart = valueStart;
+        ValueEnd = valueEnd;
+    }
 
     public static DateTimeRangeValueObject Create(DateTimeValueObject valueStart, DateTimeValueObject valueEnd, IValidator<DateTimeRangeValueObject>? validator = null)
     {

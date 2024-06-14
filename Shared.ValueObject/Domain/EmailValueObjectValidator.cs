@@ -15,6 +15,6 @@ namespace Shared.ValueObject.Domain
                  .WithName(name);
         }
 
-        protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(result.Errors);
+        protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, result.Errors);
     }
 }

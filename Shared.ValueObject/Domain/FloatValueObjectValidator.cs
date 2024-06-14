@@ -9,6 +9,6 @@ namespace Shared.ValueObject.Domain
         {
         }
 
-        protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result) => throw new FloatValueObjectConstraintException(result.Errors);
+        protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result) => throw new FloatValueObjectConstraintException(null, result.Errors);
     }
 }

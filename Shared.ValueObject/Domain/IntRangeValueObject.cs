@@ -2,10 +2,16 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class IntRangeValueObject(IntValueObject valueStart, IntValueObject valueEnd) : IValueObject
+public class IntRangeValueObject : IValueObject
 {
-    public IntValueObject ValueStart { get; init; } = valueStart;
-    public IntValueObject ValueEnd { get; init; } = valueEnd;
+    public IntValueObject ValueStart { get; init; }
+    public IntValueObject ValueEnd { get; init; }
+
+    public IntRangeValueObject(IntValueObject valueStart, IntValueObject valueEnd)
+    {
+        ValueStart = valueStart;
+        ValueEnd = valueEnd;
+    }
 
     public static IntRangeValueObject Create(IntValueObject valueStart, IntValueObject valueEnd, IValidator<IntRangeValueObject>? validator = null)
     {
