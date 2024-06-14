@@ -2,11 +2,20 @@
 
 namespace Shared.Bus.Message.Domain;
 
-public abstract class IAggregateMessage(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : IMessage, IAggregate
+public abstract class IAggregateMessage : IMessage, IAggregate
 {
-    public Guid AggregateId { get; init; } = aggregateId;
-    public string AggregateName { get; init; } = aggregateName;
-    public DateTime AggregateOccurredAt { get; init; } = aggregateOccurredAt;
+    public Guid AggregateId { get; init; }
+    public string AggregateName { get; init; }
+    public DateTime AggregateOccurredAt { get; init; }
+
+    protected IAggregateMessage(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt)
+    {
+        AggregateId = aggregateId;
+        AggregateName = aggregateName;
+        AggregateOccurredAt = aggregateOccurredAt;
+    }
+
+    protected IAggregateMessage(string aggregateName) : this(Guid.NewGuid(), aggregateName, DateTime.UtcNow) { }
 
     public static string AggregateRoute() => throw new NotImplementedException();
 }
