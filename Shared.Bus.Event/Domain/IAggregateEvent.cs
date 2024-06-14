@@ -2,20 +2,7 @@
 
 public abstract class IAggregateEvent : Message.Domain.IAggregateMessage, IEvent
 {
-    public Guid AggregateDestinationId { get; init; }
-
-    protected IAggregateEvent(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt, Guid aggregateDestinationId) : base(aggregateId, aggregateName, aggregateOccurredAt)
-    {
-        AggregateDestinationId = aggregateDestinationId;
-    }
-
-    protected IAggregateEvent(string aggregateName, Guid aggregateDestinationId) : base(aggregateName)
-    {
-        AggregateDestinationId = aggregateDestinationId;
-    }
-
-    protected IAggregateEvent(string aggregateName) : base(aggregateName)
-    {
-        AggregateDestinationId = Guid.Empty;
-    }
+    protected IAggregateEvent(Guid aggregateId, string aggregateConsumer, Guid aggregateSubscriber, DateTime aggregateOccurredAt) : base(aggregateId, aggregateConsumer, aggregateSubscriber, aggregateOccurredAt) { }
+    protected IAggregateEvent(string aggregateConsumer, Guid aggregateSubscriber) : base(aggregateConsumer, aggregateSubscriber) { }
+    protected IAggregateEvent(string aggregateConsumer) : base(aggregateConsumer) { }
 }

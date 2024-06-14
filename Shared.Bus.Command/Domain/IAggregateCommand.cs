@@ -2,6 +2,7 @@
 
 public abstract class IAggregateCommand : Message.Domain.IAggregateMessage, ICommand
 {
-    protected IAggregateCommand(Guid aggregateId, string aggregateName, DateTime aggregateOccurredAt) : base(aggregateId, aggregateName, aggregateOccurredAt) { }
-    protected IAggregateCommand(string aggregateName) : base(aggregateName) { }
+    protected IAggregateCommand(Guid aggregateId, string aggregateConsumer, Guid aggregateSubscriber, DateTime aggregateOccurredAt) : base(aggregateId, aggregateConsumer, aggregateSubscriber, aggregateOccurredAt) { }
+    protected IAggregateCommand(string aggregateConsumer, Guid aggregateSubscriber) : base(aggregateConsumer, aggregateSubscriber) { }
+    protected IAggregateCommand(string aggregateConsumer) : base(aggregateConsumer) { }
 }

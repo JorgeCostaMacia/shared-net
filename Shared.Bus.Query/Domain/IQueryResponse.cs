@@ -2,6 +2,6 @@
 
 namespace Shared.Bus.Query.Domain;
 
-public interface IQueryResponse : IMessageResponse
+public interface IQueryResponse : IMessage
 {
 }
