@@ -6,19 +6,16 @@ public abstract class IAggregateMessage : IMessage, IAggregate
 {
     public Guid AggregateId { get; init; }
     public string AggregateConsumer { get; init; }
-    public Guid AggregateSubscriber { get; init; }
     public DateTime AggregateOccurredAt { get; init; }
 
-    protected IAggregateMessage(Guid aggregateId, string aggregateConsumer, Guid aggregateSubscriber, DateTime aggregateOccurredAt)
+    protected IAggregateMessage(Guid aggregateId, string aggregateConsumer, DateTime aggregateOccurredAt)
     {
         AggregateId = aggregateId;
         AggregateConsumer = aggregateConsumer;
-        AggregateSubscriber = aggregateSubscriber;
         AggregateOccurredAt = aggregateOccurredAt;
     }
 
-    protected IAggregateMessage(string aggregateConsumer, Guid aggregateSubscriber) : this(Guid.NewGuid(), aggregateConsumer, aggregateSubscriber, DateTime.UtcNow) { }
-    protected IAggregateMessage(string aggregateConsumer) : this(aggregateConsumer, Guid.Empty) { }
+    protected IAggregateMessage(string aggregateConsumer) : this(Guid.NewGuid(), aggregateConsumer, DateTime.UtcNow) { }
 
     public static string AggregateRoute() => throw new NotImplementedException();
 }
