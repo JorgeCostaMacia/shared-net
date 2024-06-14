@@ -1,12 +1,21 @@
 ﻿using Shared.Aggregate.Domain;
 
-namespace Shared.Exception.Domain
+namespace Shared.Exception.Domain;
+
+public abstract class IAggregateException : System.Exception, IException, IAggregate
 {
-    public abstract class IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? inner) : System.Exception($"{aggregateId}/{aggregateTypeId}: {message}", inner), IException, IAggregate
+    public Guid AggregateId { get; init; }
+    public Guid AggregateTypeId { get; init; }
+    public int AggregateCode { get; init; }
+    public DateTime AggregateOccurredAt { get; init; }
+
+    protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? inner) : base(message, inner)
     {
-        public Guid AggregateId { get; init; } = aggregateId;
-        public Guid AggregateTypeId { get; init; } = aggregateTypeId;
-        public int AggregateCode { get; init; } = aggregateCode;
-        public DateTime AggregateOccurredAt { get; init; } = aggregateOccurredAt;
+        AggregateId = aggregateId;
+        AggregateTypeId = aggregateTypeId;
+        AggregateCode = aggregateCode;
+        AggregateOccurredAt = aggregateOccurredAt;
     }
+
+    protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, string message, System.Exception? inner) : this(aggregateId, aggregateTypeId, aggregateCode, DateTime.UtcNow, $"{aggregateId}/{aggregateTypeId}: {message}", inner) { }
 }

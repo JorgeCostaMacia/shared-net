@@ -1,11 +1,18 @@
 ﻿using System.Collections.Immutable;
 
-namespace Shared.Exception.Domain
-{
-    public class IErrorException(IEnumerable<string> errors, Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner) : IAggregateException(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
-    {
-        public IImmutableList<string> Errors { get; init; } = errors.ToImmutableList();
+namespace Shared.Exception.Domain;
 
-        public IErrorException(IEnumerable<string> errors, Guid aggregateTypeId, string message, System.Exception? inner) : this(errors, Guid.NewGuid(), aggregateTypeId, 500, DateTime.UtcNow, $"{message} => {string.Join(",", errors)}", inner) { }
+public class IErrorException : IAggregateException
+{
+    public IImmutableList<string> Errors { get; init; }
+
+    protected IErrorException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner, IEnumerable<string> errors) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
+    {
+        Errors = errors.ToImmutableList();
+    }
+
+    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? inner, IEnumerable<string> errors) : base(Guid.NewGuid(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", inner)
+    {
+        Errors = errors.ToImmutableList();
     }
 }
