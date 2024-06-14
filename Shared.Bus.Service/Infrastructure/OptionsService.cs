@@ -1,15 +1,25 @@
 ﻿using Shared.Service.Domain;
 
-namespace Shared.Bus.Service.Infrastructure
+namespace Shared.Bus.Service.Infrastructure;
+
+public class OptionsService : IOptionsService
 {
-    public class OptionsService(string url, ushort port, string host, string user, string password, int prefetchCount, int concurrentMessageLimit) : IOptionsService
+    public string Url { get; init; }
+    public ushort Port { get; init; }
+    public string Host { get; init; }
+    public string User { get; init; }
+    public string Password { get; init; }
+    public int PrefetchCount { get; init; }
+    public int ConcurrentMessageLimit { get; init; }
+
+    public OptionsService(string url, ushort port, string host, string user, string password, int prefetchCount, int concurrentMessageLimit)
     {
-        public string Url { get; init; } = url;
-        public ushort Port { get; init; } = port;
-        public string Host { get; init; } = host;
-        public string User { get; init; } = user;
-        public string Password { get; init; } = password;
-        public int PrefetchCount { get; init; } = prefetchCount;
-        public int ConcurrentMessageLimit { get; init; } = concurrentMessageLimit;
+        Url = url;
+        Port = port;
+        Host = host;
+        User = user;
+        Password = password;
+        PrefetchCount = prefetchCount;
+        ConcurrentMessageLimit = concurrentMessageLimit;
     }
 }

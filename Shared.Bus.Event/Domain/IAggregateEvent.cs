@@ -14,7 +14,7 @@ public abstract class IAggregateEvent : Message.Domain.IAggregateMessage, IEvent
         AggregateDestinationId = aggregateDestinationId;
     }
 
-    protected IAggregateEvent(string aggregateName) : base(aggregateName) 
+    protected IAggregateEvent(string aggregateName) : base(aggregateName)
     {
         AggregateDestinationId = Guid.Empty;
     }
