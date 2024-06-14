@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class PageSizeValueObject(int value) : IntValueObject(value)
+public class PageSizeValueObject : IntValueObject
 {
+    public PageSizeValueObject(int value) : base(value) { }
+
     public static PageSizeValueObject Create(int value, IValidator<PageSizeValueObject>? validator = null)
     {
         PageSizeValueObject ValueObject = new PageSizeValueObject(Convert(value));

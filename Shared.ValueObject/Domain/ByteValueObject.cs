@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class ByteValueObject(byte[] value) : IValueObject
+public class ByteValueObject : IValueObject
 {
-    public byte[] Value { get; init; } = value;
+    public byte[] Value { get; init; }
+
+    public ByteValueObject(byte[] value)
+    {
+        Value = value;
+    }
 
     public static ByteValueObject Create(byte[] value, IValidator<ByteValueObject>? validator = null)
     {

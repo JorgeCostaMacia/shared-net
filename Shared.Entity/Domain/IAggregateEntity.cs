@@ -3,9 +3,16 @@ using Shared.Bus.Event.Domain;
 
 namespace Shared.Entity.Domain;
 
-public abstract class IAggregateEntity(IEnumerable<IEvent> aggregateEvents) : IEntity, IAggregate
+public abstract class IAggregateEntity : IEntity, IAggregate
 {
-    private List<IEvent> AggregateEvents { get; init; } = aggregateEvents.ToList();
+    private List<IEvent> AggregateEvents { get; init; }
+
+    protected IAggregateEntity(IEnumerable<IEvent> aggregateEvents)
+    {
+        AggregateEvents = aggregateEvents.ToList();
+    }
+
+    protected IAggregateEntity() : this(new List<IEvent>()) { }
 
     public void AddAggregateEvents(IEvent aggregateEvent) => AggregateEvents.Add(aggregateEvent);
     public void AddAggregateEvents(IEnumerable<IEvent> aggregateEvent) => AggregateEvents.AddRange(aggregateEvent);

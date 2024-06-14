@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class DateTimeValueObject(DateTime value) : IValueObject
+public class DateTimeValueObject : IValueObject
 {
-    public DateTime Value { get; init; } = value;
+    public DateTime Value { get; init; }
+
+    public DateTimeValueObject(DateTime value)
+    {
+        Value = value;
+    }
 
     public static DateTimeValueObject Create(DateTime value, IValidator<DateTimeValueObject>? validator = null)
     {

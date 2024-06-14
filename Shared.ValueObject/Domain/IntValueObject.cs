@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class IntValueObject(int value) : IValueObject
+public class IntValueObject : IValueObject
 {
-    public int Value { get; init; } = value;
+    public int Value { get; init; }
+
+    public IntValueObject(int value)
+    {
+        Value = value;
+    }
 
     public static IntValueObject Create(int value, IValidator<IntValueObject>? validator = null)
     {

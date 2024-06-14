@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class IpValueObject(string value) : StringValueObject(value)
+public class IpValueObject : StringValueObject
 {
+    public IpValueObject(string value) : base(value) { }
+
     public static IpValueObject Create(string value, IValidator<IpValueObject>? validator = null)
     {
         IpValueObject ValueObject = new IpValueObject(Convert(value));

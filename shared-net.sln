@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Entity", "Shared.Ent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Bus.Service", "Shared.Bus.Service\Shared.Bus.Service.csproj", "{194B7EB3-0A25-4746-8734-72AD2D6742C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Domain.Service", "Shared.Domain.Service\Shared.Domain.Service.csproj", "{00A2E455-3C6E-48DD-8F37-220F99062FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Domain.Service", "Shared.Domain.Service\Shared.Domain.Service.csproj", "{00A2E455-3C6E-48DD-8F37-220F99062FB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Application.Service", "Shared.Application.Service\Shared.Application.Service.csproj", "{F35047A6-E084-4803-BDFF-4AB858A9DACA}"
 EndProject

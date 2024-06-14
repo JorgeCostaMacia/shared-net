@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class PageNumberRangeValueObject(PageNumberValueObject valueStart, PageNumberValueObject valueEnd) : IntRangeValueObject(valueStart, valueEnd)
+public class PageNumberRangeValueObject : IntRangeValueObject
 {
+    public PageNumberRangeValueObject(PageNumberValueObject valueStart, PageNumberValueObject valueEnd) : base(valueStart, valueEnd) { }
+
     public static PageNumberRangeValueObject Create(PageNumberValueObject valueStart, PageNumberValueObject valueEnd, IValidator<PageNumberRangeValueObject>? validator = null)
     {
         PageNumberRangeValueObject ValueObject = new PageNumberRangeValueObject(valueStart, valueEnd);

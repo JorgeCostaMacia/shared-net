@@ -15,5 +15,5 @@ public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObj
             .WithName(name);
     }
 
-    protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result) => throw new OrderTypeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result) => throw new OrderTypeValueObjectConstraintException(null, result.Errors);
 }

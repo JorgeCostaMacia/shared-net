@@ -18,5 +18,5 @@ public class PageNumberRangeValueObjectValidator : AbstractValidator<PageNumberR
              .WithName(name + ".Start");
     }
 
-    protected override void RaiseValidationException(ValidationContext<PageNumberRangeValueObject> context, ValidationResult result) => throw new PageNumberRangeValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<PageNumberRangeValueObject> context, ValidationResult result) => throw new PageNumberRangeValueObjectConstraintException(null, result.Errors);
 }

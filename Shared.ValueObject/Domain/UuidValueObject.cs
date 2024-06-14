@@ -2,9 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class UuidValueObject(Guid value) : IValueObject
+public class UuidValueObject : IValueObject
 {
-    public Guid Value { get; init; } = value;
+    public Guid Value { get; init; }
+
+    public UuidValueObject(Guid value)
+    {
+        Value = value;
+    }
 
     public static UuidValueObject Create(Guid value, IValidator<UuidValueObject>? validator = null)
     {

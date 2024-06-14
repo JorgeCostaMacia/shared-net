@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>8.2.2</VersionPrefix>
+	<VersionPrefix>8.3.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>

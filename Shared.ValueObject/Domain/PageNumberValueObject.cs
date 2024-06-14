@@ -2,8 +2,10 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class PageNumberValueObject(int value) : IntValueObject(value)
+public class PageNumberValueObject : IntValueObject
 {
+    public PageNumberValueObject(int value) : base(value) { }
+
     public static PageNumberValueObject Create(int value, IValidator<PageNumberValueObject>? validator = null)
     {
         PageNumberValueObject ValueObject = new PageNumberValueObject(Convert(value));

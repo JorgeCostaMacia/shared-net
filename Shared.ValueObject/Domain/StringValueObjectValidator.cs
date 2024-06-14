@@ -9,5 +9,5 @@ public class StringValueObjectValidator : AbstractValidator<StringValueObject>, 
     {
     }
 
-    protected override void RaiseValidationException(ValidationContext<StringValueObject> context, ValidationResult result) => throw new StringValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<StringValueObject> context, ValidationResult result) => throw new StringValueObjectConstraintException(null, result.Errors);
 }

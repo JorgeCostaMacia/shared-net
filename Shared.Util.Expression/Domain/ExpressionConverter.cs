@@ -6,25 +6,26 @@ public class ExpressionConverter
 {
     public static Dictionary<string, string> Convert<T>(Expression<Func<T, bool>> expression)
     {
-        var result = new Dictionary<string, string>();
+        Dictionary<string, string> Result = new Dictionary<string, string>();
 
-        var current = (BinaryExpression)expression.Body;
+        BinaryExpression Body = (BinaryExpression)expression.Body;
 
-        while (current.NodeType != ExpressionType.Equal)
+        while (Body.NodeType != ExpressionType.Equal)
         {
-            ParseEquals((BinaryExpression)current.Right);
-            current = (BinaryExpression)current.Left;
+            ParseEquals((BinaryExpression)Body.Right);
+            Body = (BinaryExpression)Body.Left;
         }
 
-        ParseEquals(current);
+        ParseEquals(Body);
 
         void ParseEquals(BinaryExpression e)
         {
-            var key = (MemberExpression)e.Left;
-            var value = (ConstantExpression)e.Right;
-            result.Add(key.Member.Name, value.Value?.ToString() ?? "");
+            MemberExpression Key = (MemberExpression)e.Left;
+            ConstantExpression Value = (ConstantExpression)e.Right;
+
+            Result.Add(Key.Member.Name, Value.Value?.ToString() ?? "");
         }
 
-        return result;
+        return Result;
     }
 }

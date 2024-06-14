@@ -2,8 +2,9 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class GroupByValueObject(string value) : StringValueObject(value)
+public class GroupByValueObject : StringValueObject
 {
+    public GroupByValueObject(string value) : base(value) { }
 
     public static GroupByValueObject Create(string value, IValidator<GroupByValueObject>? validator = null)
     {

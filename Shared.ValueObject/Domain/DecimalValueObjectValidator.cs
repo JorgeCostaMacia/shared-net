@@ -9,5 +9,5 @@ public class DecimalValueObjectValidator : AbstractValidator<DecimalValueObject>
     {
     }
 
-    protected override void RaiseValidationException(ValidationContext<DecimalValueObject> context, ValidationResult result) => throw new DecimalValueObjectConstraintException(result.Errors);
+    protected override void RaiseValidationException(ValidationContext<DecimalValueObject> context, ValidationResult result) => throw new DecimalValueObjectConstraintException(null, result.Errors);
 }
