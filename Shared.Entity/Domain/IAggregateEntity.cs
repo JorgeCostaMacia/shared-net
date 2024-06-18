@@ -19,7 +19,7 @@ public abstract class IAggregateEntity : IEntity, IAggregate
 
     public IEnumerable<IEvent> PullAggregateEvents()
     {
-        IEnumerable<IEvent> AggregateEventsAux = AggregateEvents;
+        IEnumerable<IEvent> AggregateEventsAux = new List<IEvent>(AggregateEvents);
         AggregateEvents.Clear();
 
         return AggregateEventsAux;
