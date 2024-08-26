@@ -2,7 +2,7 @@
 
 namespace Shared.Exception.Domain;
 
-public class IErrorException : IException
+public abstract class IErrorException : IException
 {
     public ImmutableList<string> Errors { get; init; }
 
