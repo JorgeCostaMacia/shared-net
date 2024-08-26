@@ -1,5 +1,3 @@
 ﻿namespace Shared.Domain.Service.Domain;
 
-public interface IService : Shared.Service.Domain.IService
-{
-}
+public interface IService : Shared.Service.Domain.IService { }

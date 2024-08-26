@@ -2,6 +2,4 @@
 
 namespace Shared.Data.Persistence.Domain;
 
-public interface IDataContext : IContext
-{
-}
+public interface IDataContext : IContext { }
