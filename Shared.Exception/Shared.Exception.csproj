@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>8.3.0</VersionPrefix>
+	<VersionPrefix>8.4.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.2" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="2.1.0" />
   </ItemGroup>
 
 </Project>
