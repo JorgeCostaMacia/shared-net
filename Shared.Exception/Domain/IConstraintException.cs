@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 namespace Shared.Exception.Domain;
 
-public abstract class IConstraintException : IException
+public abstract class IConstraintException : IAggregateException
 {
     public ImmutableList<ValidationFailure> Constraints { get; init; }
 
