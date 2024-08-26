@@ -1,5 +1,3 @@
 ﻿namespace Shared.Context.Domain;
 
-public interface IContext
-{
-}
+public interface IContext { }
