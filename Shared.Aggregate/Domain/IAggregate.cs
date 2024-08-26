@@ -1,5 +1,3 @@
 ﻿namespace Shared.Aggregate.Domain;
 
-public interface IAggregate
-{
-}
+public interface IAggregate { }
