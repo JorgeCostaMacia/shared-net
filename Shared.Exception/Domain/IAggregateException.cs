@@ -2,18 +2,18 @@
 
 public abstract class IAggregateException : IException
 {
-    public Guid Id { get; init; }
-    public Guid TypeId { get; init; }
-    public int Code { get; init; }
-    public DateTime OccurredAt { get; init; }
+    public Guid AggregateId { get; init; }
+    public Guid AggregateTypeId { get; init; }
+    public int AggregateCode { get; init; }
+    public DateTime AggregateOccurredAt { get; init; }
 
-    protected IAggregateException(Guid id, Guid typeId, int code, DateTime occurredAt, string? message, System.Exception? inner) : base(message, inner)
+    protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string? message, System.Exception? innerException) : base(message, innerException)
     {
-        Id = id;
-        TypeId = typeId;
-        Code = code;
-        OccurredAt = occurredAt;
+        AggregateId = aggregateId;
+        AggregateTypeId = aggregateTypeId;
+        AggregateCode = aggregateCode;
+        AggregateOccurredAt = aggregateOccurredAt;
     }
 
-    protected IAggregateException(Guid id, Guid typeId, int code, string message, System.Exception? inner) : this(id, typeId, code, DateTime.UtcNow, $"{id}/{typeId}: {message}", inner) { }
+    protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, string message, System.Exception? innerException) : this(aggregateId, aggregateTypeId, aggregateCode, DateTime.UtcNow, $"{aggregateId}/{aggregateTypeId}: {message}", innerException) { }
 }

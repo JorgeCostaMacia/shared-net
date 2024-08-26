@@ -2,6 +2,6 @@
 
 public abstract class INotFoundException : IAggregateException
 {
-    protected INotFoundException(Guid id, Guid typeId, int code, DateTime occurredAt, string message, System.Exception? inner) : base(id, typeId, code, occurredAt, message, inner) { }
-    protected INotFoundException(Guid typeId, string message, System.Exception? inner) : base(Guid.NewGuid(), typeId, 404, message, inner) { }
+    protected INotFoundException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? innerException) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, innerException) { }
+    protected INotFoundException(Guid aggregateTypeId, string message, System.Exception? innerException) : base(Guid.NewGuid(), aggregateTypeId, 404, message, innerException) { }
 }

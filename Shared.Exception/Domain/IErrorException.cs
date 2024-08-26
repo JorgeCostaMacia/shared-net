@@ -6,12 +6,12 @@ public abstract class IErrorException : IAggregateException
 {
     public ImmutableList<string> Errors { get; init; }
 
-    protected IErrorException(Guid id, Guid type, int code, DateTime occurredAt, string message, System.Exception? inner, IEnumerable<string> errors) : base(id, type, code, occurredAt, message, inner)
+    protected IErrorException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? innerException, IEnumerable<string> errors) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, innerException)
     {
         Errors = errors.ToImmutableList();
     }
 
-    protected IErrorException(Guid type, string message, System.Exception? inner, IEnumerable<string> errors) : base(Guid.NewGuid(), type, 500, $"{message} => {string.Join(",", errors)}", inner)
+    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(Guid.NewGuid(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
     {
         Errors = errors.ToImmutableList();
     }
