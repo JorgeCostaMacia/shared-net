@@ -1,5 +1,3 @@
 ﻿namespace Shared.Entity.Domain;
 
-public interface IEntity
-{
-}
+public interface IEntity { }
