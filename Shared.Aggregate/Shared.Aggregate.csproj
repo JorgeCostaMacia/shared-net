@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>2.2.0</VersionPrefix>
+	<VersionPrefix>2.3.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -23,5 +23,9 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
+	
+  <ItemGroup>
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="4.4.0" />
+  </ItemGroup>
+	
 </Project>

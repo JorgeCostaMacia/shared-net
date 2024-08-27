@@ -1,9 +1,8 @@
-﻿using Shared.Aggregate.Domain;
-using Shared.Bus.Event.Domain;
+﻿using Shared.Bus.Event.Domain;
 
 namespace Shared.Entity.Domain;
 
-public abstract class IAggregateEntity : IEntity, IAggregate
+public abstract class IAggregateEntity : IEntity
 {
     private List<IEvent> AggregateEvents { get; init; }
 

@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>3.4.0</VersionPrefix>
+	<VersionPrefix>3.5.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
- 	<PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="2.2.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="4.4.0" />
   </ItemGroup>
 
