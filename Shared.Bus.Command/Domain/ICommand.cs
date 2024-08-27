@@ -2,6 +2,4 @@
 
 namespace Shared.Bus.Command.Domain;
 
-public interface ICommand : IMessage
-{
-}
+public interface ICommand : IMessage { }

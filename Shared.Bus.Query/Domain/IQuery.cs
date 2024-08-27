@@ -2,6 +2,4 @@
 
 namespace Shared.Bus.Query.Domain;
 
-public interface IQuery : IMessage
-{
-}
+public interface IQuery : IMessage{}

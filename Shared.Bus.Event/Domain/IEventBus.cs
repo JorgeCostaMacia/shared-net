@@ -2,6 +2,4 @@
 
 namespace Shared.Bus.Event.Domain;
 
-public interface IEventBus : IMessageBus
-{
-}
+public interface IEventBus : IMessageBus { }
