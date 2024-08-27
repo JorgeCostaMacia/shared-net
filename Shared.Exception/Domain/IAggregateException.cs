@@ -1,6 +1,6 @@
 ﻿namespace Shared.Exception.Domain;
 
-public abstract class IAggregateException : IException
+public abstract class IAggregateException : IDomainException
 {
     public Guid AggregateId { get; init; }
     public Guid AggregateTypeId { get; init; }
