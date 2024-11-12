@@ -5,23 +5,24 @@ namespace Shared.ValueObject.Domain;
 
 public class IntRangeValueObjectValidator : AbstractValidator<IntRangeValueObject>, Shared.Validator.Domain.IValidator
 {
-    public IntRangeValueObjectValidator(string name = "IntRangeValueObject")
+    public IntRangeValueObjectValidator(IValidator<IntValueObject> validator)
     {
         RuleFor(v => v.ValueStart)
-            .SetValidator(new IntValueObjectValidator(name + ".End"))
-            .WithName(name + ".End");
+             .SetValidator(validator)
+             .WithName(v => v.GetType().Name + "." + v.ValueEnd.GetType().Name + ".End");
 
         RuleFor(v => v.ValueEnd)
-            .SetValidator(new IntValueObjectValidator(name + ".End"))
-            .WithName(name + ".End");
+            .SetValidator(validator)
+            .WithName(v => v.GetType().Name + "." + v.ValueEnd.GetType().Name + ".End");
 
         RuleFor(v => v.ValueStart.Value)
             .LessThanOrEqualTo(v => v.ValueEnd.Value)
-            .WithName(name + ".Start");
+            .WithName(v => v.GetType().Name + "." + v.ValueStart.GetType().Name + ".End");
 
         RuleFor(v => v.ValueEnd.Value)
             .GreaterThanOrEqualTo(v => v.ValueStart.Value)
-            .WithName(name + ".End");
+            .WithName(v => v.GetType().Name + "." + v.ValueEnd.GetType().Name + ".End");
+
     }
 
     protected override void RaiseValidationException(ValidationContext<IntRangeValueObject> context, ValidationResult result) => throw new IntRangeValueObjectConstraintException(null, result.Errors);

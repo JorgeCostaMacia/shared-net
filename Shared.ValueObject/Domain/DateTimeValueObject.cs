@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class DateTimeValueObject : IValueObject
+public record DateTimeValueObject : IValueObject
 {
     public DateTime Value { get; init; }
 
@@ -36,14 +36,6 @@ public class DateTimeValueObject : IValueObject
     protected static DateTime Convert(float value) => new DateTime((int)value, DateTimeKind.Utc);
     protected static DateTime Convert(decimal value) => new DateTime((int)value, DateTimeKind.Utc);
 
-    public override bool Equals(object? obj) => obj is DateTimeValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
-
-    public static bool operator ==(DateTimeValueObject? left, DateTimeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-    public static bool operator !=(DateTimeValueObject? left, DateTimeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
-    public static bool operator >(DateTimeValueObject left, DateTimeValueObject right) => left.Value > right.Value;
-    public static bool operator <(DateTimeValueObject left, DateTimeValueObject right) => left.Value < right.Value;
-    public static bool operator >=(DateTimeValueObject left, DateTimeValueObject right) => left.Value >= right.Value;
-    public static bool operator <=(DateTimeValueObject left, DateTimeValueObject right) => left.Value <= right.Value;
 }

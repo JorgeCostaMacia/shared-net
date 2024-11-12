@@ -22,8 +22,6 @@
 ```
 +-- Shared
 |   +-- Aggregate
-|   +-- Application
-|   |   +-- Service
 |   +-- Bus
 |   |   +-- Command
 |   |   +-- Event
@@ -33,11 +31,8 @@
 |   +-- Context
 |   +-- Data
 |   |   +-- Persistence
-|   +-- Domain
-|   |   +-- Service
 |   +-- Entity
 |   +-- Exception
-|   +-- Root
 |   +-- Service
 |   +-- Util
 |   |   +-- Expression
@@ -53,12 +48,7 @@
 
 ### Shared.Aggregate
 
-    Base Aggregate
-
-
-### Shared.Application.Service
-
-    Base Application Service
+    Base Domain Root And Aggregates
 
 
 ### Shared.Bus.Command
@@ -94,11 +84,6 @@
 ### Shared.Data.Persistence
 
     Base Data Persistence
-
-
-### Shared.Domain.Service
-
-    Base Domain Service
     
 
 ### Shared.Entity
@@ -109,11 +94,6 @@
 ### Shared.Exception
 
     Base Domain Exception And Aggregates
-
-
-### Shared.Root
-
-    Base Domain Root And Aggregates
 
 
 ### Shared.Service

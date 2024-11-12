@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class OrderTypeValueObject : StringValueObject
+public record OrderTypeValueObject : StringValueObject
 {
     public OrderTypeValueObject(string value) : base(value) { }
 

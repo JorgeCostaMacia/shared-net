@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class OrderByValueObject : StringValueObject
+public record OrderByValueObject : StringValueObject
 {
     public OrderByValueObject(string value) : base(value) { }
 

@@ -21,27 +21,23 @@ jobs:
     - name: Pack Shared
       run: dotnet pack Shared/Shared.csproj -c Release -o nuget
     - name: Pack Shared.Aggregate
-      run: dotnet pack Shared.Aggregate/Shared.Aggregate.csproj -c Release -o nuget 
-    - name: Pack Shared.Application.Service
-      run: dotnet pack Shared.Application.Service/Shared.Application.Service.csproj -c Release -o nuget
+      run: dotnet pack Shared.Aggregate/Shared.Aggregate.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Command
       run: dotnet pack Shared.Bus.Command/Shared.Bus.Command.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Event
       run: dotnet pack Shared.Bus.Event/Shared.Bus.Event.csproj -c Release -o nuget
     - name: Pack Shared.Bus.Message
+      run: dotnet pack Shared.Bus.Message/Shared.Bus.Message.csproj -c Release -o nuget
+    - name: Pack Shared.Shared.Bus.Query
       run: dotnet pack Shared.Bus.Query/Shared.Bus.Query.csproj -c Release -o nuget
     - name: Pack Shared.Context
       run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
     - name: Pack Shared.Data.Persistence
       run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
-    - name: Pack Shared.Domain.Service
-      run: dotnet pack Shared.Domain.Service/Shared.Domain.Service.csproj -c Release -o nuget
     - name: Pack Shared.Entity
       run: dotnet pack Shared.Entity/Shared.Entity.csproj -c Release -o nuget
     - name: Pack Shared.Exception
       run: dotnet pack Shared.Exception/Shared.Exception.csproj -c Release -o nuget
-    - name: Pack Shared.Root
-      run: dotnet pack Shared.Root/Shared.Root.csproj -c Release -o nuget
     - name: Pack Shared.Service
       run: dotnet pack Shared.Service/Shared.Service.csproj -c Release -o nuget
     - name: Pack Shared.Util.Expression

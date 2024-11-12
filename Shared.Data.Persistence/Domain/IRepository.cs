@@ -2,6 +2,4 @@
 
 namespace Shared.Data.Persistence.Domain;
 
-public interface IRepository : IService
-{
-}
+public interface IRepository : IService { }

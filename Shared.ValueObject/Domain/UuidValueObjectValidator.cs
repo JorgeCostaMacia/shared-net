@@ -5,11 +5,11 @@ namespace Shared.ValueObject.Domain;
 
 public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>, Validator.Domain.IValidator
 {
-    public UuidValueObjectValidator(string name = "UuidValueObject")
+    public UuidValueObjectValidator()
     {
         RuleFor(v => v.Value)
             .NotEmpty()
-            .WithName(name);
+            .WithName(v => v.GetType().Name);
     }
 
     protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result) => throw new UuidValueObjectConstraintException(null, result.Errors);

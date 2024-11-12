@@ -1,9 +1,8 @@
-﻿using Shared.Aggregate.Domain;
-using Shared.Bus.Event.Domain;
+﻿using Shared.Bus.Event.Domain;
 
-namespace Shared.Root.Domain;
+namespace Shared.Aggregate.Domain;
 
-public abstract class IAggregateRoot : IRoot, IAggregate
+public abstract class IAggregateRoot : IAggregate
 {
     private List<IEvent> AggregateEvents { get; init; }
 
@@ -19,7 +18,7 @@ public abstract class IAggregateRoot : IRoot, IAggregate
 
     public IEnumerable<IEvent> PullAggregateEvents()
     {
-        IEnumerable<IEvent> AggregateEventsAux = AggregateEvents;
+        IEnumerable<IEvent> AggregateEventsAux = new List<IEvent>(AggregateEvents);
         AggregateEvents.Clear();
 
         return AggregateEventsAux;

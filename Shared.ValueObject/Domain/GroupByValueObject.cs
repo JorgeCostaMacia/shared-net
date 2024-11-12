@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class GroupByValueObject : StringValueObject
+public record GroupByValueObject : StringValueObject
 {
     public GroupByValueObject(string value) : base(value) { }
 

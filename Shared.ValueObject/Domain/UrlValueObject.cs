@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class UrlValueObject : StringValueObject
+public record UrlValueObject : StringValueObject
 {
     public UrlValueObject(string value) : base(value) { }
 

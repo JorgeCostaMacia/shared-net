@@ -2,16 +2,16 @@
 
 namespace Shared.Exception.Domain;
 
-public class IErrorException : IAggregateException
+public abstract class IErrorException : IAggregateException
 {
-    public IImmutableList<string> Errors { get; init; }
+    public ImmutableList<string> Errors { get; init; }
 
-    protected IErrorException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? inner, IEnumerable<string> errors) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, inner)
+    protected IErrorException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? innerException, IEnumerable<string> errors) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, innerException)
     {
         Errors = errors.ToImmutableList();
     }
 
-    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? inner, IEnumerable<string> errors) : base(Guid.NewGuid(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", inner)
+    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(Guid.NewGuid(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
     {
         Errors = errors.ToImmutableList();
     }

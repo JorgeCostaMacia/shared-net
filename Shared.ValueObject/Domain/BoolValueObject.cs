@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class BoolValueObject : IValueObject
+public record BoolValueObject : IValueObject
 {
     public bool Value { get; init; }
 
@@ -14,7 +14,7 @@ public class BoolValueObject : IValueObject
     public static BoolValueObject Create(bool value, IValidator<BoolValueObject>? validator = null)
     {
         BoolValueObject ValueObject = new BoolValueObject(Convert(value));
-        validator?.ValidateAndThrowAsync(ValueObject);
+        validator?.ValidateAndThrow(ValueObject);
 
         return ValueObject;
     }
@@ -29,10 +29,6 @@ public class BoolValueObject : IValueObject
     protected static bool Convert(int value) => value == 1;
     protected static bool Convert(float value) => (int)value == 1;
 
-    public override bool Equals(object? obj) => obj is BoolValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
-
-    public static bool operator ==(BoolValueObject? left, BoolValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-    public static bool operator !=(BoolValueObject left, BoolValueObject right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
 }

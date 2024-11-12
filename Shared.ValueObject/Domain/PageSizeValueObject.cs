@@ -2,14 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class PageSizeValueObject : IntValueObject
+public record PageSizeValueObject : IntValueObject
 {
     public PageSizeValueObject(int value) : base(value) { }
 
     public static PageSizeValueObject Create(int value, IValidator<PageSizeValueObject>? validator = null)
     {
         PageSizeValueObject ValueObject = new PageSizeValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        if (validator != null) validator.ValidateAndThrowAsync(ValueObject);
 
         return ValueObject;
     }

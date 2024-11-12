@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class DecimalValueObject : IValueObject
+public record DecimalValueObject : IValueObject
 {
     public decimal Value { get; init; }
 
@@ -33,14 +33,6 @@ public class DecimalValueObject : IValueObject
     protected static decimal Convert(bool value) => value ? 1 : 0;
     protected static decimal Convert(DateTime value) => System.Convert.ToDecimal(new TimeSpan(value.Ticks).TotalSeconds);
 
-    public override bool Equals(object? obj) => obj is DecimalValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
-
-    public static bool operator ==(DecimalValueObject? left, DecimalValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-    public static bool operator !=(DecimalValueObject? left, DecimalValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
-    public static bool operator >(DecimalValueObject left, DecimalValueObject right) => left.Value > right.Value;
-    public static bool operator <(DecimalValueObject left, DecimalValueObject right) => left.Value < right.Value;
-    public static bool operator >=(DecimalValueObject left, DecimalValueObject right) => left.Value >= right.Value;
-    public static bool operator <=(DecimalValueObject left, DecimalValueObject right) => left.Value <= right.Value;
 }

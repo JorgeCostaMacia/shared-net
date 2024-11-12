@@ -5,9 +5,7 @@ namespace Shared.ValueObject.Domain;
 
 public class IntValueObjectValidator : AbstractValidator<IntValueObject>, Shared.Validator.Domain.IValidator
 {
-    public IntValueObjectValidator(string name = "IntValueObject")
-    {
-    }
+    public IntValueObjectValidator() { }
 
     protected override void RaiseValidationException(ValidationContext<IntValueObject> context, ValidationResult result) => throw new IntValueObjectConstraintException(null, result.Errors);
 }

@@ -2,14 +2,14 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class PageNumberValueObject : IntValueObject
+public record PageNumberValueObject : IntValueObject
 {
     public PageNumberValueObject(int value) : base(value) { }
 
     public static PageNumberValueObject Create(int value, IValidator<PageNumberValueObject>? validator = null)
     {
         PageNumberValueObject ValueObject = new PageNumberValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        if (validator != null) validator.ValidateAndThrow(ValueObject);
 
         return ValueObject;
     }

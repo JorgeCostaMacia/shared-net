@@ -2,6 +2,4 @@
 
 namespace Shared.Validator.Domain;
 
-public interface IValidator : IService
-{
-}
+public interface IValidator : IService { }
