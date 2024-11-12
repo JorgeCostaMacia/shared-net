@@ -1,20 +1,19 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace Shared.ValueObject.Domain
+namespace Shared.ValueObject.Domain;
+
+public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>, Shared.Validator.Domain.IValidator
 {
-    public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>, Shared.Validator.Domain.IValidator
+    public EmailValueObjectValidator(IValidator<StringValueObject> validator)
     {
-        public EmailValueObjectValidator(string name = "EmailValueObject")
-        {
-            Include(new StringValueObjectValidator(name));
+        Include(validator);
 
-            RuleFor(v => v.Value)
-                 .NotEmpty()
-                 .EmailAddress()
-                 .WithName(name);
-        }
-
-        protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, result.Errors);
+        RuleFor(v => v.Value)
+            .NotEmpty()
+            .EmailAddress()
+            .WithName(v => v.GetType().Name);
     }
+
+    protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, result.Errors);
 }

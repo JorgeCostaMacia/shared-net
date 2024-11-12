@@ -31,8 +31,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Validator", "Shared.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Entity", "Shared.Entity\Shared.Entity.csproj", "{C8704E84-75F5-4D6B-B90C-D51F0CA42543}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Bus.Service", "Shared.Bus.Service\Shared.Bus.Service.csproj", "{A2D973FE-0593-498A-9C26-ECF72D04E450}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,10 +93,6 @@ Global
 		{C8704E84-75F5-4D6B-B90C-D51F0CA42543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8704E84-75F5-4D6B-B90C-D51F0CA42543}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8704E84-75F5-4D6B-B90C-D51F0CA42543}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2D973FE-0593-498A-9C26-ECF72D04E450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2D973FE-0593-498A-9C26-ECF72D04E450}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2D973FE-0593-498A-9C26-ECF72D04E450}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2D973FE-0593-498A-9C26-ECF72D04E450}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

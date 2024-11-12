@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class JsonValueObject : StringValueObject
+public record JsonValueObject : StringValueObject
 {
     public JsonValueObject(string value) : base(value) { }
 

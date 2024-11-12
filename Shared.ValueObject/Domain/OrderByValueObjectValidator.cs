@@ -5,13 +5,13 @@ namespace Shared.ValueObject.Domain;
 
 public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>, Shared.Validator.Domain.IValidator
 {
-    public OrderByValueObjectValidator(string name = "OrderByValueObject")
+    public OrderByValueObjectValidator(IValidator<StringValueObject> validator)
     {
-        Include(new StringValueObjectValidator(name));
+        Include(validator);
 
         RuleFor(v => v.Value)
              .NotEmpty()
-             .WithName(name);
+             .WithName(v => v.GetType().Name);
     }
 
     protected override void RaiseValidationException(ValidationContext<OrderByValueObject> context, ValidationResult result) => throw new OrderByValueObjectConstraintException(null, result.Errors);

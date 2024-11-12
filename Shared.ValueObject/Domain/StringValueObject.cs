@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class StringValueObject : IValueObject
+public record StringValueObject : IValueObject
 {
     public string Value { get; init; }
 
@@ -35,10 +35,6 @@ public class StringValueObject : IValueObject
     protected static string Convert(DateTime value) => value.ToString();
     protected static string Convert(Guid value) => value.ToString();
 
-    public override bool Equals(object? obj) => obj is StringValueObject @object && GetType() == @object.GetType() && Value == @object.Value;
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
-
-    public static bool operator ==(StringValueObject? left, StringValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-    public static bool operator !=(StringValueObject left, StringValueObject right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
 }

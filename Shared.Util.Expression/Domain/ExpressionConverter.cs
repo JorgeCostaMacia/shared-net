@@ -28,4 +28,26 @@ public class ExpressionConverter
 
         return Result;
     }
+
+    public static Expression<Func<T, bool>> ConvertBack<T>(Dictionary<string, string> dictionary)
+    {
+        ParameterExpression parameter = System.Linq.Expressions.Expression.Parameter(typeof(T), "x");
+
+        List<System.Linq.Expressions.Expression> expressions = new List<System.Linq.Expressions.Expression>();
+
+        foreach (KeyValuePair<string, string> d in dictionary)
+        {
+            MemberExpression property = System.Linq.Expressions.Expression.Property(parameter, d.Key);
+
+            object? convertedValue = System.Convert.ChangeType(d.Value, property.Type);
+            ConstantExpression constant = System.Linq.Expressions.Expression.Constant(convertedValue, property.Type);
+
+            BinaryExpression equality = System.Linq.Expressions.Expression.Equal(property, constant);
+            expressions.Add(equality);
+        }
+
+        System.Linq.Expressions.Expression? body = expressions.Count > 1 ? expressions.Aggregate(System.Linq.Expressions.Expression.AndAlso) : expressions.First();
+
+        return System.Linq.Expressions.Expression.Lambda<Func<T, bool>>(body, parameter);
+    }
 }

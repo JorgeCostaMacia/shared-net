@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class IpValueObject : StringValueObject
+public record IpValueObject : StringValueObject
 {
     public IpValueObject(string value) : base(value) { }
 

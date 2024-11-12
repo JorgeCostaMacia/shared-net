@@ -2,7 +2,7 @@
 
 namespace Shared.ValueObject.Domain;
 
-public class FloatRangeValueObject : IValueObject
+public record FloatRangeValueObject : IValueObject
 {
     public FloatValueObject ValueStart { get; init; }
     public FloatValueObject ValueEnd { get; init; }
@@ -28,10 +28,6 @@ public class FloatRangeValueObject : IValueObject
     public static FloatRangeValueObject Create(decimal valueStart, decimal valueEnd, IValidator<FloatRangeValueObject>? validator = null) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd), validator);
     public static FloatRangeValueObject Create(DateTime valueStart, DateTime valueEnd, IValidator<FloatRangeValueObject>? validator = null) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd), validator);
 
-    public override bool Equals(object? obj) => obj is FloatRangeValueObject @object && GetType() == @object.GetType() && ValueStart == @object.ValueStart && ValueEnd == @object.ValueEnd;
     public override int GetHashCode() => HashCode.Combine(ValueStart.Value, ValueEnd.Value);
     public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
-
-    public static bool operator ==(FloatRangeValueObject? left, FloatRangeValueObject? right) => left?.Equals(right) ?? right?.Equals(left) ?? true;
-    public static bool operator !=(FloatRangeValueObject? left, FloatRangeValueObject? right) => !left?.Equals(right) ?? !right?.Equals(left) ?? false;
 }
