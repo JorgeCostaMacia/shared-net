@@ -17,7 +17,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
+        dotnet-quality: 'release'
     - name: Pack Shared
       run: dotnet pack Shared/Shared.csproj -c Release -o nuget
     - name: Pack Shared.Aggregate
@@ -65,7 +66,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 9.0.x
+        dotnet-quality: 'release'
     - name: Push NuGet
       run: |
         for RES in $(ls ./nuget)
