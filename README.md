@@ -71,11 +71,6 @@
     Base Bus Message Query And Aggregates
 
 
-### Shared.Bus.Service
-
-    Base Bus Message Service And Infra Configurations
-
-
 ### Shared.Context
 
     Base Context
