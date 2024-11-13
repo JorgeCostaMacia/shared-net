@@ -19,7 +19,7 @@ public record UuidValueObject : IValueObject
         return ValueObject;
     }
 
-    public static UuidValueObject Create(IValidator<UuidValueObject>? validator = null) => Create(Guid.NewGuid(), validator);
+    public static UuidValueObject Create(IValidator<UuidValueObject>? validator = null) => Create(Guid.CreateVersion7(), validator);
     public static UuidValueObject Create(string value, IValidator<UuidValueObject>? validator = null) => Create(Convert(value), validator);
 
     protected static Guid Convert(Guid value) => value;
