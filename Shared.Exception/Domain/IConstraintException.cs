@@ -12,7 +12,7 @@ public abstract class IConstraintException : IAggregateException
         Constraints = constraints.ToImmutableList();
     }
 
-    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(Guid.NewGuid(), aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
+    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(Guid.CreateVersion7(), aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
     {
         Constraints = constraints.ToImmutableList();
     }

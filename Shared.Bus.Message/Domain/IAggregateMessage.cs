@@ -11,5 +11,5 @@ public abstract record IAggregateMessage : IMessage
         AggregateOccurredAt = aggregateOccurredAt;
     }
 
-    protected IAggregateMessage() : this(Guid.NewGuid(), DateTime.UtcNow) { }
+    protected IAggregateMessage() : this(Guid.CreateVersion7(), DateTime.UtcNow) { }
 }
