@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>11.0.1</VersionPrefix>
+	<VersionPrefix>11.1.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -25,19 +25,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="4.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="6.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="6.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="7.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="6.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="4.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="6.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="6.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="7.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="6.1.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="3.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Data.Persistence" Version="3.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="4.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="9.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="5.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="9.1.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="3.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="3.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="3.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="8.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.ValueObject" Version="9.1.0" />
   </ItemGroup>
 
 </Project>
