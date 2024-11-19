@@ -31,4 +31,6 @@ public record BoolValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+
+    public static implicit operator bool(BoolValueObject valueObject) => valueObject.Value;
 }

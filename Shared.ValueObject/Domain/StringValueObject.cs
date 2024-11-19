@@ -37,4 +37,5 @@ public record StringValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+    public static implicit operator string(StringValueObject valueObject) => valueObject.Value;
 }

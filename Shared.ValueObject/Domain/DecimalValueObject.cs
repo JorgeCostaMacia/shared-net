@@ -35,4 +35,5 @@ public record DecimalValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+    public static implicit operator decimal(DecimalValueObject valueObject) => valueObject.Value;
 }

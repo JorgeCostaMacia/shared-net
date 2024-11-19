@@ -27,4 +27,5 @@ public record ByteValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => System.Text.Encoding.UTF8.GetString(Value);
+    public static implicit operator byte[](ByteValueObject valueObject) => valueObject.Value;
 }
