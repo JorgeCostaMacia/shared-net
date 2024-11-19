@@ -38,4 +38,5 @@ public record DateTimeValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+    public static implicit operator DateTime(DateTimeValueObject valueObject) => valueObject.Value;
 }

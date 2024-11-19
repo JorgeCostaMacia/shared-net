@@ -35,4 +35,5 @@ public record FloatValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+    public static implicit operator float(FloatValueObject valueObject) => valueObject.Value;
 }

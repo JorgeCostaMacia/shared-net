@@ -27,5 +27,6 @@ public record UuidValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
-}
 
+    public static implicit operator Guid(UuidValueObject valueObject) => valueObject.Value;
+}

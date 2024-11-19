@@ -35,4 +35,5 @@ public record IntValueObject : IValueObject
 
     public override int GetHashCode() => HashCode.Combine(Value);
     public override string ToString() => Value.ToString();
+    public static implicit operator int(IntValueObject valueObject) => valueObject.Value;
 }
