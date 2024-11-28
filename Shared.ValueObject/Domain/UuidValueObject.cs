@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System.Collections.Immutable;
 
 namespace Shared.ValueObject.Domain;
 
@@ -19,7 +20,12 @@ public record UuidValueObject : IValueObject
         return ValueObject;
     }
 
+#if NET9_0
     public static UuidValueObject Create(IValidator<UuidValueObject>? validator = null) => Create(Guid.CreateVersion7(), validator);
+#else    
+    public static UuidValueObject Create(IValidator<UuidValueObject>? validator = null) => Create(Guid.NewGuid(), validator);
+#endif
+
     public static UuidValueObject Create(string value, IValidator<UuidValueObject>? validator = null) => Create(Convert(value), validator);
 
     protected static Guid Convert(Guid value) => value;

@@ -11,7 +11,7 @@ public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
 
         RuleFor(v => v.Value)
              .NotEmpty()
-             .WithName(v => v.GetType().Name);
+             .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<OrderByValueObject> context, ValidationResult result) => throw new OrderByValueObjectConstraintException(null, result.Errors);

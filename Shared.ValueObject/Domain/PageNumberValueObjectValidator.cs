@@ -11,7 +11,7 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
 
         RuleFor(v => v.Value)
             .NotEmpty()
-            .WithName(v => v.GetType().Name);
+            .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result) => throw new PageNumberValueObjectConstraintException(null, result.Errors);

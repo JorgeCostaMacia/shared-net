@@ -12,7 +12,7 @@ public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObj
         RuleFor(v => v.Value)
             .NotEmpty()
             .Must(v2 => v2 == "ASC" || v2 == "DESC")
-            .WithName(v => v.GetType().Name);
+            .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result) => throw new OrderTypeValueObjectConstraintException(null, result.Errors);

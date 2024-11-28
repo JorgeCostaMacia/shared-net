@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>4.1.0</VersionPrefix>
+	<VersionPrefix>4.2.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="6.1.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="6.3.0" />
   </ItemGroup>
 	
 </Project>
