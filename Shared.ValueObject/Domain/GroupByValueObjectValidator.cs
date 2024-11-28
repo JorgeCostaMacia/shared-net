@@ -11,7 +11,7 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
 
         RuleFor(v => v.Value)
              .NotEmpty()
-             .WithName(v => v.GetType().Name);
+             .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<GroupByValueObject> context, ValidationResult result) => throw new GroupByValueObjectConstraintException(null, result.Errors);

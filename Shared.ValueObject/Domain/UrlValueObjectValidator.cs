@@ -13,7 +13,7 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>, Shared
             .NotEmpty()
             .MinimumLength(1)
             .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithErrorCode("UrlValidator").WithMessage("{PropertyName} must be an Url")
-            .WithName(v => v.GetType().Name);
+            .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(null, result.Errors);

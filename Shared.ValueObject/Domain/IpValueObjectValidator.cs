@@ -15,7 +15,7 @@ public class IpValueObjectValidator : AbstractValidator<IpValueObject>, Shared.V
              .MinimumLength(7)
              .MaximumLength(15)
              .Must(v => string.IsNullOrEmpty(v) || (v.Count(c => c == '.') == 3 && IPAddress.TryParse(v, out _))).WithErrorCode("IpValidator").WithMessage("{PropertyName} must be a IP")
-             .WithName(v => v.GetType().Name);
+             .WithName(v => v.GetType().FullName);
     }
 
     protected override void RaiseValidationException(ValidationContext<IpValueObject> context, ValidationResult result) => throw new IpValueObjectConstraintException(null, result.Errors);
