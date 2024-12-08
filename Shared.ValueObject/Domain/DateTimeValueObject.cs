@@ -28,7 +28,11 @@ public record DateTimeValueObject : IValueObject
     public static DateTimeValueObject Create(decimal value, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(value), validator);
 
     protected static DateTime Convert(DateTime value) => value.ToUniversalTime();
-    protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond).AddMicroseconds(valueTime.Microsecond);
+    protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond)
+#if !NET6_0
+        .AddMicroseconds(valueTime.Microsecond)
+#endif 
+        ;
     protected static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => valueDate.ToDateTime(valueTime, DateTimeKind.Utc);
     protected static DateTime Convert(string value) => DateTime.Parse(value.Trim());
     protected static DateTime Convert(string valueDate, string valueTime) => DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim())).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim())));

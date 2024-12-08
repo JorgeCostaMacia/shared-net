@@ -5,11 +5,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>5.2.0</VersionPrefix>
+	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
+	<VersionPrefix>6.0.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
-	<Description>Shared entity base</Description>
+	<Copyright>2023 Jorge Costa Maciá</Copyright> 	  
+	<Description>Domain entity and aggregates</Description>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
@@ -18,10 +20,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<None Include="..\README.md">
+	<None Include="..\LICENSE.txt">
 	  <Pack>True</Pack>
 	  <PackagePath>\</PackagePath>
 	</None>
+	<None Include="..\COPYRIGHT.txt">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\jorgecostamacia_logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>	 	  
   </ItemGroup>
 
   <ItemGroup>

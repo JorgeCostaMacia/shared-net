@@ -1,15 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<Version>9.3.0</Version>
+	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
+	<Version>10.0.0</Version>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
-	<Description>Shared value object base</Description>
+	<Copyright>2023 Jorge Costa Maciá</Copyright>	  
+	<Description>ValueObject with exceptions and validators</Description>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
@@ -18,16 +20,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
+	<None Include="..\LICENSE.txt">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\COPYRIGHT.txt">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="..\jorgecostamacia_logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>	 	  
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="9.3.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="10.0.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Validator" Version="4.0.0" />
+	<PackageReference Condition="'$(TargetFramework)' == 'net6.0'" Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+	<PackageReference Condition="'$(TargetFramework)' == 'net7.0'" Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+	<PackageReference Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0'" Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
