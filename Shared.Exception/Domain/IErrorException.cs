@@ -11,15 +11,15 @@ public abstract class IErrorException : IAggregateException
         Errors = errors.ToImmutableList();
     }
 
+
+    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(
 #if NET9_0
-    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(Guid.CreateVersion7(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
-    {
-        Errors = errors.ToImmutableList();
-    }
+        Guid.CreateVersion7()
 #else
-    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(Guid.NewGuid(), aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
+        Guid.NewGuid()
+#endif
+        , aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
     {
         Errors = errors.ToImmutableList();
     }
-#endif
 }

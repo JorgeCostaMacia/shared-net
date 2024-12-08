@@ -5,11 +5,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<VersionPrefix>6.2.0</VersionPrefix>
+	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
+	<VersionPrefix>7.0.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
-	<Description>Shared bus message command base</Description>
+	<Copyright>2023 Jorge Costa Maciá</Copyright>	  	  
+	<Description>Bus command and aggregates</Description>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
@@ -18,14 +20,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
+	<None Include="..\LICENSE.txt">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\COPYRIGHT.txt">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
+	<None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="..\jorgecostamacia_logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>	 	  
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="7.3.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,5 @@
-﻿namespace Shared.Bus.Message.Domain;
+﻿using Shared.Service.Domain;
 
-public interface IMessageHandler { }
+namespace Shared.Bus.Message.Domain;
+
+public interface IMessageHandler : IService { }

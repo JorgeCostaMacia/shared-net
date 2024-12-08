@@ -1,3 +1,4 @@
-﻿namespace Shared.Service.Domain;
-
-public interface IDtoService { }
+﻿namespace Shared.Service.Domain
+{
+    public interface IDtoService { }
+}

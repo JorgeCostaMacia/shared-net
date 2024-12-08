@@ -11,16 +11,14 @@ public abstract class IConstraintException : IAggregateException
     {
         Constraints = constraints.ToImmutableList();
     }
-
+    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(
 #if NET9_0
-    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(Guid.CreateVersion7(), aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
-    {
-        Constraints = constraints.ToImmutableList();
-    }
+        Guid.CreateVersion7()
 #else
-    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(Guid.NewGuid(), aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
+        Guid.NewGuid()
+#endif
+        , aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
     {
         Constraints = constraints.ToImmutableList();
     }
-#endif
 }
