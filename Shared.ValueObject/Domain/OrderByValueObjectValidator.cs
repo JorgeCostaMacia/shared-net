@@ -10,8 +10,7 @@ public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty()
-             .WithName(v => v.GetType().FullName);
+             .NotEmpty();
     }
 
     protected override void RaiseValidationException(ValidationContext<OrderByValueObject> context, ValidationResult result) => throw new OrderByValueObjectConstraintException(null, result.Errors);

@@ -10,8 +10,7 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
         Include(validator);
 
         RuleFor(v => v.Value)
-            .NotEmpty()
-            .WithName(v => v.GetType().FullName);
+            .NotEmpty();
     }
 
     protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result) => throw new PageNumberValueObjectConstraintException(null, result.Errors);

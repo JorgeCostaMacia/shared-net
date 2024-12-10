@@ -10,8 +10,7 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
         RuleFor(v => v.Value)
             .NotEmpty()
             .GreaterThanOrEqualTo(new DateTime(1900, 1, 1, 1, 0, 0, 0, DateTimeKind.Utc).Date)
-            .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100))
-            .WithName(v => v.GetType().FullName);
+            .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100));
     }
 
     protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result) => throw new DateTimeValueObjectConstraintException(null, result.Errors);
