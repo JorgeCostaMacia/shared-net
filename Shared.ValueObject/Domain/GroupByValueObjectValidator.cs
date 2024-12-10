@@ -10,8 +10,7 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty()
-             .WithName(v => v.GetType().FullName);
+             .NotEmpty();
     }
 
     protected override void RaiseValidationException(ValidationContext<GroupByValueObject> context, ValidationResult result) => throw new GroupByValueObjectConstraintException(null, result.Errors);

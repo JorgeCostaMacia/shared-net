@@ -12,8 +12,7 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>, Shared
         RuleFor(v => v.Value)
             .NotEmpty()
             .MinimumLength(1)
-            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithErrorCode("UrlValidator").WithMessage("{PropertyName} must be an Url")
-            .WithName(v => v.GetType().FullName);
+            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithErrorCode("UrlValidator").WithMessage("{PropertyName} must be an Url");
     }
 
     protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(null, result.Errors);

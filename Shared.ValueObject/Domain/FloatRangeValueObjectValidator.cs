@@ -8,20 +8,16 @@ public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueO
     public FloatRangeValueObjectValidator(IValidator<FloatValueObject> validator)
     {
         RuleFor(v => v.ValueStart)
-             .SetValidator(validator)
-             .WithName(v => v.GetType().FullName + "." + v.ValueEnd.GetType().Name + ".End");
+             .SetValidator(validator);
 
         RuleFor(v => v.ValueEnd)
-            .SetValidator(validator)
-            .WithName(v => v.GetType().FullName + "." + v.ValueEnd.GetType().Name + ".End");
+            .SetValidator(validator);
 
         RuleFor(v => v.ValueStart.Value)
-            .LessThanOrEqualTo(v => v.ValueEnd.Value)
-            .WithName(v => v.GetType().FullName + "." + v.ValueStart.GetType().Name + ".End");
+            .LessThanOrEqualTo(v => v.ValueEnd.Value);
 
         RuleFor(v => v.ValueEnd.Value)
-            .GreaterThanOrEqualTo(v => v.ValueStart.Value)
-            .WithName(v => v.GetType().FullName + "." + v.ValueEnd.GetType().Name + ".End");
+            .GreaterThanOrEqualTo(v => v.ValueStart.Value);
     }
 
     protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(null, result.Errors);

@@ -13,8 +13,7 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>, Shar
         RuleFor(v => v.Value)
              .NotEmpty()
              .MinimumLength(2)
-             .Must(v => Regex.IsMatch(v, @"^\s*(\{.*\}|\[.*\])\s*$")).WithErrorCode("JsonValidator").WithMessage("{PropertyName} must be a JSON")
-             .WithName(v => v.GetType().FullName);
+             .Must(v => Regex.IsMatch(v, @"^\s*(\{.*\}|\[.*\])\s*$")).WithErrorCode("JsonValidator").WithMessage("{PropertyName} must be a JSON");
     }
 
     protected override void RaiseValidationException(ValidationContext<JsonValueObject> context, ValidationResult result) => throw new JsonValueObjectConstraintException(null, result.Errors);

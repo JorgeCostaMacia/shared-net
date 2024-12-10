@@ -8,8 +8,7 @@ public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>, Vali
     public UuidValueObjectValidator()
     {
         RuleFor(v => v.Value)
-            .NotEmpty()
-            .WithName(v => v.GetType().FullName);
+            .NotEmpty();
     }
 
     protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result) => throw new UuidValueObjectConstraintException(null, result.Errors);

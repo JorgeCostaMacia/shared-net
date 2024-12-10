@@ -11,8 +11,7 @@ public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>, Sh
 
         RuleFor(v => v.Value)
             .NotEmpty()
-            .EmailAddress()
-            .WithName(v => v.GetType().FullName);
+            .EmailAddress();
     }
 
     protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, result.Errors);
