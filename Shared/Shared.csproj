@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
 	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  	  
-	<VersionPrefix>12.0.1</VersionPrefix>
+	<VersionPrefix>12.1.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -39,14 +39,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="5.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="7.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="7.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="8.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="7.0.1" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Aggregate" Version="5.2.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Command" Version="7.3.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="7.3.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="8.4.0" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Query" Version="7.3.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="4.0.1" />
     <PackageReference Include="JorgeCostaMacia.Shared.Data.Persistence" Version="4.0.0" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="6.0.1" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Entity" Version="6.1.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Exception" Version="10.0.0" />
     <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="4.0.2" />
     <PackageReference Include="JorgeCostaMacia.Shared.Util.Expression" Version="4.0.0" />
