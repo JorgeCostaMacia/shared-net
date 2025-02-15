@@ -25,7 +25,7 @@ Guid.NewGuid()
 , DateTime.UtcNow, ImmutableList<string>.Empty)
     { }
 
-    protected IAggregateMessage(List<string> aggregateConsumers) : this(
+    protected IAggregateMessage(IEnumerable<string> aggregateConsumers) : this(
 #if NET9_0
         Guid.CreateVersion7()
 #else
