@@ -6,13 +6,13 @@ public record IpValueObject : StringValueObject
 {
     public IpValueObject(string value) : base(value) { }
 
-    public static IpValueObject Create(string value, IValidator<IpValueObject>? validator = null)
+    public IpValueObject Validate(IValidator<IpValueObject> validator)
     {
-        IpValueObject ValueObject = new IpValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static IpValueObject Create(IValidator<IpValueObject>? validator = null) => Create("0.0.0.0", validator);
+    public static IpValueObject Create(string value) => new IpValueObject(Convert(value));
+    public static IpValueObject Create() => Create("0.0.0.0");
 }

@@ -6,13 +6,14 @@ public record OrderByValueObject : StringValueObject
 {
     public OrderByValueObject(string value) : base(value) { }
 
-    public static OrderByValueObject Create(string value, IValidator<OrderByValueObject>? validator = null)
+    public OrderByValueObject Validate(IValidator<OrderByValueObject> validator)
     {
-        OrderByValueObject ValueObject = new OrderByValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
+
+    public static OrderByValueObject Create(string value) => new OrderByValueObject(Convert(value));
 
     protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }

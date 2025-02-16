@@ -4,7 +4,8 @@ namespace Shared.Bus.Query.Domain;
 
 public abstract record IAggregateQuery : Message.Domain.IAggregateMessage, IQuery
 {
-    protected IAggregateQuery(Guid aggregateId, DateTime aggregateOccurredAt, ImmutableList<string> aggregateConsumers) : base(aggregateId, aggregateOccurredAt, aggregateConsumers) { }
-    protected IAggregateQuery(IEnumerable<string> aggregateConsumers) : base(aggregateConsumers) { }
+    public Guid CorrelationId => AggregateId;
+
+    protected IAggregateQuery(Guid aggregateId, DateTime aggregateOccurredAt) : base(aggregateId, aggregateOccurredAt) { }
     protected IAggregateQuery() : base() { }
 }

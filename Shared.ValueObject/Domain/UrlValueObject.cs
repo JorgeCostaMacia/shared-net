@@ -6,11 +6,12 @@ public record UrlValueObject : StringValueObject
 {
     public UrlValueObject(string value) : base(value) { }
 
-    public static UrlValueObject Create(string value, IValidator<UrlValueObject>? validator = null)
+    public UrlValueObject Validate(IValidator<UrlValueObject> validator)
     {
-        UrlValueObject ValueObject = new UrlValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
+
+    public static new UrlValueObject Create(string value) => new UrlValueObject(Convert(value));
 }

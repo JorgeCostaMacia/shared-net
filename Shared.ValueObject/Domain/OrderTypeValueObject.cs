@@ -6,15 +6,15 @@ public record OrderTypeValueObject : StringValueObject
 {
     public OrderTypeValueObject(string value) : base(value) { }
 
-    public static OrderTypeValueObject Create(string value, IValidator<OrderTypeValueObject>? validator = null)
+    public OrderTypeValueObject Validate(IValidator<OrderTypeValueObject> validator)
     {
-        OrderTypeValueObject ValueObject = new OrderTypeValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static OrderTypeValueObject Create(IValidator<OrderTypeValueObject>? validator = null) => Create("ASC", validator);
+    public static OrderTypeValueObject Create(string value) => new OrderTypeValueObject(Convert(value));
+    public static OrderTypeValueObject Create() => Create("ASC");
 
     protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }

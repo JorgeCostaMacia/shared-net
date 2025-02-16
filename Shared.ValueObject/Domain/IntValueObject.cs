@@ -11,20 +11,20 @@ public record IntValueObject : IValueObject
         Value = value;
     }
 
-    public static IntValueObject Create(int value, IValidator<IntValueObject>? validator = null)
+    public IntValueObject Validate(IValidator<IntValueObject> validator)
     {
-        IntValueObject ValueObject = new IntValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static IntValueObject Create(IValidator<IntValueObject>? validator = null) => Create(0, validator);
-    public static IntValueObject Create(string value, IValidator<IntValueObject>? validator = null) => Create(Convert(value), validator);
-    public static IntValueObject Create(float value, IValidator<IntValueObject>? validator = null) => Create(Convert(value), validator);
-    public static IntValueObject Create(decimal value, IValidator<IntValueObject>? validator = null) => Create(Convert(value), validator);
-    public static IntValueObject Create(bool value, IValidator<IntValueObject>? validator = null) => Create(Convert(value), validator);
-    public static IntValueObject Create(DateTime value, IValidator<IntValueObject>? validator = null) => Create(Convert(value), validator);
+    public static IntValueObject Create(int value) => new IntValueObject(Convert(value));
+    public static IntValueObject Create() => Create(0);
+    public static IntValueObject Create(string value) => Create(Convert(value));
+    public static IntValueObject Create(float value) => Create(Convert(value));
+    public static IntValueObject Create(decimal value) => Create(Convert(value));
+    public static IntValueObject Create(bool value) => Create(Convert(value));
+    public static IntValueObject Create(DateTime value) => Create(Convert(value));
 
     protected static int Convert(int value) => value;
     protected static int Convert(string value) => System.Convert.ToInt32(float.Parse(value.Trim()));

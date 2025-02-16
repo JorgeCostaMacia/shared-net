@@ -6,11 +6,12 @@ public record EmailValueObject : StringValueObject
 {
     public EmailValueObject(string value) : base(value) { }
 
-    public static EmailValueObject Create(string value, IValidator<EmailValueObject>? validator = null)
+    public EmailValueObject Validate(IValidator<EmailValueObject> validator)
     {
-        EmailValueObject ValueObject = new EmailValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
+
+    public static EmailValueObject Create(string value) => new EmailValueObject(Convert(value));
 }

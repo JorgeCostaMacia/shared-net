@@ -11,21 +11,21 @@ public record DateTimeValueObject : IValueObject
         Value = value;
     }
 
-    public static DateTimeValueObject Create(DateTime value, IValidator<DateTimeValueObject>? validator = null)
+    public DateTimeValueObject Validate(IValidator<DateTimeValueObject> validator)
     {
-        DateTimeValueObject ValueObject = new DateTimeValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static DateTimeValueObject Create(IValidator<DateTimeValueObject>? validator = null) => Create(DateTime.UtcNow, validator);
-    public static DateTimeValueObject Create(DateTime valueDate, DateTime valueTime, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(valueDate, valueTime), validator);
-    public static DateTimeValueObject Create(DateOnly valueDate, TimeOnly valueTime, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(valueDate, valueTime), validator);
-    public static DateTimeValueObject Create(string value, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DateTimeValueObject Create(int value, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DateTimeValueObject Create(float value, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DateTimeValueObject Create(decimal value, IValidator<DateTimeValueObject>? validator = null) => Create(Convert(value), validator);
+    public static DateTimeValueObject Create(DateTime value) => new DateTimeValueObject(Convert(value));
+    public static DateTimeValueObject Create() => Create(DateTime.UtcNow);
+    public static DateTimeValueObject Create(DateTime valueDate, DateTime valueTime) => Create(Convert(valueDate, valueTime));
+    public static DateTimeValueObject Create(DateOnly valueDate, TimeOnly valueTime) => Create(Convert(valueDate, valueTime));
+    public static DateTimeValueObject Create(string value) => Create(Convert(value));
+    public static DateTimeValueObject Create(int value) => Create(Convert(value));
+    public static DateTimeValueObject Create(float value) => Create(Convert(value));
+    public static DateTimeValueObject Create(decimal value) => Create(Convert(value));
 
     protected static DateTime Convert(DateTime value) => value.ToUniversalTime();
     protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond)
