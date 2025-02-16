@@ -11,21 +11,21 @@ public record StringValueObject : IValueObject
         Value = value;
     }
 
-    public static StringValueObject Create(string value, IValidator<StringValueObject>? validator = null)
+    public StringValueObject Validate(IValidator<StringValueObject> validator)
     {
-        StringValueObject ValueObject = new StringValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static StringValueObject Create(IValidator<StringValueObject>? validator = null) => Create(string.Empty, validator);
-    public static StringValueObject Create(int value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
-    public static StringValueObject Create(float value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
-    public static StringValueObject Create(decimal value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
-    public static StringValueObject Create(bool value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
-    public static StringValueObject Create(DateTime value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
-    public static StringValueObject Create(Guid value, IValidator<StringValueObject>? validator = null) => Create(Convert(value), validator);
+    public static StringValueObject Create(string value) => new StringValueObject(Convert(value));
+    public static StringValueObject Create() => Create(string.Empty);
+    public static StringValueObject Create(int value) => Create(Convert(value));
+    public static StringValueObject Create(float value) => Create(Convert(value));
+    public static StringValueObject Create(decimal value) => Create(Convert(value));
+    public static StringValueObject Create(bool value) => Create(Convert(value));
+    public static StringValueObject Create(DateTime value) => Create(Convert(value));
+    public static StringValueObject Create(Guid value) => Create(Convert(value));
 
     protected static string Convert(string value) => value.Trim();
     protected static string Convert(int value) => value.ToString();

@@ -11,16 +11,16 @@ public record ByteValueObject : IValueObject
         Value = value;
     }
 
-    public static ByteValueObject Create(byte[] value, IValidator<ByteValueObject>? validator = null)
+    public ByteValueObject Validate(IValidator<ByteValueObject> validator)
     {
-        ByteValueObject ValueObject = new ByteValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static ByteValueObject Create(IValidator<ByteValueObject>? validator = null) => Create(Array.Empty<byte>(), validator);
-    public static ByteValueObject Create(string value, IValidator<ByteValueObject>? validator = null) => Create(Convert(value), validator);
+    public static ByteValueObject Create(byte[] value) => new ByteValueObject(Convert(value));
+    public static ByteValueObject Create() => Create(Array.Empty<byte>());
+    public static ByteValueObject Create(string value) => Create(Convert(value));
 
     protected static byte[] Convert(byte[] value) => value;
     protected static byte[] Convert(string value) => System.Convert.FromBase64String(value.Trim());

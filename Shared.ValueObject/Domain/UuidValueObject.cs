@@ -11,22 +11,22 @@ public record UuidValueObject : IValueObject
         Value = value;
     }
 
-    public static UuidValueObject Create(Guid value, IValidator<UuidValueObject>? validator = null)
+    public UuidValueObject Validate(IValidator<UuidValueObject> validator)
     {
-        UuidValueObject ValueObject = new UuidValueObject(Convert(value));
-        if (validator != null) validator.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
-    public static UuidValueObject Create(IValidator<UuidValueObject>? validator = null) => Create(
+
+    public static UuidValueObject Create(Guid value) => new UuidValueObject(Convert(value));
+    public static UuidValueObject Create() => Create(
 #if NET9_0
     Guid.CreateVersion7()
 #else
     Guid.NewGuid()
 #endif
-    , validator);
-
-    public static UuidValueObject Create(string value, IValidator<UuidValueObject>? validator = null) => Create(Convert(value), validator);
+    );
+    public static UuidValueObject Create(string value) => Create(Convert(value));
 
     protected static Guid Convert(Guid value) => value;
     protected static Guid Convert(string value) => new Guid(value.Trim());

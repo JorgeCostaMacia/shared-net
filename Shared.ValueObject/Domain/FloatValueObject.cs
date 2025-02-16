@@ -11,20 +11,20 @@ public record FloatValueObject : IValueObject
         Value = value;
     }
 
-    public static FloatValueObject Create(float value, IValidator<FloatValueObject>? validator = null)
+    public FloatValueObject Validate(IValidator<FloatValueObject> validator)
     {
-        FloatValueObject ValueObject = new FloatValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static FloatValueObject Create(IValidator<FloatValueObject>? validator = null) => Create(0, validator);
-    public static FloatValueObject Create(string value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
-    public static FloatValueObject Create(int value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
-    public static FloatValueObject Create(decimal value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
-    public static FloatValueObject Create(bool value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
-    public static FloatValueObject Create(DateTime value, IValidator<FloatValueObject>? validator = null) => Create(Convert(value), validator);
+    public static FloatValueObject Create(float value) => new FloatValueObject(Convert(value));
+    public static FloatValueObject Create() => Create(0);
+    public static FloatValueObject Create(string value) => Create(Convert(value));
+    public static FloatValueObject Create(int value) => Create(Convert(value));
+    public static FloatValueObject Create(decimal value) => Create(Convert(value));
+    public static FloatValueObject Create(bool value) => Create(Convert(value));
+    public static FloatValueObject Create(DateTime value) => Create(Convert(value));
 
     protected static float Convert(float value) => value;
     protected static float Convert(string value) => float.Parse(value.Trim());

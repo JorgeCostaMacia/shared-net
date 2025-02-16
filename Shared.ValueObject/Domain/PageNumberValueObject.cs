@@ -6,16 +6,16 @@ public record PageNumberValueObject : IntValueObject
 {
     public PageNumberValueObject(int value) : base(value) { }
 
-    public static PageNumberValueObject Create(int value, IValidator<PageNumberValueObject>? validator = null)
+    public PageNumberValueObject Validate(IValidator<PageNumberValueObject> validator)
     {
-        PageNumberValueObject ValueObject = new PageNumberValueObject(Convert(value));
-        if (validator != null) validator.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static PageNumberValueObject Create(IValidator<PageNumberValueObject>? validator = null) => Create(1, validator);
-    public static PageNumberValueObject Create(string value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
-    public static PageNumberValueObject Create(float value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
-    public static PageNumberValueObject Create(decimal value, IValidator<PageNumberValueObject>? validator = null) => Create(Convert(value), validator);
+    public static new PageNumberValueObject Create(int value) => new PageNumberValueObject(Convert(value));
+    public static new PageNumberValueObject Create() => Create(1);
+    public static new PageNumberValueObject Create(string value) => Create(Convert(value));
+    public static new PageNumberValueObject Create(float value) => Create(Convert(value));
+    public static new PageNumberValueObject Create(decimal value) => Create(Convert(value));
 }

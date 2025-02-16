@@ -13,20 +13,20 @@ public record DateTimeRangeValueObject : IValueObject
         ValueEnd = valueEnd;
     }
 
-    public static DateTimeRangeValueObject Create(DateTimeValueObject valueStart, DateTimeValueObject valueEnd, IValidator<DateTimeRangeValueObject>? validator = null)
+    public DateTimeRangeValueObject Validate(IValidator<DateTimeRangeValueObject> validator)
     {
-        DateTimeRangeValueObject ValueObject = new DateTimeRangeValueObject(valueStart, valueEnd);
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static DateTimeRangeValueObject Create(IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(DateTime.UtcNow.Date), DateTimeValueObject.Create(DateTime.UtcNow.Date), validator);
-    public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
-    public static DateTimeRangeValueObject Create(string valueStart, string valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
-    public static DateTimeRangeValueObject Create(int valueStart, int valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
-    public static DateTimeRangeValueObject Create(float valueStart, float valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
-    public static DateTimeRangeValueObject Create(decimal valueStart, decimal valueEnd, IValidator<DateTimeRangeValueObject>? validator = null) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd), validator);
+    public static DateTimeRangeValueObject Create(DateTimeValueObject valueStart, DateTimeValueObject valueEnd) => new DateTimeRangeValueObject(valueStart, valueEnd);
+    public static DateTimeRangeValueObject Create() => Create(DateTimeValueObject.Create(DateTime.UtcNow.Date), DateTimeValueObject.Create(DateTime.UtcNow.Date));
+    public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+    public static DateTimeRangeValueObject Create(string valueStart, string valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+    public static DateTimeRangeValueObject Create(int valueStart, int valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+    public static DateTimeRangeValueObject Create(float valueStart, float valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+    public static DateTimeRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
 
     public override int GetHashCode() => HashCode.Combine(ValueStart, ValueEnd);
     public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();

@@ -11,18 +11,18 @@ public record BoolValueObject : IValueObject
         Value = value;
     }
 
-    public static BoolValueObject Create(bool value, IValidator<BoolValueObject>? validator = null)
+    public BoolValueObject Validate(IValidator<BoolValueObject> validator)
     {
-        BoolValueObject ValueObject = new BoolValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static BoolValueObject Create(IValidator<BoolValueObject>? validator = null) => Create(true, validator);
-    public static BoolValueObject Create(string value, IValidator<BoolValueObject>? validator = null) => Create(Convert(value), validator);
-    public static BoolValueObject Create(int value, IValidator<BoolValueObject>? validator = null) => Create(Convert(value), validator);
-    public static BoolValueObject Create(float value, IValidator<BoolValueObject>? validator = null) => Create(Convert(value), validator);
+    public static BoolValueObject Create(bool value) => new BoolValueObject(Convert(value));
+    public static BoolValueObject Create() => Create(true);
+    public static BoolValueObject Create(string value) => Create(Convert(value));
+    public static BoolValueObject Create(int value) => Create(Convert(value));
+    public static BoolValueObject Create(float value) => Create(Convert(value));
 
     protected static bool Convert(bool value) => value;
     protected static bool Convert(string value) => value.Trim().ToUpper() == "TRUE" || value.Trim().ToUpper() == "1" || value.Trim().ToUpper() == "SI" || value.Trim().ToUpper() == "YES";

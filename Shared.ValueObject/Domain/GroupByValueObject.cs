@@ -6,13 +6,14 @@ public record GroupByValueObject : StringValueObject
 {
     public GroupByValueObject(string value) : base(value) { }
 
-    public static GroupByValueObject Create(string value, IValidator<GroupByValueObject>? validator = null)
+    public GroupByValueObject Validate(IValidator<GroupByValueObject> validator)
     {
-        GroupByValueObject ValueObject = new GroupByValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
+
+    public static GroupByValueObject Create(string value) => new GroupByValueObject(Convert(value));
 
     protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }

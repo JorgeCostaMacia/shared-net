@@ -6,13 +6,13 @@ public record JsonValueObject : StringValueObject
 {
     public JsonValueObject(string value) : base(value) { }
 
-    public static JsonValueObject Create(string value, IValidator<JsonValueObject>? validator = null)
+    public JsonValueObject Validate(IValidator<JsonValueObject> validator)
     {
-        JsonValueObject ValueObject = new JsonValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static JsonValueObject Create(IValidator<JsonValueObject>? validator = null) => Create("{}", validator);
+    public static JsonValueObject Create(string value) => new JsonValueObject(Convert(value));
+    public static JsonValueObject Create() => Create("{}");
 }

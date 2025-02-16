@@ -11,20 +11,20 @@ public record DecimalValueObject : IValueObject
         Value = value;
     }
 
-    public static DecimalValueObject Create(decimal value, IValidator<DecimalValueObject>? validator = null)
+    public DecimalValueObject Validate(IValidator<DecimalValueObject> validator)
     {
-        DecimalValueObject ValueObject = new DecimalValueObject(Convert(value));
-        validator?.ValidateAndThrow(ValueObject);
+        validator.ValidateAndThrow(this);
 
-        return ValueObject;
+        return this;
     }
 
-    public static DecimalValueObject Create(IValidator<DecimalValueObject>? validator = null) => Create(0, validator);
-    public static DecimalValueObject Create(string value, IValidator<DecimalValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DecimalValueObject Create(int value, IValidator<DecimalValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DecimalValueObject Create(float value, IValidator<DecimalValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DecimalValueObject Create(bool value, IValidator<DecimalValueObject>? validator = null) => Create(Convert(value), validator);
-    public static DecimalValueObject Create(DateTime value, IValidator<DecimalValueObject>? validator = null) => Create(Convert(value), validator);
+    public static DecimalValueObject Create(decimal value) => new DecimalValueObject(Convert(value));
+    public static DecimalValueObject Create() => Create(0);
+    public static DecimalValueObject Create(string value) => Create(Convert(value));
+    public static DecimalValueObject Create(int value) => Create(Convert(value));
+    public static DecimalValueObject Create(float value) => Create(Convert(value));
+    public static DecimalValueObject Create(bool value) => Create(Convert(value));
+    public static DecimalValueObject Create(DateTime value) => Create(Convert(value));
 
     protected static decimal Convert(decimal value) => value;
     protected static decimal Convert(string value) => decimal.Parse(value.Trim());
