@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
 	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
-	<VersionPrefix>7.3.2</VersionPrefix>
+	<VersionPrefix>7.3.3</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
