@@ -15,5 +15,24 @@ public abstract class IAggregateException : IDomainException
         AggregateOccurredAt = aggregateOccurredAt;
     }
 
-    protected IAggregateException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, string message, System.Exception? innerException) : this(aggregateId, aggregateTypeId, aggregateCode, DateTime.UtcNow, $"{aggregateId}/{aggregateTypeId}: {message}", innerException) { }
+    protected IAggregateException(Guid? aggregateId, Guid? aggregateTypeId, int? aggregateCode, DateTime? aggregateOccurredAt, string message, System.Exception? innerException) : base(
+        (aggregateId ?? (aggregateId = CreateGuid())).ToString() +
+        "/" +
+        (aggregateTypeId ?? (aggregateTypeId = CreateGuid())).ToString()
+        + $": {message}", innerException)
+    {
+        AggregateId = aggregateId ?? CreateGuid();
+        AggregateTypeId = aggregateTypeId ?? CreateGuid();
+        AggregateCode = aggregateCode ?? 500;
+        AggregateOccurredAt = aggregateOccurredAt ?? DateTime.UtcNow;
+    }
+
+    private static Guid CreateGuid()
+    {
+#if NET9_0
+        return Guid.CreateVersion7();
+#else
+        return Guid.NewGuid();
+#endif
+    }
 }

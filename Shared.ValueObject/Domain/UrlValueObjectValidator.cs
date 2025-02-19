@@ -15,5 +15,5 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>, Shared
             .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _)).WithErrorCode("UrlValidator").WithMessage("{PropertyName} must be an Url");
     }
 
-    protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<UrlValueObject> context, ValidationResult result) => throw new UrlValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

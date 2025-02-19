@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
 	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
-	<VersionPrefix>7.3.4</VersionPrefix>
+	<VersionPrefix>7.8.0</VersionPrefix>
 	<Title>$(AssemblyName)</Title>
 	<Company>$(Authors)</Company>
 	<Authors>JorgeCostaMacia</Authors>
@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="8.4.2" />
+    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Message" Version="8.11.0" />
   </ItemGroup>
 
 </Project>

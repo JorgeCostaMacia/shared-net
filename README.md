@@ -29,7 +29,7 @@ Supported Packages
 | JorgeCostaMacia.Shared.Data.Persistence  | Data and repository                           | [![alt JorgeCostaMacia.Shared.Data.Persistence](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.Data.Persistence.svg "JorgeCostaMacia.Shared.Data.Persistence")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.Data.Persistence/)    |
 | **DDD**                                  |                                               |                                                                                                                                                                                                                                                    |
 | JorgeCostaMacia.Shared.Aggregate         | Domain root and aggregates                    | [![alt JorgeCostaMacia.Shared.Aggregate](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.Aggregate.svg "JorgeCostaMacia.Shared.Aggregate")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.Aggregate/)                                |
-| JorgeCostaMacia.Shared.Entity            | Domain entity and aggregates                                | [![alt JorgeCostaMacia.Shared.Entity](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.Entity.svg "JorgeCostaMacia.Shared.Entity")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.Entity/)                                            |
+| JorgeCostaMacia.Shared.Entity            | Domain entity and aggregates                                | [![alt JorgeCostaMacia.Shared.Entity](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.Entity.svg "JorgeCostaMacia.Shared.Entity")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.Entity/)                              |
 | JorgeCostaMacia.Shared.ValueObject       | ValueObject with exceptions and validators    | [![alt JorgeCostaMacia.Shared.ValueObject](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.ValueObject.svg "JorgeCostaMacia.Shared.ValueObject")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.ValueObject/)                        |
 | **Bus**                                  |                                               |                                                                                                                                                                                                                                                    |
 | JorgeCostaMacia.Shared.Bus.Command       | Bus command and aggregates                    | [![alt JorgeCostaMacia.Shared.Bus.Command](https://img.shields.io/nuget/v/JorgeCostaMacia.Shared.Bus.Command.svg "JorgeCostaMacia.Shared.Bus.Command")](https://www.nuget.org/packages/JorgeCostaMacia.Shared.Bus.Command/)                        |
@@ -62,6 +62,7 @@ No longer supported Packages
 * JorgeCostaMacia.Shared.Application.Service
 * JorgeCostaMacia.Shared.Bus.Service
 * JorgeCostaMacia.Shared.Root
+* JorgeCostaMacia.Shared.Util.Uuid
 * JorgeCostaMacia.Shared.ValueObject.Exception
 * JorgeCostaMacia.Shared.ValueObject.Validator
 * Shared.Aggregate

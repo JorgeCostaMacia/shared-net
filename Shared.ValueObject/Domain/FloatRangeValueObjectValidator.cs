@@ -20,5 +20,5 @@ public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueO
             .GreaterThanOrEqualTo(v => v.ValueStart.Value);
     }
 
-    protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<FloatRangeValueObject> context, ValidationResult result) => throw new FloatRangeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

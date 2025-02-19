@@ -6,6 +6,5 @@ namespace Shared.ValueObject.Domain;
 public class IntRangeValueObjectConstraintException : IConstraintException
 {
     public IntRangeValueObjectConstraintException(Guid aggregateId, Guid aggregateTypeId, int aggregateCode, DateTime aggregateOccurredAt, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(aggregateId, aggregateTypeId, aggregateCode, aggregateOccurredAt, message, innerException, constraints) { }
-    public IntRangeValueObjectConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(aggregateTypeId, message, innerException, constraints) { }
-    public IntRangeValueObjectConstraintException(System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(new Guid("67ec51e3-0abd-40ec-a356-21371cbc1f47"), $"{typeof(IntRangeValueObject).Name} Constraint Exception", innerException, constraints) { }
+    public IntRangeValueObjectConstraintException(Guid? aggregateId, Guid? aggregateTypeId, int? aggregateCode, DateTime? aggregateOccurredAt, string? message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(aggregateId, aggregateTypeId ?? new Guid("01951f40-ed09-7091-b79d-f0c7276d613c"), aggregateCode, aggregateOccurredAt, $"{typeof(IntRangeValueObject).Name} Constraint Exception", innerException, constraints) { }
 }

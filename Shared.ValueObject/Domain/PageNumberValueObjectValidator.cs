@@ -13,5 +13,5 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
             .NotEmpty();
     }
 
-    protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result) => throw new PageNumberValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result) => throw new PageNumberValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

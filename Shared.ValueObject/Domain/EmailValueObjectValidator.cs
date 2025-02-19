@@ -14,5 +14,5 @@ public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>, Sh
             .EmailAddress();
     }
 
-    protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result) => throw new EmailValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

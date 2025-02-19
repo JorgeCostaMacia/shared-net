@@ -14,5 +14,5 @@ public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObj
             .Must(v2 => v2 == "ASC" || v2 == "DESC");
     }
 
-    protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result) => throw new OrderTypeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<OrderTypeValueObject> context, ValidationResult result) => throw new OrderTypeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

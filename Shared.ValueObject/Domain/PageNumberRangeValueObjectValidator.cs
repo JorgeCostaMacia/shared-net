@@ -20,5 +20,5 @@ public class PageNumberRangeValueObjectValidator : AbstractValidator<PageNumberR
             .GreaterThanOrEqualTo(v => v.ValueStart.Value);
     }
 
-    protected override void RaiseValidationException(ValidationContext<PageNumberRangeValueObject> context, ValidationResult result) => throw new PageNumberRangeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<PageNumberRangeValueObject> context, ValidationResult result) => throw new PageNumberRangeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

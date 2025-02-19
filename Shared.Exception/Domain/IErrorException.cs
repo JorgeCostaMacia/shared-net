@@ -11,14 +11,7 @@ public abstract class IErrorException : IAggregateException
         Errors = errors.ToImmutableList();
     }
 
-
-    protected IErrorException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<string> errors) : base(
-#if NET9_0
-        Guid.CreateVersion7()
-#else
-        Guid.NewGuid()
-#endif
-        , aggregateTypeId, 500, $"{message} => {string.Join(",", errors)}", innerException)
+    protected IErrorException(Guid? aggregateId, Guid? aggregateTypeId, int? aggregateCode, DateTime? aggregateOccurredAt, string? message, System.Exception? innerException, IEnumerable<string> errors) : base(aggregateId, aggregateTypeId, aggregateCode ?? 400, aggregateOccurredAt, $"{message ?? "Error Exception"} => {string.Join(",", errors)}", innerException)
     {
         Errors = errors.ToImmutableList();
     }
