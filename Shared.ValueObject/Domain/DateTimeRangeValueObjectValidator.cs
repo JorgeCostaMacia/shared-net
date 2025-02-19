@@ -20,5 +20,5 @@ public class DateTimeRangeValueObjectValidator : AbstractValidator<DateTimeRange
             .GreaterThanOrEqualTo(v => v.ValueStart.Value);
     }
 
-    protected override void RaiseValidationException(ValidationContext<DateTimeRangeValueObject> context, ValidationResult result) => throw new DateTimeRangeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<DateTimeRangeValueObject> context, ValidationResult result) => throw new DateTimeRangeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

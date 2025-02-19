@@ -21,5 +21,5 @@ public class IntRangeValueObjectValidator : AbstractValidator<IntRangeValueObjec
 
     }
 
-    protected override void RaiseValidationException(ValidationContext<IntRangeValueObject> context, ValidationResult result) => throw new IntRangeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<IntRangeValueObject> context, ValidationResult result) => throw new IntRangeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

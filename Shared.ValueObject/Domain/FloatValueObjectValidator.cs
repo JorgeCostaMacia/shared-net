@@ -7,5 +7,5 @@ public class FloatValueObjectValidator : AbstractValidator<FloatValueObject>, Sh
 {
     public FloatValueObjectValidator() { }
 
-    protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result) => throw new FloatValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result) => throw new FloatValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

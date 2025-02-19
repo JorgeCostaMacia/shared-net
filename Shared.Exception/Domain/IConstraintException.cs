@@ -11,13 +11,8 @@ public abstract class IConstraintException : IAggregateException
     {
         Constraints = constraints.ToImmutableList();
     }
-    protected IConstraintException(Guid aggregateTypeId, string message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(
-#if NET9_0
-        Guid.CreateVersion7()
-#else
-        Guid.NewGuid()
-#endif
-        , aggregateTypeId, 400, $"{message} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
+
+    protected IConstraintException(Guid? aggregateId, Guid? aggregateTypeId, int? aggregateCode, DateTime? aggregateOccurredAt, string? message, System.Exception? innerException, IEnumerable<ValidationFailure> constraints) : base(aggregateId, aggregateTypeId, aggregateCode ?? 400, aggregateOccurredAt, $"{message ?? "Constraint Exception"} => {string.Join(",", constraints.Select(e => e.PropertyName + ": " + e.ErrorMessage))}", innerException)
     {
         Constraints = constraints.ToImmutableList();
     }

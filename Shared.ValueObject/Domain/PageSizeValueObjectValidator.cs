@@ -13,5 +13,5 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
             .NotEmpty();
     }
 
-    protected override void RaiseValidationException(ValidationContext<PageSizeValueObject> context, ValidationResult result) => throw new PageSizeValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<PageSizeValueObject> context, ValidationResult result) => throw new PageSizeValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }

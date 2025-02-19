@@ -7,5 +7,5 @@ public class IntValueObjectValidator : AbstractValidator<IntValueObject>, Shared
 {
     public IntValueObjectValidator() { }
 
-    protected override void RaiseValidationException(ValidationContext<IntValueObject> context, ValidationResult result) => throw new IntValueObjectConstraintException(null, result.Errors);
+    protected override void RaiseValidationException(ValidationContext<IntValueObject> context, ValidationResult result) => throw new IntValueObjectConstraintException(null, null, null, null, null, null, result.Errors);
 }
