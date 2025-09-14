@@ -1,46 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net46;net461;net462;net47;net471;net472;net48;net481;netcoreapp3.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <ImplicitUsings Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1' And '$(TargetFramework)' != 'net46' And '$(TargetFramework)' != 'net461' And '$(TargetFramework)' != 'net462' And '$(TargetFramework)' != 'net47' And '$(TargetFramework)' != 'net471' And '$(TargetFramework)' != 'net472' And '$(TargetFramework)' != 'net48' And '$(TargetFramework)' != 'net481' And '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' And '$(TargetFramework)' != 'net5.0'">enable</ImplicitUsings>
-    <Nullable Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'net46' And '$(TargetFramework)' != 'net461' And '$(TargetFramework)' != 'net462' And '$(TargetFramework)' != 'net47' And '$(TargetFramework)' != 'net471' And '$(TargetFramework)' != 'net472' And '$(TargetFramework)' != 'net48' And '$(TargetFramework)' != 'net481'">enable</Nullable>
-	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
-	<VersionPrefix>4.0.0</VersionPrefix>
-	<Title>$(AssemblyName)</Title>
-	<Company>$(Authors)</Company>
-	<Authors>JorgeCostaMacia</Authors>
-	<Copyright>2023 Jorge Costa Maciá</Copyright>	  
-	<Description>Data and repository</Description>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,service,context,data</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net46;net461;net462;net47;net471;net472;net48;net481;netcoreapp3.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<ImplicitUsings Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'netstandard2.1' And '$(TargetFramework)' != 'net46' And '$(TargetFramework)' != 'net461' And '$(TargetFramework)' != 'net462' And '$(TargetFramework)' != 'net47' And '$(TargetFramework)' != 'net471' And '$(TargetFramework)' != 'net472' And '$(TargetFramework)' != 'net48' And '$(TargetFramework)' != 'net481' And '$(TargetFramework)' != 'netcoreapp3.0' And '$(TargetFramework)' != 'netcoreapp3.1' And '$(TargetFramework)' != 'net5.0'">enable</ImplicitUsings>
+		<Nullable Condition="'$(TargetFramework)' != 'netstandard2.0' And '$(TargetFramework)' != 'net46' And '$(TargetFramework)' != 'net461' And '$(TargetFramework)' != 'net462' And '$(TargetFramework)' != 'net47' And '$(TargetFramework)' != 'net471' And '$(TargetFramework)' != 'net472' And '$(TargetFramework)' != 'net48' And '$(TargetFramework)' != 'net481'">enable</Nullable>
+		<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
+		<PackageIcon>jorgecostamacia_logo.png</PackageIcon>
+		<VersionPrefix>4.0.0</VersionPrefix>
+		<Title>$(AssemblyName)</Title>
+		<Company>$(Authors)</Company>
+		<Authors>JorgeCostaMacia</Authors>
+		<Copyright>2023 Jorge Costa Maciá</Copyright>
+		<Description>Data and repository</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,service,context,data</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<None Include="..\LICENSE.txt">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Include="..\COPYRIGHT.txt">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\jorgecostamacia_logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>	 	  
-  </ItemGroup>
-	
-  <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Context" Version="4.0.1" />
-    <PackageReference Include="JorgeCostaMacia.Shared.Service" Version="4.0.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\COPYRIGHT.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\jorgecostamacia_logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JorgeCostaMacia.Shared.Context" Version="4.0.1" />
+		<PackageReference Include="JorgeCostaMacia.Shared.Service" Version="4.0.2" />
+	</ItemGroup>
 
 </Project>

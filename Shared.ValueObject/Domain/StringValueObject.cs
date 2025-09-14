@@ -1,15 +1,28 @@
-﻿using FluentValidation;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
+using FluentValidation;
 
 namespace Shared.ValueObject.Domain;
 
-public record StringValueObject : IValueObject
+public record StringValueObject : IValueObject, IValidatableObject
 {
+    [MaxLength(100)]
     public string Value { get; init; }
 
     public StringValueObject(string value)
     {
         Value = value;
     }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (string.IsNullOrEmpty(Value))
+        {
+            validationContext.Items["AttemptedValue"] = Value;
+            yield return new ValidationResult("El nombre es requerido.", new[] { this.GetType().Name });
+        }
+    }
+
 
     public StringValueObject Validate(IValidator<StringValueObject> validator)
     {
