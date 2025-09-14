@@ -32,6 +32,8 @@ jobs:
       run: dotnet pack Shared.Bus.Query/Shared.Bus.Query.csproj -c Release -o nuget
     - name: Pack Shared.Context
       run: dotnet pack Shared.Context/Shared.Context.csproj -c Release -o nuget
+    - name: Pack Shared.Data.Converters
+      run: dotnet pack Shared.Data.Converters/Shared.Data.Converters.csproj -c Release -o nuget
     - name: Pack Shared.Data.Persistence
       run: dotnet pack Shared.Data.Persistence/Shared.Data.Persistence.csproj -c Release -o nuget
     - name: Pack Shared.Entity

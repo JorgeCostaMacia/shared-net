@@ -1,45 +1,45 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
-	<PackageIcon>jorgecostamacia_logo.png</PackageIcon>	  
-	<VersionPrefix>6.4.0</VersionPrefix>
-	<Title>$(AssemblyName)</Title>
-	<Company>$(Authors)</Company>
-	<Authors>JorgeCostaMacia</Authors>
-	<Copyright>2023 Jorge Costa Maciá</Copyright> 	  
-	<Description>Domain entity and aggregates</Description>
-	<PackageReadmeFile>README.md</PackageReadmeFile>
-	<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
-	<RepositoryType>git</RepositoryType>
-	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,aggregate,entity</PackageTags>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageId>JorgeCostaMacia.$(AssemblyName)</PackageId>
+		<PackageIcon>jorgecostamacia_logo.png</PackageIcon>
+		<VersionPrefix>6.4.0</VersionPrefix>
+		<Title>$(AssemblyName)</Title>
+		<Company>$(Authors)</Company>
+		<Authors>JorgeCostaMacia</Authors>
+		<Copyright>2023 Jorge Costa Maciá</Copyright>
+		<Description>Domain entity and aggregates</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageTags>shared,util,common,ddd,hexagonal,cqrs,base,aggregate,entity</PackageTags>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<None Include="..\LICENSE.txt">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Include="..\COPYRIGHT.txt">
-	  <Pack>True</Pack>
-	  <PackagePath>\</PackagePath>
-	</None>
-	<None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\jorgecostamacia_logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>	 	  
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\COPYRIGHT.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\jorgecostamacia_logo.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="7.8.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="JorgeCostaMacia.Shared.Bus.Event" Version="7.8.0" />
+	</ItemGroup>
 
 </Project>
