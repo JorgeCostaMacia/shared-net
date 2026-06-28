@@ -33,4 +33,11 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
+	<!-- Repo-root files packed into every package (each project still ships its own README.md) -->
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)jorgecostamacia_logo.png" Pack="true" PackagePath="\" Visible="false" />
+	</ItemGroup>
+
 </Project>
