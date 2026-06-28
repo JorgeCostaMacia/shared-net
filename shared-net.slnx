@@ -2,4 +2,5 @@
   <Project Path="JorgeCostaMacia/JorgeCostaMacia.csproj" />
   <Project Path="JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
   <Project Path="JorgeCostaMacia.Service/JorgeCostaMacia.Service.csproj" />
+  <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
 </Solution>
