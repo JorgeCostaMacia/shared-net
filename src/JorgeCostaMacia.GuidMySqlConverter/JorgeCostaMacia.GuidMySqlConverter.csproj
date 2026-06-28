@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<Description>MySQL / MariaDB GUID byte-order conversion for BINARY(16) columns</Description>
+		<PackageTags>guid,uuid,mysql,mariadb,binary,converter</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="True" PackagePath="\" />
+	</ItemGroup>
+
+</Project>
