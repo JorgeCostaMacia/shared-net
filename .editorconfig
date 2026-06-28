@@ -1,0 +1,83 @@
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{csproj,props,targets,slnx,xml}]
+indent_style = tab
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.cs]
+indent_size = 4
+
+# ----- C# style -----
+csharp_style_namespace_declarations = file_scoped:warning
+dotnet_sort_system_directives_first = true
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+
+# ----- Naming: symbols -----
+dotnet_naming_symbols.interface_symbol.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbol.applicable_accessibilities = *
+
+dotnet_naming_symbols.type_symbol.applicable_kinds = class,struct,enum,delegate
+dotnet_naming_symbols.type_symbol.applicable_accessibilities = *
+
+dotnet_naming_symbols.member_symbol.applicable_kinds = property,method,event,namespace
+dotnet_naming_symbols.member_symbol.applicable_accessibilities = *
+
+dotnet_naming_symbols.const_symbol.applicable_kinds = field
+dotnet_naming_symbols.const_symbol.required_modifiers = const
+
+dotnet_naming_symbols.private_field_symbol.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbol.applicable_accessibilities = private,private_protected
+
+dotnet_naming_symbols.local_param_symbol.applicable_kinds = local,parameter
+
+# ----- Naming: styles -----
+dotnet_naming_style.pascal_style.capitalization = pascal_case
+dotnet_naming_style.camel_style.capitalization = camel_case
+dotnet_naming_style.i_prefix_style.required_prefix = I
+dotnet_naming_style.i_prefix_style.capitalization = pascal_case
+dotnet_naming_style.underscore_style.required_prefix = _
+dotnet_naming_style.underscore_style.capitalization = camel_case
+
+# ----- Naming: rules -----
+dotnet_naming_rule.interfaces_prefixed_with_i.symbols = interface_symbol
+dotnet_naming_rule.interfaces_prefixed_with_i.style = i_prefix_style
+dotnet_naming_rule.interfaces_prefixed_with_i.severity = warning
+
+dotnet_naming_rule.types_pascal.symbols = type_symbol
+dotnet_naming_rule.types_pascal.style = pascal_style
+dotnet_naming_rule.types_pascal.severity = warning
+
+dotnet_naming_rule.members_pascal.symbols = member_symbol
+dotnet_naming_rule.members_pascal.style = pascal_style
+dotnet_naming_rule.members_pascal.severity = warning
+
+dotnet_naming_rule.constants_pascal.symbols = const_symbol
+dotnet_naming_rule.constants_pascal.style = pascal_style
+dotnet_naming_rule.constants_pascal.severity = warning
+
+dotnet_naming_rule.locals_and_params_camel.symbols = local_param_symbol
+dotnet_naming_rule.locals_and_params_camel.style = camel_style
+dotnet_naming_rule.locals_and_params_camel.severity = warning
+
+dotnet_naming_rule.private_fields_underscore.symbols = private_field_symbol
+dotnet_naming_rule.private_fields_underscore.style = underscore_style
+dotnet_naming_rule.private_fields_underscore.severity = suggestion
+
+# ----- Intentional suppressions -----
+# Building-block types intentionally share their name with the package namespace
+# (Aggregate, Entity, ValueObject, GuidFactory...). The .Domain sub-namespace keeps usage unambiguous.
+dotnet_diagnostic.CA1724.severity = none

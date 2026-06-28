@@ -1,0 +1,30 @@
+# Integration pipeline: build, test and verify packaging on develop and pull requests (no publish).
+name: Dev
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+env:
+  CONFIGURATION: Release
+  SOLUTION: shared-net.slnx
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          clean: true
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }}
+      - name: Test
+        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build --logger "console;verbosity=minimal"
+      - name: Pack
+        run: dotnet pack ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build -o nuget
