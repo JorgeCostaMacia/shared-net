@@ -3,7 +3,8 @@
 > Foundation DDD building blocks for .NET — aggregates, entities, value objects, validators and more, shipped as independent NuGet packages under `JorgeCostaMacia.*`.
 
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](LICENSE.txt)
-[![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml)
+[![Main](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
+[![Dev](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dev.yml/badge.svg?branch=develop)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dev.yml)
 
 ## Requirements
 

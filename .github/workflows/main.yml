@@ -1,0 +1,41 @@
+# main branch: build, test and publish the JorgeCostaMacia.* packages.
+name: Main
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  CONFIGURATION: Release
+  SOLUTION: shared-net.slnx
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          clean: true
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }}
+      - name: Test
+        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build --verbosity normal
+      - name: Pack
+        run: dotnet pack ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build -o nuget
+      - name: Publish Login
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: JorgeCostaMacia
+      - name: Publish
+        run: |
+          for pkg in ./nuget/*.nupkg; do
+            dotnet nuget push "$pkg" --api-key ${{ steps.login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done

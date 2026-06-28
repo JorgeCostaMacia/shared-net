@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<Description>Marker interfaces for services and their options (DI registration / semantic tagging)</Description>
+		<PackageTags>service,marker,abstractions,di,ddd</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="True" PackagePath="\" />
+	</ItemGroup>
+
+</Project>

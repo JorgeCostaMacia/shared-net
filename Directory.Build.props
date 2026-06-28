@@ -7,6 +7,12 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<!-- Code style + analyzers enforced on build (rules live in .editorconfig) -->
+	<PropertyGroup>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+	</PropertyGroup>
+
 	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
 	<PropertyGroup>
 		<Authors>JorgeCostaMacia</Authors>
@@ -31,6 +37,13 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+	</ItemGroup>
+
+	<!-- Repo-root files packed into every package (each project still ships its own README.md) -->
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)jorgecostamacia_logo.png" Pack="true" PackagePath="\" Visible="false" />
 	</ItemGroup>
 
 </Project>
