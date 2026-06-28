@@ -26,7 +26,7 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }}
       - name: Test
-        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build --verbosity normal
+        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build --logger "console;verbosity=minimal"
       - name: Pack
         run: dotnet pack ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build -o nuget
       - name: Publish Login

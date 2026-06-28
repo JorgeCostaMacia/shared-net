@@ -1,9 +1,9 @@
-# JorgeCostaMacia.GuidFactory
+# JorgeCostaMacia.Entity
 
-Factory for creating time-ordered GUIDs (**UUIDv7**), with automatic fallback to `Guid.NewGuid()` (v4) on older runtimes. **Zero dependencies.**
+Marker interface (`IEntity`) for **identity-based domain entities** — objects defined by a stable identity across state changes, the DDD Entity building block. **Zero dependencies.**
 
-[![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.GuidFactory.svg)](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/)
-[![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.GuidFactory.svg)](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/)
+[![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Entity.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Entity/)
+[![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Entity.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Entity/)
 [![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](https://github.com/JorgeCostaMacia/shared-net/blob/main/LICENSE.txt)
 
@@ -12,18 +12,22 @@ Factory for creating time-ordered GUIDs (**UUIDv7**), with automatic fallback to
 ## Install
 
 ```bash
-dotnet add package JorgeCostaMacia.GuidFactory
+dotnet add package JorgeCostaMacia.Entity
 ```
 
 ## Usage
 
 ```csharp
-using JorgeCostaMacia.GuidFactory.Domain;
+using JorgeCostaMacia.Entity.Domain;
 
-Guid id = GuidFactory.Create();
+public class Customer : IEntity
+{
+    public Guid Id { get; init; }
+    // identity-based: two Customers are equal when their Id is equal
+}
 ```
 
-On **.NET 9+** it returns a time-ordered **UUIDv7** (`Guid.CreateVersion7()`) — better database index locality and natural sortability. On earlier runtimes it falls back to a standard **UUIDv4** (`Guid.NewGuid()`).
+An **Entity** is defined by its identity and lifecycle (not its attributes), and is mutable — unlike a Value Object.
 
 ## Requirements
 
@@ -31,7 +35,7 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 
 ## About
 
-`JorgeCostaMacia.GuidFactory` is part of **[shared-net](https://github.com/JorgeCostaMacia/shared-net)** — a set of foundational, self-contained .NET packages, each scoped to a single concern and reusable across your bounded contexts.
+`JorgeCostaMacia.Entity` is part of **[shared-net](https://github.com/JorgeCostaMacia/shared-net)** — a set of foundational, self-contained .NET packages, each scoped to a single concern and reusable across your bounded contexts.
 
 - **Repository:** [github.com/JorgeCostaMacia/shared-net](https://github.com/JorgeCostaMacia/shared-net)
 - **Issues & requests:** [open an issue](https://github.com/JorgeCostaMacia/shared-net/issues)

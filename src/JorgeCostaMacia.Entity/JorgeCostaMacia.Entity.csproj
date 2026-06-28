@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<Description>Marker interface for identity-based domain entities</Description>
+		<PackageTags>ddd,entity,domain,marker</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="True" PackagePath="\" />
+	</ItemGroup>
+
+</Project>
