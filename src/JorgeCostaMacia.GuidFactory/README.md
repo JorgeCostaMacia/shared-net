@@ -4,7 +4,7 @@ Factory for creating time-ordered GUIDs (**UUIDv7**), with automatic fallback to
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.GuidFactory.svg)](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.GuidFactory.svg)](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/)
-[![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml)
+[![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](https://github.com/JorgeCostaMacia/shared-net/blob/main/LICENSE.txt)
 
 ---

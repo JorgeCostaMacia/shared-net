@@ -4,7 +4,7 @@ Marker interfaces to tag and auto-register **services** in dependency injection.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Service.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Service/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Service.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Service/)
-[![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dotnet.yml)
+[![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](https://github.com/JorgeCostaMacia/shared-net/blob/main/LICENSE.txt)
 
 ---
