@@ -1,0 +1,61 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(appsettings.json)",
+      "Read(appsettings.*.json)",
+      "Read(**/appsettings.json)",
+      "Read(**/appsettings.*.json)",
+      "Read(secrets.json)",
+      "Read(**/secrets.json)",
+      "Read(nuget.config)",
+      "Read(**/nuget.config)",
+      "Read(NuGet.Config)",
+      "Read(**/NuGet.Config)",
+
+      "Read(**/*.pfx)",
+      "Read(**/*.p12)",
+      "Read(**/*.key)",
+      "Read(**/*.pem)",
+      "Read(**/*.crt)",
+      "Read(**/*.cer)",
+
+      "Read(.pgpass)",
+      "Read(**/.pgpass)",
+
+      "Read(launchSettings.json)",
+      "Read(**/launchSettings.json)",
+      "Read(**/*.user)",
+
+      "Read(**/*.bak)",
+      "Read(**/*.dump)",
+
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.azure/**)",
+      "Read(~/.kube/config)",
+      "Read(~/.docker/config.json)",
+      "Read(~/.git-credentials)",
+      "Read(~/.netrc)",
+
+      "Bash(cat *.env*)",
+      "Bash(cat *appsettings*)",
+      "Bash(cat *secrets.json*)",
+      "Bash(cat *.pgpass*)",
+      "Bash(type *.env*)",
+      "Bash(type *appsettings*)",
+      "Bash(Get-Content *.env*)",
+      "Bash(Get-Content *appsettings*)",
+
+      "Bash(git push)",
+      "Bash(git push:*)"
+    ],
+    "ask": [
+      "Bash(rm -rf *)",
+      "Bash(git reset --hard*)"
+    ]
+  }
+}

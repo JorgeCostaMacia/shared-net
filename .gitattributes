@@ -1,0 +1,31 @@
+# Auto-normalize line endings for text files
+* text=auto
+
+# Source & project files
+*.cs        text diff=csharp
+*.csproj    text
+*.sln       text
+*.slnx      text
+*.props     text
+*.targets   text
+*.config    text
+*.json      text
+*.md        text
+*.yml       text
+*.yaml      text
+*.xml       text
+
+# Scripts (enforce explicit line endings)
+*.sh        text eol=lf
+*.cmd       text eol=crlf
+*.ps1       text eol=crlf
+
+# Binary files (never normalize)
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.snk       binary
+*.dll       binary
+*.pdf       binary

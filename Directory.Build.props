@@ -1,0 +1,36 @@
+<Project>
+
+	<!-- Build settings (TargetFrameworks is a default; individual projects may override) -->
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
+	<PropertyGroup>
+		<Authors>JorgeCostaMacia</Authors>
+		<Company>$(Authors)</Company>
+		<Copyright>2023 Jorge Costa Maciá</Copyright>
+		<PackageIcon>jorgecostamacia_logo.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<!-- Package hygiene: SourceLink, symbols and deterministic builds -->
+	<PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+	</ItemGroup>
+
+</Project>
