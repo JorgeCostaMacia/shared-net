@@ -31,7 +31,15 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 
 ## About
 
-Part of the **[shared-net](https://github.com/JorgeCostaMacia/shared-net)** toolkit — a modular set of DDD / CQRS / messaging building blocks.
+`JorgeCostaMacia.GuidFactory` is part of **[shared-net](https://github.com/JorgeCostaMacia/shared-net)** — a set of foundational, self-contained .NET packages, each scoped to a single concern and reusable across your bounded contexts.
 
-- [Repository & full docs](https://github.com/JorgeCostaMacia/shared-net)
-- [LinkedIn](https://www.linkedin.com/in/jorge-costa-macia-842817164/) · [GitHub](https://github.com/JorgeCostaMacia/) · [Bitbucket](https://bitbucket.org/jorgecostamacia/)
+- **Repository:** [github.com/JorgeCostaMacia/shared-net](https://github.com/JorgeCostaMacia/shared-net)
+- **Issues & requests:** [open an issue](https://github.com/JorgeCostaMacia/shared-net/issues)
+- **Contributing:** [CONTRIBUTING.md](https://github.com/JorgeCostaMacia/shared-net/blob/main/CONTRIBUTING.md)
+- **Security:** [report a vulnerability](https://github.com/JorgeCostaMacia/shared-net/security/advisories/new)
+
+**Author:** Jorge Costa Maciá
+
+- [LinkedIn](https://www.linkedin.com/in/jorge-costa-macia-842817164/)
+- [GitHub](https://github.com/JorgeCostaMacia/)
+- [Bitbucket](https://bitbucket.org/jorgecostamacia/)

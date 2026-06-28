@@ -1,6 +1,6 @@
 # shared-net
 
-> Foundation DDD building blocks for .NET — aggregates, entities, value objects, validators and more, shipped as independent NuGet packages under `JorgeCostaMacia.*`.
+> A set of foundational, self-contained .NET packages — DDD building blocks and small utilities — each scoped to a single concern and shipped independently under `JorgeCostaMacia.*`.
 
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](LICENSE.txt)
 [![Main](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
@@ -12,7 +12,15 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 
 ## Packages
 
-_Migration in progress — packages will be listed here as they are published under `JorgeCostaMacia.*`._
+| Package | What it does |
+| --- | --- |
+| [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) | Time-ordered GUIDs (UUIDv7) with automatic v4 fallback. |
+| [JorgeCostaMacia.GuidMySqlConverter](https://www.nuget.org/packages/JorgeCostaMacia.GuidMySqlConverter/) | Converts a `Guid` to/from the MySQL / MariaDB `BINARY(16)` byte layout. |
+| [JorgeCostaMacia.ExpressionConverter](https://www.nuget.org/packages/JorgeCostaMacia.ExpressionConverter/) | Convert simple LINQ predicates to/from `Dictionary<string, string>`. |
+| [JorgeCostaMacia.Entity](https://www.nuget.org/packages/JorgeCostaMacia.Entity/) | `IEntity` marker — identity-based DDD entities. |
+| [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
+
+_More on the way — `Exception`, `ValueObject`, `Aggregate`, and a `JorgeCostaMacia` umbrella meta-package (install-everything)._
 
 ## Contact
 
