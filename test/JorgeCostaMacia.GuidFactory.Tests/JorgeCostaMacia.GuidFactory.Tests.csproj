@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\JorgeCostaMacia.GuidFactory\JorgeCostaMacia.GuidFactory.csproj" />
+		<ProjectReference Include="..\..\src\JorgeCostaMacia.GuidFactory\JorgeCostaMacia.GuidFactory.csproj" />
 	</ItemGroup>
 
 </Project>

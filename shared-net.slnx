@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="JorgeCostaMacia/JorgeCostaMacia.csproj" />
-  <Project Path="JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
-  <Project Path="JorgeCostaMacia.Service/JorgeCostaMacia.Service.csproj" />
+  <Project Path="src/JorgeCostaMacia/JorgeCostaMacia.csproj" />
+  <Project Path="src/JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
+  <Project Path="src/JorgeCostaMacia.Service/JorgeCostaMacia.Service.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
 </Solution>
