@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<!-- Placeholder for the future 'JorgeCostaMacia' meta-package (install-everything umbrella).
+		     Not packable until it is configured with PackageReferences to all packages. -->
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
 
 </Project>
