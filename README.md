@@ -21,6 +21,7 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 | [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
 | [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |
 | [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) | Domain exception hierarchy with traceable metadata. |
+| [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
 
 _More on the way — `ValueObject` and a `JorgeCostaMacia` umbrella meta-package (install-everything)._
 
