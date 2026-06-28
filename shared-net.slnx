@@ -5,7 +5,9 @@
   <Project Path="src/JorgeCostaMacia.Entity/JorgeCostaMacia.Entity.csproj" />
   <Project Path="src/JorgeCostaMacia.GuidMySqlConverter/JorgeCostaMacia.GuidMySqlConverter.csproj" />
   <Project Path="src/JorgeCostaMacia.DomainEvent/JorgeCostaMacia.DomainEvent.csproj" />
+  <Project Path="src/JorgeCostaMacia.Exception/JorgeCostaMacia.Exception.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ExpressionConverter.Tests/JorgeCostaMacia.ExpressionConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidMySqlConverter.Tests/JorgeCostaMacia.GuidMySqlConverter.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Exception.Tests/JorgeCostaMacia.Exception.Tests.csproj" />
 </Solution>
