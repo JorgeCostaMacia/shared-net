@@ -1,0 +1,10 @@
+<Project>
+
+	<!-- Inherit the repo-root settings, then disable XML doc generation for test projects -->
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+
+</Project>

@@ -19,7 +19,7 @@
 public static class ValidationExceptionDefaults
 {
     /// <summary>
-    /// The default full type name, used as a fallback for <see cref="ValidationException.AggregateType"/>.
+    /// The default full type name, used as a fallback for <see cref="DomainException.AggregateType"/>.
     /// </summary>
     public static string AGGREGATE_TYPE => typeof(ValidationException).FullName ?? typeof(ValidationException).Name;
 

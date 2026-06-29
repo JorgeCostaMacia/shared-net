@@ -22,8 +22,9 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 | [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |
 | [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) | Domain exception hierarchy with traceable metadata. |
 | [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
+| [JorgeCostaMacia.ValueObject](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) | Immutable typed value objects (primitives, semantic strings, ranges, paging) with FluentValidation validators. |
 
-_More on the way — `ValueObject` and a `JorgeCostaMacia` umbrella meta-package (install-everything)._
+_More on the way — a `JorgeCostaMacia` umbrella meta-package (install-everything)._
 
 ## Contact
 
