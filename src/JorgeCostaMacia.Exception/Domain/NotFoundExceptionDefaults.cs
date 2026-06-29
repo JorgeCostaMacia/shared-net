@@ -19,7 +19,7 @@
 public static class NotFoundExceptionDefaults
 {
     /// <summary>
-    /// The default full type name, used as a fallback for <see cref="NotFoundException.AggregateType"/>.
+    /// The default full type name, used as a fallback for <see cref="DomainException.AggregateType"/>.
     /// </summary>
     public static string AGGREGATE_TYPE => typeof(NotFoundException).FullName ?? typeof(NotFoundException).Name;
 

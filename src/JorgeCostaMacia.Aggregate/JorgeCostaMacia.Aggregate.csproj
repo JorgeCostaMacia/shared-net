@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionPrefix>1.0.1</VersionPrefix>
 		<Description>DDD Aggregate Root base that accumulates transport-agnostic domain events (IDomainEvent) for a pull-and-publish unit of work</Description>
 		<PackageTags>aggregate,aggregate-root,ddd,domain,domain-events</PackageTags>
 	</PropertyGroup>

@@ -8,7 +8,7 @@ namespace JorgeCostaMacia.ExpressionConverter.Domain;
 public static class ExpressionConverter
 {
     /// <summary>
-    /// Converts a simple binary expression (e.g., x => x.Prop1 == value1 && x.Prop2 == value2) into a dictionary.
+    /// Converts a simple binary expression (e.g., x => x.Prop1 == value1 &amp;&amp; x.Prop2 == value2) into a dictionary.
     /// Each entry maps a property name to its constant value as a string.
     /// </summary>
     /// <typeparam name="T">The type of the object in the expression.</typeparam>

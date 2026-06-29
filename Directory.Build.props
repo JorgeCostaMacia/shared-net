@@ -13,6 +13,11 @@
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 	</PropertyGroup>
 
+	<!-- Ship XML docs so consumers get IntelliSense (test projects opt out in test/Directory.Build.props) -->
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
 	<PropertyGroup>
 		<Authors>JorgeCostaMacia</Authors>

@@ -19,7 +19,7 @@
 public static class ErrorExceptionDefaults
 {
     /// <summary>
-    /// The default full type name, used as a fallback for <see cref="ErrorException.AggregateType"/>.
+    /// The default full type name, used as a fallback for <see cref="DomainException.AggregateType"/>.
     /// </summary>
     public static string AGGREGATE_TYPE => typeof(ErrorException).FullName ?? typeof(ErrorException).Name;
 

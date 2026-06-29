@@ -4,7 +4,7 @@
 /// Creates <see cref="Guid"/> values for use as identifiers.
 /// </summary>
 /// <remarks>
-/// On .NET 9+ it produces a time-ordered <b>UUIDv7</b> (<see cref="Guid.CreateVersion7()"/>),
+/// On .NET 9+ it produces a time-ordered <b>UUIDv7</b> (<c>Guid.CreateVersion7()</c>),
 /// whose time-based prefix keeps generated keys roughly sequential — improving database
 /// index locality and insert performance. On earlier runtimes it falls back to a random
 /// <b>UUIDv4</b> (<see cref="Guid.NewGuid()"/>).
