@@ -1,0 +1,18 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="shared">
+  <defs>
+    <linearGradient id="bgshared" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#202B3D"/><stop offset="1" stop-color="#0E141E"/></linearGradient>
+    <linearGradient id="hexFshared" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#33425C" stop-opacity="0.55"/><stop offset="1" stop-color="#33425C" stop-opacity="0.10"/></linearGradient>
+    <linearGradient id="panelFshared" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2C3850"/><stop offset="1" stop-color="#1E2738"/></linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="60" fill="url(#bgshared)"/>
+  <g transform="translate(128,128) scale(1.2) translate(-128,-128)">
+  <polygon points="228.0,128.0 178.0,214.6 78.0,214.6 28.0,128.0 78.0,41.4 178.0,41.4" fill="url(#hexFshared)"/>
+  <polygon points="228.0,128.0 178.0,214.6 78.0,214.6 28.0,128.0 78.0,41.4 178.0,41.4" fill="none" stroke="#5A6E92" stroke-opacity="0.45" stroke-width="2"/>
+  <polygon points="206.0,128.0 167.0,195.5 89.0,195.5 50.0,128.0 89.0,60.5 167.0,60.5" fill="none" stroke="#5A6E92" stroke-opacity="0.18" stroke-width="1.5"/>
+  <rect x="76" y="61" width="104" height="128" rx="18" fill="#0B0F17" opacity="0.55"/><rect x="76" y="58" width="104" height="128" rx="18" fill="url(#panelFshared)" stroke="#46577A" stroke-width="2"/><rect x="76" y="58" width="104" height="58" rx="18" fill="#FFFFFF" fill-opacity="0.05"/><circle cx="94" cy="76" r="4" fill="#F2B84B"/><line x1="90" y1="92" x2="166" y2="92" stroke="#46577A" stroke-opacity="0.55" stroke-width="1.5"/><path d="M94 109 L104 116 L94 123" stroke="#F2B84B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="112" y="108" width="11" height="16" rx="2" fill="#F2B84B"/><rect x="94" y="142" width="52" height="8" rx="4" fill="#6E7C92"/><rect x="110" y="164" width="38" height="8" rx="4" fill="#6E7C92"/>
+  </g>
+  <rect x="1.5" y="1.5" width="253" height="253" rx="58.5" fill="none" stroke="#fff" stroke-opacity="0.08" stroke-width="1.5"/>
+</svg>
