@@ -8,9 +8,11 @@
   <Project Path="src/JorgeCostaMacia.Exception/JorgeCostaMacia.Exception.csproj" />
   <Project Path="src/JorgeCostaMacia.Aggregate/JorgeCostaMacia.Aggregate.csproj" />
   <Project Path="src/JorgeCostaMacia.Serilog/JorgeCostaMacia.Serilog.csproj" />
+  <Project Path="src/JorgeCostaMacia.ValueObject/JorgeCostaMacia.ValueObject.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ExpressionConverter.Tests/JorgeCostaMacia.ExpressionConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidMySqlConverter.Tests/JorgeCostaMacia.GuidMySqlConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Exception.Tests/JorgeCostaMacia.Exception.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Aggregate.Tests/JorgeCostaMacia.Aggregate.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.ValueObject.Tests/JorgeCostaMacia.ValueObject.Tests.csproj" />
 </Solution>

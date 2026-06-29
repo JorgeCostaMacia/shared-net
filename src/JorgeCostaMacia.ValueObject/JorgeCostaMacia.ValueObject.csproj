@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<Description>Immutable, type-safe value objects with conversion factories, plus their FluentValidation validators and typed validation exceptions</Description>
+		<PackageTags>value-object,valueobject,ddd,domain,immutable,fluentvalidation</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="True" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="JorgeCostaMacia.Exception" Version="1.0.0" />
+		<PackageReference Include="FluentValidation" Version="11.12.0" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" Condition="'$(TargetFramework)' != 'net6.0' and '$(TargetFramework)' != 'net7.0'" />
+	</ItemGroup>
+
+</Project>
