@@ -1,6 +1,6 @@
 # JorgeCostaMacia.ValueObject
 
-Immutable, type-safe **value objects** for the common primitives — `int`, `string`, `bool`, `byte`, `decimal`, `float`, `DateTime`, `Guid` — each with `Create(...)` conversion factories, value equality, and an implicit operator back to the primitive. Ships with a FluentValidation validator and a typed validation exception per type.
+Immutable, type-safe **value objects** — primitives (`int`, `long`, `float`, `double`, `decimal`, `bool`, `byte`, `string`, `Guid`, `DateTime`, UTC `DateTime`), semantic strings (email, URL, IP, JSON), numeric/date ranges, and paging/ordering — each with `Create(...)` conversion factories and value equality. Every type ships a FluentValidation validator and a typed validation exception.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
@@ -21,9 +21,10 @@ dotnet add package JorgeCostaMacia.ValueObject
 using JorgeCostaMacia.ValueObject.Domain;
 
 IntValueObject age = IntValueObject.Create("42");   // converts from string, int, long, float, double, decimal, bool
-int raw = age;                                        // implicit operator back to int
+int raw = age.Value;                                  // access the underlying value explicitly
 
 UuidValueObject id = UuidValueObject.Create(Guid.NewGuid());
+DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(wallClock, madridTimeZone);   // local wall-clock -> UTC
 ```
 
 ### Validation lives at the call site
@@ -32,6 +33,12 @@ Value objects don't validate themselves — you validate **where you use them**,
 
 ```csharp
 validator.ValidateAndThrow(age);   // throws IntValueObjectValidationException on failure
+```
+
+### Register the validators
+
+```csharp
+services.AddValueObjectServiceCollection();   // registers every IValidator<…> for the value objects
 ```
 
 ## Requirements
