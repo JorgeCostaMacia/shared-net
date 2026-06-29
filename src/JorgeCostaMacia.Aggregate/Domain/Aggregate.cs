@@ -1,4 +1,4 @@
-﻿using JorgeCostaMacia.DomainEvent.Domain;
+using JorgeCostaMacia.DomainEvent.Domain;
 
 namespace JorgeCostaMacia.Aggregate.Domain;
 
