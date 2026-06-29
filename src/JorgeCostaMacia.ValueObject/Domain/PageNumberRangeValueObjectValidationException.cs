@@ -1,28 +1,27 @@
 ﻿using FluentValidation.Results;
-using JorgeCostaMacia.Exception.Domain;
 using System.Collections.Immutable;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on a <c>FloatRangeValueObject</c> or any derived Value Object.
+/// on a <c>PageNumberRangeValueObject</c>.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="ValidationException"/> and is used to signal
-/// a violation of the domain's business rules related to float range Value Objects (e.g., start value is greater than end value).
+/// This exception inherits from <see cref="IntRangeValueObjectValidationException"/> and is used to signal
+/// a violation of the domain's business rules specific to page number ranges (e.g., start page is zero or less, or start page > end page).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
 /// It provides specialized constructors for internal use, ensuring a consistent error code
-/// and self-identifying aggregate type for this constraint violation.
+/// and self-identifying aggregate type for this specific constraint violation.
 /// </para>
 /// </remarks>
-public class FloatRangeValueObjectValidationException : ValidationException
+public class PageNumberRangeValueObjectValidationException : IntRangeValueObjectValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FloatRangeValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="PageNumberRangeValueObjectValidationException"/> class with full context information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -32,7 +31,7 @@ public class FloatRangeValueObjectValidationException : ValidationException
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
-    public FloatRangeValueObjectValidationException(
+    public PageNumberRangeValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
         Guid aggregateCode,
@@ -54,20 +53,20 @@ public class FloatRangeValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FloatRangeValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="PageNumberRangeValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    public FloatRangeValueObjectValidationException(
+    public PageNumberRangeValueObjectValidationException(
         IEnumerable<ValidationFailure> validations,
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(FloatRangeValueObjectValidationException).FullName ?? typeof(FloatRangeValueObjectValidationException).Name,
+        typeof(PageNumberRangeValueObjectValidationException).FullName ?? typeof(PageNumberRangeValueObjectValidationException).Name,
 #if NET9_0_OR_GREATER
-    new Guid("01951f3f-b0a0-7f4c-8ab0-4039082f1044")
+    new Guid("01951f43-12aa-7b22-97bf-c1b05d5f8dd7")
 #else
-    new Guid("5e2f5e6b-0546-4dd0-9a81-e6da222bb7cb")
+    new Guid("207c6010-e310-4123-88db-84aaab2d5953")
 #endif
         ,
         null,

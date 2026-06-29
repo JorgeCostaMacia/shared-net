@@ -8,7 +8,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for all domain Value Objects based on text strings (e.g., Email, ClientName).
-/// It guarantees immutability and provides static factory methods for implicit creation and type conversion.
+/// It guarantees immutability and provides static factory methods for creation and type conversion.
 /// </para>
 /// <para>
 /// The protected constructor is reserved for infrastructure purposes (e.g., ORM mapping, deserialization).

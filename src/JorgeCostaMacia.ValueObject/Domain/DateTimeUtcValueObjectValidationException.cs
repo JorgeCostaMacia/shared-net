@@ -1,5 +1,4 @@
 using FluentValidation.Results;
-using JorgeCostaMacia.Exception.Domain;
 using System.Collections.Immutable;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
@@ -10,7 +9,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="ValidationException"/> and is used to signal
+/// This exception inherits from <see cref="DateTimeValueObjectValidationException"/> and is used to signal
 /// a violation of the domain's business rules related to UTC DateTime-based Value Objects.
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
@@ -19,7 +18,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// and self-identifying aggregate type for this constraint violation.
 /// </para>
 /// </remarks>
-public class DateTimeUtcValueObjectValidationException : ValidationException
+public class DateTimeUtcValueObjectValidationException : DateTimeValueObjectValidationException
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidationException"/> class with full context information.

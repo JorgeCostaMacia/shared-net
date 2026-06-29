@@ -1,28 +1,27 @@
 ﻿using FluentValidation.Results;
-using JorgeCostaMacia.Exception.Domain;
 using System.Collections.Immutable;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on a <c>FloatRangeValueObject</c> or any derived Value Object.
+/// on an <c>OrderByValueObject</c>.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="ValidationException"/> and is used to signal
-/// a violation of the domain's business rules related to float range Value Objects (e.g., start value is greater than end value).
+/// This exception inherits from <see cref="StringValueObjectValidationException"/> and is used to signal
+/// a violation of the domain's business rules specific to sorting criteria (e.g., invalid field name, unsupported sort direction).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
 /// It provides specialized constructors for internal use, ensuring a consistent error code
-/// and self-identifying aggregate type for this constraint violation.
+/// and self-identifying aggregate type for this specific constraint violation.
 /// </para>
 /// </remarks>
-public class FloatRangeValueObjectValidationException : ValidationException
+public class OrderByValueObjectValidationException : StringValueObjectValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FloatRangeValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="OrderByValueObjectValidationException"/> class with full context information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -32,7 +31,7 @@ public class FloatRangeValueObjectValidationException : ValidationException
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
-    public FloatRangeValueObjectValidationException(
+    public OrderByValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
         Guid aggregateCode,
@@ -54,20 +53,20 @@ public class FloatRangeValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FloatRangeValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="OrderByValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    public FloatRangeValueObjectValidationException(
+    public OrderByValueObjectValidationException(
         IEnumerable<ValidationFailure> validations,
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(FloatRangeValueObjectValidationException).FullName ?? typeof(FloatRangeValueObjectValidationException).Name,
+        typeof(OrderByValueObjectValidationException).FullName ?? typeof(OrderByValueObjectValidationException).Name,
 #if NET9_0_OR_GREATER
-    new Guid("01951f3f-b0a0-7f4c-8ab0-4039082f1044")
+    new Guid("01951f42-7f59-7e43-8484-686d8de64b80")
 #else
-    new Guid("5e2f5e6b-0546-4dd0-9a81-e6da222bb7cb")
+    new Guid("87b0b944-7d1a-4b9c-bda7-f66433658acb")
 #endif
         ,
         null,
