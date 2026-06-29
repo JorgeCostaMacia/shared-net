@@ -19,8 +19,11 @@ One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
 | [JorgeCostaMacia.ExpressionConverter](https://www.nuget.org/packages/JorgeCostaMacia.ExpressionConverter/) | Convert simple LINQ predicates to/from `Dictionary<string, string>`. |
 | [JorgeCostaMacia.Entity](https://www.nuget.org/packages/JorgeCostaMacia.Entity/) | `IEntity` marker — identity-based DDD entities. |
 | [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
+| [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |
+| [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) | Domain exception hierarchy with traceable metadata. |
+| [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
 
-_More on the way — `Exception`, `ValueObject`, `Aggregate`, and a `JorgeCostaMacia` umbrella meta-package (install-everything)._
+_More on the way — `ValueObject` and a `JorgeCostaMacia` umbrella meta-package (install-everything)._
 
 ## Contact
 
