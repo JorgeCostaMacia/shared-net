@@ -19,7 +19,7 @@
 public static class ExistExceptionDefaults
 {
     /// <summary>
-    /// The default full type name, used as a fallback for <see cref="ExistException.AggregateType"/>.
+    /// The default full type name, used as a fallback for <see cref="DomainException.AggregateType"/>.
     /// </summary>
     public static string AGGREGATE_TYPE => typeof(ExistException).FullName ?? typeof(ExistException).Name;
 
