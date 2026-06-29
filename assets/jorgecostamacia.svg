@@ -1,0 +1,25 @@
+<svg width="256" height="256" viewBox="0 0 256 256" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>JorgeCostaMacia</title>
+<desc>Flat-top hexagon with a node at each vertex and short circuit traces on the sides, with a bold metallic JCM monogram centred, in steel blue on white.</desc>
+<defs>
+<linearGradient id="hx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a93c6"/><stop offset="1" stop-color="#1b3a59"/></linearGradient>
+<linearGradient id="jc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9c4de"/><stop offset="0.5" stop-color="#4f78a1"/><stop offset="1" stop-color="#213d5c"/></linearGradient>
+</defs>
+<rect x="6" y="6" width="244" height="244" rx="56" fill="#ffffff"/>
+<g stroke="url(#hx)" stroke-width="6" stroke-linecap="round">
+<line x1="48" y1="128" x2="24" y2="128"/>
+<line x1="208" y1="128" x2="232" y2="128"/>
+</g>
+<polygon points="208,128 168,59 88,59 48,128 88,197 168,197" fill="none" stroke="url(#hx)" stroke-width="7" stroke-linejoin="round"/>
+<g>
+<circle cx="208" cy="128" r="10" fill="url(#hx)"/><circle cx="208" cy="128" r="4" fill="#ffffff"/>
+<circle cx="168" cy="59" r="10" fill="url(#hx)"/><circle cx="168" cy="59" r="4" fill="#ffffff"/>
+<circle cx="88" cy="59" r="10" fill="url(#hx)"/><circle cx="88" cy="59" r="4" fill="#ffffff"/>
+<circle cx="48" cy="128" r="10" fill="url(#hx)"/><circle cx="48" cy="128" r="4" fill="#ffffff"/>
+<circle cx="88" cy="197" r="10" fill="url(#hx)"/><circle cx="88" cy="197" r="4" fill="#ffffff"/>
+<circle cx="168" cy="197" r="10" fill="url(#hx)"/><circle cx="168" cy="197" r="4" fill="#ffffff"/>
+<circle cx="24" cy="128" r="6" fill="url(#hx)"/>
+<circle cx="232" cy="128" r="6" fill="url(#hx)"/>
+</g>
+<text x="128" y="150" text-anchor="middle" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="62" letter-spacing="1" fill="url(#jc)" stroke="#1b3a59" stroke-width="0.8">JCM</text>
+</svg>
