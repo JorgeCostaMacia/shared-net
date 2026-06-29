@@ -78,14 +78,6 @@ public record FloatRangeValueObject : IValueObject
     public static FloatRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
 
     /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance by converting <see cref="DateTime"/> values to float representations (e.g., total seconds or Ticks).
-    /// </summary>
-    /// <param name="valueStart">The start <see cref="DateTime"/> value.</param>
-    /// <param name="valueEnd">The end <see cref="DateTime"/> value.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(DateTime valueStart, DateTime valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
-
-    /// <summary>
     /// Generates the hash code based on the combined hash of the encapsulated <see cref="ValueStart"/> and <see cref="ValueEnd"/> float primitives.
     /// </summary>
     /// <returns>The combined hash code.</returns>
