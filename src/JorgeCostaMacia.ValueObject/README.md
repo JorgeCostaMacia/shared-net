@@ -38,7 +38,7 @@ validator.ValidateAndThrow(age);   // throws IntValueObjectValidationException o
 ### Register the validators
 
 ```csharp
-services.AddValueObjectServiceCollection();   // registers every IValidator<…> for the value objects
+services.AddValueObjectContext();   // registers every IValidator<…> for the value objects
 ```
 
 ## Requirements

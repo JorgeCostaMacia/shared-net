@@ -1,54 +1,11 @@
 <Project>
 
-	<!-- Build settings (TargetFrameworks is a default; individual projects may override) -->
+	<!-- Settings common to every project in the repo (packages and tests alike) -->
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
-
-	<!-- Code style + analyzers enforced on build (rules live in .editorconfig) -->
-	<PropertyGroup>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 	</PropertyGroup>
-
-	<!-- Ship XML docs so consumers get IntelliSense (test projects opt out in test/Directory.Build.props) -->
-	<PropertyGroup>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
-
-	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
-	<PropertyGroup>
-		<Authors>JorgeCostaMacia</Authors>
-		<Company>$(Authors)</Company>
-		<Copyright>2023 Jorge Costa Maciá</Copyright>
-		<PackageIcon>jorgecostamacia_logo.png</PackageIcon>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
-	</PropertyGroup>
-
-	<!-- Package hygiene: SourceLink, symbols and deterministic builds -->
-	<PropertyGroup>
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Deterministic>true</Deterministic>
-		<ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-	</ItemGroup>
-
-	<!-- Repo-root files packed into every package (each project still ships its own README.md) -->
-	<ItemGroup>
-		<None Include="$(MSBuildThisFileDirectory)LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
-		<None Include="$(MSBuildThisFileDirectory)COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
-		<None Include="$(MSBuildThisFileDirectory)jorgecostamacia_logo.png" Pack="true" PackagePath="\" Visible="false" />
-	</ItemGroup>
 
 </Project>

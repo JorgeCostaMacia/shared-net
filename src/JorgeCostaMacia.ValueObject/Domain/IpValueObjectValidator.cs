@@ -1,6 +1,6 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
 using System.Net;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 

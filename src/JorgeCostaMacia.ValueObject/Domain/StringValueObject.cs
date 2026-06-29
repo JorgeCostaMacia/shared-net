@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
