@@ -54,46 +54,25 @@ public class DateTimeValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeValueObjectValidationException"/> class
-    /// using only the necessary constraint information.
+    /// Initializes a new instance of the <see cref="DateTimeValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
-    /// <remarks>
-    /// This constructor automatically sets the following default values:
-    /// <list type="bullet">
-    ///     <item><description>Code: <c>01951f27-6649-7a17-8d7e-8cd7430f975c</c> (Unique identifier for this exception).</description></item>
-    ///     <item><description>Type: <c>DateTimeValueObjectValidationException</c>.</description></item>
-    ///     <item><description>HTTP Code, Message, ID, and Occurred At: <c>null</c> or default values.</description></item>
-    /// </list>
-    /// </remarks>
-    /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception, or null.</param>
-    /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
-    /// <param name="aggregateCode">A specific code identifying the exception type (often a unique GUID).</param>
-    /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type, or null.</param>
-    /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred, or null.</param>
-    /// <param name="message">A user-friendly description of the error, or null.</param>
+    /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
     public DateTimeValueObjectValidationException(
-        Guid? aggregateId,
-        string? aggregateType,
-        Guid? aggregateCode,
-        int? aggregateHttpCode,
-        DateTime? aggregateOccurredAt,
-        string? message,
-        System.Exception? innerException,
-        IEnumerable<ValidationFailure> validations
+        IEnumerable<ValidationFailure> validations,
+        System.Exception? innerException = null
     ) : base(
-        aggregateId,
-        aggregateType ?? typeof(DateTimeValueObjectValidationException).FullName ?? typeof(DateTimeValueObjectValidationException).Name,
+        null,
+        typeof(DateTimeValueObjectValidationException).FullName ?? typeof(DateTimeValueObjectValidationException).Name,
 #if NET9_0_OR_GREATER
     new Guid("01951f27-6649-7a17-8d7e-8cd7430f975c")
 #else
     new Guid("acd0bbd8-6a18-46ba-aa8c-81f2a6d56483")
 #endif
         ,
-        aggregateHttpCode,
-        aggregateOccurredAt,
-        message,
+        null,
+        null,
+        null,
         innerException,
         validations
     )

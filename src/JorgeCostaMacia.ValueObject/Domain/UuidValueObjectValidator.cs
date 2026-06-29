@@ -37,5 +37,5 @@ public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>
     /// <param name="result">The result object containing the list of validation failures.</param>
     /// <exception cref="UuidValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
     protected override void RaiseValidationException(ValidationContext<UuidValueObject> context, ValidationResult result)
-        => throw new UuidValueObjectValidationException(null, null, null, null, null, null, null, result.Errors);
+        => throw new UuidValueObjectValidationException(result.Errors);
 }

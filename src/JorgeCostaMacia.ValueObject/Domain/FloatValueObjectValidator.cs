@@ -29,5 +29,5 @@ public class FloatValueObjectValidator : AbstractValidator<FloatValueObject>
     /// <param name="result">The result object containing the list of validation failures.</param>
     /// <exception cref="FloatValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
     protected override void RaiseValidationException(ValidationContext<FloatValueObject> context, ValidationResult result)
-        => throw new FloatValueObjectValidationException(null, null, null, null, null, null, null, result.Errors);
+        => throw new FloatValueObjectValidationException(result.Errors);
 }

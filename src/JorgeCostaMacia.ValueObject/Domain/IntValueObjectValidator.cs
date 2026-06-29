@@ -29,5 +29,5 @@ public class IntValueObjectValidator : AbstractValidator<IntValueObject>
     /// <param name="result">The result object containing the list of validation failures.</param>
     /// <exception cref="IntValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
     protected override void RaiseValidationException(ValidationContext<IntValueObject> context, ValidationResult result)
-        => throw new IntValueObjectValidationException(null, null, null, null, null, null, null, result.Errors);
+        => throw new IntValueObjectValidationException(result.Errors);
 }

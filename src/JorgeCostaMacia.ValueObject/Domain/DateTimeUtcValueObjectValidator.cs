@@ -44,5 +44,5 @@ public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValu
     /// <param name="result">The result object containing the list of validation failures.</param>
     /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
     protected override void RaiseValidationException(ValidationContext<DateTimeUtcValueObject> context, ValidationResult result)
-        => throw new DateTimeUtcValueObjectValidationException(null, null, null, null, null, null, null, result.Errors);
+        => throw new DateTimeUtcValueObjectValidationException(result.Errors);
 }

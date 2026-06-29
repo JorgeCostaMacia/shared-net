@@ -6,23 +6,18 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on a <c>DateTimeUtcValueObject</c> or any derived Value Object.
+/// on a <c>LongValueObject</c> or any derived Value Object.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="ValidationException"/> and is used to signal
-/// a violation of the domain's business rules related to UTC DateTime-based Value Objects.
-/// It carries the specific validation failures from FluentValidation.
-/// </para>
-/// <para>
-/// It provides specialized constructors for internal use, ensuring a consistent error code
-/// and self-identifying aggregate type for this constraint violation.
+/// This exception inherits from <see cref="ValidationException"/> and carries the specific validation
+/// failures from FluentValidation, with a consistent error code and self-identifying aggregate type.
 /// </para>
 /// </remarks>
-public class DateTimeUtcValueObjectValidationException : ValidationException
+public class LongValueObjectValidationException : ValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="LongValueObjectValidationException"/> class with full context information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -32,7 +27,7 @@ public class DateTimeUtcValueObjectValidationException : ValidationException
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
-    public DateTimeUtcValueObjectValidationException(
+    public LongValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
         Guid aggregateCode,
@@ -54,20 +49,20 @@ public class DateTimeUtcValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="LongValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    public DateTimeUtcValueObjectValidationException(
+    public LongValueObjectValidationException(
         IEnumerable<ValidationFailure> validations,
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(DateTimeUtcValueObjectValidationException).FullName ?? typeof(DateTimeUtcValueObjectValidationException).Name,
+        typeof(LongValueObjectValidationException).FullName ?? typeof(LongValueObjectValidationException).Name,
 #if NET9_0_OR_GREATER
-    new Guid("b6ac0653-0f46-4f9b-864d-c63036e2a11f")
+    new Guid("00a6307a-a9aa-7e5a-9f7f-4c223fa2c0c8")
 #else
-    new Guid("a18b865d-0892-4b84-b479-a458be3f9a41")
+    new Guid("c3b6a04a-3152-4615-88cf-464e62bb8ce4")
 #endif
         ,
         null,
