@@ -27,7 +27,7 @@ On **.NET 9+** it returns a time-ordered **UUIDv7** (`Guid.CreateVersion7()`) â€
 
 ## Requirements
 
-One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
+One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 
 ## About
 
