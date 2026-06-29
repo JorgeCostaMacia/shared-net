@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
-		<VersionPrefix>2.0.0</VersionPrefix>
+		<VersionPrefix>2.0.1</VersionPrefix>
 		<Description>One-call Serilog bootstrap: registers Serilog with a standard enricher baseline (log context, thread, process, exceptions, version, application) and reads sinks and minimum levels from the "Serilog" configuration section</Description>
 		<PackageTags>serilog,logging,log,configuration,hosting</PackageTags>
 	</PropertyGroup>
