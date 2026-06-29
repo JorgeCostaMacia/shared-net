@@ -102,11 +102,7 @@ public record DateTimeValueObject : IValueObject
     /// Combines the date part of the first parameter with the time part of the second parameter.
     /// The resulting <see cref="DateTimeKind"/> is not set explicitly.
     /// </summary>
-    protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueDate.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond)
-#if !NET6_0
-        .AddMicroseconds(valueTime.Microsecond)
-#endif
-        ;
+    protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueTime.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond).AddMicroseconds(valueTime.Microsecond);
 
     /// <summary>
     /// Combines a <see cref="DateOnly"/> and a <see cref="TimeOnly"/> into a <see cref="DateTime"/> (kind unspecified).
