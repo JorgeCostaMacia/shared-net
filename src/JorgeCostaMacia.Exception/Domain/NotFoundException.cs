@@ -16,12 +16,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///    <item><description>Retrieving a user by ID when the user does not exist.</description></item>
 ///    <item><description>Querying for a product by SKU that is not found in the catalog.</description></item>
 /// </list>
-/// 
+///
 /// <para>Properties include:</para>
 /// <list type="bullet">
 ///    <item><description>Inherited metadata from <see cref="DomainException"/>: <see cref="DomainException.AggregateId"/>, <see cref="DomainException.AggregateType"/>, <see cref="DomainException.AggregateCode"/>, <see cref="DomainException.AggregateHttpCode"/>, and <see cref="DomainException.AggregateOccurredAt"/>.</description></item>
 /// </list>
-/// 
+///
 /// <para>
 /// Constructors allow automatic generation of metadata (IDs, timestamps, etc.) and primarily use
 /// a default HTTP status code of <b>404 (Not Found)</b>, thanks to <see cref="NotFoundExceptionDefaults"/>.

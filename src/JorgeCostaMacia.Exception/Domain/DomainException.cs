@@ -89,7 +89,7 @@ public abstract class DomainException : System.Exception
 
     /// <summary>
     /// Constructor that allows optional metadata fields.
-    /// Automatically generates IDs, timestamps, and default codes if not provided, 
+    /// Automatically generates IDs, timestamps, and default codes if not provided,
     /// leveraging the <see cref="DomainExceptionDefaults"/> class for constants and <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory"/> for dynamic values.
     /// </summary>
     /// <remarks>
