@@ -1,5 +1,5 @@
-﻿using FluentValidation.Results;
 using System.Collections.Immutable;
+using FluentValidation.Results;
 
 namespace JorgeCostaMacia.Exception.Domain;
 

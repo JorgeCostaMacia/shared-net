@@ -1,8 +1,8 @@
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using Serilog.Exceptions;
 using Serilog;
+using Serilog.Exceptions;
 
 namespace JorgeCostaMacia.Serilog;
 
