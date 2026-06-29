@@ -82,13 +82,6 @@ public record FloatValueObject : IValueObject
     public static FloatValueObject Create(double value) => Create(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting a <see cref="DateTime"/> value to the total seconds since its epoch (based on Ticks).
-    /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(DateTime value) => Create(Convert(value));
-
-    /// <summary>
     /// Converts a float value (identity conversion).
     /// </summary>
     protected static float Convert(float value) => value;
@@ -122,11 +115,6 @@ public record FloatValueObject : IValueObject
     /// Converts a double to a float value (may lose precision).
     /// </summary>
     protected static float Convert(double value) => Convert((float)value);
-
-    /// <summary>
-    /// Converts a <see cref="DateTime"/> value to a float representing the total seconds since its epoch (based on Ticks).
-    /// </summary>
-    protected static float Convert(DateTime value) => Convert((float)new TimeSpan(value.Ticks).TotalSeconds);
 
     /// <summary>
     /// Generates the hash code based on the internal value (<see cref="Value"/>).

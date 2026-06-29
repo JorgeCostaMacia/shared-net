@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.Entity.Domain;
+namespace JorgeCostaMacia.Entity.Domain;
 
 /// <summary>
 /// Defines the foundational contract for any <b>Domain Entity</b> within the application.

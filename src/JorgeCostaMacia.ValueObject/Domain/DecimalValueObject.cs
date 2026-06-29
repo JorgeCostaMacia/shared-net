@@ -81,13 +81,6 @@ public record DecimalValueObject : IValueObject
     public static DecimalValueObject Create(double value) => Create(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting a <see cref="DateTime"/> value to the total seconds since its epoch (based on Ticks).
-    /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(DateTime value) => Create(Convert(value));
-
-    /// <summary>
     /// Converts a decimal value (identity conversion).
     /// </summary>
     protected static decimal Convert(decimal value) => value;
@@ -121,11 +114,6 @@ public record DecimalValueObject : IValueObject
     /// Converts a double to a decimal value (may involve overflow).
     /// </summary>
     protected static decimal Convert(double value) => Convert(System.Convert.ToDecimal(value));
-
-    /// <summary>
-    /// Converts a <see cref="DateTime"/> value to a decimal representing the total seconds since its epoch (based on Ticks).
-    /// </summary>
-    protected static decimal Convert(DateTime value) => Convert(System.Convert.ToDecimal(new TimeSpan(value.Ticks).TotalSeconds));
 
     /// <summary>
     /// Generates the hash code based on the internal value (<see cref="Value"/>).

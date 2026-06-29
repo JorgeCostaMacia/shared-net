@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.ValueObject.Domain;
+namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Marker interface used to identify domain classes that follow the <b>Value Object</b> pattern.

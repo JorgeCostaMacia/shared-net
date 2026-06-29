@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.GuidMySqlConverter.Infrastructure;
+namespace JorgeCostaMacia.GuidMySqlConverter.Infrastructure;
 
 /// <summary>
 /// Converts a <see cref="Guid"/> to and from the 16-byte big-endian (RFC 4122) layout used by

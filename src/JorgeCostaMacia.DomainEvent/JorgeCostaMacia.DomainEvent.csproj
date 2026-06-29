@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.2</VersionPrefix>
+		<VersionPrefix>2.0.3</VersionPrefix>
 		<Description>Marker interface for transport-agnostic domain events</Description>
 		<PackageTags>ddd,domain-event,event,marker</PackageTags>
 	</PropertyGroup>

@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.Exception.Domain;
+namespace JorgeCostaMacia.Exception.Domain;
 
 /// <summary>
 /// Provides default static constants/fallback values for the <see cref="DomainException"/> hierarchy.

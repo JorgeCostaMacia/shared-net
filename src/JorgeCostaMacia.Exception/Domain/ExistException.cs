@@ -16,12 +16,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///    <item><description>Creating a user with an email that already exists.</description></item>
 ///    <item><description>Registering a product with a duplicate SKU.</description></item>
 /// </list>
-/// 
+///
 /// <para>Properties include:</para>
 /// <list type="bullet">
 ///    <item><description>Inherited metadata from <see cref="DomainException"/>: <see cref="DomainException.AggregateId"/>, <see cref="DomainException.AggregateType"/>, <see cref="DomainException.AggregateCode"/>, <see cref="DomainException.AggregateHttpCode"/>, and <see cref="DomainException.AggregateOccurredAt"/>.</description></item>
 /// </list>
-/// 
+///
 /// <para>
 /// Constructors allow automatic generation of metadata (IDs, timestamps, etc.) and primarily use
 /// a default HTTP status code of 409 (Conflict), thanks to <see cref="ExistExceptionDefaults"/>.

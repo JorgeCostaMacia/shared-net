@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.DomainEvent.Domain;
+namespace JorgeCostaMacia.DomainEvent.Domain;
 
 /// <summary>
 /// Marker interface for a <b>Domain Event</b> — an immutable fact describing something that

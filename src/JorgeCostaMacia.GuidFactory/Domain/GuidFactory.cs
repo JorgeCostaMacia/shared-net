@@ -1,4 +1,4 @@
-﻿namespace JorgeCostaMacia.GuidFactory.Domain;
+namespace JorgeCostaMacia.GuidFactory.Domain;
 
 /// <summary>
 /// Creates <see cref="Guid"/> values for use as identifiers.
