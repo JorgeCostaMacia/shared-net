@@ -1,6 +1,6 @@
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 using JorgeCostaMacia.ValueObject.Domain;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace JorgeCostaMacia.ValueObject.Infrastructure;
 
