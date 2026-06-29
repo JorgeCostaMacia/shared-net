@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.svg" width="128" alt="JorgeCostaMacia" />
+</p>
+
 # shared-net
 
 > A set of foundational, self-contained .NET packages — DDD building blocks and small utilities — each scoped to a single concern and shipped independently under `JorgeCostaMacia.*`.
