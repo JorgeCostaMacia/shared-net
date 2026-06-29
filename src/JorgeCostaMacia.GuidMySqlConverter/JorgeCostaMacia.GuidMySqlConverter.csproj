@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.1</VersionPrefix>
+		<VersionPrefix>2.0.2</VersionPrefix>
 		<Description>MySQL / MariaDB GUID byte-order conversion for BINARY(16) columns</Description>
 		<PackageTags>guid,uuid,mysql,mariadb,binary,converter</PackageTags>
 	</PropertyGroup>
