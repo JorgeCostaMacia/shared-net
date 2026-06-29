@@ -1,6 +1,6 @@
-﻿using FluentValidation.Results;
-using JorgeCostaMacia.Exception.Domain;
 using System.Collections.Immutable;
+using FluentValidation.Results;
+using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
