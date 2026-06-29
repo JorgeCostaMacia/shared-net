@@ -12,8 +12,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="JorgeCostaMacia.GuidFactory" Version="1.0.0" />
-		<PackageReference Include="FluentValidation" Version="11.12.0" Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0'" />
-		<PackageReference Include="FluentValidation" Version="12.1.1" Condition="'$(TargetFramework)' != 'net6.0' and '$(TargetFramework)' != 'net7.0'" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
 	</ItemGroup>
 
 </Project>
