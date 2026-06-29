@@ -48,7 +48,7 @@ protected override void RaiseValidationException(ValidationContext<T> context, V
 
 ## Requirements
 
-One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
+One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 
 Depends on [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) and [FluentValidation](https://www.nuget.org/packages/FluentValidation/).
 
