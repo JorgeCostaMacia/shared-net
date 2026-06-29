@@ -14,7 +14,7 @@
 		<Authors>JorgeCostaMacia</Authors>
 		<Company>$(Authors)</Company>
 		<Copyright>2023 Jorge Costa Maciá</Copyright>
-		<PackageIcon>jorgecostamacia.png</PackageIcon>
+		<PackageIcon>icon-128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
@@ -39,7 +39,7 @@
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)../LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)../COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
-		<None Include="$(MSBuildThisFileDirectory)../assets/jorgecostamacia.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)../assets/icon-128.png" Pack="true" PackagePath="\" Visible="false" />
 	</ItemGroup>
 
 </Project>
