@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>1.0.1</VersionPrefix>
+		<VersionPrefix>2.0.0</VersionPrefix>
 		<Description>Factory for creating time-ordered GUIDs (UUIDv7)</Description>
 		<PackageTags>guid,uuid,uuidv7,factory,identifier,id</PackageTags>
 	</PropertyGroup>
