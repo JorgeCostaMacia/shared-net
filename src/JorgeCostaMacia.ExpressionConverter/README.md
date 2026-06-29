@@ -34,7 +34,7 @@ Expression<Func<Order, bool>> predicate =
 
 ## Requirements
 
-One of the following SDKs: **.NET 6 / 7 / 8 / 9 / 10** *(.NET 10 recommended)*.
+One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 
 ## About
 
