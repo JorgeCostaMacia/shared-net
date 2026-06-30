@@ -36,15 +36,20 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 - Keep history clean — **no** `Co-Authored-By` / AI-assistant trailers in commits or messages.
 - Merges use git's **default** message (see *Branching & releases* above).
 
-## Relevant skills (installed)
+## Relevant skills
 
-These plugins/skills are installed and apply when working here — let them trigger, or invoke explicitly:
+Skills that apply to this repo — let them trigger, or invoke explicitly. `gitflow` is from `jorgecostamacia-agent-skills`; the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
 
 - **`gitflow`** — all branch/release work (see *Branching & releases* above).
-- **`dotnet-msbuild`** (msbuild, `msbuild-modernization`, `msbuild-antipatterns`, `directory-build-organization`, `convert-to-cpm`) — `Directory.Build.props`, project-file review/quality, Central Package Management, build perf.
-- **`dotnet-test-migration`** (`migrate-vstest-to-mtp`, `migrate-xunit-to-xunit-v3`) — the xUnit.v3 / MTP setup, and future test migrations in bus-net / http-net.
+- **`dotnet`** — C# language server + general .NET development.
+- **`dotnet-msbuild`** — `Directory.Build.props`, project-file quality/review, Central Package Management, build perf, modernization (msbuild-antipatterns, directory-build-organization, convert-to-cpm…).
 - **`dotnet-nuget`** — dependency management and package modernization.
-- **`dotnet-upgrade`** (`migrate-dotnet8-to-dotnet9`, …) — when bumping target frameworks.
+- **`dotnet-test`** — running, generating and analyzing tests; coverage; testability.
+- **`dotnet-test-migration`** — framework/platform migrations (the xUnit.v3 / MTP setup here; future migrations in bus-net / http-net).
+- **`dotnet-upgrade`** — migrating across target-framework versions.
+- **`dotnet-data`** — EF Core / data access (the `GuidMySqlConverter` and the value-object EF-mapping guidance).
+
+Not relevant to this foundation library (skip): `dotnet-ai`, `dotnet-maui`, `dotnet-aspnetcore` (that's for **http-net**), `dotnet-blazor`, `dotnet-template-engine`, `dotnet11`, `dotnet-diag`, `dotnet-advanced`.
 
 ## Build & test
 
