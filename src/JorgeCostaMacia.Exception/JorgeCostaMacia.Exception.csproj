@@ -7,8 +7,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JorgeCostaMacia.GuidFactory" Version="2.0.4" />
-		<PackageReference Include="FluentValidation" Version="12.1.1" />
+		<PackageReference Include="JorgeCostaMacia.GuidFactory" VersionOverride="2.0.4" />
+		<PackageReference Include="FluentValidation" />
 	</ItemGroup>
 
 </Project>
