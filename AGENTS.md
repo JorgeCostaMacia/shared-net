@@ -35,6 +35,16 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 - Commits use Jorge's **personal** identity (`Jorge Costa Maciá <costamaciajorge@gmail.com>`); **no** `Co-Authored-By` / Claude / Anthropic trailer.
 - **The agent does local git only; Jorge pushes** (also enforced by a settings deny on `git push`). Leave commits/merges ready and hand off the exact push command.
 
+## Relevant skills (installed)
+
+These plugins/skills are installed and apply when working here — let them trigger, or invoke explicitly:
+
+- **`gitflow`** — all branch/release work (see *Branching & releases* above).
+- **`dotnet-msbuild`** (msbuild, `msbuild-modernization`, `msbuild-antipatterns`, `directory-build-organization`, `convert-to-cpm`) — `Directory.Build.props`, project-file review/quality, Central Package Management, build perf.
+- **`dotnet-test-migration`** (`migrate-vstest-to-mtp`, `migrate-xunit-to-xunit-v3`) — the xUnit.v3 / MTP setup, and future test migrations in bus-net / http-net.
+- **`dotnet-nuget`** — dependency management and package modernization.
+- **`dotnet-upgrade`** (`migrate-dotnet8-to-dotnet9`, …) — when bumping target frameworks.
+
 ## Build & test
 
 ```
