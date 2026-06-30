@@ -1,8 +1,8 @@
 <Project>
 
-	<!-- Central Package Management: third-party package versions live here, in one place.
-	     Inter-package JorgeCostaMacia.* references stay version-pinned PER PROJECT via
-	     VersionOverride (see each csproj) so packages keep independent versioning. -->
+	<!-- Central Package Management: all third-party package versions live here, in one place.
+	     Inter-package JorgeCostaMacia.* deps are ProjectReferences (lockstep versioning); pack
+	     emits them as nuspec <dependency> at the shared version, so CPM doesn't manage them. -->
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
