@@ -9,12 +9,13 @@ env:
   CONFIGURATION: Release
   SOLUTION: shared-net.slnx
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v7
         with:
