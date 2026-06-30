@@ -9,8 +9,10 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
+	<!-- Shared package metadata. VersionPrefix is the SINGLE release version for all packages (lockstep);
+	     Description / PackageTags stay per-project. -->
 	<PropertyGroup>
+		<VersionPrefix>2.0.4</VersionPrefix>
 		<Authors>JorgeCostaMacia</Authors>
 		<Company>$(Authors)</Company>
 		<Copyright>2023 Jorge Costa Maciá</Copyright>

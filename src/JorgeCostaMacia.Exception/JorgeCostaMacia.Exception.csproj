@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
 		<Description>Domain exception hierarchy (Domain / Error / Exist / NotFound / Validation) with traceable metadata: id, type, error code, HTTP code and timestamp</Description>
 		<PackageTags>exception,domain,ddd,error,validation,http</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JorgeCostaMacia.GuidFactory" VersionOverride="2.0.4" />
+		<ProjectReference Include="../JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
 		<PackageReference Include="FluentValidation" />
 	</ItemGroup>
 
