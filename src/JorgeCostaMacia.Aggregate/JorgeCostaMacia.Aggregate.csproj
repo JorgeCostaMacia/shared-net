@@ -7,7 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JorgeCostaMacia.DomainEvent" Version="2.0.4" />
+		<PackageReference Include="JorgeCostaMacia.DomainEvent" VersionOverride="2.0.4" />
 	</ItemGroup>
 
 </Project>
