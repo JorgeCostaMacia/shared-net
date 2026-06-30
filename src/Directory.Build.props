@@ -3,9 +3,8 @@
 	<!-- Inherit the repo-root common settings -->
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
-	<!-- Build settings (TargetFrameworks is a default; individual projects may override) -->
+	<!-- Doc XML for IntelliSense — src only (keeps CS1591 off the test projects); TFMs are inherited from the root props -->
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
