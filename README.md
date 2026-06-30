@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/github/license/JorgeCostaMacia/shared-net.svg)](LICENSE.txt)
 [![Main](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
-[![Dev](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dev.yml/badge.svg?branch=develop)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/dev.yml)
+[![Develop](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/develop.yml/badge.svg?branch=develop)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/develop.yml)
 
 ## Requirements
 
