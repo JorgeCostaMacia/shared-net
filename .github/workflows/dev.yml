@@ -11,6 +11,9 @@ env:
   CONFIGURATION: Release
   SOLUTION: shared-net.slnx
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
