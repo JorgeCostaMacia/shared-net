@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/JorgeCostaMacia/shared-net/main/assets/icon-512.png" width="128" alt="JorgeCostaMacia" />
+  <img src="https://raw.githubusercontent.com/JorgeCostaMacia/shared-net/main/assets/social-preview.png" width="100%" alt="shared-net" />
 </p>
 
 # shared-net
