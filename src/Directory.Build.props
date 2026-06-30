@@ -8,18 +8,11 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<!-- Shared package metadata. VersionPrefix is the SINGLE release version for all packages (lockstep);
-	     Description / PackageTags stay per-project. -->
+	<!-- Package-output metadata (icon / readme / license). Identity + VersionPrefix live in the ROOT props; Description / PackageTags stay per-project. -->
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
-		<Authors>JorgeCostaMacia</Authors>
-		<Company>$(Authors)</Company>
-		<Copyright>2023 Jorge Costa Maciá</Copyright>
 		<PackageIcon>icon-128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<!-- Package hygiene: SourceLink, symbols and deterministic builds -->
