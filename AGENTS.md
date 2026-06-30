@@ -23,7 +23,7 @@ Third-party package versions are centralized in **`Directory.Packages.props`** (
 
 ## CI / publishing
 
-`.github/workflows/main.yml`: push to `main` → build → test → `dotnet pack shared-net.slnx` → `dotnet nuget push *.nupkg --skip-duplicate`. **The (central) `VersionPrefix` is the publish gate** — only new versions publish, existing ones are skipped, so pushing `main` after a version bump ships the whole set. `dev.yml` builds/tests on develop + PRs (no publish).
+`.github/workflows/main.yml`: push to `main` → build → test → `dotnet pack shared-net.slnx` → `dotnet nuget push *.nupkg --skip-duplicate`. **The (central) `VersionPrefix` is the publish gate** — only new versions publish, existing ones are skipped, so pushing `main` after a version bump ships the whole set. `develop.yml` builds/tests on develop + PRs (no publish).
 
 ## Branching & releases — GitFlow
 

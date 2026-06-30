@@ -1,5 +1,5 @@
 # Integration pipeline: build, test and verify packaging on develop and pull requests (no publish).
-name: Dev
+name: Develop
 
 on:
   push:
