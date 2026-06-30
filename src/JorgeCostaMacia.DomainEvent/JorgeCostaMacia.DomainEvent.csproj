@@ -1,13 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
 		<Description>Marker interface for transport-agnostic domain events</Description>
 		<PackageTags>ddd,domain-event,event,marker</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
 
 </Project>

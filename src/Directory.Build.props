@@ -3,22 +3,16 @@
 	<!-- Inherit the repo-root common settings -->
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
-	<!-- Build settings (TargetFrameworks is a default; individual projects may override) -->
+	<!-- Doc XML for IntelliSense — src only (keeps CS1591 off the test projects); TFMs are inherited from the root props -->
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<!-- Shared package metadata (VersionPrefix / Description / PackageTags stay per-project) -->
+	<!-- Package-output metadata (icon / readme / license). Identity + VersionPrefix live in the ROOT props; Description / PackageTags stay per-project. -->
 	<PropertyGroup>
-		<Authors>JorgeCostaMacia</Authors>
-		<Company>$(Authors)</Company>
-		<Copyright>2023 Jorge Costa Maciá</Copyright>
 		<PackageIcon>icon-128.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
 	<!-- Package hygiene: SourceLink, symbols and deterministic builds -->
@@ -32,14 +26,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
 	</ItemGroup>
 
-	<!-- Repo-root files packed into every package (each project still ships its own README.md) -->
+	<!-- Files packed into every package: repo-root LICENSE/COPYRIGHT/icon + each project's own README -->
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)../LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)../COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)../assets/icon-128.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>

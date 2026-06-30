@@ -28,8 +28,6 @@ One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 | [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
 | [JorgeCostaMacia.ValueObject](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) | Immutable typed value objects (primitives, semantic strings, ranges, paging) with FluentValidation validators. |
 
-_More on the way — a `JorgeCostaMacia` umbrella meta-package (install-everything)._
-
 ## Contact
 
 - [LinkedIn](https://www.linkedin.com/in/jorge-costa-macia-842817164/)

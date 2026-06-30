@@ -1,13 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
 		<Description>Convert LINQ predicate expressions to and from string dictionaries</Description>
 		<PackageTags>expression,linq,predicate,converter,dictionary</PackageTags>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
 
 </Project>

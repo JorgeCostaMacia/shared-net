@@ -1,7 +1,18 @@
 <Project>
 
-	<!-- Settings common to every project in the repo (packages and tests alike) -->
+	<!-- Repo identity + the single (lockstep) release version — shared by every project -->
 	<PropertyGroup>
+		<VersionPrefix>2.0.5</VersionPrefix>
+		<Authors>JorgeCostaMacia</Authors>
+		<Company>$(Authors)</Company>
+		<Copyright>2023 Jorge Costa Maciá</Copyright>
+		<RepositoryUrl>https://github.com/JorgeCostaMacia/shared-net</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+
+	<!-- Build settings common to every project (packages and tests alike) -->
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest</AnalysisLevel>

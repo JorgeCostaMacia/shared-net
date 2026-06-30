@@ -1,19 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
 		<Description>Immutable, type-safe value objects with conversion factories, plus their FluentValidation validators and typed validation exceptions</Description>
 		<PackageTags>value-object,valueobject,ddd,domain,immutable,fluentvalidation</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="JorgeCostaMacia.Exception" Version="2.0.4" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
-		<PackageReference Include="FluentValidation" Version="12.1.1" />
+		<ProjectReference Include="../JorgeCostaMacia.Exception/JorgeCostaMacia.Exception.csproj" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="FluentValidation" />
 	</ItemGroup>
 
 </Project>
