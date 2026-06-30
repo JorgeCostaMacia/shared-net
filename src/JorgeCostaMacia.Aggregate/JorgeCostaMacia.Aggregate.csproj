@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<VersionPrefix>2.0.4</VersionPrefix>
 		<Description>DDD Aggregate Root base that accumulates transport-agnostic domain events (IDomainEvent) for a pull-and-publish unit of work</Description>
 		<PackageTags>aggregate,aggregate-root,ddd,domain,domain-events</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JorgeCostaMacia.DomainEvent" VersionOverride="2.0.4" />
+		<ProjectReference Include="../JorgeCostaMacia.DomainEvent/JorgeCostaMacia.DomainEvent.csproj" />
 	</ItemGroup>
 
 </Project>

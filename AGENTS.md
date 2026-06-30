@@ -5,7 +5,7 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 ## Layout
 
 - `src/<Package>/` — one package per folder. `test/<Package>.Tests/` — its tests. `assets/` — icons + social preview.
-- **3-tier `Directory.Build.props`**: **root** (common: ImplicitUsings, Nullable, AnalysisLevel, EnforceCodeStyleInBuild) → **`src/`** (package metadata, TFMs, SourceLink, symbols, `GenerateDocumentationFile`, pack of LICENSE/COPYRIGHT/icon) → **`test/`** (test settings). Each `src` csproj declares **only** `VersionPrefix` / `Description` / `PackageTags` + its `README.md` None item; everything else is inherited — don't restate inherited settings.
+- **3-tier `Directory.Build.props`**: **root** (common: ImplicitUsings, Nullable, AnalysisLevel, EnforceCodeStyleInBuild) → **`src/`** (package metadata, TFMs, SourceLink, symbols, `GenerateDocumentationFile`, pack of LICENSE/COPYRIGHT/icon) → **`test/`** (test settings). Each `src` csproj declares **only** `Description` / `PackageTags`; everything else — the single `VersionPrefix`, package metadata, and the LICENSE/COPYRIGHT/icon/README packing — is inherited from the props (don't restate it).
 
 ## Targets & stack
 
@@ -13,24 +13,24 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 - Tests: **xUnit.v3 on Microsoft.Testing.Platform (MTP)** — test projects are `OutputType=Exe` + `TestingPlatformDotnetTestSupport=true`. Not MSTest, not VSTest.
 - Source is **UTF-8 without BOM** (`.editorconfig` `charset = utf-8`). camelCase locals, PascalCase types, I-prefixed interfaces. Copyright year stays **2023** (deliberate — don't bump).
 
-## Inter-package dependencies — releases are PHASED
+## Inter-package dependencies
 
-Packages reference each other via **`PackageReference` to PUBLISHED versions** (zero `ProjectReference`). A dependent can only build against a version already on NuGet, so a change spanning tiers must publish **in order**: **tier0** (GuidFactory, DomainEvent, Entity, ExpressionConverter, GuidMySqlConverter, Serilog) → wait for NuGet to index → **tier1** (Exception→GuidFactory, Aggregate→DomainEvent: bump refs + publish) → **ValueObject** (→Exception). **Never bump a dependent to reference a version that isn't published yet.**
+Packages reference each other via **`ProjectReference`** (e.g. ValueObject → Exception → GuidFactory, Aggregate → DomainEvent). `dotnet pack` turns each `ProjectReference` into a NuGet `<dependency>` at the sibling's version, so the dependency graph still ships in the nuspec — but you build against local source and **release everything together** (no phased, tier-by-tier publishing). Don't reintroduce `PackageReference` between these packages.
 
 ## Dependencies — Central Package Management
 
-Third-party package versions are centralized in **`Directory.Packages.props`** (repo root, `ManagePackageVersionsCentrally=true`): add or bump them **there** as `<PackageVersion>`, and reference packages in csproj **without** a `Version`. The inter-package `JorgeCostaMacia.*` references are the exception — they stay pinned **per project** via `VersionOverride="x.y.z"` so each package versions independently. **Never move the `JorgeCostaMacia.*` refs into `Directory.Packages.props`.**
+Third-party package versions are centralized in **`Directory.Packages.props`** (repo root, `ManagePackageVersionsCentrally=true`): add or bump them **there** as `<PackageVersion>`, and reference packages in csproj **without** a `Version`. (Inter-package deps are `ProjectReference`, not packages — see above — so CPM doesn't manage them.)
 
 ## CI / publishing
 
-`.github/workflows/main.yml`: push to `main` → build → test → `dotnet pack shared-net.slnx` → `dotnet nuget push *.nupkg --skip-duplicate`. **The csproj `VersionPrefix` is the publish gate** — only new versions publish, existing ones are skipped, so pushing `main` ships whatever has a bumped version. `dev.yml` builds/tests on develop + PRs (no publish).
+`.github/workflows/main.yml`: push to `main` → build → test → `dotnet pack shared-net.slnx` → `dotnet nuget push *.nupkg --skip-duplicate`. **The (central) `VersionPrefix` is the publish gate** — only new versions publish, existing ones are skipped, so pushing `main` after a version bump ships the whole set. `dev.yml` builds/tests on develop + PRs (no publish).
 
 ## Branching & releases — GitFlow
 
 Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 - Feature/bugfix → `feature/`|`bugfix/<name>-<ts>` from develop → finish `--no-ff` into develop.
-- Release → `release/<version>` from develop → bump `VersionPrefix`(s) **on the branch** → Release Finish (merge develop+main, annotated tag `v<version>`, atomic push). For **phased rollouts** (the PackageReference constraint above), flag it before deviating from a single release branch.
+- Release → `release/<version>` from develop → bump the **single** `VersionPrefix` in `src/Directory.Build.props` (all packages version in lockstep) → Release Finish (merge develop+main, annotated tag `v<version>`, atomic push). One bump versions everything; the `ProjectReference` cross-deps follow automatically.
 - Use git's **default merge message** (`--no-ff --no-edit`, never `-m`).
 - Branch prefixes only: `feature` / `bugfix` / `release` / `hotfix`.
 
