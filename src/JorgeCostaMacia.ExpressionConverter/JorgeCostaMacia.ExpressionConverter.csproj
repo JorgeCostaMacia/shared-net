@@ -6,8 +6,4 @@
 		<PackageTags>expression,linq,predicate,converter,dictionary</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
 </Project>

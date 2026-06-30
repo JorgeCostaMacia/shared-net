@@ -35,11 +35,12 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
 	</ItemGroup>
 
-	<!-- Repo-root files packed into every package (each project still ships its own README.md) -->
+	<!-- Files packed into every package: repo-root LICENSE/COPYRIGHT/icon + each project's own README -->
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)../LICENSE.txt" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)../COPYRIGHT.txt" Pack="true" PackagePath="\" Visible="false" />
 		<None Include="$(MSBuildThisFileDirectory)../assets/icon-128.png" Pack="true" PackagePath="\" Visible="false" />
+		<None Include="$(MSBuildProjectDirectory)/README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
 </Project>
