@@ -6,8 +6,4 @@
 		<PackageTags>guid,uuid,mysql,mariadb,binary,converter</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
 </Project>

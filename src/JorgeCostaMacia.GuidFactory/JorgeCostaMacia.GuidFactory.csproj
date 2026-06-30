@@ -6,8 +6,4 @@
 		<PackageTags>guid,uuid,uuidv7,factory,identifier,id</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
 </Project>

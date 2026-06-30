@@ -6,8 +6,4 @@
 		<PackageTags>ddd,domain-event,event,marker</PackageTags>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
 </Project>

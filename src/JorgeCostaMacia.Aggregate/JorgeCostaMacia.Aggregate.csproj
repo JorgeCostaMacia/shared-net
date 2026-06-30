@@ -7,10 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="README.md" Pack="True" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="JorgeCostaMacia.DomainEvent" Version="2.0.4" />
 	</ItemGroup>
 
