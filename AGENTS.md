@@ -17,6 +17,10 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 
 Packages reference each other via **`PackageReference` to PUBLISHED versions** (zero `ProjectReference`). A dependent can only build against a version already on NuGet, so a change spanning tiers must publish **in order**: **tier0** (GuidFactory, DomainEvent, Entity, ExpressionConverter, GuidMySqlConverter, Serilog) → wait for NuGet to index → **tier1** (Exception→GuidFactory, Aggregate→DomainEvent: bump refs + publish) → **ValueObject** (→Exception). **Never bump a dependent to reference a version that isn't published yet.**
 
+## Dependencies — Central Package Management
+
+Third-party package versions are centralized in **`Directory.Packages.props`** (repo root, `ManagePackageVersionsCentrally=true`): add or bump them **there** as `<PackageVersion>`, and reference packages in csproj **without** a `Version`. The inter-package `JorgeCostaMacia.*` references are the exception — they stay pinned **per project** via `VersionOverride="x.y.z"` so each package versions independently. **Never move the `JorgeCostaMacia.*` refs into `Directory.Packages.props`.**
+
 ## CI / publishing
 
 `.github/workflows/main.yml`: push to `main` → build → test → `dotnet pack shared-net.slnx` → `dotnet nuget push *.nupkg --skip-duplicate`. **The csproj `VersionPrefix` is the publish gate** — only new versions publish, existing ones are skipped, so pushing `main` ships whatever has a bumped version. `dev.yml` builds/tests on develop + PRs (no publish).
