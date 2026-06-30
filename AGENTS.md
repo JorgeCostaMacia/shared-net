@@ -32,8 +32,9 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 ## Git etiquette
 
-- Commits use Jorge's **personal** identity (`Jorge Costa Maciá <costamaciajorge@gmail.com>`); **no** `Co-Authored-By` / Claude / Anthropic trailer.
-- **The agent does local git only; Jorge pushes** (also enforced by a settings deny on `git push`). Leave commits/merges ready and hand off the exact push command.
+- Commit under **your own identity** — don't hardcode anyone's name/email.
+- Keep history clean — **no** `Co-Authored-By` / AI-assistant trailers in commits or messages.
+- Merges use git's **default** message (see *Branching & releases* above).
 
 ## Relevant skills (installed)
 
