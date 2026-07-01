@@ -84,5 +84,5 @@ dotnet test
 ```
 
 Shared build settings (target frameworks, package metadata, SourceLink, symbols)
-live in `Directory.Build.props`; each project's `.csproj` only declares what is
-unique to it (`VersionPrefix`, `Description`, `PackageTags`).
+live in `Directory.Build.props` (including the single lockstep `VersionPrefix`);
+each project's `.csproj` only declares what is unique to it (`Description`, `PackageTags`).
