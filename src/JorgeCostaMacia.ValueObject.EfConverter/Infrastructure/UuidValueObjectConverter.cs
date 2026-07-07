@@ -14,5 +14,5 @@ public sealed class UuidValueObjectConverter<TValueObject> : ValueConverter<TVal
     where TValueObject : UuidValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public UuidValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, Guid>()) { }
+    public UuidValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, Guid>()) { }
 }

@@ -14,5 +14,5 @@ public sealed class DecimalValueObjectConverter<TValueObject> : ValueConverter<T
     where TValueObject : DecimalValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public DecimalValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, decimal>()) { }
+    public DecimalValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, decimal>()) { }
 }

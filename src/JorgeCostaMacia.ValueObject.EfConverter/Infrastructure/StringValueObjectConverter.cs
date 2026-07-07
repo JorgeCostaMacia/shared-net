@@ -14,5 +14,5 @@ public sealed class StringValueObjectConverter<TValueObject> : ValueConverter<TV
     where TValueObject : StringValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public StringValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, string>()) { }
+    public StringValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, string>()) { }
 }

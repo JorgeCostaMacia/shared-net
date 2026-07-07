@@ -2,6 +2,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\JorgeCostaMacia.ValueObject.EfConverter\JorgeCostaMacia.ValueObject.EfConverter.csproj" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
 	</ItemGroup>
 
 </Project>

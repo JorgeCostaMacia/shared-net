@@ -5,10 +5,18 @@ namespace JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
 
 /// <summary>
 /// Builds the "from provider" expression the family converters share: rehydrates a value object by
-/// calling its constructor (found by reflection once, compiled into the expression), so reads go through
-/// the infrastructure constructor — not the <c>Create</c> factory — and skip re-validating persisted data.
-/// The constructor may be non-public (e.g. a <c>protected</c> one).
+/// calling its constructor, so reads go through the infrastructure constructor — not the <c>Create</c>
+/// factory — and skip re-validating persisted data. The constructor may be non-public (e.g. a
+/// <c>protected</c> one).
 /// </summary>
+/// <remarks>
+/// The natural expression, <c>value =&gt; new TValueObject(value)</c>, does not compile: C# only allows a
+/// <b>parameterless</b> constructor constraint (<c>where T : new()</c>), never one taking an argument — so
+/// a parameterized constructor cannot be called on an open generic type. Reflection builds that same
+/// expression by hand. It runs <b>once</b>, when the converter is created (EF caches converters with the
+/// model); the compiled delegate then invokes the constructor directly on every read, as fast as a
+/// hand-written <c>new</c>.
+/// </remarks>
 internal static class ValueObjectConstructor
 {
     /// <summary>Returns <c>value =&gt; new TValueObject(value)</c> for the single-<typeparamref name="TValue"/> constructor.</summary>

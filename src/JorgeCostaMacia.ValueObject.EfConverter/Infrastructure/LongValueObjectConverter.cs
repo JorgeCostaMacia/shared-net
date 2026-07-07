@@ -14,5 +14,5 @@ public sealed class LongValueObjectConverter<TValueObject> : ValueConverter<TVal
     where TValueObject : LongValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public LongValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, long>()) { }
+    public LongValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, long>()) { }
 }

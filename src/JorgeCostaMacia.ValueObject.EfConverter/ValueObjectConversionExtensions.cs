@@ -1,6 +1,6 @@
 using System.Reflection;
-using JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
 using JorgeCostaMacia.ValueObject.Domain;
+using JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace JorgeCostaMacia.ValueObject.EfConverter;

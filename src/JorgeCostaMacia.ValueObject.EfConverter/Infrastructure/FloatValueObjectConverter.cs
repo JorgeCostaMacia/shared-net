@@ -14,5 +14,5 @@ public sealed class FloatValueObjectConverter<TValueObject> : ValueConverter<TVa
     where TValueObject : FloatValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public FloatValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, float>()) { }
+    public FloatValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, float>()) { }
 }

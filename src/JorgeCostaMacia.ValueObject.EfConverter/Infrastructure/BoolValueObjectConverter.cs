@@ -14,5 +14,5 @@ public sealed class BoolValueObjectConverter<TValueObject> : ValueConverter<TVal
     where TValueObject : BoolValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public BoolValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, bool>()) { }
+    public BoolValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, bool>()) { }
 }

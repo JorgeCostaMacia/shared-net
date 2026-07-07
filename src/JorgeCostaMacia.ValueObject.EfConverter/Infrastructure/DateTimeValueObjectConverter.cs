@@ -14,5 +14,5 @@ public sealed class DateTimeValueObjectConverter<TValueObject> : ValueConverter<
     where TValueObject : DateTimeValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public DateTimeValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, DateTime>()) { }
+    public DateTimeValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, DateTime>()) { }
 }

@@ -14,5 +14,5 @@ public sealed class ByteValueObjectConverter<TValueObject> : ValueConverter<TVal
     where TValueObject : ByteValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public ByteValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, byte[]>()) { }
+    public ByteValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, byte[]>()) { }
 }

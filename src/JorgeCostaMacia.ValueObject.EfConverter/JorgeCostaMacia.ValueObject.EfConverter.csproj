@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Description>Native EF Core value converters for JorgeCostaMacia.ValueObject value objects — a single generic converter (value object &lt;-&gt; underlying value) plus a convention to auto-apply it. Provider-agnostic (works with Npgsql, SQL Server, SQLite, ...).</Description>
+		<Description>Native EF Core value converters for JorgeCostaMacia.ValueObject value objects — one converter per value-object family (value object &lt;-&gt; underlying value) plus a convention to auto-apply them. Provider-agnostic (works with Npgsql, SQL Server, SQLite, ...).</Description>
 		<PackageTags>efcore,entity-framework,value-converter,value-object,ddd,postgresql,npgsql</PackageTags>
 	</PropertyGroup>
 

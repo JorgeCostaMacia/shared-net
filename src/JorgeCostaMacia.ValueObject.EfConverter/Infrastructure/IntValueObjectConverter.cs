@@ -14,5 +14,5 @@ public sealed class IntValueObjectConverter<TValueObject> : ValueConverter<TValu
     where TValueObject : IntValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public IntValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, int>()) { }
+    public IntValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, int>()) { }
 }

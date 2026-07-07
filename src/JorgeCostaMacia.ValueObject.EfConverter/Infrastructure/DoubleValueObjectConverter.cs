@@ -14,5 +14,5 @@ public sealed class DoubleValueObjectConverter<TValueObject> : ValueConverter<TV
     where TValueObject : DoubleValueObject
 {
     /// <summary>Creates the converter.</summary>
-    public DoubleValueObjectConverter() : base(valueObject => valueObject.Value, ValueObjectConstructor.From<TValueObject, double>()) { }
+    public DoubleValueObjectConverter() : base(v => v.Value, ValueObjectConstructor.From<TValueObject, double>()) { }
 }
