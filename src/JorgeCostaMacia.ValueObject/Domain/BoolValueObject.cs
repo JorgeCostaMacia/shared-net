@@ -26,10 +26,11 @@ public record BoolValueObject : IValueObject
     /// to ensure type conversion and adherence to best practices.
     /// </summary>
     /// <param name="value">The boolean value to encapsulate.</param>
-    public BoolValueObject(bool value)
-    {
-        Value = value;
-    }
+    public BoolValueObject(bool value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="bool"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator bool(BoolValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="BoolValueObject"/> instance from a boolean value.
@@ -120,13 +121,6 @@ public record BoolValueObject : IValueObject
     /// Converts a decimal to a boolean. Only <c>1</c> maps to <c>true</c>.
     /// </summary>
     protected static bool Convert(decimal value) => Convert((int)value == 1);
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns the string representation of the encapsulated boolean value.

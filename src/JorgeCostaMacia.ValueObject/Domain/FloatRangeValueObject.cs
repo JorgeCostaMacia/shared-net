@@ -78,12 +78,6 @@ public record FloatRangeValueObject : IValueObject
     public static FloatRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
 
     /// <summary>
-    /// Generates the hash code based on the combined hash of the encapsulated <see cref="ValueStart"/> and <see cref="ValueEnd"/> float primitives.
-    /// </summary>
-    /// <returns>The combined hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(ValueStart.Value, ValueEnd.Value);
-
-    /// <summary>
     /// Returns the string representation of the numeric range in the format "Start Value - End Value".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>

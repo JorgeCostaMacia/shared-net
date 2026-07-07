@@ -26,10 +26,11 @@ public record DateTimeValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate.</param>
-    public DateTimeValueObject(DateTime value)
-    {
-        Value = value;
-    }
+    public DateTimeValueObject(DateTime value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="DateTime"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator DateTime(DateTimeValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="DateTimeValueObject"/> instance from a standard <see cref="DateTime"/> value, preserving its kind.
@@ -135,13 +136,6 @@ public record DateTimeValueObject : IValueObject
     /// Creates a new <see cref="DateTime"/> from a decimal (after casting to integer Ticks, kind unspecified).
     /// </summary>
     protected static DateTime Convert(decimal value) => Convert(new DateTime((int)value));
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns the string representation of the encapsulated <see cref="DateTime"/> value.

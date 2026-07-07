@@ -25,10 +25,20 @@ public record ByteValueObject : IValueObject
     /// This constructor bypasses validation logic and is primarily intended for ORMs and deserializers.
     /// </summary>
     /// <param name="value">The byte array to encapsulate.</param>
-    public ByteValueObject(byte[] value)
-    {
-        Value = value;
-    }
+    public ByteValueObject(byte[] value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="byte"/>[] value.</summary>
+    /// <remarks>
+    /// Unlike the scalar value objects, this one wraps a <see cref="byte"/>[] (a binary blob), not a single scalar.
+    /// The operator is kept so the raw bytes can be used directly — e.g. binary queries/comparisons against the
+    /// database column. Two caveats follow from the array type (they already applied to the public <c>Value</c>,
+    /// the operator does not make them worse): the returned reference is the <b>underlying array</b> — treat it as
+    /// read-only, do not mutate it; and equality is by reference (records compare arrays by reference), so two
+    /// instances with the same bytes are not equal. If a fully value-semantic byte value object is ever needed,
+    /// give it structural equality (content <c>SequenceEqual</c> + a content-based hash) as its own change.
+    /// </remarks>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator byte[](ByteValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="ByteValueObject"/> instance from an existing byte array.
@@ -56,13 +66,6 @@ public record ByteValueObject : IValueObject
     /// <returns>The resulting byte array.</returns>
     /// <exception cref="FormatException">Thrown if the string is not a valid Base64 string.</exception>
     protected static byte[] Convert(string value) => Convert(System.Convert.FromBase64String(value.Trim()));
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns a string representation of the byte array, encoded using UTF8.

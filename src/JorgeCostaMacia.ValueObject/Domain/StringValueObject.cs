@@ -25,10 +25,11 @@ public record StringValueObject : IValueObject
     /// This constructor bypasses validation and is intended for ORMs, deserializers, and database mapping.
     /// </summary>
     /// <param name="value">The string value to encapsulate.</param>
-    protected StringValueObject(string value)
-    {
-        Value = value;
-    }
+    protected StringValueObject(string value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="string"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator string(StringValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="StringValueObject"/> instance from a string,
@@ -140,13 +141,6 @@ public record StringValueObject : IValueObject
     /// Converts a Guid to a string.
     /// </summary>
     protected static string Convert(Guid value) => Convert(value.ToString());
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns the string representation of the encapsulated value.

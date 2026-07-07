@@ -25,10 +25,11 @@ public record FloatValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The float value to encapsulate.</param>
-    public FloatValueObject(float value)
-    {
-        Value = value;
-    }
+    public FloatValueObject(float value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="float"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator float(FloatValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="FloatValueObject"/> instance from an existing float value (identity conversion).
@@ -115,13 +116,6 @@ public record FloatValueObject : IValueObject
     /// Converts a double to a float value (may lose precision).
     /// </summary>
     protected static float Convert(double value) => Convert((float)value);
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns the string representation of the encapsulated float value.
