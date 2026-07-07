@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -106,12 +108,12 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a float to a string.
     /// </summary>
-    protected static string Convert(float value) => Convert(value.ToString());
+    protected static string Convert(float value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a decimal to a string.
     /// </summary>
-    protected static string Convert(decimal value) => Convert(value.ToString());
+    protected static string Convert(decimal value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a boolean to a string.
@@ -126,12 +128,12 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a double to a string.
     /// </summary>
-    protected static string Convert(double value) => Convert(value.ToString());
+    protected static string Convert(double value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a DateTime to a string.
     /// </summary>
-    protected static string Convert(DateTime value) => Convert(value.ToString());
+    protected static string Convert(DateTime value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a Guid to a string.

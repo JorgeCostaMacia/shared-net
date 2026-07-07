@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -85,7 +87,7 @@ public record DecimalValueObject : IValueObject
     /// <summary>
     /// Parses a string into a decimal value, trimming whitespace first.
     /// </summary>
-    protected static decimal Convert(string value) => Convert(decimal.Parse(value.Trim()));
+    protected static decimal Convert(string value) => Convert(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts an integer to a decimal value.

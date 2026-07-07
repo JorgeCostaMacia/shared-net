@@ -1,4 +1,4 @@
-// 'GuidMySqlConverter' is referenced fully-qualified (global::) so the type isn't shadowed by
+// 'GuidMySqlConverter' is referenced from its package namespace so the type isn't shadowed by
 // the enclosing 'JorgeCostaMacia.GuidMySqlConverter' namespace in test code.
 namespace JorgeCostaMacia.GuidMySqlConverter.Tests.Infrastructure;
 
@@ -9,8 +9,8 @@ public class GuidMySqlConverterTests
     {
         Guid original = Guid.NewGuid();
 
-        byte[] bytes = global::JorgeCostaMacia.GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertToBytes(original);
-        Guid roundTripped = global::JorgeCostaMacia.GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(bytes);
+        byte[] bytes = GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertToBytes(original);
+        Guid roundTripped = GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(bytes);
 
         Assert.Equal(original, roundTripped);
     }
@@ -20,7 +20,7 @@ public class GuidMySqlConverterTests
     {
         Guid guid = new("00112233-4455-6677-8899-aabbccddeeff");
 
-        byte[] converted = global::JorgeCostaMacia.GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertToBytes(guid);
+        byte[] converted = GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertToBytes(guid);
 
         // First three fields in big-endian (string) order, unlike .NET's little-endian ToByteArray().
         Assert.Equal(new byte[] { 0x00, 0x11, 0x22, 0x33 }, converted[..4]);

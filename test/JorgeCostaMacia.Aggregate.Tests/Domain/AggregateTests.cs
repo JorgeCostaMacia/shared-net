@@ -2,11 +2,11 @@ using JorgeCostaMacia.DomainEvent.Domain;
 
 namespace JorgeCostaMacia.Aggregate.Tests.Domain;
 
-// 'Aggregate' is referenced fully-qualified (global::) so the base class isn't shadowed by
+// 'Aggregate' is referenced from its package namespace so the base class isn't shadowed by
 // the enclosing 'JorgeCostaMacia.Aggregate' namespace in test code.
 file sealed record TestEvent(int Id) : IDomainEvent;
 
-file sealed class TestAggregate : global::JorgeCostaMacia.Aggregate.Domain.Aggregate;
+file sealed class TestAggregate : Aggregate.Domain.Aggregate;
 
 public class AggregateTests
 {

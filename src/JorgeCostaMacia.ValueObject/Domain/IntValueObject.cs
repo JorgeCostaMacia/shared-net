@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -84,9 +86,9 @@ public record IntValueObject : IValueObject
     protected static int Convert(int value) => value;
 
     /// <summary>
-    /// Parses a string into a float, then converts it to an integer (trimming whitespace first). This conversion may lose fractional data.
+    /// Parses a string into a decimal, then converts it to an integer (trimming whitespace first). This conversion may lose fractional data.
     /// </summary>
-    protected static int Convert(string value) => Convert(System.Convert.ToInt32(float.Parse(value.Trim())));
+    protected static int Convert(string value) => Convert(System.Convert.ToInt32(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture)));
 
     /// <summary>
     /// Converts a float to an integer (may involve truncation).

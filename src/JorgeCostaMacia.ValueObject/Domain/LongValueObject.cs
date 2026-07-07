@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -52,8 +54,8 @@ public record LongValueObject : IValueObject
     /// <summary>Converts a long value (identity conversion).</summary>
     protected static long Convert(long value) => value;
 
-    /// <summary>Parses a string into a long value (via double), trimming whitespace first.</summary>
-    protected static long Convert(string value) => Convert(System.Convert.ToInt64(double.Parse(value.Trim())));
+    /// <summary>Parses a string into a long value (via decimal), trimming whitespace first.</summary>
+    protected static long Convert(string value) => Convert(System.Convert.ToInt64(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture)));
 
     /// <summary>Converts an integer to a long value.</summary>
     protected static long Convert(int value) => Convert((long)value);

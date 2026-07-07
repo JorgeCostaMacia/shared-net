@@ -33,7 +33,7 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+             .GreaterThan(0);
     }
 
     /// <summary>

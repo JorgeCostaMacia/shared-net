@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -86,7 +88,7 @@ public record FloatValueObject : IValueObject
     /// <summary>
     /// Parses a string into a float value, trimming whitespace first.
     /// </summary>
-    protected static float Convert(string value) => Convert(float.Parse(value.Trim()));
+    protected static float Convert(string value) => Convert(float.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts an integer to a float value.

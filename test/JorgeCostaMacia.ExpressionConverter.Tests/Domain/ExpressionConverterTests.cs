@@ -1,4 +1,4 @@
-// 'ExpressionConverter' is referenced fully-qualified (global::) so the type/namespace clash
+// 'ExpressionConverter' is referenced from its package namespace so the type/namespace clash
 // under the 'JorgeCostaMacia.ExpressionConverter' namespace does not bite in test code.
 using System.Linq.Expressions;
 
@@ -27,7 +27,7 @@ public class ExpressionConverterTests
     {
         Expression<Func<Sample, bool>> expression = x => x.Name == "foo" && x.Age == 5;
 
-        Dictionary<string, string> result = global::JorgeCostaMacia.ExpressionConverter.Domain.ExpressionConverter.Convert(expression);
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert(expression);
 
         Assert.Equal("foo", result["Name"]);
         Assert.Equal("5", result["Age"]);
@@ -42,7 +42,7 @@ public class ExpressionConverterTests
             ["Age"] = "5",
         };
 
-        Func<Sample, bool> predicate = global::JorgeCostaMacia.ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
 
         Assert.True(predicate(new Sample { Name = "foo", Age = 5 }));
         Assert.False(predicate(new Sample { Name = "bar", Age = 5 }));
@@ -60,7 +60,7 @@ public class ExpressionConverterTests
             ["Optional"] = "", // empty string -> null for a nullable property
         };
 
-        Func<Sample, bool> predicate = global::JorgeCostaMacia.ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
 
         Assert.True(predicate(new Sample { Id = id, Kind = Color.Green, Optional = null }));
         Assert.False(predicate(new Sample { Id = Guid.NewGuid(), Kind = Color.Green, Optional = null }));
@@ -71,8 +71,8 @@ public class ExpressionConverterTests
     {
         Expression<Func<Sample, bool>> original = x => x.Name == "foo" && x.Age == 7;
 
-        Dictionary<string, string> dictionary = global::JorgeCostaMacia.ExpressionConverter.Domain.ExpressionConverter.Convert(original);
-        Func<Sample, bool> rebuilt = global::JorgeCostaMacia.ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert(original);
+        Func<Sample, bool> rebuilt = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
 
         Assert.True(rebuilt(new Sample { Name = "foo", Age = 7 }));
         Assert.False(rebuilt(new Sample { Name = "foo", Age = 8 }));

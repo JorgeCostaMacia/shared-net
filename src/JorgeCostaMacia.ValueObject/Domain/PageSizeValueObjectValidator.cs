@@ -34,7 +34,7 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+             .GreaterThan(0);
     }
 
     /// <summary>
