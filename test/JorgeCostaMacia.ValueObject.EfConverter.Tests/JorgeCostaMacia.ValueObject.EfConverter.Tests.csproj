@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\JorgeCostaMacia.ValueObject.EfConverter\JorgeCostaMacia.ValueObject.EfConverter.csproj" />
+	</ItemGroup>
+
+</Project>
