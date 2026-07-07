@@ -77,12 +77,6 @@ public record PageNumberRangeValueObject : IValueObject
     public static PageNumberRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd));
 
     /// <summary>
-    /// Generates the hash code based on the combined hash of the encapsulated <see cref="ValueStart"/> and <see cref="ValueEnd"/> page number primitives.
-    /// </summary>
-    /// <returns>The combined hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(ValueStart.Value, ValueEnd.Value);
-
-    /// <summary>
     /// Returns the string representation of the page number range in the format "Start Page - End Page".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>

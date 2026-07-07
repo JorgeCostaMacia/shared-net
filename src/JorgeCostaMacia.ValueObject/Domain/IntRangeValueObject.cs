@@ -78,12 +78,6 @@ public record IntRangeValueObject : IValueObject
     public static IntRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(IntValueObject.Create(valueStart), IntValueObject.Create(valueEnd));
 
     /// <summary>
-    /// Generates the hash code based on the combined hash of the encapsulated <see cref="ValueStart"/> and <see cref="ValueEnd"/> integer primitives.
-    /// </summary>
-    /// <returns>The combined hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(ValueStart.Value, ValueEnd.Value);
-
-    /// <summary>
     /// Returns the string representation of the integer range in the format "Start Value - End Value".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>

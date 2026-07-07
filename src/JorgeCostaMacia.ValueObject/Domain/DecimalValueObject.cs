@@ -25,10 +25,11 @@ public record DecimalValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The decimal value to encapsulate.</param>
-    public DecimalValueObject(decimal value)
-    {
-        Value = value;
-    }
+    public DecimalValueObject(decimal value) => Value = value;
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="decimal"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator decimal(DecimalValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Creates a new <see cref="DecimalValueObject"/> instance from an existing decimal value (identity conversion).
@@ -114,13 +115,6 @@ public record DecimalValueObject : IValueObject
     /// Converts a double to a decimal value (may involve overflow).
     /// </summary>
     protected static decimal Convert(double value) => Convert(System.Convert.ToDecimal(value));
-
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
 
     /// <summary>
     /// Returns the string representation of the encapsulated decimal value.
