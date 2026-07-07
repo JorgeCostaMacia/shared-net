@@ -30,9 +30,6 @@ public record PageSizeValueObject : IntValueObject
     /// <returns>A new <see cref="PageSizeValueObject"/> instance.</returns>
     public static new PageSizeValueObject Create(int value) => new PageSizeValueObject(Convert(value));
 
-    /// <summary>Creates a new <see cref="PageSizeValueObject"/> initialized with the default page size (10000).</summary>
-    public static PageSizeValueObject Create() => Create(10000);
-
     /// <summary>
     /// Creates a new <see cref="PageSizeValueObject"/> instance by converting a string representation of the number.
     /// </summary>

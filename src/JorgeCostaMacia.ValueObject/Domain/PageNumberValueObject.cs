@@ -30,9 +30,6 @@ public record PageNumberValueObject : IntValueObject
     /// <returns>A new <see cref="PageNumberValueObject"/> instance.</returns>
     public static new PageNumberValueObject Create(int value) => new PageNumberValueObject(Convert(value));
 
-    /// <summary>Creates a new <see cref="PageNumberValueObject"/> initialized with the default page number (1).</summary>
-    public static PageNumberValueObject Create() => Create(1);
-
     /// <summary>
     /// Creates a new <see cref="PageNumberValueObject"/> instance by converting a string representation of the number.
     /// </summary>
