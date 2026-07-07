@@ -30,10 +30,4 @@ public record JsonValueObject : StringValueObject
     /// <param name="value">The source JSON string value.</param>
     /// <returns>A new <see cref="JsonValueObject"/> instance.</returns>
     public new static JsonValueObject Create(string value) => new JsonValueObject(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="JsonValueObject"/> instance initialized with an empty JSON object string (<c>"{}"</c>).
-    /// </summary>
-    /// <returns>A new instance initialized with "{}".</returns>
-    public static JsonValueObject Create() => Create("{}");
 }

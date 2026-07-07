@@ -27,10 +27,6 @@ public record FloatValueObject : IValueObject
     /// <param name="value">The float value to encapsulate.</param>
     public FloatValueObject(float value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="float"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator float(FloatValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="FloatValueObject"/> instance from an existing float value (identity conversion).
     /// </summary>
@@ -116,6 +112,10 @@ public record FloatValueObject : IValueObject
     /// Converts a double to a float value (may lose precision).
     /// </summary>
     protected static float Convert(double value) => Convert((float)value);
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="float"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator float(FloatValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated float value.

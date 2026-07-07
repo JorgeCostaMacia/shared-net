@@ -29,10 +29,4 @@ public record IpValueObject : StringValueObject
     /// <param name="value">The source IP address string value.</param>
     /// <returns>A new <see cref="IpValueObject"/> instance.</returns>
     public new static IpValueObject Create(string value) => new IpValueObject(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="IpValueObject"/> instance initialized with the default IP address (<c>0.0.0.0</c>).
-    /// </summary>
-    /// <returns>A new instance initialized with "0.0.0.0".</returns>
-    public static IpValueObject Create() => Create("0.0.0.0");
 }

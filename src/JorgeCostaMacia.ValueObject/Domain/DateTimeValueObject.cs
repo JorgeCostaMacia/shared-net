@@ -28,10 +28,6 @@ public record DateTimeValueObject : IValueObject
     /// <param name="value">The DateTime value to encapsulate.</param>
     public DateTimeValueObject(DateTime value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="DateTime"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator DateTime(DateTimeValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="DateTimeValueObject"/> instance from a standard <see cref="DateTime"/> value, preserving its kind.
     /// </summary>
@@ -136,6 +132,10 @@ public record DateTimeValueObject : IValueObject
     /// Creates a new <see cref="DateTime"/> from a decimal (after casting to integer Ticks, kind unspecified).
     /// </summary>
     protected static DateTime Convert(decimal value) => Convert(new DateTime((int)value));
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="DateTime"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator DateTime(DateTimeValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated <see cref="DateTime"/> value.

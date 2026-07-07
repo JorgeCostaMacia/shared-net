@@ -27,10 +27,6 @@ public record DecimalValueObject : IValueObject
     /// <param name="value">The decimal value to encapsulate.</param>
     public DecimalValueObject(decimal value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="decimal"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator decimal(DecimalValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="DecimalValueObject"/> instance from an existing decimal value (identity conversion).
     /// </summary>
@@ -115,6 +111,10 @@ public record DecimalValueObject : IValueObject
     /// Converts a double to a decimal value (may involve overflow).
     /// </summary>
     protected static decimal Convert(double value) => Convert(System.Convert.ToDecimal(value));
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="decimal"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator decimal(DecimalValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated decimal value.
