@@ -27,10 +27,6 @@ public record LongValueObject : IValueObject
     /// <param name="value">The long value to encapsulate.</param>
     public LongValueObject(long value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="long"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator long(LongValueObject valueObject) => valueObject.Value;
-
     /// <summary>Creates a new <see cref="LongValueObject"/> from an existing long value (identity conversion).</summary>
     public static LongValueObject Create(long value) => new LongValueObject(Convert(value));
 
@@ -73,6 +69,10 @@ public record LongValueObject : IValueObject
 
     /// <summary>Converts a boolean to a long value (true = 1, false = 0).</summary>
     protected static long Convert(bool value) => Convert(value ? 1L : 0L);
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="long"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator long(LongValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated long value.

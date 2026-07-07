@@ -28,10 +28,6 @@ public record UuidValueObject : IValueObject
     /// <param name="value">The GUID value to encapsulate.</param>
     public UuidValueObject(Guid value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="Guid"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator Guid(UuidValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="UuidValueObject"/> instance from an existing GUID value (identity conversion).
     /// </summary>
@@ -56,6 +52,10 @@ public record UuidValueObject : IValueObject
     /// Converts a string to a GUID value.
     /// </summary>
     protected static Guid Convert(string value) => Convert(new Guid(value.Trim()));
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="Guid"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator Guid(UuidValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated GUID value.

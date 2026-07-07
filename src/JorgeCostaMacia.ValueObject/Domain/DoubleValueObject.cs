@@ -27,10 +27,6 @@ public record DoubleValueObject : IValueObject
     /// <param name="value">The double value to encapsulate.</param>
     public DoubleValueObject(double value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="double"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator double(DoubleValueObject valueObject) => valueObject.Value;
-
     /// <summary>Creates a new <see cref="DoubleValueObject"/> from an existing double value (identity conversion).</summary>
     public static DoubleValueObject Create(double value) => new DoubleValueObject(Convert(value));
 
@@ -73,6 +69,10 @@ public record DoubleValueObject : IValueObject
 
     /// <summary>Converts a boolean to a double value (true = 1, false = 0).</summary>
     protected static double Convert(bool value) => Convert(value ? 1d : 0d);
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="double"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator double(DoubleValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated double value.

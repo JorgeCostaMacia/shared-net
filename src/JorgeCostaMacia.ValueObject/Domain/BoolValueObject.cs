@@ -28,10 +28,6 @@ public record BoolValueObject : IValueObject
     /// <param name="value">The boolean value to encapsulate.</param>
     public BoolValueObject(bool value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="bool"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator bool(BoolValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="BoolValueObject"/> instance from a boolean value.
     /// </summary>
@@ -121,6 +117,10 @@ public record BoolValueObject : IValueObject
     /// Converts a decimal to a boolean. Only <c>1</c> maps to <c>true</c>.
     /// </summary>
     protected static bool Convert(decimal value) => Convert((int)value == 1);
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="bool"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator bool(BoolValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated boolean value.

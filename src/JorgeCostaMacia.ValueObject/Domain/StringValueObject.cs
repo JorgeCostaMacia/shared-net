@@ -27,10 +27,6 @@ public record StringValueObject : IValueObject
     /// <param name="value">The string value to encapsulate.</param>
     protected StringValueObject(string value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="string"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator string(StringValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="StringValueObject"/> instance from a string,
     /// applying any defined format cleansing (e.g., trimming whitespace).
@@ -141,6 +137,10 @@ public record StringValueObject : IValueObject
     /// Converts a Guid to a string.
     /// </summary>
     protected static string Convert(Guid value) => Convert(value.ToString());
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="string"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator string(StringValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated value.

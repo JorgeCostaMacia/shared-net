@@ -28,10 +28,6 @@ public record IntValueObject : IValueObject
     /// <param name="value">The integer value to encapsulate.</param>
     public IntValueObject(int value) => Value = value;
 
-    /// <summary>Implicitly converts the value object to its underlying <see cref="int"/> value.</summary>
-    /// <param name="valueObject">The value object to convert.</param>
-    public static implicit operator int(IntValueObject valueObject) => valueObject.Value;
-
     /// <summary>
     /// Creates a new <see cref="IntValueObject"/> instance from an existing integer value (identity conversion).
     /// </summary>
@@ -116,6 +112,10 @@ public record IntValueObject : IValueObject
     /// Converts a double to an integer (may involve truncation).
     /// </summary>
     protected static int Convert(double value) => Convert(System.Convert.ToInt32(value));
+
+    /// <summary>Implicitly converts the value object to its underlying <see cref="int"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator int(IntValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated integer value.
