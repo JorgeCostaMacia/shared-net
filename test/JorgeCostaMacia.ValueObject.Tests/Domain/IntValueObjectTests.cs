@@ -42,4 +42,11 @@ public class IntValueObjectTests
     [Fact]
     public void Create_FromString_OutOfRange_Throws()
         => Assert.Throws<OverflowException>(() => IntValueObject.Create("2147483648"));
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        int value = IntValueObject.Create(7);
+        Assert.Equal(7, value);
+    }
 }

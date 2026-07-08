@@ -22,6 +22,7 @@ public class ExpressionConverterTests
         public int? Optional { get; set; }
         public bool Flag { get; set; }
         public DateTime When { get; set; }
+        public Sample? Child { get; set; }   // reference type, not IConvertible — used for the non-convertible case
     }
 
     // ---- Convert ----
@@ -178,4 +179,22 @@ public class ExpressionConverterTests
         Assert.True(predicate(new Sample { Flag = true }));
         Assert.False(predicate(new Sample { Flag = false }));
     }
+
+    [Fact]
+    public void ConvertBack_MultipleEntries_RequireAll()
+    {
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Age"] = "5", ["Name"] = "foo" }).Compile();
+
+        Assert.True(predicate(new Sample { Age = 5, Name = "foo" }));
+        Assert.False(predicate(new Sample { Age = 5, Name = "bar" }));
+        Assert.False(predicate(new Sample { Age = 6, Name = "foo" }));
+    }
+
+    [Fact]
+    public void ConvertBack_UnparseableNumber_ThrowsFormatException()
+        => Assert.Throws<FormatException>(() => ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Age"] = "abc" }));
+
+    [Fact]
+    public void ConvertBack_NonConvertiblePropertyType_ThrowsInvalidCastException()
+        => Assert.Throws<InvalidCastException>(() => ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Child"] = "x" }));
 }

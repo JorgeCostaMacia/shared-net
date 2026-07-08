@@ -81,6 +81,14 @@ public class ValidationExceptionTests
     }
 
     [Fact]
+    public void Validations_WithNullPropertyName_FormatWithLeadingColon()
+    {
+        TestValidationException exception = new([new ValidationFailure(null, "is required")]);
+
+        Assert.EndsWith("=> : is required", exception.Message);
+    }
+
+    [Fact]
     public void Instance_IsAssignableToDomainException()
         => Assert.IsAssignableFrom<DomainException>(new TestValidationException([]));
 }

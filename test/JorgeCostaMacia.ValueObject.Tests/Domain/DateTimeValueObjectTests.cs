@@ -42,4 +42,12 @@ public class DateTimeValueObjectTests
 
         Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), DateTimeValueObject.Create(date, time).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        DateTime moment = new(2020, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+        DateTime value = DateTimeValueObject.Create(moment);
+        Assert.Equal(moment, value);
+    }
 }

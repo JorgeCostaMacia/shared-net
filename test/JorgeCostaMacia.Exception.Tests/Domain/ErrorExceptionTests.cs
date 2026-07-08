@@ -74,6 +74,14 @@ public class ErrorExceptionTests
     }
 
     [Fact]
+    public void EmptyErrors_ProduceNoArrow()
+    {
+        TestErrorException exception = new([]);
+
+        Assert.Equal($"{exception.AggregateId}/ErrorException", exception.Message);
+    }
+
+    [Fact]
     public void Instance_IsAssignableToDomainException()
         => Assert.IsAssignableFrom<DomainException>(new TestErrorException(["e"]));
 }

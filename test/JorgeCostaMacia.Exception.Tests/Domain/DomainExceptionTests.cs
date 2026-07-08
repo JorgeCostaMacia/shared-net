@@ -2,8 +2,8 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestDomainException(string? message = null, Guid? id = null)
-    : DomainException(id, null, null, null, null, message, null);
+file sealed class TestDomainException(string? message = null, Guid? id = null, string? type = null)
+    : DomainException(id, type, null, null, null, message, null);
 
 file sealed class TestExplicitDomainException(
     Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
@@ -89,4 +89,29 @@ public class DomainExceptionTests
     [Fact]
     public void Instance_IsAssignableToSystemException()
         => Assert.IsAssignableFrom<System.Exception>(new TestDomainException());
+
+    [Fact]
+    public void Message_UsesLastSegmentOfDottedType()
+    {
+        TestDomainException exception = new("boom", type: "A.B.C.Widget");
+
+        Assert.Equal($"{exception.AggregateId}/Widget => boom", exception.Message);
+    }
+
+    [Fact]
+    public void Message_WhitespaceOnly_KeepsArrowWithEmptyTail()
+    {
+        // Documents the current asymmetry: "" omits the arrow, but whitespace is not empty so a trailing "=> " remains.
+        TestDomainException exception = new("   ");
+
+        Assert.Equal($"{exception.AggregateId}/DomainException => ", exception.Message);
+    }
+
+    [Fact]
+    public void ExplicitCtor_Message_IsRawAndUnprefixed()
+    {
+        TestExplicitDomainException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "raw message", null);
+
+        Assert.Equal("raw message", exception.Message);
+    }
 }

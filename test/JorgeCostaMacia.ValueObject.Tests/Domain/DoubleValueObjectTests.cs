@@ -19,4 +19,11 @@ public class DoubleValueObjectTests
         Assert.Equal(2d, DoubleValueObject.Create(2m).Value);
         Assert.Equal(1d, DoubleValueObject.Create(true).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        double value = DoubleValueObject.Create(2.5d);
+        Assert.Equal(2.5d, value);
+    }
 }

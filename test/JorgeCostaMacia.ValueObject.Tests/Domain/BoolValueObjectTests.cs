@@ -26,4 +26,11 @@ public class BoolValueObjectTests
         Assert.True(BoolValueObject.Create(1.0).Value);
         Assert.True(BoolValueObject.Create(1m).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        bool value = BoolValueObject.Create(true);
+        Assert.True(value);
+    }
 }

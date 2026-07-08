@@ -5,8 +5,9 @@ namespace JorgeCostaMacia.Exception.Tests.Domain;
 file sealed class TestExistException(string? message = null)
     : ExistException(null, null, null, null, null, message, null);
 
-file sealed class TestExplicitExistException(System.Exception? innerException)
-    : ExistException(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", innerException);
+file sealed class TestExplicitExistException(
+    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
+    : ExistException(id, type, code, httpCode, occurredAt, message, innerException);
 
 public class ExistExceptionTests
 {
@@ -30,11 +31,35 @@ public class ExistExceptionTests
     }
 
     [Fact]
+    public void Message_OmitsArrow_WhenNoMessage()
+    {
+        TestExistException exception = new();
+
+        Assert.Equal($"{exception.AggregateId}/ExistException", exception.Message);
+    }
+
+    [Fact]
+    public void ExplicitCtor_StoresAllMetadataVerbatim()
+    {
+        Guid id = Guid.NewGuid();
+        Guid code = Guid.NewGuid();
+        DateTime occurredAt = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        TestExplicitExistException exception = new(id, "My.Type", code, 409, occurredAt, "msg", null);
+
+        Assert.Equal(id, exception.AggregateId);
+        Assert.Equal("My.Type", exception.AggregateType);
+        Assert.Equal(code, exception.AggregateCode);
+        Assert.Equal(409, exception.AggregateHttpCode);
+        Assert.Equal(occurredAt, exception.AggregateOccurredAt);
+    }
+
+    [Fact]
     public void InnerException_IsPropagated()
     {
         InvalidOperationException inner = new("cause");
 
-        TestExplicitExistException exception = new(inner);
+        TestExplicitExistException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", inner);
 
         Assert.Same(inner, exception.InnerException);
     }

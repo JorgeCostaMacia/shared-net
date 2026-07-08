@@ -17,4 +17,12 @@ public class UuidValueObjectTests
         Guid id = Guid.NewGuid();
         Assert.Equal(id, UuidValueObject.Create(id.ToString()).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        Guid id = Guid.NewGuid();
+        Guid value = UuidValueObject.Create(id);
+        Assert.Equal(id, value);
+    }
 }

@@ -22,4 +22,12 @@ public class DateTimeUtcValueObjectValidatorTests
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
         => Assert.Throws<DateTimeUtcValueObjectValidationException>(() => Validator.ValidateAndThrow(DateTimeUtcValueObject.Create(new DateTime(1800, 1, 1, 0, 0, 0, DateTimeKind.Utc))));
+
+    [Fact]
+    public void DateAtMinBoundary_Passes()
+        => Assert.True(Validator.Validate(DateTimeUtcValueObject.Create(new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc))).IsValid);
+
+    [Fact]
+    public void DateAtMaxBoundary_Passes()
+        => Assert.True(Validator.Validate(DateTimeUtcValueObject.Create(DateTime.UtcNow.Date.AddYears(100))).IsValid);
 }

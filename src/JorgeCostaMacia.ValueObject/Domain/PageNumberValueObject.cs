@@ -10,7 +10,6 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </para>
 /// <para>
 /// It relies on the base <c>Convert</c> methods (inherited from <see cref="IntValueObject"/>) for type conversion.
-/// The default creation value is set to 1.
 /// </para>
 /// </remarks>
 public record PageNumberValueObject : IntValueObject

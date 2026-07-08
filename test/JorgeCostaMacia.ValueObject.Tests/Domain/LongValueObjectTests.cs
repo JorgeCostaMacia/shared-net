@@ -39,4 +39,11 @@ public class LongValueObjectTests
     [Fact]
     public void Create_FromString_OutOfRange_Throws()
         => Assert.Throws<OverflowException>(() => LongValueObject.Create("9223372036854775808"));
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        long value = LongValueObject.Create(9L);
+        Assert.Equal(9L, value);
+    }
 }
