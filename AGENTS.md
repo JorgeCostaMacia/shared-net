@@ -60,7 +60,7 @@ Not relevant to this foundation library (skip): `dotnet-ai`, `dotnet-maui`, `dot
 ```
 dotnet format shared-net.slnx                  # apply .editorconfig (using order, whitespace) — run before committing
 dotnet build  shared-net.slnx -c Release
-dotnet test   shared-net.slnx -c Release --logger "console;verbosity=minimal"
+dotnet test   shared-net.slnx -c Release       # MTP prints a per-assembly summary; --logger is VSTest-only (MTP0001)
 dotnet pack   shared-net.slnx -c Release        # packs all packable; tests are IsPackable=false
 ```
 
