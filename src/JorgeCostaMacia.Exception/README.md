@@ -33,10 +33,11 @@ All are `abstract` — inherit them in your bounded context to create concrete, 
 using JorgeCostaMacia.Exception.Domain;
 
 public sealed class CustomerNotFoundException(Guid customerId)
-    : NotFoundException(message: $"Customer {customerId} was not found.");
+    : NotFoundException(null, null, null, null, null, $"Customer {customerId} was not found.", null);
 
-// metadata is auto-filled: AggregateId (UUIDv7 via GuidFactory), AggregateType,
-// AggregateCode, AggregateHttpCode (404), AggregateOccurredAt (UTC).
+// every null falls back to a default: AggregateId (UUIDv7 via GuidFactory),
+// AggregateType (the NotFoundException full name), AggregateCode,
+// AggregateHttpCode (404), AggregateOccurredAt (UTC now).
 ```
 
 `ValidationException` carries a list of `FluentValidation.Results.ValidationFailure`, so it plugs straight into a FluentValidation `AbstractValidator`:

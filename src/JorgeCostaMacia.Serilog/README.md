@@ -25,7 +25,7 @@ builder.Services.AddSerilogContext(builder.Configuration);
 
 It reads the `Serilog` section via `ReadFrom.Configuration(...)` and applies a common enricher baseline **in code** — `FromLogContext`, `ThreadId`, `ProcessId`, exception details, plus `Version` and `Application` properties taken from the entry assembly (your host/worker). Your `appsettings.json` only declares **sinks and levels** (`Using`, `WriteTo`, `MinimumLevel`) — don't repeat those enrichers or a `Properties:Application` there. See the XML docs on `AddSerilogContext` for ready-to-use production and development `Serilog` sections.
 
-Bundled Serilog packages: `Settings.Configuration`, `Extensions.Hosting`, `Sinks.Console`, `Exceptions`, and the `Environment` / `Process` / `Span` / `Thread` enrichers.
+Bundled Serilog packages: `Settings.Configuration`, `Extensions.Hosting`, `Sinks.Console`, `Exceptions`, and the `Process` / `Thread` enrichers.
 
 ## Requirements
 
