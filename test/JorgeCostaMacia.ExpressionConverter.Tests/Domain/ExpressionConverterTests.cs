@@ -1,7 +1,5 @@
 // 'ExpressionConverter' is referenced from its package namespace ('ExpressionConverter.Domain.')
 // so the type/namespace clash under 'JorgeCostaMacia.ExpressionConverter' does not bite in test code.
-using System.Linq.Expressions;
-
 namespace JorgeCostaMacia.ExpressionConverter.Tests.Domain;
 
 public class ExpressionConverterTests

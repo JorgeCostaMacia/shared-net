@@ -30,7 +30,7 @@ Expression<Func<Order, bool>> predicate =
     ExpressionConverter.ConvertBack<Order>(filter);
 ```
 
-`Convert` expects equality checks combined with `&&`, with the property on the left and a constant on the right. `ConvertBack` rebuilds the predicate, converting each string back to the property's type — including `Guid`, enums and `Nullable<T>` (an empty string maps to `null`).
+`Convert` expects equality checks combined with `&&`, with the property on the left and any expression that evaluates to a value on the right (a literal, a captured variable, a computed value). Values are rendered invariant-culture: enums by **name**, `DateTime` in round-trip (`"O"`) format, `null` as an empty string. `ConvertBack` rebuilds the predicate, converting each string back to the property's type — including `Guid`, enums, `DateTime` and `Nullable<T>` (an empty string maps to `null`); an empty dictionary yields an always-true predicate.
 
 ## Requirements
 
