@@ -1,5 +1,5 @@
-// 'ExpressionConverter' is referenced from its package namespace so the type/namespace clash
-// under the 'JorgeCostaMacia.ExpressionConverter' namespace does not bite in test code.
+// 'ExpressionConverter' is referenced from its package namespace ('ExpressionConverter.Domain.')
+// so the type/namespace clash under 'JorgeCostaMacia.ExpressionConverter' does not bite in test code.
 using System.Linq.Expressions;
 
 namespace JorgeCostaMacia.ExpressionConverter.Tests.Domain;
@@ -20,61 +20,162 @@ public class ExpressionConverterTests
         public Guid Id { get; set; }
         public Color Kind { get; set; }
         public int? Optional { get; set; }
+        public bool Flag { get; set; }
+        public DateTime When { get; set; }
     }
 
+    // ---- Convert ----
+
     [Fact]
-    public void Convert_MapsPropertiesToStringValues()
+    public void Convert_SingleClause_ReturnsOneEntry()
     {
-        Expression<Func<Sample, bool>> expression = x => x.Name == "foo" && x.Age == 5;
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Age == 5);
 
-        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert(expression);
-
-        Assert.Equal("foo", result["Name"]);
+        Assert.Single(result);
         Assert.Equal("5", result["Age"]);
     }
 
     [Fact]
-    public void ConvertBack_BuildsWorkingPredicate()
-    {
-        Dictionary<string, string> dictionary = new()
-        {
-            ["Name"] = "foo",
-            ["Age"] = "5",
-        };
-
-        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
-
-        Assert.True(predicate(new Sample { Name = "foo", Age = 5 }));
-        Assert.False(predicate(new Sample { Name = "bar", Age = 5 }));
-    }
-
-    [Fact]
-    public void ConvertBack_HandlesGuidEnumAndNullable()
+    public void Convert_ThreeClauses_ReturnsAllThree()
     {
         Guid id = Guid.NewGuid();
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(
+            x => x.Name == "foo" && x.Age == 5 && x.Id == id);
 
-        Dictionary<string, string> dictionary = new()
-        {
-            ["Id"] = id.ToString(),
-            ["Kind"] = "Green",
-            ["Optional"] = "", // empty string -> null for a nullable property
-        };
-
-        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
-
-        Assert.True(predicate(new Sample { Id = id, Kind = Color.Green, Optional = null }));
-        Assert.False(predicate(new Sample { Id = Guid.NewGuid(), Kind = Color.Green, Optional = null }));
+        Assert.Equal(3, result.Count);
+        Assert.Equal("foo", result["Name"]);
+        Assert.Equal("5", result["Age"]);
+        Assert.Equal(id.ToString(), result["Id"]);
     }
 
     [Fact]
-    public void RoundTrip_ConvertThenConvertBack_Matches()
+    public void Convert_CapturedVariableRhs_IsEvaluated()
     {
-        Expression<Func<Sample, bool>> original = x => x.Name == "foo" && x.Age == 7;
+        string name = "captured";
+        int age = 42;
 
-        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert(original);
-        Func<Sample, bool> rebuilt = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Name == name && x.Age == age);
 
-        Assert.True(rebuilt(new Sample { Name = "foo", Age = 7 }));
-        Assert.False(rebuilt(new Sample { Name = "foo", Age = 8 }));
+        Assert.Equal("captured", result["Name"]);
+        Assert.Equal("42", result["Age"]);
+    }
+
+    [Fact]
+    public void Convert_Enum_IsSerializedByName()
+    {
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Kind == Color.Green);
+
+        Assert.Equal("Green", result["Kind"]);
+    }
+
+    [Fact]
+    public void Convert_NullConstant_MapsToEmptyString()
+    {
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Name == null);
+
+        Assert.Equal("", result["Name"]);
+    }
+
+    [Fact]
+    public void Convert_DateTime_UsesRoundTripFormat()
+    {
+        DateTime when = new(2020, 1, 1, 12, 0, 0, 500, DateTimeKind.Utc);
+
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.When == when);
+
+        Assert.Equal(when.ToString("O", System.Globalization.CultureInfo.InvariantCulture), result["When"]);
+    }
+
+    [Fact]
+    public void Convert_DuplicateProperty_Throws()
+        => Assert.Throws<ArgumentException>(() => ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Age == 1 && x.Age == 2));
+
+    [Fact]
+    public void Convert_UnsupportedOperator_Throws()
+        => Assert.Throws<InvalidCastException>(() => ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Age > 5));
+
+    // ---- ConvertBack ----
+
+    [Fact]
+    public void ConvertBack_EmptyDictionary_MatchesEverything()
+    {
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new()).Compile();
+
+        Assert.True(predicate(new Sample()));
+        Assert.True(predicate(new Sample { Name = "anything", Age = 99 }));
+    }
+
+    [Fact]
+    public void ConvertBack_SingleEntry_BuildsPredicate()
+    {
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Age"] = "5" }).Compile();
+
+        Assert.True(predicate(new Sample { Age = 5 }));
+        Assert.False(predicate(new Sample { Age = 6 }));
+    }
+
+    [Fact]
+    public void ConvertBack_UnknownKey_Throws()
+        => Assert.Throws<ArgumentException>(() => ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Nope"] = "1" }));
+
+    [Fact]
+    public void ConvertBack_NullableWithValue_Unwraps()
+    {
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Optional"] = "7" }).Compile();
+
+        Assert.True(predicate(new Sample { Optional = 7 }));
+        Assert.False(predicate(new Sample { Optional = null }));
+    }
+
+    [Fact]
+    public void ConvertBack_NullableEmpty_MapsToNull()
+    {
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(new() { ["Optional"] = "" }).Compile();
+
+        Assert.True(predicate(new Sample { Optional = null }));
+        Assert.False(predicate(new Sample { Optional = 0 }));
+    }
+
+    // ---- Round-trips (Convert -> ConvertBack) ----
+
+    [Fact]
+    public void RoundTrip_Enum_Matches()
+    {
+        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Kind == Color.Blue);
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+
+        Assert.True(predicate(new Sample { Kind = Color.Blue }));
+        Assert.False(predicate(new Sample { Kind = Color.Red }));
+    }
+
+    [Fact]
+    public void RoundTrip_Guid_Matches()
+    {
+        Guid id = Guid.NewGuid();
+        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Id == id);
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+
+        Assert.True(predicate(new Sample { Id = id }));
+        Assert.False(predicate(new Sample { Id = Guid.NewGuid() }));
+    }
+
+    [Fact]
+    public void RoundTrip_DateTime_PreservesValue()
+    {
+        DateTime when = new(2020, 1, 1, 12, 0, 0, 500, DateTimeKind.Utc);
+        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.When == when);
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+
+        Assert.True(predicate(new Sample { When = when }));
+    }
+
+    [Fact]
+    public void RoundTrip_Bool_Matches()
+    {
+        Dictionary<string, string> dictionary = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Flag == true);
+        Func<Sample, bool> predicate = ExpressionConverter.Domain.ExpressionConverter.ConvertBack<Sample>(dictionary).Compile();
+
+        Assert.True(predicate(new Sample { Flag = true }));
+        Assert.False(predicate(new Sample { Flag = false }));
     }
 }
