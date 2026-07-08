@@ -89,7 +89,7 @@ public record IntValueObject : IValueObject
     /// <summary>
     /// Parses a string into a decimal, then truncates it to an integer — the fractional part is dropped (toward zero), never rounded (trimming whitespace first).
     /// </summary>
-    protected static int Convert(string value) => Convert(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture));
+    protected static int Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a float to an integer, truncating the fractional part toward zero (e.g. 5.9 and -5.9 become 5 and -5).

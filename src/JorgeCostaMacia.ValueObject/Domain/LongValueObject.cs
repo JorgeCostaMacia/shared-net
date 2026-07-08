@@ -56,7 +56,7 @@ public record LongValueObject : IValueObject
     protected static long Convert(long value) => value;
 
     /// <summary>Parses a string into a decimal, then truncates it to a long — the fractional part is dropped toward zero, never rounded (trimming whitespace first).</summary>
-    protected static long Convert(string value) => Convert(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture));
+    protected static long Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a long value (widening; exact).</summary>
     protected static long Convert(int value) => value;

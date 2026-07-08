@@ -45,6 +45,11 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
     /// <summary>Returns <c>true</c> when <paramref name="value"/> parses as a JSON object or array.</summary>
     private static bool BeJsonObjectOrArray(string value)
     {
+        if (string.IsNullOrEmpty(value))
+        {
+            return false;
+        }
+
         try
         {
             using JsonDocument document = JsonDocument.Parse(value);

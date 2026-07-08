@@ -49,8 +49,10 @@ public static class ExpressionConverter
 
         void ParseEquals(BinaryExpression e)
         {
+            // Unwrap only the left member (the compiler wraps it in a Convert for enum comparisons); evaluate the
+            // right side whole, so an explicit cast on the value (e.g. == (int)d) is applied, not discarded.
             MemberExpression key = (MemberExpression)Unwrap(e.Left);
-            object? value = Expression.Lambda(Unwrap(e.Right)).Compile().DynamicInvoke();
+            object? value = Expression.Lambda(e.Right).Compile().DynamicInvoke();
 
             result.Add(key.Member.Name, Format(value, key.Type));
         }

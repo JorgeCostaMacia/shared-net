@@ -49,4 +49,8 @@ public class IntValueObjectTests
         int value = IntValueObject.Create(7);
         Assert.Equal(7, value);
     }
+
+    [Fact]
+    public void Create_FromString_AcceptsExponentNotation()
+        => Assert.Equal(1000, IntValueObject.Create("1E3").Value);
 }

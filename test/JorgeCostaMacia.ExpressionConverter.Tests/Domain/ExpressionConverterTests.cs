@@ -88,6 +88,16 @@ public class ExpressionConverterTests
     }
 
     [Fact]
+    public void Convert_ExplicitCastOnRhs_IsApplied()
+    {
+        double d = 3.9;
+
+        Dictionary<string, string> result = ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Age == (int)d);
+
+        Assert.Equal("3", result["Age"]);   // the (int) cast is applied, not discarded
+    }
+
+    [Fact]
     public void Convert_DuplicateProperty_Throws()
         => Assert.Throws<ArgumentException>(() => ExpressionConverter.Domain.ExpressionConverter.Convert<Sample>(x => x.Age == 1 && x.Age == 2));
 
