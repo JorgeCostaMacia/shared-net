@@ -99,7 +99,7 @@ public static class SerilogContext
             .Enrich.WithProcessId()
             .Enrich.WithExceptionDetails()
             .Enrich.WithProperty("Version", Assembly.GetEntryAssembly()?.GetName().Version?.ToString(3) ?? "0.0.0")
-            .Enrich.WithProperty("Application", Assembly.GetEntryAssembly()?.GetName().FullName ?? string.Empty));
+            .Enrich.WithProperty("Application", Assembly.GetEntryAssembly()?.GetName().Name ?? string.Empty));
 
         return services;
     }

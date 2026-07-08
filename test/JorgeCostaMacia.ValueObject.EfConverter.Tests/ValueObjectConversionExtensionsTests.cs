@@ -22,11 +22,16 @@ public class ValueObjectConversionExtensionsTests
         Assert.IsType<StringValueObjectConverter<ProbeName>>(entity.FindProperty(nameof(ProbeEntity.Name))!.GetValueConverter());
         Assert.IsType<UuidValueObjectConverter<ProbeRef>>(entity.FindProperty(nameof(ProbeEntity.Ref))!.GetValueConverter());
         Assert.IsType<BoolValueObjectConverter<ProbeFlag>>(entity.FindProperty(nameof(ProbeEntity.Flag))!.GetValueConverter());
+        Assert.IsType<LongValueObjectConverter<ProbeCount>>(entity.FindProperty(nameof(ProbeEntity.Count))!.GetValueConverter());
+        Assert.IsType<DecimalValueObjectConverter<ProbeAmount>>(entity.FindProperty(nameof(ProbeEntity.Amount))!.GetValueConverter());
+        Assert.IsType<DoubleValueObjectConverter<ProbeRatio>>(entity.FindProperty(nameof(ProbeEntity.Ratio))!.GetValueConverter());
+        Assert.IsType<FloatValueObjectConverter<ProbeWeight>>(entity.FindProperty(nameof(ProbeEntity.Weight))!.GetValueConverter());
+        Assert.IsType<DateTimeValueObjectConverter<ProbeWhen>>(entity.FindProperty(nameof(ProbeEntity.When))!.GetValueConverter());
+        Assert.IsType<ByteValueObjectConverter<ProbeBlob>>(entity.FindProperty(nameof(ProbeEntity.Blob))!.GetValueConverter());
     }
 
     [Fact]
     public void Convention_UsesTheSameConverter_ForNullableProperties()
-        // The nullable property shares the non-null converter (EF never passes null to it).
         => Assert.IsType<StringValueObjectConverter<ProbeName>>(Entity().FindProperty(nameof(ProbeEntity.Nick))!.GetValueConverter());
 
     [Fact]
@@ -63,6 +68,12 @@ public class ValueObjectConversionExtensionsTests
         public ProbeName? Nick { get; set; }
         public ProbeRef Ref { get; set; } = null!;
         public ProbeFlag Flag { get; set; } = null!;
+        public ProbeCount Count { get; set; } = null!;
+        public ProbeAmount Amount { get; set; } = null!;
+        public ProbeRatio Ratio { get; set; } = null!;
+        public ProbeWeight Weight { get; set; } = null!;
+        public ProbeWhen When { get; set; } = null!;
+        public ProbeBlob Blob { get; set; } = null!;
         public int PlainInt { get; set; }
         public string PlainText { get; set; } = null!;
     }
@@ -71,6 +82,12 @@ public class ValueObjectConversionExtensionsTests
     public record ProbeName : StringValueObject { public ProbeName(string value) : base(value) { } }
     public record ProbeRef : UuidValueObject { public ProbeRef(Guid value) : base(value) { } }
     public record ProbeFlag : BoolValueObject { public ProbeFlag(bool value) : base(value) { } }
+    public record ProbeCount : LongValueObject { public ProbeCount(long value) : base(value) { } }
+    public record ProbeAmount : DecimalValueObject { public ProbeAmount(decimal value) : base(value) { } }
+    public record ProbeRatio : DoubleValueObject { public ProbeRatio(double value) : base(value) { } }
+    public record ProbeWeight : FloatValueObject { public ProbeWeight(float value) : base(value) { } }
+    public record ProbeWhen : DateTimeValueObject { public ProbeWhen(DateTime value) : base(value) { } }
+    public record ProbeBlob : ByteValueObject { public ProbeBlob(byte[] value) : base(value) { } }
 
     // Multi-field value object: composed of inner single-value VOs, derives from no family base → skipped.
     public record ProbeRange(ProbeId Min, ProbeId Max);
