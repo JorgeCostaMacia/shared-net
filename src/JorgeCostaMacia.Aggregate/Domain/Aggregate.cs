@@ -53,9 +53,9 @@ public abstract class Aggregate : IAggregate
     /// <inheritdoc/>
     public IEnumerable<IDomainEvent> PullAggregateEvents()
     {
-        IEnumerable<IDomainEvent> AggregateEventsAux = AggregateEvents.ToList();
+        IEnumerable<IDomainEvent> aggregateEventsAux = AggregateEvents.ToList();
         AggregateEvents.Clear();
 
-        return AggregateEventsAux;
+        return aggregateEventsAux;
     }
 }
