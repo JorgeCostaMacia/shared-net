@@ -31,6 +31,6 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }}
       - name: Test
-        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build --logger "console;verbosity=minimal"
+        run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build
       - name: Pack
         run: dotnet pack ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build -o nuget
