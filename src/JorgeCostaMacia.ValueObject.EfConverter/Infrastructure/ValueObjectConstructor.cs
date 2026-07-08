@@ -22,6 +22,8 @@ internal static class ValueObjectConstructor
     /// <summary>Returns <c>value =&gt; new TValueObject(value)</c> for the single-<typeparamref name="TValue"/> constructor.</summary>
     /// <typeparam name="TValueObject">The value object type to construct.</typeparam>
     /// <typeparam name="TValue">The underlying primitive the constructor takes.</typeparam>
+    /// <returns>An expression that builds a <typeparamref name="TValueObject"/> from a single <typeparamref name="TValue"/>.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when <typeparamref name="TValueObject"/> has no constructor taking a single <typeparamref name="TValue"/>.</exception>
     public static Expression<Func<TValue, TValueObject>> From<TValueObject, TValue>()
     {
         ConstructorInfo constructor = typeof(TValueObject).GetConstructor(

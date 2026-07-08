@@ -20,4 +20,11 @@ public class FloatValueObjectTests
         Assert.Equal(2f, FloatValueObject.Create(2m).Value);
         Assert.Equal(1f, FloatValueObject.Create(true).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        float value = FloatValueObject.Create(2.5f);
+        Assert.Equal(2.5f, value);
+    }
 }

@@ -16,4 +16,5 @@
   <Project Path="test/JorgeCostaMacia.Exception.Tests/JorgeCostaMacia.Exception.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Aggregate.Tests/JorgeCostaMacia.Aggregate.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ValueObject.Tests/JorgeCostaMacia.ValueObject.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Serilog.Tests/JorgeCostaMacia.Serilog.Tests.csproj" />
 </Solution>

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -53,7 +55,7 @@ public record DoubleValueObject : IValueObject
     protected static double Convert(double value) => value;
 
     /// <summary>Parses a string into a double value, trimming whitespace first.</summary>
-    protected static double Convert(string value) => Convert(double.Parse(value.Trim()));
+    protected static double Convert(string value) => Convert(double.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a double value.</summary>
     protected static double Convert(int value) => Convert((double)value);

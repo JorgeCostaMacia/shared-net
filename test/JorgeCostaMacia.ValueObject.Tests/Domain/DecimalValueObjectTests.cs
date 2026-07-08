@@ -19,4 +19,11 @@ public class DecimalValueObjectTests
         Assert.Equal(7m, DecimalValueObject.Create(7).Value);
         Assert.Equal(1m, DecimalValueObject.Create(true).Value);
     }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        decimal value = DecimalValueObject.Create(1.5m);
+        Assert.Equal(1.5m, value);
+    }
 }

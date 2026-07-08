@@ -11,6 +11,8 @@
 		<PackageVersion Include="FluentValidation" Version="12.1.1" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.17" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.17" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
 		<PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
@@ -19,8 +21,16 @@
 		<PackageVersion Include="Serilog.Extensions.Hosting" Version="10.0.0" />
 		<PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.1" />
 		<PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
+		<PackageVersion Include="Serilog.Sinks.InMemory" Version="2.0.0" />
 		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
 		<PackageVersion Include="xunit.v3" Version="3.2.2" />
+	</ItemGroup>
+
+	<!-- EF Core 10 is net10-only; net8/net9 must stay on EF Core 9. Give the net10 build the latest,
+	     keep 9.0.17 for the down-level targets so the packages keep multi-targeting net8;net9;net10. -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+		<PackageVersion Update="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+		<PackageVersion Update="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.9" />
 	</ItemGroup>
 
 </Project>

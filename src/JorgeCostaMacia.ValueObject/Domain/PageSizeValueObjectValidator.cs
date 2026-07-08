@@ -16,10 +16,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///         <b>Inherited Validation:</b> Includes all base integer validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="IntValueObject"/> (e.g., numeric format validity).
 ///     </description></item>
 ///     <item><description>
-///         <b>Not Empty:</b> Ensures the page size value is set.
-///     </description></item>
-///     <item><description>
-///         <b>Domain Constraint (Assumed):</b> Additional rules (e.g., <c>.GreaterThan(0)</c> or <c>.LessThanOrEqualTo(MAX_LIMIT)</c>) are expected here to enforce page size constraints.
+///         <b>Greater Than Zero:</b> Ensures the page size is a positive number (<c>.GreaterThan(0)</c>).
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -34,7 +31,7 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+             .GreaterThan(0);
     }
 
     /// <summary>
