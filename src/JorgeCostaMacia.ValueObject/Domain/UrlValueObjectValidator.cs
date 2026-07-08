@@ -9,7 +9,9 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This validator enforces constraints specific to URL format, ensuring that the encapsulated string
-/// is not empty and represents a valid absolute URI.
+/// is not empty and represents a valid absolute URI whose scheme is not <c>file</c> — plain filesystem
+/// paths are rejected. (Without that check the rule is platform-dependent: on Unix a rooted path like
+/// <c>/foo/bar</c> parses as an absolute <c>file://</c> URI, on Windows <c>C:\foo</c> does.)
 /// </para>
 /// <para>
 /// It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules via constructor injection,
@@ -29,7 +31,7 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>
         RuleFor(v => v.Value)
             .NotEmpty()
             .MinimumLength(1)
-            .Must(uri => Uri.TryCreate(uri, UriKind.Absolute, out _))
+            .Must(v => Uri.TryCreate(v, UriKind.Absolute, out Uri? uri) && !uri.IsFile)
             .WithErrorCode("UrlValidator")
             .WithMessage("{PropertyName} must be an Url");
     }
