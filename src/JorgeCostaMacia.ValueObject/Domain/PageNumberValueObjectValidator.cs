@@ -15,10 +15,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///         <b>Inherited Validation:</b> Includes all base integer validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="IntValueObject"/> (e.g., numeric format validity).
 ///     </description></item>
 ///     <item><description>
-///         <b>Not Empty:</b> Ensures the page number value is set.
-///     </description></item>
-///     <item><description>
-///         <b>Domain Constraint (Implicit/Assumed):</b> While not explicitly visible in this code, validation often ensures the value is greater than zero (since page numbers start at 1).
+///         <b>Greater Than Zero:</b> Ensures the page number is a positive number (<c>.GreaterThan(0)</c>), since pages start at 1.
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -33,7 +30,7 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+             .GreaterThan(0);
     }
 
     /// <summary>

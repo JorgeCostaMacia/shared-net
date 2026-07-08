@@ -26,10 +26,7 @@ public record UuidValueObject : IValueObject
     /// to ensure type conversion and adherence to best practices.
     /// </summary>
     /// <param name="value">The GUID value to encapsulate.</param>
-    public UuidValueObject(Guid value)
-    {
-        Value = value;
-    }
+    public UuidValueObject(Guid value) => Value = value;
 
     /// <summary>
     /// Creates a new <see cref="UuidValueObject"/> instance from an existing GUID value (identity conversion).
@@ -56,12 +53,9 @@ public record UuidValueObject : IValueObject
     /// </summary>
     protected static Guid Convert(string value) => Convert(new Guid(value.Trim()));
 
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
+    /// <summary>Implicitly converts the value object to its underlying <see cref="Guid"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator Guid(UuidValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated GUID value.

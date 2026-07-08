@@ -23,6 +23,8 @@ using JorgeCostaMacia.DomainEvent.Domain;
 
 public sealed class Order : Aggregate
 {
+    public Guid Id { get; init; }
+
     public void Place()
     {
         // ... mutate state ...

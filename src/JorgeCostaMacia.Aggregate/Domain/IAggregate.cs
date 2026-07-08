@@ -3,7 +3,7 @@ using JorgeCostaMacia.DomainEvent.Domain;
 namespace JorgeCostaMacia.Aggregate.Domain;
 
 /// <summary>
-/// Defines the contract for an **Aggregate Root** within the Domain-Driven Design (DDD)
+/// Defines the contract for an <b>Aggregate Root</b> within the Domain-Driven Design (DDD)
 /// and Event Sourcing patterns.
 /// </summary>
 /// <remarks>
@@ -34,7 +34,7 @@ public interface IAggregate
     void AddAggregateEvents(IEnumerable<IDomainEvent> aggregateEvent);
 
     /// <summary>
-    /// Retrieves all accumulated domain events and then **clears the internal list**
+    /// Retrieves all accumulated domain events and then <b>clears the internal list</b>
     /// of captured events.
     /// </summary>
     /// <remarks>

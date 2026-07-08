@@ -58,7 +58,10 @@ Not relevant to this foundation library (skip): `dotnet-ai`, `dotnet-maui`, `dot
 ## Build & test
 
 ```
-dotnet build shared-net.slnx -c Release
-dotnet test  shared-net.slnx -c Release --logger "console;verbosity=minimal"
-dotnet pack  shared-net.slnx -c Release        # packs all packable; tests + meta placeholder are IsPackable=false
+dotnet format shared-net.slnx                  # apply .editorconfig (using order, whitespace) — run before committing
+dotnet build  shared-net.slnx -c Release
+dotnet test   shared-net.slnx -c Release --logger "console;verbosity=minimal"
+dotnet pack   shared-net.slnx -c Release        # packs all packable; tests are IsPackable=false
 ```
+
+Run **`dotnet format` before committing** — it applies the `.editorconfig` (using ordering, whitespace), the CLI equivalent of Visual Studio's *Code Cleanup*, so generated code doesn't drift from what the IDE would produce.

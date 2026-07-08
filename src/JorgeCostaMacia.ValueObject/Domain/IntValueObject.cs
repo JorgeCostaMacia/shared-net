@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -26,10 +28,7 @@ public record IntValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The integer value to encapsulate.</param>
-    public IntValueObject(int value)
-    {
-        Value = value;
-    }
+    public IntValueObject(int value) => Value = value;
 
     /// <summary>
     /// Creates a new <see cref="IntValueObject"/> instance from an existing integer value (identity conversion).
@@ -44,6 +43,7 @@ public record IntValueObject : IValueObject
     /// <param name="value">The source string value.</param>
     /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
     /// <exception cref="FormatException">Thrown if the string cannot be parsed as a number.</exception>
+    /// <exception cref="OverflowException">Thrown if the parsed value is out of <see cref="int"/> range.</exception>
     public static IntValueObject Create(string value) => Create(Convert(value));
 
     /// <summary>
@@ -87,41 +87,38 @@ public record IntValueObject : IValueObject
     protected static int Convert(int value) => value;
 
     /// <summary>
-    /// Parses a string into a float, then converts it to an integer (trimming whitespace first). This conversion may lose fractional data.
+    /// Parses a string into a decimal, then truncates it to an integer — the fractional part is dropped (toward zero), never rounded (trimming whitespace first).
     /// </summary>
-    protected static int Convert(string value) => Convert(System.Convert.ToInt32(float.Parse(value.Trim())));
+    protected static int Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
-    /// Converts a float to an integer (may involve truncation).
+    /// Converts a float to an integer, truncating the fractional part toward zero (e.g. 5.9 and -5.9 become 5 and -5).
     /// </summary>
-    protected static int Convert(float value) => Convert(System.Convert.ToInt32(value));
+    protected static int Convert(float value) => Convert((decimal)value);
 
     /// <summary>
-    /// Converts a decimal to an integer (may involve truncation).
+    /// Converts a decimal to an integer, truncating the fractional part toward zero. Throws <see cref="OverflowException"/> if the value is out of <see cref="int"/> range.
     /// </summary>
-    protected static int Convert(decimal value) => Convert(System.Convert.ToInt32(value));
+    protected static int Convert(decimal value) => (int)value;
 
     /// <summary>
     /// Converts a boolean to an integer (1 for true, 0 for false).
     /// </summary>
-    protected static int Convert(bool value) => Convert(System.Convert.ToInt32(value));
+    protected static int Convert(bool value) => value ? 1 : 0;
 
     /// <summary>
-    /// Converts a long to an integer (may involve overflow).
+    /// Converts a long to an integer. Throws <see cref="OverflowException"/> if the value is out of <see cref="int"/> range.
     /// </summary>
-    protected static int Convert(long value) => Convert(System.Convert.ToInt32(value));
+    protected static int Convert(long value) => Convert((decimal)value);
 
     /// <summary>
-    /// Converts a double to an integer (may involve truncation).
+    /// Converts a double to an integer, truncating the fractional part toward zero.
     /// </summary>
-    protected static int Convert(double value) => Convert(System.Convert.ToInt32(value));
+    protected static int Convert(double value) => Convert((decimal)value);
 
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
+    /// <summary>Implicitly converts the value object to its underlying <see cref="int"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator int(IntValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated integer value.

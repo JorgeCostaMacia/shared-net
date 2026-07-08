@@ -35,8 +35,17 @@ public static class GuidMySqlConverter
     /// <summary>Converts a MySQL/MariaDB <c>BINARY(16)</c> byte layout back to a <see cref="Guid"/>.</summary>
     /// <param name="guid">The 16-byte big-endian representation.</param>
     /// <returns>The reconstructed <see cref="Guid"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="guid"/> is null.</exception>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="guid"/> is not exactly 16 bytes.</exception>
     public static Guid ConvertFromBytes(byte[] guid)
     {
+        ArgumentNullException.ThrowIfNull(guid);
+
+        if (guid.Length != 16)
+        {
+            throw new ArgumentException("A MySQL/MariaDB BINARY(16) GUID must be exactly 16 bytes.", nameof(guid));
+        }
+
         byte[] value = (byte[])guid.Clone();
 
         Array.Reverse(value, 0, 4);

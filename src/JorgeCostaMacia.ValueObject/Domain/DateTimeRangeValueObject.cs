@@ -87,12 +87,6 @@ public record DateTimeRangeValueObject : IValueObject
     public static DateTimeRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
 
     /// <summary>
-    /// Generates the hash code based on the combined hash of <see cref="ValueStart"/> and <see cref="ValueEnd"/>.
-    /// </summary>
-    /// <returns>The combined hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(ValueStart, ValueEnd);
-
-    /// <summary>
     /// Returns the string representation of the date range in the format "Start Date - End Date".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>

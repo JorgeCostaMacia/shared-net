@@ -22,6 +22,7 @@ using JorgeCostaMacia.ValueObject.Domain;
 
 IntValueObject age = IntValueObject.Create("42");   // converts from string, int, long, float, double, decimal, bool
 int raw = age.Value;                                  // access the underlying value explicitly
+int same = age;                                       // or implicitly (VO -> primitive operator)
 
 UuidValueObject id = UuidValueObject.Create(Guid.NewGuid());
 DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(wallClock, madridTimeZone);   // local wall-clock -> UTC

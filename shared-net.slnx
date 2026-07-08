@@ -3,6 +3,7 @@
   <Project Path="src/JorgeCostaMacia.ExpressionConverter/JorgeCostaMacia.ExpressionConverter.csproj" />
   <Project Path="src/JorgeCostaMacia.Entity/JorgeCostaMacia.Entity.csproj" />
   <Project Path="src/JorgeCostaMacia.GuidMySqlConverter/JorgeCostaMacia.GuidMySqlConverter.csproj" />
+  <Project Path="src/JorgeCostaMacia.ValueObject.EfConverter/JorgeCostaMacia.ValueObject.EfConverter.csproj" />
   <Project Path="src/JorgeCostaMacia.DomainEvent/JorgeCostaMacia.DomainEvent.csproj" />
   <Project Path="src/JorgeCostaMacia.Exception/JorgeCostaMacia.Exception.csproj" />
   <Project Path="src/JorgeCostaMacia.Aggregate/JorgeCostaMacia.Aggregate.csproj" />
@@ -11,7 +12,9 @@
   <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ExpressionConverter.Tests/JorgeCostaMacia.ExpressionConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidMySqlConverter.Tests/JorgeCostaMacia.GuidMySqlConverter.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.ValueObject.EfConverter.Tests/JorgeCostaMacia.ValueObject.EfConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Exception.Tests/JorgeCostaMacia.Exception.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Aggregate.Tests/JorgeCostaMacia.Aggregate.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ValueObject.Tests/JorgeCostaMacia.ValueObject.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Serilog.Tests/JorgeCostaMacia.Serilog.Tests.csproj" />
 </Solution>

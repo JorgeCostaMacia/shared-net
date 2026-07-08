@@ -361,3 +361,27 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Claude Code local settings
+.claude/settings.local.json
+
+# IDEs and editors
+.idea/
+.vscode/
+.history/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Test results
+TestResults/
+*.trx
+
+# Logs
+logs/
+
+# System files
+.DS_Store
+Thumbs.db

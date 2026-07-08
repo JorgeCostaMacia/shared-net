@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -26,10 +28,7 @@ public record DateTimeValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate.</param>
-    public DateTimeValueObject(DateTime value)
-    {
-        Value = value;
-    }
+    public DateTimeValueObject(DateTime value) => Value = value;
 
     /// <summary>
     /// Creates a new <see cref="DateTimeValueObject"/> instance from a standard <see cref="DateTime"/> value, preserving its kind.
@@ -113,13 +112,13 @@ public record DateTimeValueObject : IValueObject
     /// Parses a string into a <see cref="DateTime"/> object, trimming whitespace first.
     /// Note: The resulting <see cref="DateTimeKind"/> depends on the input string format/culture.
     /// </summary>
-    protected static DateTime Convert(string value) => Convert(DateTime.Parse(value.Trim()));
+    protected static DateTime Convert(string value) => Convert(DateTime.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts separate date and time strings by parsing them and combining them using <see cref="DateOnly"/> and <see cref="TimeOnly"/>.
     /// Note: The resulting <see cref="DateTimeKind"/> is not set explicitly.
     /// </summary>
-    protected static DateTime Convert(string valueDate, string valueTime) => Convert(DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim())).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim()))));
+    protected static DateTime Convert(string valueDate, string valueTime) => Convert(DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim(), CultureInfo.InvariantCulture)).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim(), CultureInfo.InvariantCulture))));
 
     /// <summary>
     /// Creates a new <see cref="DateTime"/> from an integer interpreted as Ticks (kind unspecified).
@@ -136,12 +135,9 @@ public record DateTimeValueObject : IValueObject
     /// </summary>
     protected static DateTime Convert(decimal value) => Convert(new DateTime((int)value));
 
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// Overrides the base method to ensure correct Value Object comparison.
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
+    /// <summary>Implicitly converts the value object to its underlying <see cref="DateTime"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator DateTime(DateTimeValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated <see cref="DateTime"/> value.

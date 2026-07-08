@@ -31,12 +31,6 @@ public record OrderTypeValueObject : StringValueObject
     public new static OrderTypeValueObject Create(string value) => new OrderTypeValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="OrderTypeValueObject"/> instance initialized with the default order type: <b>ASC</b> (Ascending).
-    /// </summary>
-    /// <returns>A new instance initialized with "ASC".</returns>
-    public static OrderTypeValueObject Create() => Create("ASC");
-
-    /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>
     /// (e.g., trimming) and then converting the result entirely to uppercase.
     /// </summary>

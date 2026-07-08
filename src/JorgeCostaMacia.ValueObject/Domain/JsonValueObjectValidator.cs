@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+using System.Text.Json;
 using FluentValidation;
 using FluentValidation.Results;
 
@@ -20,11 +20,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///         <b>Not Empty:</b> Ensures the string value is not null or empty.
 ///     </description></item>
 ///     <item><description>
-///         <b>Minimum Length:</b> Enforces a minimum length of 2 characters (e.g., "{}").
-///     </description></item>
-///     <item><description>
-///         <b>JSON Format Check:</b> Uses a regular expression to verify that the value, optionally surrounded by whitespace,
-///         starts and ends with braces (`{}`) for an object or brackets (`[]`) for an array.
+///         <b>JSON Format Check:</b> Parses the value with <see cref="JsonDocument"/> and requires the root to be a JSON
+///         object or array (so multi-line and nested payloads are accepted, unlike a shallow regex check).
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -40,10 +37,28 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
 
         RuleFor(v => v.Value)
              .NotEmpty()
-             .MinimumLength(2)
-             .Must(v => Regex.IsMatch(v, @"^\s*(\{.*\}|\[.*\])\s*$"))
+             .Must(BeJsonObjectOrArray)
              .WithErrorCode("JsonValidator")
              .WithMessage("{PropertyName} must be a JSON");
+    }
+
+    /// <summary>Returns <c>true</c> when <paramref name="value"/> parses as a JSON object or array.</summary>
+    private static bool BeJsonObjectOrArray(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return false;
+        }
+
+        try
+        {
+            using JsonDocument document = JsonDocument.Parse(value);
+            return document.RootElement.ValueKind is JsonValueKind.Object or JsonValueKind.Array;
+        }
+        catch (JsonException)
+        {
+            return false;
+        }
     }
 
     /// <summary>

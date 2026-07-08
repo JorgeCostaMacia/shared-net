@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -25,16 +27,14 @@ public record LongValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The long value to encapsulate.</param>
-    public LongValueObject(long value)
-    {
-        Value = value;
-    }
+    public LongValueObject(long value) => Value = value;
 
     /// <summary>Creates a new <see cref="LongValueObject"/> from an existing long value (identity conversion).</summary>
     public static LongValueObject Create(long value) => new LongValueObject(Convert(value));
 
     /// <summary>Creates a new <see cref="LongValueObject"/> by parsing a string representation of the number.</summary>
     /// <exception cref="FormatException">Thrown if the string cannot be parsed as a number.</exception>
+    /// <exception cref="OverflowException">Thrown if the parsed value is out of <see cref="long"/> range.</exception>
     public static LongValueObject Create(string value) => Create(Convert(value));
 
     /// <summary>Creates a new <see cref="LongValueObject"/> by converting an integer value.</summary>
@@ -55,29 +55,27 @@ public record LongValueObject : IValueObject
     /// <summary>Converts a long value (identity conversion).</summary>
     protected static long Convert(long value) => value;
 
-    /// <summary>Parses a string into a long value (via double), trimming whitespace first.</summary>
-    protected static long Convert(string value) => Convert(System.Convert.ToInt64(double.Parse(value.Trim())));
+    /// <summary>Parses a string into a decimal, then truncates it to a long — the fractional part is dropped toward zero, never rounded (trimming whitespace first).</summary>
+    protected static long Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
-    /// <summary>Converts an integer to a long value.</summary>
-    protected static long Convert(int value) => Convert((long)value);
+    /// <summary>Converts an integer to a long value (widening; exact).</summary>
+    protected static long Convert(int value) => value;
 
-    /// <summary>Converts a float to a long value (may involve truncation).</summary>
-    protected static long Convert(float value) => Convert(System.Convert.ToInt64(value));
+    /// <summary>Converts a float to a long value, truncating the fractional part toward zero.</summary>
+    protected static long Convert(float value) => Convert((decimal)value);
 
-    /// <summary>Converts a double to a long value (may involve truncation).</summary>
-    protected static long Convert(double value) => Convert(System.Convert.ToInt64(value));
+    /// <summary>Converts a double to a long value, truncating the fractional part toward zero.</summary>
+    protected static long Convert(double value) => Convert((decimal)value);
 
-    /// <summary>Converts a decimal to a long value (may involve truncation).</summary>
-    protected static long Convert(decimal value) => Convert(System.Convert.ToInt64(value));
+    /// <summary>Converts a decimal to a long value, truncating the fractional part toward zero. Throws <see cref="OverflowException"/> if out of <see cref="long"/> range.</summary>
+    protected static long Convert(decimal value) => (long)value;
 
     /// <summary>Converts a boolean to a long value (true = 1, false = 0).</summary>
-    protected static long Convert(bool value) => Convert(value ? 1L : 0L);
+    protected static long Convert(bool value) => value ? 1L : 0L;
 
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
+    /// <summary>Implicitly converts the value object to its underlying <see cref="long"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator long(LongValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated long value.

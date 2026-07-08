@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -25,10 +27,7 @@ public record DoubleValueObject : IValueObject
     /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
     /// </summary>
     /// <param name="value">The double value to encapsulate.</param>
-    public DoubleValueObject(double value)
-    {
-        Value = value;
-    }
+    public DoubleValueObject(double value) => Value = value;
 
     /// <summary>Creates a new <see cref="DoubleValueObject"/> from an existing double value (identity conversion).</summary>
     public static DoubleValueObject Create(double value) => new DoubleValueObject(Convert(value));
@@ -56,7 +55,7 @@ public record DoubleValueObject : IValueObject
     protected static double Convert(double value) => value;
 
     /// <summary>Parses a string into a double value, trimming whitespace first.</summary>
-    protected static double Convert(string value) => Convert(double.Parse(value.Trim()));
+    protected static double Convert(string value) => Convert(double.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a double value.</summary>
     protected static double Convert(int value) => Convert((double)value);
@@ -73,11 +72,9 @@ public record DoubleValueObject : IValueObject
     /// <summary>Converts a boolean to a double value (true = 1, false = 0).</summary>
     protected static double Convert(bool value) => Convert(value ? 1d : 0d);
 
-    /// <summary>
-    /// Generates the hash code based on the internal value (<see cref="Value"/>).
-    /// </summary>
-    /// <returns>The object's hash code.</returns>
-    public override int GetHashCode() => HashCode.Combine(Value);
+    /// <summary>Implicitly converts the value object to its underlying <see cref="double"/> value.</summary>
+    /// <param name="valueObject">The value object to convert.</param>
+    public static implicit operator double(DoubleValueObject valueObject) => valueObject.Value;
 
     /// <summary>
     /// Returns the string representation of the encapsulated double value.

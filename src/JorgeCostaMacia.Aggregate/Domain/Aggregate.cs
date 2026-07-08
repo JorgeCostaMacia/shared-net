@@ -33,17 +33,29 @@ public abstract class Aggregate : IAggregate
     }
 
     /// <inheritdoc/>
-    public void AddAggregateEvents(IDomainEvent aggregateEvent) => AggregateEvents.Add(aggregateEvent);
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="aggregateEvent"/> is null.</exception>
+    public void AddAggregateEvents(IDomainEvent aggregateEvent)
+    {
+        ArgumentNullException.ThrowIfNull(aggregateEvent);
+
+        AggregateEvents.Add(aggregateEvent);
+    }
 
     /// <inheritdoc/>
-    public void AddAggregateEvents(IEnumerable<IDomainEvent> aggregateEvent) => AggregateEvents.AddRange(aggregateEvent);
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="aggregateEvent"/> is null.</exception>
+    public void AddAggregateEvents(IEnumerable<IDomainEvent> aggregateEvent)
+    {
+        ArgumentNullException.ThrowIfNull(aggregateEvent);
+
+        AggregateEvents.AddRange(aggregateEvent);
+    }
 
     /// <inheritdoc/>
     public IEnumerable<IDomainEvent> PullAggregateEvents()
     {
-        IEnumerable<IDomainEvent> AggregateEventsAux = AggregateEvents.ToList();
+        IEnumerable<IDomainEvent> aggregateEventsAux = AggregateEvents.ToList();
         AggregateEvents.Clear();
 
-        return AggregateEventsAux;
+        return aggregateEventsAux;
     }
 }
