@@ -1,52 +1,51 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> specialized for encapsulating a page number in a pagination context.
+/// Represents an immutable <b>Value Object</b> that encapsulates a page number for pagination (a positive integer).
 /// </summary>
 /// <remarks>
 /// <para>
-/// This class inherits from <see cref="IntValueObject"/> but enforces domain constraints specific to pagination,
-/// primarily that the value must be a positive integer (greater than or equal to 1).
+/// This class inherits from <see cref="IntValueObject"/> and redefines the three-verb creation surface
+/// for its own type: the constructor hydrates (ORMs, deserializers), <see cref="From(int)"/> converts
+/// (materializes, unvalidated) and <see cref="Create(int)"/> fabricates validated.
 /// </para>
 /// <para>
-/// It relies on the base <c>Convert</c> methods (inherited from <see cref="IntValueObject"/>) for type conversion.
+/// Both factories take the type's natural primitive (<see cref="int"/>) and convert through the inherited
+/// <c>Convert</c> family. The positivity constraint is enforced by <see cref="PageNumberValueObjectValidator"/>.
 /// </para>
 /// </remarks>
 public record PageNumberValueObject : IntValueObject
 {
     /// <summary>
-    /// <b>Primary Constructor (Infrastructure).</b> Initializes the Value Object using the base class constructor.
-    /// This is typically reserved for ORMs and deserializers.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is through the base class constructor,
+    /// bypassing validation. Reserved for infrastructure (ORMs, deserializers).
     /// </summary>
-    /// <param name="value">The integer page number value to encapsulate.</param>
+    /// <param name="value">The page number value to encapsulate.</param>
     public PageNumberValueObject(int value) : base(value) { }
 
     /// <summary>
-    /// Creates a new <see cref="PageNumberValueObject"/> instance from an integer value.
-    /// It applies conversion/cleansing logic inherited from the base class.
+    /// Converts: materializes a new <see cref="PageNumberValueObject"/> from the natural primitive through
+    /// the base <see cref="IntValueObject.Convert(int)"/>, <b>without validating it</b>.
+    /// This is the path composites use to build their parts.
     /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="PageNumberValueObject"/> instance.</returns>
-    public static new PageNumberValueObject Create(int value) => new PageNumberValueObject(Convert(value));
+    /// <param name="value">The source page number value.</param>
+    /// <returns>A new, unvalidated <see cref="PageNumberValueObject"/> instance.</returns>
+    public new static PageNumberValueObject From(int value) => new PageNumberValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="PageNumberValueObject"/> instance by converting a string representation of the number.
+    /// Creates: materializes the value through <see cref="From(int)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="PageNumberValueObject"/> instance.</returns>
-    public static new PageNumberValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source page number value.</param>
+    /// <returns>A new, validated <see cref="PageNumberValueObject"/> instance.</returns>
+    /// <exception cref="PageNumberValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public new static PageNumberValueObject Create(int value)
+    {
+        PageNumberValueObject vo = From(value);
+        PageNumberValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="PageNumberValueObject"/> instance by converting a float value.
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="PageNumberValueObject"/> instance.</returns>
-    public static new PageNumberValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="PageNumberValueObject"/> instance by converting a decimal value.
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="PageNumberValueObject"/> instance.</returns>
-    public static new PageNumberValueObject Create(decimal value) => Create(Convert(value));
+        return vo;
+    }
 }

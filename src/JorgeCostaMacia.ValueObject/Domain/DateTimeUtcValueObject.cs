@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,67 +8,49 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// The bare factories <b>assume the supplied value already represents UTC</b> and only tag it as such (via
-/// <see cref="DateTime.SpecifyKind(DateTime, DateTimeKind)"/> in <c>Convert</c>) — they never shift the time.
-/// To convert a wall-clock value from a known time zone into UTC, use the overloads that take a
-/// <see cref="TimeZoneInfo"/>.
+/// The factories <b>assume the supplied value already represents UTC</b> and only tag it as such (via
+/// <see cref="DateTime.SpecifyKind(DateTime, DateTimeKind)"/> in <see cref="Convert(DateTime)"/>) — they never
+/// shift the time. To convert a wall-clock value from a known time zone into UTC, derived types can use the
+/// protected <see cref="Convert(DateTime, TimeZoneInfo)"/> helper, which handles daylight-saving gaps.
 /// </para>
 /// <para>
-/// The constructor stores the value <b>as-is</b> (infrastructure path, e.g. ORM materialization); the static
-/// <c>Create</c> factories are the ones that apply the UTC tagging.
+/// It exposes the three-verb creation surface: the constructor hydrates (stores the value <b>as-is</b>, e.g.
+/// ORM materialization), <see cref="From(DateTime)"/> converts (tags UTC, unvalidated) and
+/// <see cref="Create(DateTime)"/> fabricates validated.
 /// </para>
 /// </remarks>
 public record DateTimeUtcValueObject : DateTimeValueObject
 {
     /// <summary>
-    /// <b>Infrastructure constructor.</b> Stores the value as-is, bypassing normalization.
-    /// Use the static <c>Create</c> factories to obtain a UTC-tagged value.
+    /// <b>Hydration Constructor.</b> Stores the value as-is, bypassing normalization and validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate.</param>
     public DateTimeUtcValueObject(DateTime value) : base(value) { }
 
-    // Bare factories — assume the value already represents UTC (tagged via Convert, not shifted).
+    /// <summary>
+    /// Converts: tags the value as <see cref="DateTimeKind.Utc"/> through <see cref="Convert(DateTime)"/>
+    /// <b>without shifting it</b> (assumes it already represents UTC) and materializes a new
+    /// <see cref="DateTimeUtcValueObject"/>, unvalidated. This is the path composites use to build their parts.
+    /// </summary>
+    /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
+    /// <returns>A new, UTC-tagged but unvalidated <see cref="DateTimeUtcValueObject"/> instance.</returns>
+    public new static DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
 
-    /// <summary>Creates a UTC value object from a <see cref="DateTime"/>, assuming it already represents UTC.</summary>
-    public static new DateTimeUtcValueObject Create(DateTime value) => new(Convert(value));
+    /// <summary>
+    /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
+    /// nothing invalid escapes this factory.
+    /// </summary>
+    /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
+    /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance.</returns>
+    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public new static DateTimeUtcValueObject Create(DateTime value)
+    {
+        DateTimeUtcValueObject vo = From(value);
+        DateTimeUtcValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>Creates a UTC value object by combining a date and a time <see cref="DateTime"/>, assuming UTC.</summary>
-    public static new DateTimeUtcValueObject Create(DateTime valueDate, DateTime valueTime) => new(Convert(Convert(valueDate, valueTime)));
-
-    /// <summary>Creates a UTC value object from a <see cref="DateOnly"/> and a <see cref="TimeOnly"/>, assuming UTC.</summary>
-    public static new DateTimeUtcValueObject Create(DateOnly valueDate, TimeOnly valueTime) => new(Convert(Convert(valueDate, valueTime)));
-
-    /// <summary>Creates a UTC value object from a date string and a time string, assuming UTC.</summary>
-    public static new DateTimeUtcValueObject Create(string valueDate, string valueTime) => new(Convert(Convert(valueDate, valueTime)));
-
-    /// <summary>Creates a UTC value object by parsing a string, assuming it already represents UTC.</summary>
-    public static new DateTimeUtcValueObject Create(string value) => new(Convert(Convert(value)));
-
-    /// <summary>Creates a UTC value object from an integer interpreted as Ticks.</summary>
-    public static new DateTimeUtcValueObject Create(int value) => new(Convert(Convert(value)));
-
-    /// <summary>Creates a UTC value object from a float (cast to integer Ticks).</summary>
-    public static new DateTimeUtcValueObject Create(float value) => new(Convert(Convert(value)));
-
-    /// <summary>Creates a UTC value object from a decimal (cast to integer Ticks).</summary>
-    public static new DateTimeUtcValueObject Create(decimal value) => new(Convert(Convert(value)));
-
-    // Conversion factories — interpret the value as a wall-clock time in the given zone and convert it to UTC.
-
-    /// <summary>Converts a <see cref="DateTime"/> expressed in <paramref name="fromTimeZone"/> to UTC.</summary>
-    public static DateTimeUtcValueObject Create(DateTime value, TimeZoneInfo fromTimeZone) => new(Convert(value, fromTimeZone));
-
-    /// <summary>Converts a combined date and time, expressed in <paramref name="fromTimeZone"/>, to UTC.</summary>
-    public static DateTimeUtcValueObject Create(DateTime valueDate, DateTime valueTime, TimeZoneInfo fromTimeZone) => new(Convert(Convert(valueDate, valueTime), fromTimeZone));
-
-    /// <summary>Converts a <see cref="DateOnly"/>/<see cref="TimeOnly"/>, expressed in <paramref name="fromTimeZone"/>, to UTC.</summary>
-    public static DateTimeUtcValueObject Create(DateOnly valueDate, TimeOnly valueTime, TimeZoneInfo fromTimeZone) => new(Convert(Convert(valueDate, valueTime), fromTimeZone));
-
-    /// <summary>Converts a date string and a time string, expressed in <paramref name="fromTimeZone"/>, to UTC.</summary>
-    public static DateTimeUtcValueObject Create(string valueDate, string valueTime, TimeZoneInfo fromTimeZone) => new(Convert(Convert(valueDate, valueTime), fromTimeZone));
-
-    /// <summary>Parses a string expressed in <paramref name="fromTimeZone"/> and converts it to UTC.</summary>
-    public static DateTimeUtcValueObject Create(string value, TimeZoneInfo fromTimeZone) => new(Convert(Convert(value), fromTimeZone));
+        return vo;
+    }
 
     /// <summary>
     /// Tags the value as <see cref="DateTimeKind.Utc"/> without shifting it (assumes it already represents UTC).
@@ -78,6 +62,9 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// If the value falls in a daylight-saving spring-forward gap (a non-existent local time), it is shifted
     /// forward by the zone's daylight delta so it lands on a valid instant.
     /// </summary>
+    /// <param name="value">The wall-clock value to convert.</param>
+    /// <param name="fromTimeZone">The time zone the wall-clock value is expressed in.</param>
+    /// <returns>The equivalent UTC <see cref="DateTime"/>.</returns>
     protected static DateTime Convert(DateTime value, TimeZoneInfo fromTimeZone)
     {
         DateTime local = DateTime.SpecifyKind(value, DateTimeKind.Unspecified);
@@ -94,7 +81,10 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// Returns the daylight-saving delta of <paramref name="fromTimeZone"/> applicable to <paramref name="value"/>
     /// (used to skip a spring-forward gap). Falls back to one hour.
     /// </summary>
-    private static TimeSpan DaylightDelta(TimeZoneInfo fromTimeZone, DateTime value)
+    /// <param name="fromTimeZone">The time zone whose adjustment rules are inspected.</param>
+    /// <param name="value">The value whose applicable daylight delta is looked up.</param>
+    /// <returns>The applicable daylight-saving <see cref="TimeSpan"/> delta.</returns>
+    protected static TimeSpan DaylightDelta(TimeZoneInfo fromTimeZone, DateTime value)
     {
         foreach (TimeZoneInfo.AdjustmentRule rule in fromTimeZone.GetAdjustmentRules())
         {

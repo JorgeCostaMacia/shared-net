@@ -5,24 +5,24 @@ namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
 public class DateTimeRangeValueObjectValidatorTests
 {
-    private static readonly DateTimeRangeValueObjectValidator Validator = new(new DateTimeValueObjectValidator());
+    private static readonly DateTimeRangeValueObjectValidator Validator = DateTimeRangeValueObjectValidator.Create();
 
     private static readonly DateTime Early = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     private static readonly DateTime Late = new(2021, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
     [Fact]
     public void StartBeforeEnd_Passes()
-        => Assert.True(Validator.Validate(DateTimeRangeValueObject.Create(Early, Late)).IsValid);
+        => Assert.True(Validator.Validate(DateTimeRangeValueObject.From(Early, Late)).IsValid);
 
     [Fact]
     public void StartEqualsEnd_Passes()
-        => Assert.True(Validator.Validate(DateTimeRangeValueObject.Create(Early, Early)).IsValid);
+        => Assert.True(Validator.Validate(DateTimeRangeValueObject.From(Early, Early)).IsValid);
 
     [Fact]
     public void StartAfterEnd_Fails()
-        => Assert.False(Validator.Validate(DateTimeRangeValueObject.Create(Late, Early)).IsValid);
+        => Assert.False(Validator.Validate(DateTimeRangeValueObject.From(Late, Early)).IsValid);
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => Validator.ValidateAndThrow(DateTimeRangeValueObject.Create(Late, Early)));
+        => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => Validator.ValidateAndThrow(DateTimeRangeValueObject.From(Late, Early)));
 }

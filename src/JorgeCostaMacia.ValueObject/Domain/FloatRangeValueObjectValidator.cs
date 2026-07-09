@@ -43,6 +43,13 @@ public class FloatRangeValueObjectValidator : AbstractValidator<FloatRangeValueO
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="FloatRangeValueObjectValidator"/> instance.</returns>
+    public static FloatRangeValueObjectValidator Create() => new FloatRangeValueObjectValidator(FloatValueObjectValidator.Create());
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="FloatRangeValueObjectValidationException"/>) upon validation failure.
     /// </summary>

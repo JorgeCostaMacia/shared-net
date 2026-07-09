@@ -37,6 +37,13 @@ public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValu
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="DateTimeUtcValueObjectValidator"/> instance.</returns>
+    public static DateTimeUtcValueObjectValidator Create() => new DateTimeUtcValueObjectValidator();
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="DateTimeUtcValueObjectValidationException"/>) upon validation failure.
     /// </summary>

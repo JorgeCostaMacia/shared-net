@@ -1,53 +1,51 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> specialized for encapsulating the page size (number of items per page) in a pagination context.
+/// Represents an immutable <b>Value Object</b> that encapsulates a page size for pagination (a positive integer).
 /// </summary>
 /// <remarks>
 /// <para>
-/// This class inherits from <see cref="IntValueObject"/> but enforces domain constraints specific to pagination limits,
-/// primarily that the value must be a positive integer, usually with an upper bound defined by the domain.
+/// This class inherits from <see cref="IntValueObject"/> and redefines the three-verb creation surface
+/// for its own type: the constructor hydrates (ORMs, deserializers), <see cref="From(int)"/> converts
+/// (materializes, unvalidated) and <see cref="Create(int)"/> fabricates validated.
 /// </para>
 /// <para>
-/// It relies on the base <c>Convert</c> methods (inherited from <see cref="IntValueObject"/>) for type conversion.
-/// The default creation value is set to <b>10000</b>, serving as a domain-defined maximum default size.
+/// Both factories take the type's natural primitive (<see cref="int"/>) and convert through the inherited
+/// <c>Convert</c> family. The positivity constraint is enforced by <see cref="PageSizeValueObjectValidator"/>.
 /// </para>
 /// </remarks>
 public record PageSizeValueObject : IntValueObject
 {
     /// <summary>
-    /// <b>Primary Constructor (Infrastructure).</b> Initializes the Value Object using the base class constructor.
-    /// This is typically reserved for ORMs and deserializers.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is through the base class constructor,
+    /// bypassing validation. Reserved for infrastructure (ORMs, deserializers).
     /// </summary>
-    /// <param name="value">The integer page size value to encapsulate.</param>
+    /// <param name="value">The page size value to encapsulate.</param>
     public PageSizeValueObject(int value) : base(value) { }
 
     /// <summary>
-    /// Creates a new <see cref="PageSizeValueObject"/> instance from an integer value.
-    /// It applies conversion/cleansing logic inherited from the base class.
+    /// Converts: materializes a new <see cref="PageSizeValueObject"/> from the natural primitive through
+    /// the base <see cref="IntValueObject.Convert(int)"/>, <b>without validating it</b>.
+    /// This is the path composites use to build their parts.
     /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="PageSizeValueObject"/> instance.</returns>
-    public static new PageSizeValueObject Create(int value) => new PageSizeValueObject(Convert(value));
+    /// <param name="value">The source page size value.</param>
+    /// <returns>A new, unvalidated <see cref="PageSizeValueObject"/> instance.</returns>
+    public new static PageSizeValueObject From(int value) => new PageSizeValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="PageSizeValueObject"/> instance by converting a string representation of the number.
+    /// Creates: materializes the value through <see cref="From(int)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="PageSizeValueObject"/> instance.</returns>
-    public static new PageSizeValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source page size value.</param>
+    /// <returns>A new, validated <see cref="PageSizeValueObject"/> instance.</returns>
+    /// <exception cref="PageSizeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public new static PageSizeValueObject Create(int value)
+    {
+        PageSizeValueObject vo = From(value);
+        PageSizeValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="PageSizeValueObject"/> instance by converting a float value.
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="PageSizeValueObject"/> instance.</returns>
-    public static new PageSizeValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="PageSizeValueObject"/> instance by converting a decimal value.
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="PageSizeValueObject"/> instance.</returns>
-    public static new PageSizeValueObject Create(decimal value) => Create(Convert(value));
+        return vo;
+    }
 }

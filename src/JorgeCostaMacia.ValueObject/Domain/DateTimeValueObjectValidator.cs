@@ -16,7 +16,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///         <b>Not Empty:</b> The date cannot be the default/empty value.
 ///     </description></item>
 ///     <item><description>
-///         <b>Minimum Date:</b> The date must be greater than or equal to January 1st, 1900 UTC.
+///         <b>Minimum Date:</b> The date must be greater than or equal to January 1st, 1900.
 ///     </description></item>
 ///     <item><description>
 ///         <b>Maximum Date:</b> The date must be less than or equal to 100 years from the current UTC date.
@@ -28,9 +28,6 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
     /// <summary>
     /// Initializes a new instance of the <see cref="DateTimeValueObjectValidator"/> class and defines the validation rules.
     /// </summary>
-    /// <remarks>
-    /// Rules are applied to enforce domain-level sanity checks on the date range and existence.
-    /// </remarks>
     public DateTimeValueObjectValidator()
     {
         RuleFor(v => v.Value)
@@ -38,6 +35,13 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
             .GreaterThanOrEqualTo(new DateTime(1900, 1, 1, 1, 0, 0, 0, DateTimeKind.Utc).Date)
             .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100));
     }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="DateTimeValueObjectValidator"/> instance.</returns>
+    public static DateTimeValueObjectValidator Create() => new DateTimeValueObjectValidator();
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

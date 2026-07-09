@@ -8,21 +8,10 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces constraints that limit the possible values of the order type to
-/// recognized sorting directions, typically "ASC" or "DESC".
+/// This validator ensures the ordering direction is not empty and is one of the allowed values
+/// (<c>ASC</c> or <c>DESC</c>). It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules
+/// via constructor injection, ensuring that any derived String Value Object maintains its fundamental restrictions.
 /// </para>
-/// <list type="bullet">
-///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
-///     </description></item>
-///     <item><description>
-///         <b>Not Empty:</b> Ensures the order type string is not null or empty.
-///     </description></item>
-///     <item><description>
-///         <b>Permitted Values:</b> Ensures the encapsulated value matches exactly either "ASC" (Ascending) or "DESC" (Descending).
-///         (Note: The <see cref="OrderTypeValueObject"/> ensures the value is already uppercase).
-///     </description></item>
-/// </list>
 /// </remarks>
 public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObject>
 {
@@ -35,10 +24,17 @@ public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObj
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty() // Must contain data
+             .NotEmpty()
              .Must(v2 => v2 == "ASC" || v2 == "DESC")
              .WithMessage("{PropertyName} must be 'ASC' or 'DESC'");
     }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="OrderTypeValueObjectValidator"/> instance.</returns>
+    public static OrderTypeValueObjectValidator Create() => new OrderTypeValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

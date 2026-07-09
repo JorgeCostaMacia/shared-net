@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,12 +9,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on integer logic (e.g., ID, Count, Age).
-/// It guarantees immutability and provides robust static factory methods for conversion from various primitive types,
-/// often involving truncation or explicit casting during conversion.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(int)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(int)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="int"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types (often involving truncation), so Value
+/// Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record IntValueObject : IValueObject
@@ -24,62 +27,34 @@ public record IntValueObject : IValueObject
     public int Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The integer value to encapsulate.</param>
     public IntValueObject(int value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance from an existing integer value (identity conversion).
+    /// Converts: materializes a new <see cref="IntValueObject"/> from the natural primitive through
+    /// <see cref="Convert(int)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(int value) => new IntValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="IntValueObject"/> instance.</returns>
+    public static IntValueObject From(int value) => new IntValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a string representation of the number.
+    /// Creates: materializes the value through <see cref="From(int)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a number.</exception>
-    /// <exception cref="OverflowException">Thrown if the parsed value is out of <see cref="int"/> range.</exception>
-    public static IntValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source integer value.</param>
+    /// <returns>A new, validated <see cref="IntValueObject"/> instance.</returns>
+    /// <exception cref="IntValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static IntValueObject Create(int value)
+    {
+        IntValueObject vo = From(value);
+        IntValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a float value (involving truncation).
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a decimal value (involving truncation).
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(decimal value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a boolean value (true maps to 1, false maps to 0).
-    /// </summary>
-    /// <param name="value">The source boolean value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(bool value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a long value (may involve truncation or overflow).
-    /// </summary>
-    /// <param name="value">The source long value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="IntValueObject"/> instance by converting a double value (involving truncation).
-    /// </summary>
-    /// <param name="value">The source double value.</param>
-    /// <returns>A new <see cref="IntValueObject"/> instance.</returns>
-    public static IntValueObject Create(double value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Converts an integer value (identity conversion).

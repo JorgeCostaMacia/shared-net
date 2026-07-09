@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,12 +9,18 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on time points (e.g., CreatedAt, EventDate).
-/// It guarantees immutability and <b>preserves the supplied value's <see cref="DateTimeKind"/> as-is</b> — it does
-/// not convert the timezone. Use a dedicated UTC value object when you need a UTC guarantee.
+/// It <b>preserves the supplied value's <see cref="DateTimeKind"/> as-is</b> — it does not convert the timezone.
+/// Use <see cref="DateTimeUtcValueObject"/> when you need a UTC guarantee.
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(DateTime)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(DateTime)"/> fabricates validated (nothing invalid escapes it).
+/// </para>
+/// <para>
+/// Both factories take the type's natural primitive (<see cref="DateTime"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other representations (strings, date/time parts, ticks), so
+/// Value Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record DateTimeValueObject : IValueObject
@@ -24,73 +31,35 @@ public record DateTimeValueObject : IValueObject
     public DateTime Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate.</param>
     public DateTimeValueObject(DateTime value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance from a standard <see cref="DateTime"/> value, preserving its kind.
+    /// Converts: materializes a new <see cref="DateTimeValueObject"/> from the natural primitive through
+    /// <see cref="Convert(DateTime)"/>, preserving its <see cref="DateTimeKind"/> and <b>without validating it</b>.
+    /// This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source <see cref="DateTime"/> value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(DateTime value) => new DateTimeValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="DateTimeValueObject"/> instance.</returns>
+    public static DateTimeValueObject From(DateTime value) => new DateTimeValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by combining the date part of the first <see cref="DateTime"/>
-    /// and the time part of the second <see cref="DateTime"/>.
+    /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="valueDate">The source containing the date part.</param>
-    /// <param name="valueTime">The source containing the time part.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(DateTime valueDate, DateTime valueTime) => Create(Convert(valueDate, valueTime));
+    /// <param name="value">The source <see cref="DateTime"/> value.</param>
+    /// <returns>A new, validated <see cref="DateTimeValueObject"/> instance.</returns>
+    /// <exception cref="DateTimeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static DateTimeValueObject Create(DateTime value)
+    {
+        DateTimeValueObject vo = From(value);
+        DateTimeValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by combining a <see cref="DateOnly"/> and a <see cref="TimeOnly"/> value.
-    /// </summary>
-    /// <param name="valueDate">The source <see cref="DateOnly"/> value.</param>
-    /// <param name="valueTime">The source <see cref="TimeOnly"/> value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(DateOnly valueDate, TimeOnly valueTime) => Create(Convert(valueDate, valueTime));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by parsing and combining a date string and a time string.
-    /// </summary>
-    /// <param name="valueDate">The source string containing the date part.</param>
-    /// <param name="valueTime">The source string containing the time part.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if either string cannot be parsed.</exception>
-    public static DateTimeValueObject Create(string valueDate, string valueTime) => Create(Convert(valueDate, valueTime));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by parsing a string representation of the date and time.
-    /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a DateTime.</exception>
-    public static DateTimeValueObject Create(string value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by converting an integer (interpreted as Ticks).
-    /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by converting a float (casting to integer first).
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeValueObject"/> instance by converting a decimal (casting to integer first).
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="DateTimeValueObject"/> instance.</returns>
-    public static DateTimeValueObject Create(decimal value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Returns the <see cref="DateTime"/> value as-is, preserving its <see cref="DateTimeKind"/>.

@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects that handle binary data (e.g., FileContent, Image, Hash/Salt).
-/// It guarantees immutability and provides static factory methods for creation and conversion, notably from Base64 strings.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(byte[])"/> converts (materializes, unvalidated) and
+/// <see cref="Create(byte[])"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="byte"/>[]). The protected <c>Convert</c>
+/// family carries the conversion logic from other representations (notably Base64 strings), so Value
+/// Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record ByteValueObject : IValueObject
@@ -21,25 +26,34 @@ public record ByteValueObject : IValueObject
     public byte[] Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic and is primarily intended for ORMs and deserializers.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The byte array to encapsulate.</param>
     public ByteValueObject(byte[] value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="ByteValueObject"/> instance from an existing byte array.
+    /// Converts: materializes a new <see cref="ByteValueObject"/> from the natural primitive through
+    /// <see cref="Convert(byte[])"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source byte array.</param>
-    /// <returns>A new <see cref="ByteValueObject"/> instance.</returns>
-    public static ByteValueObject Create(byte[] value) => new ByteValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="ByteValueObject"/> instance.</returns>
+    public static ByteValueObject From(byte[] value) => new ByteValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="ByteValueObject"/> instance by converting a Base64 string to a byte array.
+    /// Creates: materializes the value through <see cref="From(byte[])"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source Base64 string.</param>
-    /// <returns>A new <see cref="ByteValueObject"/> instance.</returns>
-    public static ByteValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source byte array.</param>
+    /// <returns>A new, validated <see cref="ByteValueObject"/> instance.</returns>
+    /// <exception cref="ByteValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static ByteValueObject Create(byte[] value)
+    {
+        ByteValueObject vo = From(value);
+        ByteValueObjectValidator.Create().ValidateAndThrow(vo);
+
+        return vo;
+    }
 
     /// <summary>
     /// Converts an existing byte array (identity conversion).

@@ -7,14 +7,26 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// A concrete FluentValidation validator class for the <see cref="DoubleValueObject"/>.
 /// </summary>
 /// <remarks>
-/// Validation rules (if any) are defined within the body of the constructor.
+/// <para>
+/// This validator performs checks on the encapsulated <see cref="double"/> value.
+/// Specific validation rules (e.g., range checks, non-negative constraints, minimum/maximum allowed values)
+/// should be defined within the constructor.
+/// </para>
 /// </remarks>
 public class DoubleValueObjectValidator : AbstractValidator<DoubleValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DoubleValueObjectValidator"/> class.
+    /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
     public DoubleValueObjectValidator() { }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="DoubleValueObjectValidator"/> instance.</returns>
+    public static DoubleValueObjectValidator Create() => new DoubleValueObjectValidator();
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

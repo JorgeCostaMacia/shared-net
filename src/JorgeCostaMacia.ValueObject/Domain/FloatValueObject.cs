@@ -1,18 +1,22 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="float"/> (Single precision floating-point) value.
+/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="float"/> (single-precision floating-point) value.
 /// </summary>
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on numeric values that require floating-point arithmetic (e.g., coordinates, physical measurements).
-/// It guarantees immutability and provides robust static factory methods for conversion from various primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(float)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(float)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="float"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types, so Value Objects deriving from this one
+/// in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record FloatValueObject : IValueObject
@@ -23,62 +27,34 @@ public record FloatValueObject : IValueObject
     public float Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The float value to encapsulate.</param>
     public FloatValueObject(float value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance from an existing float value (identity conversion).
+    /// Converts: materializes a new <see cref="FloatValueObject"/> from the natural primitive through
+    /// <see cref="Convert(float)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(float value) => new FloatValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="FloatValueObject"/> instance.</returns>
+    public static FloatValueObject From(float value) => new FloatValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by parsing a string representation of the number.
+    /// Creates: materializes the value through <see cref="From(float)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a float.</exception>
-    public static FloatValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source float value.</param>
+    /// <returns>A new, validated <see cref="FloatValueObject"/> instance.</returns>
+    /// <exception cref="FloatValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static FloatValueObject Create(float value)
+    {
+        FloatValueObject vo = From(value);
+        FloatValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting an integer value.
-    /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting a decimal value.
-    /// Note: This conversion can involve loss of precision.
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(decimal value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting a boolean value (true maps to 1, false maps to 0).
-    /// </summary>
-    /// <param name="value">The source boolean value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(bool value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting a long value.
-    /// </summary>
-    /// <param name="value">The source long value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="FloatValueObject"/> instance by converting a double value (may lose precision).
-    /// </summary>
-    /// <param name="value">The source double value.</param>
-    /// <returns>A new <see cref="FloatValueObject"/> instance.</returns>
-    public static FloatValueObject Create(double value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Converts a float value (identity conversion).

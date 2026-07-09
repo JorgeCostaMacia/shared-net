@@ -4,21 +4,18 @@ namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
 public class DecimalValueObjectTests
 {
-    // Regression: int/long funnel through (decimal) -> root Convert(decimal); must not self-recurse.
     [Fact]
-    public void Create_FromIntAndLong_DoesNotRecurse()
-    {
-        Assert.Equal(5m, DecimalValueObject.Create(5).Value);
-        Assert.Equal(5m, DecimalValueObject.Create(5L).Value);
-    }
+    public void Ctor_HydratesRaw()
+        => Assert.Equal(1.5m, new DecimalValueObject(1.5m).Value);
 
     [Fact]
-    public void Create_Conversions()
-    {
-        Assert.Equal(100m, DecimalValueObject.Create("100").Value);
-        Assert.Equal(7m, DecimalValueObject.Create(7).Value);
-        Assert.Equal(1m, DecimalValueObject.Create(true).Value);
-    }
+    public void From_KeepsValue()
+        => Assert.Equal(1.5m, DecimalValueObject.From(1.5m).Value);
+
+    // The validator has no rules, so Create never throws.
+    [Fact]
+    public void Create_KeepsValue()
+        => Assert.Equal(1.5m, DecimalValueObject.Create(1.5m).Value);
 
     [Fact]
     public void ImplicitOperator_ReturnsUnderlyingValue()

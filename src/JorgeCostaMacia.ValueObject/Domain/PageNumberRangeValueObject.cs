@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,15 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class ensures that page number ranges are treated as a single, cohesive unit in the domain.
-/// It relies on <see cref="PageNumberValueObject"/> for its internal structure, inheriting its immutability and focused validation.
+/// It exposes the three-verb creation surface: the constructor hydrates from pre-built parts (ORMs,
+/// deserializers), <see cref="From(int, int)"/> converts (materializes the parts through <b>their</b>
+/// <c>From</c>, unvalidated — no part throws individually) and <see cref="Create(int, int)"/> fabricates
+/// validated in <b>one composed pass</b> (one exception, the complete per-field failure list).
 /// </para>
 /// <para>
-/// The default range is typically set to the first page (1 to 1). The validation (handled by the associated validator)
-/// must ensure the range invariant: the start page number must be less than or equal to the end page number.
+/// Both factories take the parts' natural primitive (<see cref="int"/>). Other primitive types are
+/// converted at the call site; existing <see cref="PageNumberValueObject"/> instances flow through the
+/// factories via their implicit conversion to <see cref="int"/>.
 /// </para>
 /// </remarks>
 public record PageNumberRangeValueObject : IValueObject
@@ -26,7 +32,8 @@ public record PageNumberRangeValueObject : IValueObject
     public PageNumberValueObject ValueEnd { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object with pre-validated start and end page Value Objects.
+    /// <b>Hydration Constructor.</b> Assigns the pre-built parts as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping).
     /// </summary>
     /// <param name="valueStart">The start page number Value Object.</param>
     /// <param name="valueEnd">The end page number Value Object.</param>
@@ -37,44 +44,29 @@ public record PageNumberRangeValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates a new <see cref="PageNumberRangeValueObject"/> instance from existing <see cref="PageNumberValueObject"/> instances.
+    /// Converts: materializes the whole range unvalidated, building each part through its own
+    /// <see cref="PageNumberValueObject.From(int)"/> — no part throws individually.
     /// </summary>
-    /// <param name="valueStart">The start page Value Object.</param>
-    /// <param name="valueEnd">The end page Value Object.</param>
-    /// <returns>A new <see cref="PageNumberRangeValueObject"/> instance.</returns>
-    public static PageNumberRangeValueObject Create(PageNumberValueObject valueStart, PageNumberValueObject valueEnd) => new PageNumberRangeValueObject(valueStart, valueEnd);
+    /// <param name="valueStart">The start page number value.</param>
+    /// <param name="valueEnd">The end page number value.</param>
+    /// <returns>A new, unvalidated <see cref="PageNumberRangeValueObject"/> instance.</returns>
+    public static PageNumberRangeValueObject From(int valueStart, int valueEnd) => new PageNumberRangeValueObject(PageNumberValueObject.From(valueStart), PageNumberValueObject.From(valueEnd));
 
     /// <summary>
-    /// Creates a new <see cref="PageNumberRangeValueObject"/> instance from standard <see cref="int"/> values.
+    /// Creates: materializes the range through <see cref="From(int, int)"/> and validates it composed,
+    /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
-    /// <param name="valueStart">The start integer page number.</param>
-    /// <param name="valueEnd">The end integer page number.</param>
-    /// <returns>A new <see cref="PageNumberRangeValueObject"/> instance.</returns>
-    public static PageNumberRangeValueObject Create(int valueStart, int valueEnd) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd));
+    /// <param name="valueStart">The start page number value.</param>
+    /// <param name="valueEnd">The end page number value.</param>
+    /// <returns>A new, validated <see cref="PageNumberRangeValueObject"/> instance.</returns>
+    /// <exception cref="PageNumberRangeValueObjectValidationException">Thrown when the resulting range violates a validation rule.</exception>
+    public static PageNumberRangeValueObject Create(int valueStart, int valueEnd)
+    {
+        PageNumberRangeValueObject vo = From(valueStart, valueEnd);
+        PageNumberRangeValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="PageNumberRangeValueObject"/> instance by converting string representations of the numbers.
-    /// </summary>
-    /// <param name="valueStart">The start page number string.</param>
-    /// <param name="valueEnd">The end page number string.</param>
-    /// <returns>A new <see cref="PageNumberRangeValueObject"/> instance.</returns>
-    public static PageNumberRangeValueObject Create(string valueStart, string valueEnd) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="PageNumberRangeValueObject"/> instance by converting float representations of the numbers (which should typically be integers for page numbers).
-    /// </summary>
-    /// <param name="valueStart">The start float value.</param>
-    /// <param name="valueEnd">The end float value.</param>
-    /// <returns>A new <see cref="PageNumberRangeValueObject"/> instance.</returns>
-    public static PageNumberRangeValueObject Create(float valueStart, float valueEnd) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="PageNumberRangeValueObject"/> instance by converting decimal representations of the numbers.
-    /// </summary>
-    /// <param name="valueStart">The start decimal value.</param>
-    /// <param name="valueEnd">The end decimal value.</param>
-    /// <returns>A new <see cref="PageNumberRangeValueObject"/> instance.</returns>
-    public static PageNumberRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(PageNumberValueObject.Create(valueStart), PageNumberValueObject.Create(valueEnd));
+        return vo;
+    }
 
     /// <summary>
     /// Returns the string representation of the page number range in the format "Start Page - End Page".

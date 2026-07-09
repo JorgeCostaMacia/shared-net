@@ -1,40 +1,60 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> specialized for storing grouping criteria (e.g., column names for a SQL GROUP BY clause).
+/// Represents an immutable <b>Value Object</b> that encapsulates a "group by" criterion (e.g., a field name) for queries.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This class inherits from <see cref="StringValueObject"/> but enforces a specific domain rule:
-/// the value is always converted to <b>uppercase</b> upon creation, ensuring consistency regardless of the input case.
+/// This class inherits from <see cref="StringValueObject"/> and redefines the three-verb creation surface
+/// for its own type: the constructor hydrates (ORMs, deserializers), <see cref="From(string)"/> converts
+/// (normalizes through <see cref="Convert(string)"/>: trims and upper-cases, unvalidated) and
+/// <see cref="Create(string)"/> fabricates validated.
 /// </para>
 /// <para>
-/// It relies on the base <see cref="StringValueObject.Convert(string)"/> for initial cleansing (trimming).
-/// The validation ensures that the grouping field name adheres to required rules (e.g., valid identifier, existence).
+/// Both factories take the type's natural primitive (<see cref="string"/>). The protected <c>Convert</c>
+/// family remains available for Value Objects deriving from this one in consuming contexts.
 /// </para>
 /// </remarks>
 public record GroupByValueObject : StringValueObject
 {
     /// <summary>
-    /// <b>Primary Constructor (Infrastructure).</b> Initializes the Value Object using the base class constructor.
-    /// This is typically reserved for ORMs and deserializers, and should contain an already normalized (uppercase) value.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is through the base class constructor,
+    /// bypassing normalization and validation. Reserved for infrastructure (ORMs, deserializers).
     /// </summary>
-    /// <param name="value">The grouping criteria string value to encapsulate.</param>
+    /// <param name="value">The group-by string value to encapsulate.</param>
     public GroupByValueObject(string value) : base(value) { }
 
     /// <summary>
-    /// Creates a new <see cref="GroupByValueObject"/> instance from a string,
-    /// applying conversion and normalization logic before encapsulation.
+    /// Converts: normalizes the input through <see cref="Convert(string)"/> (trims whitespace and converts to
+    /// uppercase) and materializes a new <see cref="GroupByValueObject"/>, <b>without validating it</b>.
+    /// This is the path composites use to build their parts.
     /// </summary>
-    /// <param name="value">The source string value (e.g., "columnName").</param>
-    /// <returns>A new <see cref="GroupByValueObject"/> instance with an uppercase value.</returns>
-    public new static GroupByValueObject Create(string value) => new GroupByValueObject(Convert(value));
+    /// <param name="value">The source group-by string value.</param>
+    /// <returns>A new, normalized but unvalidated <see cref="GroupByValueObject"/> instance.</returns>
+    public new static GroupByValueObject From(string value) => new GroupByValueObject(Convert(value));
+
+    /// <summary>
+    /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
+    /// nothing invalid escapes this factory.
+    /// </summary>
+    /// <param name="value">The source group-by string value.</param>
+    /// <returns>A new, validated <see cref="GroupByValueObject"/> instance.</returns>
+    /// <exception cref="GroupByValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public new static GroupByValueObject Create(string value)
+    {
+        GroupByValueObject vo = From(value);
+        GroupByValueObjectValidator.Create().ValidateAndThrow(vo);
+
+        return vo;
+    }
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>
-    /// (e.g., trimming) and then converting the result entirely to uppercase.
+    /// cleansing (trimming) and then converting the result to uppercase.
     /// </summary>
-    /// <param name="value">The input string.</param>
-    /// <returns>The normalized, uppercase string.</returns>
+    /// <param name="value">The string to convert.</param>
+    /// <returns>The cleansed, uppercase string.</returns>
     protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
 }

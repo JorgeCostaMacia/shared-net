@@ -43,6 +43,13 @@ public class DateTimeRangeValueObjectValidator : AbstractValidator<DateTimeRange
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="DateTimeRangeValueObjectValidator"/> instance.</returns>
+    public static DateTimeRangeValueObjectValidator Create() => new DateTimeRangeValueObjectValidator(DateTimeValueObjectValidator.Create());
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="DateTimeRangeValueObjectValidationException"/>) upon validation failure.
     /// </summary>

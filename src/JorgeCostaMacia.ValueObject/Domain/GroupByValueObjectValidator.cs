@@ -8,17 +8,10 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces basic constraints suitable for grouping criteria strings,
-/// leveraging validation rules defined in the base <see cref="StringValueObject"/> validator.
+/// This validator ensures the group-by criterion is not empty, and <b>includes</b> the base
+/// <see cref="StringValueObjectValidator"/> rules via constructor injection, ensuring that any derived
+/// String Value Object maintains its fundamental restrictions.
 /// </para>
-/// <list type="bullet">
-///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
-///     </description></item>
-///     <item><description>
-///         <b>Not Empty:</b> Ensures the grouping criteria string is not null or empty.
-///     </description></item>
-/// </list>
 /// </remarks>
 public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
 {
@@ -33,6 +26,13 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
         RuleFor(v => v.Value)
              .NotEmpty();
     }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="GroupByValueObjectValidator"/> instance.</returns>
+    public static GroupByValueObjectValidator Create() => new GroupByValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

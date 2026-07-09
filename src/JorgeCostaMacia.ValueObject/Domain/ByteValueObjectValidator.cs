@@ -8,29 +8,28 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator performs validation rules specific to the encapsulated binary data,
-/// such as checking for null/empty arrays, size limits, or specific content constraints.
-/// </para>
-/// <para>
-/// For the base implementation, this class usually contains general rules applicable to all binary data
-/// (e.g., ensuring the byte array is not null), relying on derived validators to add specific rules
-/// like maximum file size or content type validation.
+/// This validator performs checks on the encapsulated <see cref="byte"/>[] value.
+/// Specific validation rules (e.g., length limits, content checks) should be defined within the constructor.
 /// </para>
 /// </remarks>
 public class ByteValueObjectValidator : AbstractValidator<ByteValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ByteValueObjectValidator"/> class.
+    /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
-    /// <remarks>
-    /// Validation rules (if any) should be defined here. For the base <see cref="ByteValueObject"/>, rules are typically minimal,
-    /// focusing on ensuring the existence and integrity of the byte array before more specific constraints are applied by derived classes.
-    /// </remarks>
     public ByteValueObjectValidator() { }
 
     /// <summary>
-    /// Overrides the default behavior of FluentValidation to throw a custom domain exception
-    /// (<see cref="ByteValueObjectValidationException"/>) upon validation failure, instead of the default <see cref="ValidationException"/>.
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="ByteValueObjectValidator"/> instance.</returns>
+    public static ByteValueObjectValidator Create() => new ByteValueObjectValidator();
+
+    /// <summary>
+    /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
+    /// (<see cref="ByteValueObjectValidationException"/>) upon validation failure.
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
