@@ -2,6 +2,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\JorgeCostaMacia.Serilog\JorgeCostaMacia.Serilog.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Configuration" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
 		<PackageReference Include="Serilog.Sinks.InMemory" />
