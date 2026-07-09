@@ -7,6 +7,9 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\JorgeCostaMacia.ValueObject\JorgeCostaMacia.ValueObject.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" />
 	</ItemGroup>
 
