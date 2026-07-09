@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,11 +9,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for all domain Value Objects based on text strings (e.g., Email, ClientName).
-/// It guarantees immutability and provides static factory methods for creation and type conversion.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(string)"/> converts (normalizes and materializes, unvalidated) and
+/// <see cref="Create(string)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The protected constructor is reserved for infrastructure purposes (e.g., ORM mapping, deserialization).
-/// Business logic should utilize the static <c>Create</c> factory methods.
+/// Both factories take the type's natural primitive (<see cref="string"/>). The protected <c>Convert</c>
+/// family carries the conversion/cleansing logic from other primitive types, so Value Objects deriving
+/// from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record StringValueObject : IValueObject
@@ -23,75 +27,34 @@ public record StringValueObject : IValueObject
     public string Value { get; init; }
 
     /// <summary>
-    /// <b>Infrastructure Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation and is intended for ORMs, deserializers, and database mapping.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing normalization and validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The string value to encapsulate.</param>
-    protected StringValueObject(string value) => Value = value;
+    public StringValueObject(string value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance from a string,
-    /// applying any defined format cleansing (e.g., trimming whitespace).
+    /// Converts: normalizes the input through <see cref="Convert(string)"/> (trims whitespace) and materializes
+    /// a new <see cref="StringValueObject"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(string value) => new StringValueObject(Convert(value));
+    /// <returns>A new, normalized but unvalidated <see cref="StringValueObject"/> instance.</returns>
+    public static StringValueObject From(string value) => new StringValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting an integer value (<see cref="int"/>) to a string.
+    /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(int value) => Create(Convert(value));
+    /// <param name="value">The source string value.</param>
+    /// <returns>A new, validated <see cref="StringValueObject"/> instance.</returns>
+    /// <exception cref="StringValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static StringValueObject Create(string value)
+    {
+        StringValueObject vo = From(value);
+        StringValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a float value (<see cref="float"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a decimal value (<see cref="decimal"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(decimal value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a boolean value (<see cref="bool"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source boolean value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(bool value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a long value (<see cref="long"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source long value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a double value (<see cref="double"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source double value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(double value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a DateTime value (<see cref="DateTime"/>) to a string.
-    /// </summary>
-    /// <param name="value">The source DateTime value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(DateTime value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="StringValueObject"/> instance by converting a <see cref="Guid"/> to a string.
-    /// </summary>
-    /// <param name="value">The source Guid value.</param>
-    /// <returns>A new <see cref="StringValueObject"/> instance.</returns>
-    public static StringValueObject Create(Guid value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Converts and cleanses a string value. By default, this method trims whitespace.

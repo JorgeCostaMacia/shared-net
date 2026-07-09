@@ -1,6 +1,6 @@
 # JorgeCostaMacia.ValueObject
 
-Immutable, type-safe **value objects** — primitives (`int`, `long`, `float`, `double`, `decimal`, `bool`, `byte`, `string`, `Guid`, `DateTime`, UTC `DateTime`), semantic strings (email, URL, IP, JSON), numeric/date ranges, and paging/ordering — each with `Create(...)` conversion factories and value equality. Every type ships a FluentValidation validator and a typed validation exception.
+Immutable, type-safe **value objects** — primitives (`int`, `long`, `float`, `double`, `decimal`, `bool`, `byte`, `string`, `Guid`, `DateTime`, UTC `DateTime`), semantic strings (email, URL, IP, JSON), numeric/date ranges, and paging/ordering — each with the three-verb creation surface (constructor hydrates, `From(...)` converts unvalidated, `Create(...)` fabricates validated) and value equality. Every type ships a FluentValidation validator and a typed validation exception.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
@@ -20,20 +20,27 @@ dotnet add package JorgeCostaMacia.ValueObject
 ```csharp
 using JorgeCostaMacia.ValueObject.Domain;
 
-IntValueObject age = IntValueObject.Create("42");   // converts from string, int, long, float, double, decimal, bool
-int raw = age.Value;                                  // access the underlying value explicitly
-int same = age;                                       // or implicitly (VO -> primitive operator)
+EmailValueObject email = EmailValueObject.Create("user@host.com");   // validated: nothing invalid escapes Create
+EmailValueObject draft = EmailValueObject.From("  user@host.com ");  // normalized but UNVALIDATED (composites' path)
+string raw = email.Value;                                            // access the underlying value explicitly
+string same = email;                                                 // or implicitly (VO -> primitive operator)
 
 UuidValueObject id = UuidValueObject.Create(Guid.NewGuid());
-DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(wallClock, madridTimeZone);   // local wall-clock -> UTC
+DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(DateTime.UtcNow);   // tags Utc kind; convert wall-clock at the call site
 ```
 
-### Validation lives at the call site
+### The three-verb creation surface
 
-Value objects don't validate themselves — you validate **where you use them**, so it's explicit. Each type ships a FluentValidation validator and a typed `…ValidationException`; add your rules in your own validator (or the provided one) and run it:
+Each value object exposes exactly three ways in, on its **natural primitive** (convert other types at the call site):
+
+- **`new X(value)`** — hydrates raw, no normalization, no validation. Reserved for infrastructure (ORMs, deserializers — the EF converters use it).
+- **`X.From(value)`** — converts: normalizes and materializes, **unvalidated**. Composites build their parts through it so the whole object validates in one pass.
+- **`X.Create(value)`** — fabricates validated: runs the type's validator and throws its typed `…ValidationException` (with the **complete** failure list) on violation.
+
+Each type's validator also assembles itself: `EmailValueObjectValidator.Create()` chains the `Create()` of the validators it composes — or take the constructor and inject the composition via DI:
 
 ```csharp
-validator.ValidateAndThrow(age);   // throws IntValueObjectValidationException on failure
+EmailValueObjectValidator.Create().ValidateAndThrow(email);   // throws EmailValueObjectValidationException on failure
 ```
 
 ### Register the validators

@@ -4,6 +4,34 @@ namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
 public class BoolValueObjectTests
 {
+    [Fact]
+    public void Ctor_HydratesRaw()
+        => Assert.True(new BoolValueObject(true).Value);
+
+    [Fact]
+    public void From_KeepsValue()
+    {
+        Assert.True(BoolValueObject.From(true).Value);
+        Assert.False(BoolValueObject.From(false).Value);
+    }
+
+    // The validator has no rules, so Create never throws.
+    [Fact]
+    public void Create_KeepsValue()
+    {
+        Assert.True(BoolValueObject.Create(true).Value);
+        Assert.False(BoolValueObject.Create(false).Value);
+    }
+
+    [Fact]
+    public void ImplicitOperator_ReturnsUnderlyingValue()
+    {
+        bool value = BoolValueObject.Create(true);
+        Assert.True(value);
+    }
+
+    // The protected Convert family is the toolbox for derived VOs in consuming contexts —
+    // exercised through a derived test type, like a real derived VO would.
     [Theory]
     [InlineData("TRUE", true)]
     [InlineData("true", true)]
@@ -13,24 +41,34 @@ public class BoolValueObjectTests
     [InlineData("false", false)]
     [InlineData("0", false)]
     [InlineData("nope", false)]
-    public void Create_FromString_ParsesTruthyTokens(string input, bool expected)
-        => Assert.Equal(expected, BoolValueObject.Create(input).Value);
+    public void Convert_FromString_ParsesTruthyTokens(string input, bool expected)
+        => Assert.Equal(expected, TestBool.Convert(input));
 
     [Fact]
-    public void Create_FromNumbers_OnlyOneMapsToTrue()
+    public void Convert_FromNumbers_OnlyOneMapsToTrue()
     {
-        Assert.True(BoolValueObject.Create(1).Value);
-        Assert.False(BoolValueObject.Create(0).Value);
-        Assert.False(BoolValueObject.Create(2).Value);
-        Assert.True(BoolValueObject.Create(1L).Value);
-        Assert.True(BoolValueObject.Create(1.0).Value);
-        Assert.True(BoolValueObject.Create(1m).Value);
+        Assert.True(TestBool.Convert(1));
+        Assert.False(TestBool.Convert(0));
+        Assert.False(TestBool.Convert(2));
+        Assert.True(TestBool.Convert(1L));
+        Assert.True(TestBool.Convert(1.0));
+        Assert.True(TestBool.Convert(1m));
     }
 
-    [Fact]
-    public void ImplicitOperator_ReturnsUnderlyingValue()
+    public sealed record TestBool : BoolValueObject
     {
-        bool value = BoolValueObject.Create(true);
-        Assert.True(value);
+        public TestBool(bool value) : base(value) { }
+
+        public new static bool Convert(string value) => BoolValueObject.Convert(value);
+
+        public new static bool Convert(int value) => BoolValueObject.Convert(value);
+
+        public new static bool Convert(float value) => BoolValueObject.Convert(value);
+
+        public new static bool Convert(long value) => BoolValueObject.Convert(value);
+
+        public new static bool Convert(double value) => BoolValueObject.Convert(value);
+
+        public new static bool Convert(decimal value) => BoolValueObject.Convert(value);
     }
 }

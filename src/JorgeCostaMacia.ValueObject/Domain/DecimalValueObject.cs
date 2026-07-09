@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,11 +9,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on precise numeric values (e.g., Money, Quantity, Price).
-/// It guarantees immutability and provides robust static factory methods for conversion from various primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(decimal)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(decimal)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="decimal"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types, so Value Objects deriving from this one
+/// in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record DecimalValueObject : IValueObject
@@ -23,61 +27,34 @@ public record DecimalValueObject : IValueObject
     public decimal Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The decimal value to encapsulate.</param>
     public DecimalValueObject(decimal value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance from an existing decimal value (identity conversion).
+    /// Converts: materializes a new <see cref="DecimalValueObject"/> from the natural primitive through
+    /// <see cref="Convert(decimal)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(decimal value) => new DecimalValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="DecimalValueObject"/> instance.</returns>
+    public static DecimalValueObject From(decimal value) => new DecimalValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by parsing a string representation of the number.
+    /// Creates: materializes the value through <see cref="From(decimal)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a decimal.</exception>
-    public static DecimalValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source decimal value.</param>
+    /// <returns>A new, validated <see cref="DecimalValueObject"/> instance.</returns>
+    /// <exception cref="DecimalValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static DecimalValueObject Create(decimal value)
+    {
+        DecimalValueObject vo = From(value);
+        DecimalValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting an integer value.
-    /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting a float value.
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting a boolean value (true maps to 1, false maps to 0).
-    /// </summary>
-    /// <param name="value">The source boolean value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(bool value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting a long value.
-    /// </summary>
-    /// <param name="value">The source long value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="DecimalValueObject"/> instance by converting a double value (may lose precision).
-    /// </summary>
-    /// <param name="value">The source double value.</param>
-    /// <returns>A new <see cref="DecimalValueObject"/> instance.</returns>
-    public static DecimalValueObject Create(double value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Converts a decimal value (identity conversion).

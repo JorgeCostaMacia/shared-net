@@ -43,6 +43,13 @@ public class IntRangeValueObjectValidator : AbstractValidator<IntRangeValueObjec
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="IntRangeValueObjectValidator"/> instance.</returns>
+    public static IntRangeValueObjectValidator Create() => new IntRangeValueObjectValidator(IntValueObjectValidator.Create());
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="IntRangeValueObjectValidationException"/>) upon validation failure.
     /// </summary>

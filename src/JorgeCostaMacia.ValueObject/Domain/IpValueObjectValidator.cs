@@ -47,6 +47,13 @@ public class IpValueObjectValidator : AbstractValidator<IpValueObject>
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="IpValueObjectValidator"/> instance.</returns>
+    public static IpValueObjectValidator Create() => new IpValueObjectValidator(StringValueObjectValidator.Create());
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="IpValueObjectValidationException"/>) upon validation failure.
     /// </summary>

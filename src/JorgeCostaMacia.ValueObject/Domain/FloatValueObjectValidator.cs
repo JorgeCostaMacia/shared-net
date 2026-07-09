@@ -9,7 +9,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This validator performs checks on the encapsulated <see cref="float"/> value.
-/// Specific validation rules (e.g., range checks, positive/negative constraints, precision checks)
+/// Specific validation rules (e.g., range checks, non-negative constraints, minimum/maximum allowed values)
 /// should be defined within the constructor.
 /// </para>
 /// </remarks>
@@ -17,9 +17,16 @@ public class FloatValueObjectValidator : AbstractValidator<FloatValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FloatValueObjectValidator"/> class.
-    /// Validation rules (if any) should be defined here, although it typically remains empty to act as a base.
+    /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
     public FloatValueObjectValidator() { }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="FloatValueObjectValidator"/> instance.</returns>
+    public static FloatValueObjectValidator Create() => new FloatValueObjectValidator();
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

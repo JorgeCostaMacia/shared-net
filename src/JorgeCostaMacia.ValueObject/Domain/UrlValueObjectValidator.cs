@@ -8,14 +8,16 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces constraints specific to URL format, ensuring that the encapsulated string
-/// is not empty and represents a valid absolute URI whose scheme is not <c>file</c> — plain filesystem
-/// paths are rejected. (Without that check the rule is platform-dependent: on Unix a rooted path like
-/// <c>/foo/bar</c> parses as an absolute <c>file://</c> URI, on Windows <c>C:\foo</c> does.)
+/// This validator enforces constraints specific to <b>web</b> URLs: the encapsulated string must not be
+/// empty and must be a valid absolute URI whose scheme is <c>http</c> or <c>https</c>. The scheme
+/// allow-list rejects dangerous values (<c>javascript:</c>, <c>data:</c>, <c>file://</c> — including
+/// plain filesystem paths, which would otherwise parse platform-dependently) so a validated
+/// <see cref="UrlValueObject"/> is safe to emit into links and redirects.
 /// </para>
 /// <para>
-/// It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules via constructor injection,
-/// ensuring that any derived String Value Object maintains its fundamental restrictions.
+/// Value Objects that need other schemes (e.g. <c>ftp</c>) derive their own type and validator with
+/// their own scheme rule. It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules
+/// via constructor injection, ensuring that any derived String Value Object maintains its fundamental restrictions.
 /// </para>
 /// </remarks>
 public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>
@@ -31,10 +33,17 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>
         RuleFor(v => v.Value)
             .NotEmpty()
             .MinimumLength(1)
-            .Must(v => Uri.TryCreate(v, UriKind.Absolute, out Uri? uri) && !uri.IsFile)
+            .Must(v => Uri.TryCreate(v, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
             .WithErrorCode("UrlValidator")
-            .WithMessage("{PropertyName} must be an Url");
+            .WithMessage("{PropertyName} must be an http(s) Url");
     }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="UrlValueObjectValidator"/> instance.</returns>
+    public static UrlValueObjectValidator Create() => new UrlValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw the specific domain exception

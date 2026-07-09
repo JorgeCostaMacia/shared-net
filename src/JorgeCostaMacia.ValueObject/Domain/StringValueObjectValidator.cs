@@ -26,6 +26,13 @@ public class StringValueObjectValidator : AbstractValidator<StringValueObject>
     public StringValueObjectValidator() { }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="StringValueObjectValidator"/> instance.</returns>
+    public static StringValueObjectValidator Create() => new StringValueObjectValidator();
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
     /// (<see cref="StringValueObjectValidationException"/>) upon validation failure.
     /// </summary>
