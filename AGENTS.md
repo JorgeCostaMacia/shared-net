@@ -42,10 +42,14 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 ## Relevant skills
 
-Skills that apply to this repo — let them trigger, or invoke explicitly. `gitflow` and `solid` are from `jorgecostamacia-agent-skills`; the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
+Skills that apply to this repo — let them trigger, or invoke explicitly. `gitflow`, `solid`, `clean-architecture`, `ddd`, `testing` and `validation-net` are from `jorgecostamacia-agent-skills`; the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
 
 - **`gitflow`** — all branch/release work (see *Branching & releases* above).
 - **`solid`** — SOLID-principles design review; apply when shaping or reviewing the public surface of the DDD building blocks (ValueObject, Aggregate, Exception…).
+- **`clean-architecture`** — layers and the inward dependency rule; here mainly the Domain-stays-pure discipline behind the package namespaces.
+- **`ddd`** — tactical DDD, canon-anchored: aggregates, value objects, factories & hydration, validation principles, domain events, domain errors. This repo IS those building blocks — the skill is its conceptual spec.
+- **`testing`** — testing principles: done-means-tested, one test file per unit, names as specification, classicist doubles, rule coverage.
+- **`validation-net`** — **the spec this library implements**: the three-verb surface (ctor hydrates · `From` converts · `Create` validates), per-call validators assembled via static `Create()` chains, family exceptions with fixed codes, the factory-vs-DI rule. Read it before touching ValueObject/Aggregate creation or validators (v4.0.0 implements it).
 - **`dotnet`** — C# language server + general .NET development.
 - **`dotnet-msbuild`** — `Directory.Build.props`, project-file quality/review, Central Package Management, build perf, modernization (msbuild-antipatterns, directory-build-organization, convert-to-cpm…).
 - **`dotnet-nuget`** — dependency management and package modernization.
