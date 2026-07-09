@@ -42,9 +42,10 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 ## Relevant skills
 
-Skills that apply to this repo — let them trigger, or invoke explicitly. `gitflow` is from `jorgecostamacia-agent-skills`; the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
+Skills that apply to this repo — let them trigger, or invoke explicitly. `gitflow` and `solid` are from `jorgecostamacia-agent-skills`; the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
 
 - **`gitflow`** — all branch/release work (see *Branching & releases* above).
+- **`solid`** — SOLID-principles design review; apply when shaping or reviewing the public surface of the DDD building blocks (ValueObject, Aggregate, Exception…).
 - **`dotnet`** — C# language server + general .NET development.
 - **`dotnet-msbuild`** — `Directory.Build.props`, project-file quality/review, Central Package Management, build perf, modernization (msbuild-antipatterns, directory-build-organization, convert-to-cpm…).
 - **`dotnet-nuget`** — dependency management and package modernization.
