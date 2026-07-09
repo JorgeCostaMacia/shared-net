@@ -63,4 +63,45 @@ public class DateTimeValueObjectTests
         DateTime value = DateTimeValueObject.Create(moment);
         Assert.Equal(moment, value);
     }
+
+    // The protected Convert family is the toolbox for derived VOs in consuming contexts —
+    // exercised through a derived test type, like a real derived VO would.
+    [Fact]
+    public void Convert_FromDateAndTime_TakesDateFromFirstAndTimeFromSecond()
+    {
+        DateTime date = new(2026, 3, 15, 9, 8, 7);
+        DateTime time = new(2001, 1, 1, 14, 30, 45);
+
+        Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));   // hour is 14 (from time), not 9 (from date)
+    }
+
+    [Fact]
+    public void Convert_FromDateOnlyAndTimeOnly_Combines()
+    {
+        DateOnly date = new(2026, 3, 15);
+        TimeOnly time = new(14, 30, 45);
+
+        Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));
+    }
+
+    [Fact]
+    public void Convert_FromString_Parses_InvariantCulture()
+        => Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert("2026-03-15T14:30:45"));
+
+    [Fact]
+    public void Convert_FromDateAndTimeStrings_Combines()
+        => Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert("2026-03-15", "14:30:45"));
+
+    public sealed record TestDateTime : DateTimeValueObject
+    {
+        public TestDateTime(DateTime value) : base(value) { }
+
+        public new static DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+
+        public new static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+
+        public new static DateTime Convert(string value) => DateTimeValueObject.Convert(value);
+
+        public new static DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+    }
 }

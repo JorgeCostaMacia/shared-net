@@ -15,7 +15,7 @@ namespace JorgeCostaMacia.Aggregate.Domain;
 /// </remarks>
 public abstract class Aggregate : IAggregate
 {
-    private List<IDomainEvent> AggregateEvents { get; init; }
+    private List<IDomainEvent> DomainEvents { get; init; }
 
     /// <summary>
     /// Initializes a new Aggregate instance with an empty pending-events list.
@@ -29,33 +29,33 @@ public abstract class Aggregate : IAggregate
     /// </remarks>
     protected Aggregate()
     {
-        AggregateEvents = new List<IDomainEvent>();
+        DomainEvents = new List<IDomainEvent>();
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="aggregateEvent"/> is null.</exception>
-    public void AddAggregateEvents(IDomainEvent aggregateEvent)
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="domainEvent"/> is null.</exception>
+    public void AddDomainEvents(IDomainEvent domainEvent)
     {
-        ArgumentNullException.ThrowIfNull(aggregateEvent);
+        ArgumentNullException.ThrowIfNull(domainEvent);
 
-        AggregateEvents.Add(aggregateEvent);
+        DomainEvents.Add(domainEvent);
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="aggregateEvent"/> is null.</exception>
-    public void AddAggregateEvents(IEnumerable<IDomainEvent> aggregateEvent)
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="domainEvent"/> is null.</exception>
+    public void AddDomainEvents(IEnumerable<IDomainEvent> domainEvent)
     {
-        ArgumentNullException.ThrowIfNull(aggregateEvent);
+        ArgumentNullException.ThrowIfNull(domainEvent);
 
-        AggregateEvents.AddRange(aggregateEvent);
+        DomainEvents.AddRange(domainEvent);
     }
 
     /// <inheritdoc/>
-    public IEnumerable<IDomainEvent> PullAggregateEvents()
+    public IEnumerable<IDomainEvent> PullDomainEvents()
     {
-        IEnumerable<IDomainEvent> aggregateEventsAux = AggregateEvents.ToList();
-        AggregateEvents.Clear();
+        IEnumerable<IDomainEvent> domainEventsAux = DomainEvents.ToList();
+        DomainEvents.Clear();
 
-        return aggregateEventsAux;
+        return domainEventsAux;
     }
 }

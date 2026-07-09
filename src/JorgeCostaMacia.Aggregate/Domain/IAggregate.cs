@@ -24,14 +24,14 @@ public interface IAggregate
     /// Adds a single domain event to the aggregate's internal list of captured events.
     /// Events are typically added during state mutation methods.
     /// </summary>
-    /// <param name="aggregateEvent">The domain event that occurred.</param>
-    void AddAggregateEvents(IDomainEvent aggregateEvent);
+    /// <param name="domainEvent">The domain event that occurred.</param>
+    void AddDomainEvents(IDomainEvent domainEvent);
 
     /// <summary>
     /// Adds a collection of domain events to the aggregate's internal list of captured events.
     /// </summary>
-    /// <param name="aggregateEvent">The collection of domain events that occurred.</param>
-    void AddAggregateEvents(IEnumerable<IDomainEvent> aggregateEvent);
+    /// <param name="domainEvent">The collection of domain events that occurred.</param>
+    void AddDomainEvents(IEnumerable<IDomainEvent> domainEvent);
 
     /// <summary>
     /// Retrieves all accumulated domain events and then <b>clears the internal list</b>
@@ -43,5 +43,5 @@ public interface IAggregate
     /// published exactly once.
     /// </remarks>
     /// <returns>A collection of <see cref="IDomainEvent"/> messages that occurred.</returns>
-    IEnumerable<IDomainEvent> PullAggregateEvents();
+    IEnumerable<IDomainEvent> PullDomainEvents();
 }

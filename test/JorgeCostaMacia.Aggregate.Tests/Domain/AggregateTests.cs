@@ -15,79 +15,79 @@ public class AggregateTests
     {
         TestAggregate aggregate = new();
 
-        Assert.Empty(aggregate.PullAggregateEvents());
+        Assert.Empty(aggregate.PullDomainEvents());
     }
 
     [Fact]
-    public void AddAggregateEvents_Single_AccumulatesEvent()
+    public void AddDomainEvents_Single_AccumulatesEvent()
     {
         TestAggregate aggregate = new();
         TestEvent raised = new(1);
 
-        aggregate.AddAggregateEvents(raised);
+        aggregate.AddDomainEvents(raised);
 
-        Assert.Equal(new IDomainEvent[] { raised }, aggregate.PullAggregateEvents().ToArray());
+        Assert.Equal(new IDomainEvent[] { raised }, aggregate.PullDomainEvents().ToArray());
     }
 
     [Fact]
-    public void AddAggregateEvents_Range_AccumulatesAllInOrder()
+    public void AddDomainEvents_Range_AccumulatesAllInOrder()
     {
         TestAggregate aggregate = new();
         TestEvent first = new(1);
         TestEvent second = new(2);
 
-        aggregate.AddAggregateEvents([first, second]);
+        aggregate.AddDomainEvents([first, second]);
 
-        Assert.Equal(new IDomainEvent[] { first, second }, aggregate.PullAggregateEvents().ToArray());
+        Assert.Equal(new IDomainEvent[] { first, second }, aggregate.PullDomainEvents().ToArray());
     }
 
     [Fact]
-    public void PullAggregateEvents_ClearsTheListAfterPulling()
+    public void PullDomainEvents_ClearsTheListAfterPulling()
     {
         TestAggregate aggregate = new();
-        aggregate.AddAggregateEvents(new TestEvent(1));
+        aggregate.AddDomainEvents(new TestEvent(1));
 
-        IDomainEvent[] firstPull = aggregate.PullAggregateEvents().ToArray();
-        IDomainEvent[] secondPull = aggregate.PullAggregateEvents().ToArray();
+        IDomainEvent[] firstPull = aggregate.PullDomainEvents().ToArray();
+        IDomainEvent[] secondPull = aggregate.PullDomainEvents().ToArray();
 
         Assert.Single(firstPull);
         Assert.Empty(secondPull);
     }
 
     [Fact]
-    public void AddAggregateEvents_NullSingleEvent_Throws()
+    public void AddDomainEvents_NullSingleEvent_Throws()
     {
         TestAggregate aggregate = new();
 
-        Assert.Throws<ArgumentNullException>(() => aggregate.AddAggregateEvents((IDomainEvent)null!));
+        Assert.Throws<ArgumentNullException>(() => aggregate.AddDomainEvents((IDomainEvent)null!));
     }
 
     [Fact]
-    public void AddAggregateEvents_NullCollection_Throws()
+    public void AddDomainEvents_NullCollection_Throws()
     {
         TestAggregate aggregate = new();
 
-        Assert.Throws<ArgumentNullException>(() => aggregate.AddAggregateEvents((IEnumerable<IDomainEvent>)null!));
+        Assert.Throws<ArgumentNullException>(() => aggregate.AddDomainEvents((IEnumerable<IDomainEvent>)null!));
     }
 
     [Fact]
-    public void AddAggregateEvents_EmptyRange_KeepsListEmpty()
+    public void AddDomainEvents_EmptyRange_KeepsListEmpty()
     {
         TestAggregate aggregate = new();
 
-        aggregate.AddAggregateEvents([]);
+        aggregate.AddDomainEvents([]);
 
-        Assert.Empty(aggregate.PullAggregateEvents());
+        Assert.Empty(aggregate.PullDomainEvents());
     }
 
     [Fact]
-    public void PullAggregateEvents_ReturnedSnapshot_IsUnaffectedBySubsequentAdd()
+    public void PullDomainEvents_ReturnedSnapshot_IsUnaffectedBySubsequentAdd()
     {
         TestAggregate aggregate = new();
-        aggregate.AddAggregateEvents(new TestEvent(1));
+        aggregate.AddDomainEvents(new TestEvent(1));
 
-        IEnumerable<IDomainEvent> snapshot = aggregate.PullAggregateEvents();
-        aggregate.AddAggregateEvents(new TestEvent(2));
+        IEnumerable<IDomainEvent> snapshot = aggregate.PullDomainEvents();
+        aggregate.AddDomainEvents(new TestEvent(2));
 
         Assert.Single(snapshot);
     }
@@ -96,29 +96,29 @@ public class AggregateTests
     public void AddThenPullThenAdd_AccumulatesFreshEventsOnly()
     {
         TestAggregate aggregate = new();
-        aggregate.AddAggregateEvents(new TestEvent(1));
-        aggregate.PullAggregateEvents();
+        aggregate.AddDomainEvents(new TestEvent(1));
+        aggregate.PullDomainEvents();
 
         TestEvent second = new(2);
-        aggregate.AddAggregateEvents(second);
+        aggregate.AddDomainEvents(second);
 
-        Assert.Equal(new IDomainEvent[] { second }, aggregate.PullAggregateEvents().ToArray());
+        Assert.Equal(new IDomainEvent[] { second }, aggregate.PullDomainEvents().ToArray());
     }
 
     [Fact]
-    public void AddAggregateEvents_SameInstanceTwice_PreservesDuplicates()
+    public void AddDomainEvents_SameInstanceTwice_PreservesDuplicates()
     {
         TestAggregate aggregate = new();
         TestEvent raised = new(1);
 
-        aggregate.AddAggregateEvents(raised);
-        aggregate.AddAggregateEvents(raised);
+        aggregate.AddDomainEvents(raised);
+        aggregate.AddDomainEvents(raised);
 
-        Assert.Equal(2, aggregate.PullAggregateEvents().Count());
+        Assert.Equal(2, aggregate.PullDomainEvents().Count());
     }
 
     [Fact]
-    public void AddAggregateEvents_MixedSingleAndRange_PreservesOverallOrder()
+    public void AddDomainEvents_MixedSingleAndRange_PreservesOverallOrder()
     {
         TestAggregate aggregate = new();
         TestEvent first = new(1);
@@ -126,10 +126,10 @@ public class AggregateTests
         TestEvent third = new(3);
         TestEvent fourth = new(4);
 
-        aggregate.AddAggregateEvents(first);
-        aggregate.AddAggregateEvents([second, third]);
-        aggregate.AddAggregateEvents(fourth);
+        aggregate.AddDomainEvents(first);
+        aggregate.AddDomainEvents([second, third]);
+        aggregate.AddDomainEvents(fourth);
 
-        Assert.Equal(new IDomainEvent[] { first, second, third, fourth }, aggregate.PullAggregateEvents().ToArray());
+        Assert.Equal(new IDomainEvent[] { first, second, third, fourth }, aggregate.PullDomainEvents().ToArray());
     }
 }
