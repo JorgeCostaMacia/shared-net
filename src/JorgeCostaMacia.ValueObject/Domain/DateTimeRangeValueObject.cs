@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,15 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class ensures that time ranges are treated as a single, cohesive unit in the domain.
-/// It relies on <see cref="DateTimeValueObject"/> for its internal structure, inheriting its immutability and conversion logic.
+/// It exposes the three-verb creation surface: the constructor hydrates from pre-built parts (ORMs,
+/// deserializers), <see cref="From(DateTime, DateTime)"/> converts (materializes the parts through <b>their</b>
+/// <c>From</c>, unvalidated — no part throws individually) and <see cref="Create(DateTime, DateTime)"/> fabricates
+/// validated in <b>one composed pass</b> (one exception, the complete per-field failure list).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and robust type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the parts' natural primitive (<see cref="DateTime"/>). Other representations are
+/// converted at the call site; existing <see cref="DateTimeValueObject"/> instances flow through the factories
+/// via their implicit conversion to <see cref="DateTime"/>.
 /// </para>
 /// </remarks>
 public record DateTimeRangeValueObject : IValueObject
@@ -26,9 +32,8 @@ public record DateTimeRangeValueObject : IValueObject
     public DateTimeValueObject ValueEnd { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object with pre-validated start and end date Value Objects.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended
-    /// to ensure internal consistency and proper type conversion.
+    /// <b>Hydration Constructor.</b> Assigns the pre-built parts as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping).
     /// </summary>
     /// <param name="valueStart">The start date Value Object.</param>
     /// <param name="valueEnd">The end date Value Object.</param>
@@ -39,52 +44,29 @@ public record DateTimeRangeValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance from existing <see cref="DateTimeValueObject"/> instances.
+    /// Converts: materializes the whole range unvalidated, building each part through its own
+    /// <see cref="DateTimeValueObject.From(DateTime)"/> — no part throws individually.
     /// </summary>
-    /// <param name="valueStart">The start date Value Object.</param>
-    /// <param name="valueEnd">The end date Value Object.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(DateTimeValueObject valueStart, DateTimeValueObject valueEnd) => new DateTimeRangeValueObject(valueStart, valueEnd);
+    /// <param name="valueStart">The start date value.</param>
+    /// <param name="valueEnd">The end date value.</param>
+    /// <returns>A new, unvalidated <see cref="DateTimeRangeValueObject"/> instance.</returns>
+    public static DateTimeRangeValueObject From(DateTime valueStart, DateTime valueEnd) => new DateTimeRangeValueObject(DateTimeValueObject.From(valueStart), DateTimeValueObject.From(valueEnd));
 
     /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance from standard <see cref="DateTime"/> values.
+    /// Creates: materializes the range through <see cref="From(DateTime, DateTime)"/> and validates it composed,
+    /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
-    /// <param name="valueStart">The start date.</param>
-    /// <param name="valueEnd">The end date.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+    /// <param name="valueStart">The start date value.</param>
+    /// <param name="valueEnd">The end date value.</param>
+    /// <returns>A new, validated <see cref="DateTimeRangeValueObject"/> instance.</returns>
+    /// <exception cref="DateTimeRangeValueObjectValidationException">Thrown when the resulting range violates a validation rule.</exception>
+    public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd)
+    {
+        DateTimeRangeValueObject vo = From(valueStart, valueEnd);
+        DateTimeRangeValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance by converting string representations of the dates.
-    /// </summary>
-    /// <param name="valueStart">The start date string.</param>
-    /// <param name="valueEnd">The end date string.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(string valueStart, string valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance by converting integer representations of the dates.
-    /// </summary>
-    /// <param name="valueStart">The start date integer.</param>
-    /// <param name="valueEnd">The end date integer.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(int valueStart, int valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance by converting float representations of the dates.
-    /// </summary>
-    /// <param name="valueStart">The start date float.</param>
-    /// <param name="valueEnd">The end date float.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(float valueStart, float valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="DateTimeRangeValueObject"/> instance by converting decimal representations of the dates.
-    /// </summary>
-    /// <param name="valueStart">The start date decimal.</param>
-    /// <param name="valueEnd">The end date decimal.</param>
-    /// <returns>A new <see cref="DateTimeRangeValueObject"/> instance.</returns>
-    public static DateTimeRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(DateTimeValueObject.Create(valueStart), DateTimeValueObject.Create(valueEnd));
+        return vo;
+    }
 
     /// <summary>
     /// Returns the string representation of the date range in the format "Start Date - End Date".

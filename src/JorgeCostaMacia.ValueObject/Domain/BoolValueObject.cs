@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on boolean logic (e.g., IsActive, IsPublished).
-/// It guarantees immutability and provides robust static factory methods for conversion from various primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(bool)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(bool)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safety, the static <c>Create</c> factory methods are highly recommended.
+/// Both factories take the type's natural primitive (<see cref="bool"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types (e.g. the truthy tokens "TRUE", "1",
+/// "SI", "YES"), so Value Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record BoolValueObject : IValueObject
@@ -21,67 +26,34 @@ public record BoolValueObject : IValueObject
     public bool Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. While public, using the static <c>Create</c> methods is highly recommended
-    /// to ensure type conversion and adherence to best practices.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The boolean value to encapsulate.</param>
     public BoolValueObject(bool value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance from a boolean value.
+    /// Converts: materializes a new <see cref="BoolValueObject"/> from the natural primitive through
+    /// <see cref="Convert(bool)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source boolean value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(bool value) => new BoolValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="BoolValueObject"/> instance.</returns>
+    public static BoolValueObject From(bool value) => new BoolValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting a string value to a boolean.
-    /// Supports conversion of "TRUE", "1", "SI", or "YES" (case-insensitive) to <c>true</c>.
+    /// Creates: materializes the value through <see cref="From(bool)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source boolean value.</param>
+    /// <returns>A new, validated <see cref="BoolValueObject"/> instance.</returns>
+    /// <exception cref="BoolValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static BoolValueObject Create(bool value)
+    {
+        BoolValueObject vo = From(value);
+        BoolValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting an integer value to a boolean.
-    /// Converts only <c>1</c> to <c>true</c>.
-    /// </summary>
-    /// <param name="value">The source integer value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting a float value to a boolean.
-    /// Converts only <c>1.0</c> to <c>true</c>.
-    /// </summary>
-    /// <param name="value">The source float value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting a long value to a boolean.
-    /// Converts only <c>1</c> to <c>true</c>.
-    /// </summary>
-    /// <param name="value">The source long value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting a double value to a boolean.
-    /// Converts only <c>1</c> to <c>true</c>.
-    /// </summary>
-    /// <param name="value">The source double value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(double value) => Create(Convert(value));
-
-    /// <summary>
-    /// Creates a new <see cref="BoolValueObject"/> instance by converting a decimal value to a boolean.
-    /// Converts only <c>1</c> to <c>true</c>.
-    /// </summary>
-    /// <param name="value">The source decimal value.</param>
-    /// <returns>A new <see cref="BoolValueObject"/> instance.</returns>
-    public static BoolValueObject Create(decimal value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>
     /// Converts a boolean value (identity conversion).

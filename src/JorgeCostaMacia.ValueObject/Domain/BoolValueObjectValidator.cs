@@ -8,26 +8,28 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator is designed to perform validation rules specific to the <see cref="BoolValueObject"/> instance.
-/// As a boolean Value Object, it typically has few intrinsic validation rules (the <see cref="bool"/> type itself is simple).
-/// However, this class is essential for enforcing custom validation logic in derived classes or when integrating
-/// the <see cref="BoolValueObject"/> into a larger validation chain.
+/// This validator performs checks on the encapsulated <see cref="bool"/> value.
+/// Specific validation rules (if any) should be defined within the constructor.
 /// </para>
 /// </remarks>
 public class BoolValueObjectValidator : AbstractValidator<BoolValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BoolValueObjectValidator"/> class.
+    /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
-    /// <remarks>
-    /// Validation rules (if any) should be defined here. For the base <see cref="BoolValueObject"/>, this constructor usually remains empty,
-    /// relying on derived classes to add constraints (e.g., <c>RuleFor(v => v.Value).Must(v => v == true)</c>).
-    /// </remarks>
     public BoolValueObjectValidator() { }
 
     /// <summary>
-    /// Overrides the default behavior of FluentValidation to throw a custom domain exception
-    /// (<see cref="BoolValueObjectValidationException"/>) upon validation failure, instead of the default <see cref="ValidationException"/>.
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="BoolValueObjectValidator"/> instance.</returns>
+    public static BoolValueObjectValidator Create() => new BoolValueObjectValidator();
+
+    /// <summary>
+    /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
+    /// (<see cref="BoolValueObjectValidationException"/>) upon validation failure.
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>

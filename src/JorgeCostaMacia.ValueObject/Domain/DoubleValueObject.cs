@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,11 +9,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on double-precision numeric values.
-/// It guarantees immutability and provides static factory methods for conversion from various primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(double)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(double)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="double"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types, so Value Objects deriving from this one
+/// in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record DoubleValueObject : IValueObject
@@ -23,33 +27,34 @@ public record DoubleValueObject : IValueObject
     public double Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The double value to encapsulate.</param>
     public DoubleValueObject(double value) => Value = value;
 
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> from an existing double value (identity conversion).</summary>
-    public static DoubleValueObject Create(double value) => new DoubleValueObject(Convert(value));
+    /// <summary>
+    /// Converts: materializes a new <see cref="DoubleValueObject"/> from the natural primitive through
+    /// <see cref="Convert(double)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// </summary>
+    /// <param name="value">The source double value.</param>
+    /// <returns>A new, unvalidated <see cref="DoubleValueObject"/> instance.</returns>
+    public static DoubleValueObject From(double value) => new DoubleValueObject(Convert(value));
 
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by parsing a string representation of the number.</summary>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a double.</exception>
-    public static DoubleValueObject Create(string value) => Create(Convert(value));
+    /// <summary>
+    /// Creates: materializes the value through <see cref="From(double)"/> and validates it —
+    /// nothing invalid escapes this factory.
+    /// </summary>
+    /// <param name="value">The source double value.</param>
+    /// <returns>A new, validated <see cref="DoubleValueObject"/> instance.</returns>
+    /// <exception cref="DoubleValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static DoubleValueObject Create(double value)
+    {
+        DoubleValueObject vo = From(value);
+        DoubleValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by converting an integer value.</summary>
-    public static DoubleValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by converting a long value.</summary>
-    public static DoubleValueObject Create(long value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by converting a float value.</summary>
-    public static DoubleValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by converting a decimal value (may lose precision).</summary>
-    public static DoubleValueObject Create(decimal value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="DoubleValueObject"/> by converting a boolean value (true maps to 1, false maps to 0).</summary>
-    public static DoubleValueObject Create(bool value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>Converts a double value (identity conversion).</summary>
     protected static double Convert(double value) => value;

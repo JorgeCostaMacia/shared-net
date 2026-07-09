@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on GUID/UUID logic (e.g., entity IDs, correlation IDs).
-/// It guarantees immutability and provides robust static factory methods for conversion from primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(Guid)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(Guid)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safety, the static <c>Create</c> factory methods are highly recommended.
+/// Both factories take the type's natural primitive (<see cref="Guid"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types, so Value Objects deriving from this one
+/// in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record UuidValueObject : IValueObject
@@ -21,27 +26,34 @@ public record UuidValueObject : IValueObject
     public Guid Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. While public, using the static <c>Create</c> methods is highly recommended
-    /// to ensure type conversion and adherence to best practices.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The GUID value to encapsulate.</param>
     public UuidValueObject(Guid value) => Value = value;
 
     /// <summary>
-    /// Creates a new <see cref="UuidValueObject"/> instance from an existing GUID value (identity conversion).
+    /// Converts: materializes a new <see cref="UuidValueObject"/> from the natural primitive through
+    /// <see cref="Convert(Guid)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
     /// </summary>
     /// <param name="value">The source GUID value.</param>
-    /// <returns>A new <see cref="UuidValueObject"/> instance.</returns>
-    public static UuidValueObject Create(Guid value) => new UuidValueObject(Convert(value));
+    /// <returns>A new, unvalidated <see cref="UuidValueObject"/> instance.</returns>
+    public static UuidValueObject From(Guid value) => new UuidValueObject(Convert(value));
 
     /// <summary>
-    /// Creates a new <see cref="UuidValueObject"/> instance by converting a string representation to a GUID.
+    /// Creates: materializes the value through <see cref="From(Guid)"/> and validates it —
+    /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source string value (must be a valid GUID format).</param>
-    /// <returns>A new <see cref="UuidValueObject"/> instance.</returns>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a GUID.</exception>
-    public static UuidValueObject Create(string value) => Create(Convert(value));
+    /// <param name="value">The source GUID value.</param>
+    /// <returns>A new, validated <see cref="UuidValueObject"/> instance.</returns>
+    /// <exception cref="UuidValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static UuidValueObject Create(Guid value)
+    {
+        UuidValueObject vo = From(value);
+        UuidValueObjectValidator.Create().ValidateAndThrow(vo);
+
+        return vo;
+    }
 
     /// <summary>
     /// Converts a GUID value (identity conversion).

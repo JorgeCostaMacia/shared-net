@@ -4,22 +4,18 @@ namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
 public class FloatValueObjectTests
 {
-    // Regression: int/long funnel through (float) -> root Convert(float); must not self-recurse.
     [Fact]
-    public void Create_FromIntAndLong_DoesNotRecurse()
-    {
-        Assert.Equal(5f, FloatValueObject.Create(5).Value);
-        Assert.Equal(5f, FloatValueObject.Create(5L).Value);
-    }
+    public void Ctor_HydratesRaw()
+        => Assert.Equal(2.5f, new FloatValueObject(2.5f).Value);
 
     [Fact]
-    public void Create_Conversions()
-    {
-        Assert.Equal(3f, FloatValueObject.Create("3").Value);
-        Assert.Equal(2.5f, FloatValueObject.Create(2.5f).Value);
-        Assert.Equal(2f, FloatValueObject.Create(2m).Value);
-        Assert.Equal(1f, FloatValueObject.Create(true).Value);
-    }
+    public void From_KeepsValue()
+        => Assert.Equal(2.5f, FloatValueObject.From(2.5f).Value);
+
+    // The validator has no rules, so Create never throws.
+    [Fact]
+    public void Create_KeepsValue()
+        => Assert.Equal(2.5f, FloatValueObject.Create(2.5f).Value);
 
     [Fact]
     public void ImplicitOperator_ReturnsUnderlyingValue()

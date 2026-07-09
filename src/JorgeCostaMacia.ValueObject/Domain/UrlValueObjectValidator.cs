@@ -37,6 +37,13 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="UrlValueObjectValidator"/> instance.</returns>
+    public static UrlValueObjectValidator Create() => new UrlValueObjectValidator(StringValueObjectValidator.Create());
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw the specific domain exception
     /// (<see cref="UrlValueObjectValidationException"/>) upon validation failure.
     /// </summary>

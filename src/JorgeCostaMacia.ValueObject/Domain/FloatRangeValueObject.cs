@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
@@ -6,11 +8,15 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class ensures that numeric ranges are treated as a single, cohesive unit in the domain.
-/// It relies on <see cref="FloatValueObject"/> for its internal structure, inheriting its immutability and conversion logic.
+/// It exposes the three-verb creation surface: the constructor hydrates from pre-built parts (ORMs,
+/// deserializers), <see cref="From(float, float)"/> converts (materializes the parts through <b>their</b>
+/// <c>From</c>, unvalidated — no part throws individually) and <see cref="Create(float, float)"/> fabricates
+/// validated in <b>one composed pass</b> (one exception, the complete per-field failure list).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and robust type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the parts' natural primitive (<see cref="float"/>). Other primitive types are
+/// converted at the call site; existing <see cref="FloatValueObject"/> instances flow through the factories
+/// via their implicit conversion to <see cref="float"/>.
 /// </para>
 /// </remarks>
 public record FloatRangeValueObject : IValueObject
@@ -26,8 +32,8 @@ public record FloatRangeValueObject : IValueObject
     public FloatValueObject ValueEnd { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object with pre-validated start and end numeric Value Objects.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the pre-built parts as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping).
     /// </summary>
     /// <param name="valueStart">The start numeric Value Object.</param>
     /// <param name="valueEnd">The end numeric Value Object.</param>
@@ -38,44 +44,29 @@ public record FloatRangeValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance from existing <see cref="FloatValueObject"/> instances.
-    /// </summary>
-    /// <param name="valueStart">The start numeric Value Object.</param>
-    /// <param name="valueEnd">The end numeric Value Object.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(FloatValueObject valueStart, FloatValueObject valueEnd) => new FloatRangeValueObject(valueStart, valueEnd);
-
-    /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance from standard <see cref="float"/> values.
+    /// Converts: materializes the whole range unvalidated, building each part through its own
+    /// <see cref="FloatValueObject.From(float)"/> — no part throws individually.
     /// </summary>
     /// <param name="valueStart">The start float value.</param>
     /// <param name="valueEnd">The end float value.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(float valueStart, float valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
+    /// <returns>A new, unvalidated <see cref="FloatRangeValueObject"/> instance.</returns>
+    public static FloatRangeValueObject From(float valueStart, float valueEnd) => new FloatRangeValueObject(FloatValueObject.From(valueStart), FloatValueObject.From(valueEnd));
 
     /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance by converting string representations of the numbers.
+    /// Creates: materializes the range through <see cref="From(float, float)"/> and validates it composed,
+    /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
-    /// <param name="valueStart">The start float string.</param>
-    /// <param name="valueEnd">The end float string.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(string valueStart, string valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
+    /// <param name="valueStart">The start float value.</param>
+    /// <param name="valueEnd">The end float value.</param>
+    /// <returns>A new, validated <see cref="FloatRangeValueObject"/> instance.</returns>
+    /// <exception cref="FloatRangeValueObjectValidationException">Thrown when the resulting range violates a validation rule.</exception>
+    public static FloatRangeValueObject Create(float valueStart, float valueEnd)
+    {
+        FloatRangeValueObject vo = From(valueStart, valueEnd);
+        FloatRangeValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance by converting integer representations of the numbers.
-    /// </summary>
-    /// <param name="valueStart">The start integer value.</param>
-    /// <param name="valueEnd">The end integer value.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(int valueStart, int valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
-
-    /// <summary>
-    /// Creates a new <see cref="FloatRangeValueObject"/> instance by converting decimal representations of the numbers.
-    /// </summary>
-    /// <param name="valueStart">The start decimal value.</param>
-    /// <param name="valueEnd">The end decimal value.</param>
-    /// <returns>A new <see cref="FloatRangeValueObject"/> instance.</returns>
-    public static FloatRangeValueObject Create(decimal valueStart, decimal valueEnd) => Create(FloatValueObject.Create(valueStart), FloatValueObject.Create(valueEnd));
+        return vo;
+    }
 
     /// <summary>
     /// Returns the string representation of the numeric range in the format "Start Value - End Value".

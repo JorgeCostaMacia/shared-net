@@ -7,14 +7,26 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// A concrete FluentValidation validator class for the <see cref="LongValueObject"/>.
 /// </summary>
 /// <remarks>
-/// Validation rules (if any) are defined within the body of the constructor.
+/// <para>
+/// This validator performs checks on the encapsulated <see cref="long"/> value.
+/// Specific validation rules (e.g., range checks, non-negative constraints, minimum/maximum allowed values)
+/// should be defined within the constructor.
+/// </para>
 /// </remarks>
 public class LongValueObjectValidator : AbstractValidator<LongValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LongValueObjectValidator"/> class.
+    /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
     public LongValueObjectValidator() { }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="LongValueObjectValidator"/> instance.</returns>
+    public static LongValueObjectValidator Create() => new LongValueObjectValidator();
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

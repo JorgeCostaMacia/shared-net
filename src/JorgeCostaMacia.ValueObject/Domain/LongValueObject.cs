@@ -1,4 +1,5 @@
 using System.Globalization;
+using FluentValidation;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -8,11 +9,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This class serves as the base for domain Value Objects based on 64-bit integer logic (e.g., large IDs, counters).
-/// It guarantees immutability and provides static factory methods for conversion from various primitive types.
+/// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
+/// deserializers), <see cref="From(long)"/> converts (materializes, unvalidated) and
+/// <see cref="Create(long)"/> fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The public constructor is primarily intended for direct instantiation in infrastructure layers (e.g., ORM mapping, deserialization).
-/// For domain logic and safe type conversion, the static <c>Create</c> factory methods are preferred.
+/// Both factories take the type's natural primitive (<see cref="long"/>). The protected <c>Convert</c>
+/// family carries the conversion logic from other primitive types (often involving truncation), so Value
+/// Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
 public record LongValueObject : IValueObject
@@ -23,34 +27,34 @@ public record LongValueObject : IValueObject
     public long Value { get; init; }
 
     /// <summary>
-    /// <b>Primary Constructor.</b> Initializes the Value Object.
-    /// This constructor bypasses validation logic. Using the static <c>Create</c> methods is highly recommended.
+    /// <b>Hydration Constructor.</b> Assigns the value as-is, bypassing validation.
+    /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The long value to encapsulate.</param>
     public LongValueObject(long value) => Value = value;
 
-    /// <summary>Creates a new <see cref="LongValueObject"/> from an existing long value (identity conversion).</summary>
-    public static LongValueObject Create(long value) => new LongValueObject(Convert(value));
+    /// <summary>
+    /// Converts: materializes a new <see cref="LongValueObject"/> from the natural primitive through
+    /// <see cref="Convert(long)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// </summary>
+    /// <param name="value">The source long value.</param>
+    /// <returns>A new, unvalidated <see cref="LongValueObject"/> instance.</returns>
+    public static LongValueObject From(long value) => new LongValueObject(Convert(value));
 
-    /// <summary>Creates a new <see cref="LongValueObject"/> by parsing a string representation of the number.</summary>
-    /// <exception cref="FormatException">Thrown if the string cannot be parsed as a number.</exception>
-    /// <exception cref="OverflowException">Thrown if the parsed value is out of <see cref="long"/> range.</exception>
-    public static LongValueObject Create(string value) => Create(Convert(value));
+    /// <summary>
+    /// Creates: materializes the value through <see cref="From(long)"/> and validates it —
+    /// nothing invalid escapes this factory.
+    /// </summary>
+    /// <param name="value">The source long value.</param>
+    /// <returns>A new, validated <see cref="LongValueObject"/> instance.</returns>
+    /// <exception cref="LongValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    public static LongValueObject Create(long value)
+    {
+        LongValueObject vo = From(value);
+        LongValueObjectValidator.Create().ValidateAndThrow(vo);
 
-    /// <summary>Creates a new <see cref="LongValueObject"/> by converting an integer value.</summary>
-    public static LongValueObject Create(int value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="LongValueObject"/> by converting a float value (involving truncation).</summary>
-    public static LongValueObject Create(float value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="LongValueObject"/> by converting a double value (involving truncation).</summary>
-    public static LongValueObject Create(double value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="LongValueObject"/> by converting a decimal value (involving truncation).</summary>
-    public static LongValueObject Create(decimal value) => Create(Convert(value));
-
-    /// <summary>Creates a new <see cref="LongValueObject"/> by converting a boolean value (true maps to 1, false maps to 0).</summary>
-    public static LongValueObject Create(bool value) => Create(Convert(value));
+        return vo;
+    }
 
     /// <summary>Converts a long value (identity conversion).</summary>
     protected static long Convert(long value) => value;

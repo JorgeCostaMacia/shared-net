@@ -30,6 +30,13 @@ public class UuidValueObjectValidator : AbstractValidator<UuidValueObject>
     }
 
     /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="UuidValueObjectValidator"/> instance.</returns>
+    public static UuidValueObjectValidator Create() => new UuidValueObjectValidator();
+
+    /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw the specific domain exception
     /// (<see cref="UuidValueObjectValidationException"/>) upon validation failure.
     /// </summary>

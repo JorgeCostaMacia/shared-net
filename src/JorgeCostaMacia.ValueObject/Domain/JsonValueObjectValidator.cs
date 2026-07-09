@@ -9,21 +9,13 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces constraints to ensure the encapsulated string value represents
-/// syntactically valid JSON data (either an object or an array).
+/// This validator enforces constraints specific to JSON documents, ensuring that the encapsulated string
+/// is not empty and parses as a JSON object or array (scalar roots like a bare string or number are rejected).
 /// </para>
-/// <list type="bullet">
-///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
-///     </description></item>
-///     <item><description>
-///         <b>Not Empty:</b> Ensures the string value is not null or empty.
-///     </description></item>
-///     <item><description>
-///         <b>JSON Format Check:</b> Parses the value with <see cref="JsonDocument"/> and requires the root to be a JSON
-///         object or array (so multi-line and nested payloads are accepted, unlike a shallow regex check).
-///     </description></item>
-/// </list>
+/// <para>
+/// It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules via constructor injection,
+/// ensuring that any derived String Value Object maintains its fundamental restrictions.
+/// </para>
 /// </remarks>
 public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
 {
@@ -42,7 +34,18 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
              .WithMessage("{PropertyName} must be a JSON");
     }
 
-    /// <summary>Returns <c>true</c> when <paramref name="value"/> parses as a JSON object or array.</summary>
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="JsonValueObjectValidator"/> instance.</returns>
+    public static JsonValueObjectValidator Create() => new JsonValueObjectValidator(StringValueObjectValidator.Create());
+
+    /// <summary>
+    /// Determines whether the supplied string parses as a JSON document whose root is an object or an array.
+    /// </summary>
+    /// <param name="value">The string to inspect.</param>
+    /// <returns><c>true</c> when the string is a JSON object or array; otherwise <c>false</c>.</returns>
     private static bool BeJsonObjectOrArray(string value)
     {
         if (string.IsNullOrEmpty(value))

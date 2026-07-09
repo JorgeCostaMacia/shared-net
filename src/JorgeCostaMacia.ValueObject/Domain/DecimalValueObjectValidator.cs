@@ -8,9 +8,9 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator performs checks on the encapsulated <see cref="decimal"/> value,
-/// such as constraints on positive/negative values, minimum/maximum range,
-/// or precision/scale requirements specific to the domain's use case (e.g., currency, precise measurements).
+/// This validator performs checks on the encapsulated <see cref="decimal"/> value.
+/// Specific validation rules (e.g., range checks, non-negative constraints, minimum/maximum allowed values)
+/// should be defined within the constructor.
 /// </para>
 /// </remarks>
 public class DecimalValueObjectValidator : AbstractValidator<DecimalValueObject>
@@ -20,6 +20,13 @@ public class DecimalValueObjectValidator : AbstractValidator<DecimalValueObject>
     /// Validation rules (if any) are defined within the body of this constructor.
     /// </summary>
     public DecimalValueObjectValidator() { }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator.
+    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// </summary>
+    /// <returns>A new <see cref="DecimalValueObjectValidator"/> instance.</returns>
+    public static DecimalValueObjectValidator Create() => new DecimalValueObjectValidator();
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

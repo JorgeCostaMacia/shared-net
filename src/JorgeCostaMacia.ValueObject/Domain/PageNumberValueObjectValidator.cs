@@ -8,16 +8,9 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator ensures the page number value meets the criteria for a valid page in a document or data set.
+/// This validator ensures the page number is strictly positive (greater than zero), and <b>includes</b> the base
+/// <see cref="IntValueObjectValidator"/> rules via constructor injection.
 /// </para>
-/// <list type="bullet">
-///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base integer validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="IntValueObject"/> (e.g., numeric format validity).
-///     </description></item>
-///     <item><description>
-///         <b>Greater Than Zero:</b> Ensures the page number is a positive number (<c>.GreaterThan(0)</c>), since pages start at 1.
-///     </description></item>
-/// </list>
 /// </remarks>
 public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueObject>
 {
@@ -32,6 +25,13 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
         RuleFor(v => v.Value)
              .GreaterThan(0);
     }
+
+    /// <summary>
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
+    /// </summary>
+    /// <returns>A new <see cref="PageNumberValueObjectValidator"/> instance.</returns>
+    public static PageNumberValueObjectValidator Create() => new PageNumberValueObjectValidator(IntValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
