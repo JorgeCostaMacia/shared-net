@@ -8,40 +8,29 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces common constraints on the encapsulated UTC <see cref="DateTime"/> value,
-/// ensuring that the date is a valid, meaningful date within a defined range.
+/// This validator <b>includes</b> the base <see cref="DateTimeValueObjectValidator"/> rules via constructor
+/// injection (not empty, minimum January 1st 1900, maximum 100 years from the current UTC date), so the
+/// date-range knowledge lives once, in the base family. Rules specific to the UTC specialization (if any)
+/// are defined within the constructor.
 /// </para>
-/// <list type="bullet">
-///     <item><description>
-///         <b>Not Empty:</b> The date cannot be the default/empty value.
-///     </description></item>
-///     <item><description>
-///         <b>Minimum Date:</b> The date must be greater than or equal to January 1st, 1900 UTC.
-///     </description></item>
-///     <item><description>
-///         <b>Maximum Date:</b> The date must be less than or equal to 100 years from the current UTC date.
-///     </description></item>
-/// </list>
 /// </remarks>
 public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValueObject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidator"/> class and defines the validation rules.
     /// </summary>
-    public DateTimeUtcValueObjectValidator()
+    /// <param name="validator">The specific validator for <see cref="DateTimeValueObject"/> used to inherit base validation rules.</param>
+    public DateTimeUtcValueObjectValidator(IValidator<DateTimeValueObject> validator)
     {
-        RuleFor(v => v.Value)
-            .NotEmpty()
-            .GreaterThanOrEqualTo(new DateTime(1900, 1, 1, 1, 0, 0, 0, DateTimeKind.Utc).Date)
-            .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100));
+        Include(validator);
     }
 
     /// <summary>
-    /// Fabricates a self-contained, ready-to-use instance of the validator.
-    /// This is the assembly the static <c>Create</c> factories of the Value Objects rely on.
+    /// Fabricates a self-contained, ready-to-use instance of the validator, chaining the
+    /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="DateTimeUtcValueObjectValidator"/> instance.</returns>
-    public static DateTimeUtcValueObjectValidator Create() => new DateTimeUtcValueObjectValidator();
+    public static DateTimeUtcValueObjectValidator Create() => new DateTimeUtcValueObjectValidator(DateTimeValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception

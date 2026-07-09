@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Description>Immutable, type-safe value objects with conversion factories, plus their FluentValidation validators and typed validation exceptions</Description>
+		<Description>Immutable, type-safe value objects with a three-verb creation surface (constructor hydrates, From converts, Create fabricates validated), plus their FluentValidation validators and typed validation exceptions</Description>
 		<PackageTags>value-object,valueobject,ddd,domain,immutable,fluentvalidation</PackageTags>
 	</PropertyGroup>
 
