@@ -7,6 +7,8 @@
   <Project Path="src/JorgeCostaMacia.DomainEvent/JorgeCostaMacia.DomainEvent.csproj" />
   <Project Path="src/JorgeCostaMacia.Exception/JorgeCostaMacia.Exception.csproj" />
   <Project Path="src/JorgeCostaMacia.Aggregate/JorgeCostaMacia.Aggregate.csproj" />
+  <Project Path="src/JorgeCostaMacia.Quartz/JorgeCostaMacia.Quartz.csproj" />
+  <Project Path="src/JorgeCostaMacia.Quartz.Serilog/JorgeCostaMacia.Quartz.Serilog.csproj" />
   <Project Path="src/JorgeCostaMacia.Serilog/JorgeCostaMacia.Serilog.csproj" />
   <Project Path="src/JorgeCostaMacia.ValueObject/JorgeCostaMacia.ValueObject.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidFactory.Tests/JorgeCostaMacia.GuidFactory.Tests.csproj" />
@@ -17,4 +19,6 @@
   <Project Path="test/JorgeCostaMacia.Aggregate.Tests/JorgeCostaMacia.Aggregate.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ValueObject.Tests/JorgeCostaMacia.ValueObject.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Serilog.Tests/JorgeCostaMacia.Serilog.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Quartz.Tests/JorgeCostaMacia.Quartz.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Quartz.Serilog.Tests/JorgeCostaMacia.Quartz.Serilog.Tests.csproj" />
 </Solution>
