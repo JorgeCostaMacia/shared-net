@@ -14,11 +14,15 @@
 		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.9" />
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.300" />
+		<PackageVersion Include="Quartz" Version="3.18.2" />
+		<PackageVersion Include="Serilog" Version="4.3.1" />
 		<PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
 		<PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
 		<PackageVersion Include="Serilog.Exceptions" Version="8.4.0" />
 		<PackageVersion Include="Serilog.Extensions.Hosting" Version="10.0.0" />
+		<PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
 		<PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.1" />
 		<PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
 		<PackageVersion Include="Serilog.Sinks.InMemory" Version="2.0.0" />
