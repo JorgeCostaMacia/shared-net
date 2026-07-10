@@ -26,6 +26,8 @@ One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 | [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |
 | [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) | Domain exception hierarchy with traceable metadata. |
 | [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
+| [JorgeCostaMacia.Quartz](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/) | `JobTrace` — idempotent AggregateId/CorrelationId correlation on the Quartz execution context. |
+| [JorgeCostaMacia.Quartz.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Quartz.Serilog/) | Quartz job/trigger log listeners — fixed low-cardinality messages, everything variable in the log context. |
 | [JorgeCostaMacia.ValueObject](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) | Immutable typed value objects (primitives, semantic strings, ranges, paging) with FluentValidation validators. |
 | [JorgeCostaMacia.ValueObject.EfConverter](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject.EfConverter/) | Native EF Core value converters for the value objects — one per family, plus an auto-apply convention. |
 

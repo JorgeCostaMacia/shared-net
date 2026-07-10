@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Description>Quartz job-execution trace correlation — JobTrace get-or-creates the AggregateId/CorrelationId pair on the execution context, so every listener and the job itself share the same identifiers regardless of who runs first</Description>
+		<PackageTags>quartz,scheduling,jobs,trace,correlation,ddd</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="../JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Quartz" />
+	</ItemGroup>
+
+</Project>
