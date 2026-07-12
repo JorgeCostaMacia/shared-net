@@ -21,4 +21,5 @@
   <Project Path="test/JorgeCostaMacia.Serilog.Tests/JorgeCostaMacia.Serilog.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Quartz.Tests/JorgeCostaMacia.Quartz.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Quartz.Serilog.Tests/JorgeCostaMacia.Quartz.Serilog.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Quartz.Serilog.IntegrationTests/JorgeCostaMacia.Quartz.Serilog.IntegrationTests.csproj" />
 </Solution>
