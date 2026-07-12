@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Quartz;
 using Quartz.Impl;
 using Serilog;
-using Serilog.Events;
 using Serilog.Extensions.Logging;
 
 namespace JorgeCostaMacia.Quartz.Serilog.IntegrationTests.Support;

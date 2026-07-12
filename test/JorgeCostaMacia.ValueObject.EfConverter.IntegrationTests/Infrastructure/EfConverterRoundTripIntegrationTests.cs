@@ -1,5 +1,4 @@
 using JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Support;
-using Microsoft.EntityFrameworkCore;
 
 namespace JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Infrastructure;
 
