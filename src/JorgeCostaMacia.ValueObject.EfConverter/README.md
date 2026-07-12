@@ -1,6 +1,6 @@
 # JorgeCostaMacia.ValueObject.EfConverter
 
-Native **EF Core value converters** for [`JorgeCostaMacia.ValueObject`](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) value objects — one converter per family (value object &lt;-&gt; underlying value) plus a convention that auto-applies them. **Provider-agnostic** (works with Npgsql, SQL Server, SQLite, …).
+Native **EF Core value converters** for [`JorgeCostaMacia.ValueObject`](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) value objects — one converter per family (value object &lt;-&gt; underlying value), applied explicitly per property. **Provider-agnostic** (works with Npgsql, SQL Server, SQLite, …).
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.ValueObject.EfConverter.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject.EfConverter/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.ValueObject.EfConverter.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject.EfConverter/)
@@ -19,16 +19,7 @@ Brings [`JorgeCostaMacia.ValueObject`](https://www.nuget.org/packages/JorgeCosta
 
 ## Usage
 
-### The convention — map every value object at once
-
-```csharp
-protected override void ConfigureConventions(ModelConfigurationBuilder builder)
-    => builder.AddValueObjectConversions(typeof(SomeValueObject).Assembly);
-```
-
-Every single-value value object (any type deriving from `IntValueObject`, `StringValueObject`, `DecimalValueObject`, …) is stored as its underlying primitive automatically — value columns and foreign keys included. Multi-field value objects (ranges) are skipped.
-
-### Or apply a converter explicitly
+### Apply a converter
 
 ```csharp
 using JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
@@ -36,7 +27,9 @@ using JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
 builder.Property(e => e.Email).HasConversion(new StringValueObjectConverter<Email>());
 ```
 
-The same converter serves **required and nullable** properties (`Email` and `Email?`): EF maps a null reference to a `NULL` column and only invokes the converter for non-null values.
+One converter per family — `IntValueObjectConverter<>`, `StringValueObjectConverter<>`, `DecimalValueObjectConverter<>`, … — closed over your concrete value object. Map each property explicitly: it keeps the mapped surface intentional (a transient value object never gets persisted by accident) and the column type under your control. Multi-field value objects (ranges) are not single-column and are not covered here.
+
+The same converter serves **required and nullable** properties (`Email` and `Email?`): EF maps a null reference to a `NULL` column and only invokes the converter for non-null values. For a **nullable** property, pass the converter *type* — `.HasConversion(typeof(StringValueObjectConverter<Email>))` — to avoid a nullable-reference warning (`CS8620`) on the instance overload.
 
 ### Value object as a primary key
 
