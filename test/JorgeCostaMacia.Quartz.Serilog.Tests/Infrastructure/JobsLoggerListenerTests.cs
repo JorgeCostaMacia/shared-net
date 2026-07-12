@@ -32,6 +32,8 @@ public class JobsLoggerListenerTests
         Assert.True(logEvent.Properties.ContainsKey("AggregateId"));
         Assert.True(logEvent.Properties.ContainsKey("CorrelationId"));
         Assert.True(logEvent.Properties.ContainsKey("FireTime"));
+        Assert.Equal("\"fire-1\"", logEvent.Properties["FireInstanceId"].ToString());   // the native per-fire correlation id
+        Assert.False(logEvent.Properties.ContainsKey("JobRunTime"));                    // run time is not known until the job completes
     }
 
     [Fact]
@@ -57,6 +59,7 @@ public class JobsLoggerListenerTests
         Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.Null(logEvent.Exception);
+        Assert.True(logEvent.Properties.ContainsKey("JobRunTime"));                     // run time is pushed for the completed event
     }
 
     [Fact]
