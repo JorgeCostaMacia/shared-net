@@ -1,4 +1,5 @@
 using JorgeCostaMacia.ValueObject.Domain;
+using JorgeCostaMacia.ValueObject.EfConverter.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Support;
@@ -33,10 +34,9 @@ internal record SampleWhen : DateTimeValueObject { public SampleWhen(DateTime va
 internal record SampleWhenUtc : DateTimeUtcValueObject { public SampleWhenUtc(DateTime value) : base(value) { } }
 
 /// <summary>
-/// A context that maps every value object through the convention, and pins the two time worlds to
+/// A context that maps every value object explicitly, per property, and pins the two time worlds to
 /// their column types: the plain <see cref="DateTimeValueObject"/> to <c>timestamp without time zone</c>
-/// and the UTC one to <c>timestamp with time zone</c> (the convention gives both the same converter, so
-/// the column type is the consumer's explicit choice).
+/// and the UTC one to <c>timestamp with time zone</c>.
 /// </summary>
 internal sealed class ProbeDbContext : DbContext
 {
@@ -44,15 +44,21 @@ internal sealed class ProbeDbContext : DbContext
 
     public DbSet<Sample> Samples => Set<Sample>();
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder builder)
-        => builder.AddValueObjectConversions(typeof(ProbeDbContext).Assembly);
-
     protected override void OnModelCreating(ModelBuilder builder)
         => builder.Entity<Sample>(entity =>
         {
             entity.HasKey(sample => sample.Id);
-            entity.Property(sample => sample.Id).ValueGeneratedNever();
-            entity.Property(sample => sample.When).HasColumnType("timestamp without time zone");
-            entity.Property(sample => sample.WhenUtc).HasColumnType("timestamp with time zone");
+            entity.Property(sample => sample.Id).HasConversion(new IntValueObjectConverter<SampleId>()).ValueGeneratedNever();
+            entity.Property(sample => sample.Name).HasConversion(new StringValueObjectConverter<SampleName>());
+            entity.Property(sample => sample.Nick).HasConversion(typeof(StringValueObjectConverter<SampleName>));   // Type overload: the instance overload warns (CS8620) on a nullable property
+            entity.Property(sample => sample.Ref).HasConversion(new UuidValueObjectConverter<SampleRef>());
+            entity.Property(sample => sample.Flag).HasConversion(new BoolValueObjectConverter<SampleFlag>());
+            entity.Property(sample => sample.Count).HasConversion(new LongValueObjectConverter<SampleCount>());
+            entity.Property(sample => sample.Amount).HasConversion(new DecimalValueObjectConverter<SampleAmount>());
+            entity.Property(sample => sample.Ratio).HasConversion(new DoubleValueObjectConverter<SampleRatio>());
+            entity.Property(sample => sample.Weight).HasConversion(new FloatValueObjectConverter<SampleWeight>());
+            entity.Property(sample => sample.Blob).HasConversion(new ByteValueObjectConverter<SampleBlob>());
+            entity.Property(sample => sample.When).HasConversion(new DateTimeValueObjectConverter<SampleWhen>()).HasColumnType("timestamp without time zone");
+            entity.Property(sample => sample.WhenUtc).HasConversion(new DateTimeValueObjectConverter<SampleWhenUtc>()).HasColumnType("timestamp with time zone");
         });
 }
