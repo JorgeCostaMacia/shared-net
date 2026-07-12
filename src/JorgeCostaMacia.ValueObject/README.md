@@ -43,6 +43,28 @@ Each type's validator also assembles itself: `EmailValueObjectValidator.Create()
 EmailValueObjectValidator.Create().ValidateAndThrow(email);   // throws EmailValueObjectValidationException on failure
 ```
 
+### Deriving your own value object
+
+Derive from the matching base and keep the type inside the contract — a **public hydration constructor** plus your own **`From`** and **`Create`** (the inherited ones return the *base* type, so re-declare them with `new static` returning yours), each on the natural primitive:
+
+```csharp
+public sealed record ClientName : StringValueObject
+{
+    public ClientName(string value) : base(value) { }                       // hydration ctor
+
+    public new static ClientName From(string value) => new(Convert(value)); // Convert is the base's protected cleanser
+
+    public new static ClientName Create(string value)
+    {
+        ClientName vo = From(value);
+        ClientNameValidator.Create().ValidateAndThrow(vo);                  // your FluentValidation validator
+        return vo;
+    }
+}
+```
+
+This surface is **required**, not optional: the ecosystem depends on it — the EF converters rehydrate through the constructor, deserializers too — so every value object here carries it and a contract test keeps it that way.
+
 ### Register the validators
 
 ```csharp
