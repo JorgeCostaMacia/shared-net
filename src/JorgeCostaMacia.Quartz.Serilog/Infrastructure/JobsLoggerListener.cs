@@ -61,7 +61,8 @@ public sealed class JobsLoggerListener : IJobListener
 
     /// <summary>
     /// Logs <c>JobWasExecuted</c> — at <see cref="LogLevel.Information"/> for a clean execution, at
-    /// <see cref="LogLevel.Error"/> with the root cause attached when the job threw.
+    /// <see cref="LogLevel.Error"/> with the root cause attached when the job threw. The job's run time
+    /// is pushed for this event only, since it is not set until the execution completes.
     /// </summary>
     /// <param name="context">The execution context.</param>
     /// <param name="jobException">The exception the execution produced, or <see langword="null"/>.</param>
@@ -69,6 +70,7 @@ public sealed class JobsLoggerListener : IJobListener
     public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
+        using (LogContext.PushProperty("JobRunTime", context.JobRunTime))
         {
             if (jobException?.GetBaseException() is null)
             {
@@ -83,7 +85,7 @@ public sealed class JobsLoggerListener : IJobListener
         return Task.CompletedTask;
     }
 
-    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data and times — into the log context, in a single native push.</summary>
+    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity and recovery state — into the log context, in a single native push.</summary>
     /// <param name="context">The execution context.</param>
     /// <returns>A disposable that pops the pushed properties.</returns>
     private static IDisposable PushProperties(IJobExecutionContext context)
@@ -100,6 +102,10 @@ public sealed class JobsLoggerListener : IJobListener
             new PropertyEnricher("JobGroup", context.JobDetail.Key.Group),
             new PropertyEnricher("JobData", context.MergedJobDataMap, destructureObjects: true),
             new PropertyEnricher("ScheduleTime", context.ScheduledFireTimeUtc?.UtcDateTime),
-            new PropertyEnricher("FireTime", context.FireTimeUtc.UtcDateTime));
+            new PropertyEnricher("FireTime", context.FireTimeUtc.UtcDateTime),
+            new PropertyEnricher("NextFireTime", context.NextFireTimeUtc?.UtcDateTime),
+            new PropertyEnricher("RefireCount", context.RefireCount),
+            new PropertyEnricher("FireInstanceId", context.FireInstanceId),
+            new PropertyEnricher("Recovering", context.Recovering));
     }
 }
