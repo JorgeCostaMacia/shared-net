@@ -15,10 +15,12 @@
   <Project Path="test/JorgeCostaMacia.ExpressionConverter.Tests/JorgeCostaMacia.ExpressionConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.GuidMySqlConverter.Tests/JorgeCostaMacia.GuidMySqlConverter.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ValueObject.EfConverter.Tests/JorgeCostaMacia.ValueObject.EfConverter.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests/JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.csproj" />
   <Project Path="test/JorgeCostaMacia.Exception.Tests/JorgeCostaMacia.Exception.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Aggregate.Tests/JorgeCostaMacia.Aggregate.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.ValueObject.Tests/JorgeCostaMacia.ValueObject.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Serilog.Tests/JorgeCostaMacia.Serilog.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Quartz.Tests/JorgeCostaMacia.Quartz.Tests.csproj" />
   <Project Path="test/JorgeCostaMacia.Quartz.Serilog.Tests/JorgeCostaMacia.Quartz.Serilog.Tests.csproj" />
+  <Project Path="test/JorgeCostaMacia.Quartz.Serilog.IntegrationTests/JorgeCostaMacia.Quartz.Serilog.IntegrationTests.csproj" />
 </Solution>

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\JorgeCostaMacia.ValueObject.EfConverter\JorgeCostaMacia.ValueObject.EfConverter.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+		<PackageReference Include="Testcontainers.PostgreSql" />
+	</ItemGroup>
+
+</Project>
