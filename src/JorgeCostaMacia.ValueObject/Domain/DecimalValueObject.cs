@@ -31,7 +31,10 @@ public record DecimalValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The decimal value to encapsulate.</param>
-    public DecimalValueObject(decimal value) => Value = value;
+    public DecimalValueObject(decimal value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="DecimalValueObject"/> from the natural primitive through

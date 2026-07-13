@@ -15,7 +15,7 @@ public class ErrorExceptionTests
     [Fact]
     public void Defaults_AreApplied_WhenMetadataOmitted()
     {
-        TestErrorException exception = new(["e"]);
+        TestErrorException exception = new TestErrorException(new string[] { "e" });
 
         Assert.Equal(ErrorExceptionDefaults.AGGREGATE_TYPE, exception.AggregateType);
         Assert.Equal(ErrorExceptionDefaults.AGGREGATE_CODE, exception.AggregateCode);
@@ -25,7 +25,7 @@ public class ErrorExceptionTests
     [Fact]
     public void Errors_AreStored_AndJoinedIntoMessage()
     {
-        TestErrorException exception = new(["first", "second"]);
+        TestErrorException exception = new TestErrorException(new string[] { "first", "second" });
 
         Assert.Equal(new[] { "first", "second" }, exception.Errors.ToArray());
         Assert.Equal($"{exception.AggregateId}/ErrorException => first; second", exception.Message);
@@ -34,7 +34,7 @@ public class ErrorExceptionTests
     [Fact]
     public void ExplicitMessage_OverridesJoinedErrors()
     {
-        TestErrorException exception = new(["a", "b"], "custom");
+        TestErrorException exception = new TestErrorException(new string[] { "a", "b" }, "custom");
 
         Assert.EndsWith("=> custom", exception.Message);
         Assert.Equal(new[] { "a", "b" }, exception.Errors.ToArray());
@@ -43,8 +43,8 @@ public class ErrorExceptionTests
     [Fact]
     public void Errors_AreIsolatedFromTheSourceSequence()
     {
-        List<string> source = ["a"];
-        TestErrorException exception = new(source);
+        List<string> source = new List<string> { "a" };
+        TestErrorException exception = new TestErrorException(source);
 
         source.Add("b");
 
@@ -55,9 +55,9 @@ public class ErrorExceptionTests
     public void ExplicitCtor_StoresErrorsAndMetadata()
     {
         Guid id = Guid.NewGuid();
-        ImmutableList<string> errors = ["x", "y"];
+        ImmutableList<string> errors = ImmutableList.Create("x", "y");
 
-        TestExplicitErrorException exception = new(id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", null, errors);
+        TestExplicitErrorException exception = new TestExplicitErrorException(id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", null, errors);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal(errors, exception.Errors);
@@ -66,9 +66,9 @@ public class ErrorExceptionTests
     [Fact]
     public void InnerException_IsPropagated()
     {
-        InvalidOperationException inner = new("cause");
+        InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitErrorException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", inner, []);
+        TestExplicitErrorException exception = new TestExplicitErrorException(Guid.NewGuid(), "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", inner, ImmutableList<string>.Empty);
 
         Assert.Same(inner, exception.InnerException);
     }
@@ -76,12 +76,12 @@ public class ErrorExceptionTests
     [Fact]
     public void EmptyErrors_ProduceNoArrow()
     {
-        TestErrorException exception = new([]);
+        TestErrorException exception = new TestErrorException(Array.Empty<string>());
 
         Assert.Equal($"{exception.AggregateId}/ErrorException", exception.Message);
     }
 
     [Fact]
     public void Instance_IsAssignableToDomainException()
-        => Assert.IsAssignableFrom<DomainException>(new TestErrorException(["e"]));
+        => Assert.IsAssignableFrom<DomainException>(new TestErrorException(new string[] { "e" }));
 }

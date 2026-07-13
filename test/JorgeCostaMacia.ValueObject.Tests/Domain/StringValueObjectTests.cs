@@ -66,18 +66,18 @@ public class StringValueObjectTests
     {
         public TestString(string value) : base(value) { }
 
-        public new static string Convert(int value) => StringValueObject.Convert(value);
+        public static new string Convert(int value) => StringValueObject.Convert(value);
 
-        public new static string Convert(float value) => StringValueObject.Convert(value);
+        public static new string Convert(float value) => StringValueObject.Convert(value);
 
-        public new static string Convert(decimal value) => StringValueObject.Convert(value);
+        public static new string Convert(decimal value) => StringValueObject.Convert(value);
 
-        public new static string Convert(bool value) => StringValueObject.Convert(value);
+        public static new string Convert(bool value) => StringValueObject.Convert(value);
 
-        public new static string Convert(long value) => StringValueObject.Convert(value);
+        public static new string Convert(long value) => StringValueObject.Convert(value);
 
-        public new static string Convert(double value) => StringValueObject.Convert(value);
+        public static new string Convert(double value) => StringValueObject.Convert(value);
 
-        public new static string Convert(Guid value) => StringValueObject.Convert(value);
+        public static new string Convert(Guid value) => StringValueObject.Convert(value);
     }
 }

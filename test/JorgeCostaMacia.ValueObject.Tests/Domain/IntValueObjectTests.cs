@@ -70,16 +70,16 @@ public class IntValueObjectTests
     {
         public TestInt(int value) : base(value) { }
 
-        public new static int Convert(string value) => IntValueObject.Convert(value);
+        public static new int Convert(string value) => IntValueObject.Convert(value);
 
-        public new static int Convert(float value) => IntValueObject.Convert(value);
+        public static new int Convert(float value) => IntValueObject.Convert(value);
 
-        public new static int Convert(decimal value) => IntValueObject.Convert(value);
+        public static new int Convert(decimal value) => IntValueObject.Convert(value);
 
-        public new static int Convert(bool value) => IntValueObject.Convert(value);
+        public static new int Convert(bool value) => IntValueObject.Convert(value);
 
-        public new static int Convert(long value) => IntValueObject.Convert(value);
+        public static new int Convert(long value) => IntValueObject.Convert(value);
 
-        public new static int Convert(double value) => IntValueObject.Convert(value);
+        public static new int Convert(double value) => IntValueObject.Convert(value);
     }
 }

@@ -8,7 +8,7 @@ public class FloatValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        FloatValueObjectConverter<TestFloat> converter = new();
+        FloatValueObjectConverter<TestFloat> converter = new FloatValueObjectConverter<TestFloat>();
 
         Assert.Equal(3.5f, (float)converter.ConvertToProvider(new TestFloat(3.5f))!);
         Assert.Equal(3.5f, ((TestFloat)converter.ConvertFromProvider(3.5f)!).Value);

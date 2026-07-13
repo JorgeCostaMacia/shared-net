@@ -9,7 +9,7 @@ public class UuidValueObjectConverterTests
     public void RoundTrips()
     {
         Guid id = Guid.NewGuid();
-        UuidValueObjectConverter<TestUuid> converter = new();
+        UuidValueObjectConverter<TestUuid> converter = new UuidValueObjectConverter<TestUuid>();
 
         Assert.Equal(id, (Guid)converter.ConvertToProvider(new TestUuid(id))!);
         Assert.Equal(id, ((TestUuid)converter.ConvertFromProvider(id)!).Value);

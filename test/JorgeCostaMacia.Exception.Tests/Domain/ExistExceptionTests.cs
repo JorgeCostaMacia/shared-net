@@ -14,7 +14,7 @@ public class ExistExceptionTests
     [Fact]
     public void Defaults_AreApplied_WhenMetadataOmitted()
     {
-        TestExistException exception = new();
+        TestExistException exception = new TestExistException();
 
         Assert.NotEqual(Guid.Empty, exception.AggregateId);
         Assert.Equal(ExistExceptionDefaults.AGGREGATE_TYPE, exception.AggregateType);
@@ -25,7 +25,7 @@ public class ExistExceptionTests
     [Fact]
     public void Message_IncludesIdAndType()
     {
-        TestExistException exception = new("duplicate");
+        TestExistException exception = new TestExistException("duplicate");
 
         Assert.Equal($"{exception.AggregateId}/ExistException => duplicate", exception.Message);
     }
@@ -33,7 +33,7 @@ public class ExistExceptionTests
     [Fact]
     public void Message_OmitsArrow_WhenNoMessage()
     {
-        TestExistException exception = new();
+        TestExistException exception = new TestExistException();
 
         Assert.Equal($"{exception.AggregateId}/ExistException", exception.Message);
     }
@@ -43,9 +43,9 @@ public class ExistExceptionTests
     {
         Guid id = Guid.NewGuid();
         Guid code = Guid.NewGuid();
-        DateTime occurredAt = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitExistException exception = new(id, "My.Type", code, 409, occurredAt, "msg", null);
+        TestExplicitExistException exception = new TestExplicitExistException(id, "My.Type", code, 409, occurredAt, "msg", null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Type", exception.AggregateType);
@@ -57,9 +57,9 @@ public class ExistExceptionTests
     [Fact]
     public void InnerException_IsPropagated()
     {
-        InvalidOperationException inner = new("cause");
+        InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitExistException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", inner);
+        TestExplicitExistException exception = new TestExplicitExistException(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", inner);
 
         Assert.Same(inner, exception.InnerException);
     }

@@ -33,7 +33,7 @@ public record JsonValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source JSON string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="JsonValueObject"/> instance.</returns>
-    public new static JsonValueObject From(string value) => new JsonValueObject(Convert(value));
+    public static new JsonValueObject From(string value) => new JsonValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -42,7 +42,7 @@ public record JsonValueObject : StringValueObject
     /// <param name="value">The source JSON string value.</param>
     /// <returns>A new, validated <see cref="JsonValueObject"/> instance.</returns>
     /// <exception cref="JsonValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static JsonValueObject Create(string value)
+    public static new JsonValueObject Create(string value)
     {
         JsonValueObject vo = From(value);
         JsonValueObjectValidator.Create().ValidateAndThrow(vo);

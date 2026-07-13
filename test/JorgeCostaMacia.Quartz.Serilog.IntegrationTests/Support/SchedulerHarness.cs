@@ -16,11 +16,11 @@ namespace JorgeCostaMacia.Quartz.Serilog.IntegrationTests.Support;
 /// </summary>
 internal sealed class SchedulerHarness : IAsyncDisposable
 {
-    private readonly IScheduler scheduler;
+    private readonly IScheduler _scheduler;
 
     private SchedulerHarness(IScheduler scheduler, CapturingSink sink)
     {
-        this.scheduler = scheduler;
+        _scheduler = scheduler;
         Sink = sink;
     }
 
@@ -30,7 +30,7 @@ internal sealed class SchedulerHarness : IAsyncDisposable
     /// <summary>Starts a scheduler with both listeners registered over a fresh capturing sink.</summary>
     public static async Task<SchedulerHarness> StartAsync()
     {
-        CapturingSink sink = new();
+        CapturingSink sink = new CapturingSink();
         ILoggerFactory loggerFactory = new SerilogLoggerFactory(
             new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(sink).CreateLogger());
 
@@ -61,7 +61,7 @@ internal sealed class SchedulerHarness : IAsyncDisposable
         IJobDetail job = JobBuilder.Create<TJob>().WithIdentity("job-1", "orders").Build();
         ITrigger trigger = TriggerBuilder.Create().ForJob(job).WithIdentity("trigger-1", "orders").StartNow().Build();
 
-        await scheduler.ScheduleJob(job, trigger, cancellationToken);
+        await _scheduler.ScheduleJob(job, trigger, cancellationToken);
         await WaitForAsync("TriggerComplete", cancellationToken);
     }
 
@@ -80,5 +80,5 @@ internal sealed class SchedulerHarness : IAsyncDisposable
         throw new TimeoutException($"'{message}' was not logged within the timeout.");
     }
 
-    public async ValueTask DisposeAsync() => await scheduler.Shutdown(waitForJobsToComplete: false);
+    public async ValueTask DisposeAsync() => await _scheduler.Shutdown(waitForJobsToComplete: false);
 }

@@ -31,7 +31,10 @@ public record DoubleValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The double value to encapsulate.</param>
-    public DoubleValueObject(double value) => Value = value;
+    public DoubleValueObject(double value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="DoubleValueObject"/> from the natural primitive through

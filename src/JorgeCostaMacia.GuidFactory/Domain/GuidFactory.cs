@@ -15,12 +15,10 @@ public static class GuidFactory
     /// Creates a new globally unique identifier: time-ordered (UUIDv7) on .NET 9+, otherwise random (UUIDv4).
     /// </summary>
     /// <returns>A new <see cref="Guid"/>.</returns>
-    public static Guid Create()
-    {
+    public static Guid Create() =>
 #if NET9_0_OR_GREATER
-        return Guid.CreateVersion7();
+    Guid.CreateVersion7();
 #else
-        return Guid.NewGuid();
+    Guid.NewGuid();
 #endif
-    }
 }

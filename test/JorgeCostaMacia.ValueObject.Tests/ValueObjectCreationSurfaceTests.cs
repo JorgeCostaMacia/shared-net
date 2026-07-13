@@ -11,17 +11,17 @@ namespace JorgeCostaMacia.ValueObject.Tests;
 /// </summary>
 public class ValueObjectCreationSurfaceTests
 {
-    private static readonly Type[] ValueObjects = typeof(IValueObject).Assembly.GetTypes()
+    private static readonly Type[] _valueObjects = typeof(IValueObject).Assembly.GetTypes()
         .Where(type => type is { IsClass: true, IsAbstract: false } && typeof(IValueObject).IsAssignableFrom(type))
         .ToArray();
 
     [Fact]
     public void EveryValueObject_ExposesTheCreationSurface()
     {
-        Assert.NotEmpty(ValueObjects);   // guard: the scan really found the value objects
+        Assert.NotEmpty(_valueObjects);   // guard: the scan really found the value objects
 
-        List<string> violations = [];
-        foreach (Type valueObject in ValueObjects)
+        List<string> violations = new List<string>();
+        foreach (Type valueObject in _valueObjects)
         {
             if (valueObject.GetConstructors(BindingFlags.Public | BindingFlags.Instance).Length == 0)
             {

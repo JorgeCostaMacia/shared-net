@@ -53,6 +53,6 @@ public class ByteValueObjectTests
     {
         public TestByte(byte[] value) : base(value) { }
 
-        public new static byte[] Convert(string value) => ByteValueObject.Convert(value);
+        public static new byte[] Convert(string value) => ByteValueObject.Convert(value);
     }
 }

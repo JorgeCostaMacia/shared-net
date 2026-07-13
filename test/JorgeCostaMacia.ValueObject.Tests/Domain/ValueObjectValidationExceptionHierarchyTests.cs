@@ -13,8 +13,8 @@ public class ValueObjectValidationExceptionHierarchyTests
     [Fact]
     public void DerivedException_CarriesItsOwnCode_NotParents()
     {
-        var group = new GroupByValueObjectValidationException(new List<ValidationFailure>());
-        var @string = new StringValueObjectValidationException(new List<ValidationFailure>());
+        GroupByValueObjectValidationException group = new GroupByValueObjectValidationException(new List<ValidationFailure>());
+        StringValueObjectValidationException @string = new StringValueObjectValidationException(new List<ValidationFailure>());
 
         Assert.NotEqual(@string.AggregateCode, group.AggregateCode);
     }
@@ -27,8 +27,8 @@ public class ValueObjectValidationExceptionHierarchyTests
     [Fact]
     public void DateTimeUtcException_CarriesItsOwnCode_NotDateTimes()
     {
-        var utc = new DateTimeUtcValueObjectValidationException(new List<ValidationFailure>());
-        var local = new DateTimeValueObjectValidationException(new List<ValidationFailure>());
+        DateTimeUtcValueObjectValidationException utc = new DateTimeUtcValueObjectValidationException(new List<ValidationFailure>());
+        DateTimeValueObjectValidationException local = new DateTimeValueObjectValidationException(new List<ValidationFailure>());
 
         Assert.NotEqual(local.AggregateCode, utc.AggregateCode);
     }

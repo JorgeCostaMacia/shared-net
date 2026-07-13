@@ -7,7 +7,7 @@ public class DateTimeUtcValueObjectTests
     [Fact]
     public void Ctor_HydratesRaw_WithoutTaggingUtc()
     {
-        DateTime local = new(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
+        DateTime local = new DateTime(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
 
         Assert.Equal(DateTimeKind.Local, new DateTimeUtcValueObject(local).Value.Kind);   // stored as-is
     }
@@ -15,7 +15,7 @@ public class DateTimeUtcValueObjectTests
     [Fact]
     public void From_TagsUtc_WithoutShifting()
     {
-        DateTime noon = new(2026, 6, 29, 12, 0, 0);   // unspecified
+        DateTime noon = new DateTime(2026, 6, 29, 12, 0, 0);   // unspecified
 
         DateTimeUtcValueObject valueObject = DateTimeUtcValueObject.From(noon);
 
@@ -30,7 +30,7 @@ public class DateTimeUtcValueObjectTests
     [Fact]
     public void Create_TagsUtc_WithoutShifting()
     {
-        DateTime noon = new(2026, 6, 29, 12, 0, 0);   // unspecified
+        DateTime noon = new DateTime(2026, 6, 29, 12, 0, 0);   // unspecified
 
         DateTimeUtcValueObject valueObject = DateTimeUtcValueObject.Create(noon);
 
@@ -58,7 +58,7 @@ public class DateTimeUtcValueObjectTests
     public void Convert_FromTimeZone_HandlesDaylightGap_WithoutThrowing()
     {
         TimeZoneInfo madrid = TimeZoneInfo.FindSystemTimeZoneById("Europe/Madrid");
-        DateTime gap = new(2026, 3, 29, 2, 30, 0);   // Spain springs forward 02:00 -> 03:00 on 2026-03-29
+        DateTime gap = new DateTime(2026, 3, 29, 2, 30, 0);   // Spain springs forward 02:00 -> 03:00 on 2026-03-29
 
         Assert.True(madrid.IsInvalidTime(gap));   // sanity: this local time does not exist
 

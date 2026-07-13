@@ -46,16 +46,16 @@ public class DecimalValueObjectTests
     {
         public TestDecimal(decimal value) : base(value) { }
 
-        public new static decimal Convert(string value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(string value) => DecimalValueObject.Convert(value);
 
-        public new static decimal Convert(int value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(int value) => DecimalValueObject.Convert(value);
 
-        public new static decimal Convert(float value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(float value) => DecimalValueObject.Convert(value);
 
-        public new static decimal Convert(bool value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(bool value) => DecimalValueObject.Convert(value);
 
-        public new static decimal Convert(long value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(long value) => DecimalValueObject.Convert(value);
 
-        public new static decimal Convert(double value) => DecimalValueObject.Convert(value);
+        public static new decimal Convert(double value) => DecimalValueObject.Convert(value);
     }
 }

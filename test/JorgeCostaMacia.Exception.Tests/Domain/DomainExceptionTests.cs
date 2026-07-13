@@ -14,7 +14,7 @@ public class DomainExceptionTests
     [Fact]
     public void Defaults_AreApplied_WhenMetadataOmitted()
     {
-        TestDomainException exception = new();
+        TestDomainException exception = new TestDomainException();
 
         Assert.NotEqual(Guid.Empty, exception.AggregateId);
         Assert.Equal(DomainExceptionDefaults.AGGREGATE_TYPE, exception.AggregateType);
@@ -27,7 +27,7 @@ public class DomainExceptionTests
     [Fact]
     public void Message_IncludesIdAndType_AndReusesTheSameId()
     {
-        TestDomainException exception = new("boom");
+        TestDomainException exception = new TestDomainException("boom");
 
         // The id embedded in the message must be the exact same value as AggregateId.
         Assert.Equal($"{exception.AggregateId}/DomainException => boom", exception.Message);
@@ -36,7 +36,7 @@ public class DomainExceptionTests
     [Fact]
     public void Message_OmitsArrow_WhenNoMessage()
     {
-        TestDomainException exception = new();
+        TestDomainException exception = new TestDomainException();
 
         Assert.Equal($"{exception.AggregateId}/DomainException", exception.Message);
     }
@@ -44,7 +44,7 @@ public class DomainExceptionTests
     [Fact]
     public void Message_TrimsSuppliedMessage()
     {
-        TestDomainException exception = new("   boom   ");
+        TestDomainException exception = new TestDomainException("   boom   ");
 
         Assert.Equal($"{exception.AggregateId}/DomainException => boom", exception.Message);
     }
@@ -54,7 +54,7 @@ public class DomainExceptionTests
     {
         Guid id = Guid.NewGuid();
 
-        TestDomainException exception = new("x", id);
+        TestDomainException exception = new TestDomainException("x", id);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.StartsWith($"{id}/DomainException", exception.Message);
@@ -65,9 +65,9 @@ public class DomainExceptionTests
     {
         Guid id = Guid.NewGuid();
         Guid code = Guid.NewGuid();
-        DateTime occurredAt = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitDomainException exception = new(id, "My.Custom.Type", code, 418, occurredAt, "msg", null);
+        TestExplicitDomainException exception = new TestExplicitDomainException(id, "My.Custom.Type", code, 418, occurredAt, "msg", null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Custom.Type", exception.AggregateType);
@@ -79,9 +79,9 @@ public class DomainExceptionTests
     [Fact]
     public void InnerException_IsPropagated()
     {
-        InvalidOperationException inner = new("cause");
+        InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitDomainException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "m", inner);
+        TestExplicitDomainException exception = new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "m", inner);
 
         Assert.Same(inner, exception.InnerException);
     }
@@ -93,7 +93,7 @@ public class DomainExceptionTests
     [Fact]
     public void Message_UsesLastSegmentOfDottedType()
     {
-        TestDomainException exception = new("boom", type: "A.B.C.Widget");
+        TestDomainException exception = new TestDomainException("boom", type: "A.B.C.Widget");
 
         Assert.Equal($"{exception.AggregateId}/Widget => boom", exception.Message);
     }
@@ -102,7 +102,7 @@ public class DomainExceptionTests
     public void Message_WhitespaceOnly_KeepsArrowWithEmptyTail()
     {
         // Documents the current asymmetry: "" omits the arrow, but whitespace is not empty so a trailing "=> " remains.
-        TestDomainException exception = new("   ");
+        TestDomainException exception = new TestDomainException("   ");
 
         Assert.Equal($"{exception.AggregateId}/DomainException => ", exception.Message);
     }
@@ -110,7 +110,7 @@ public class DomainExceptionTests
     [Fact]
     public void ExplicitCtor_Message_IsRawAndUnprefixed()
     {
-        TestExplicitDomainException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "raw message", null);
+        TestExplicitDomainException exception = new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "raw message", null);
 
         Assert.Equal("raw message", exception.Message);
     }

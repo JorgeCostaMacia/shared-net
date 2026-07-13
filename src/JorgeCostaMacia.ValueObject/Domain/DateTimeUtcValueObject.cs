@@ -35,7 +35,7 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// </summary>
     /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
     /// <returns>A new, UTC-tagged but unvalidated <see cref="DateTimeUtcValueObject"/> instance.</returns>
-    public new static DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
+    public static new DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
@@ -44,7 +44,7 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
     /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance.</returns>
     /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static DateTimeUtcValueObject Create(DateTime value)
+    public static new DateTimeUtcValueObject Create(DateTime value)
     {
         DateTimeUtcValueObject vo = From(value);
         DateTimeUtcValueObjectValidator.Create().ValidateAndThrow(vo);

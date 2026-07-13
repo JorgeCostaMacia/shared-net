@@ -14,7 +14,7 @@ public class NotFoundExceptionTests
     [Fact]
     public void Defaults_AreApplied_WhenMetadataOmitted()
     {
-        TestNotFoundException exception = new();
+        TestNotFoundException exception = new TestNotFoundException();
 
         Assert.NotEqual(Guid.Empty, exception.AggregateId);
         Assert.Equal(NotFoundExceptionDefaults.AGGREGATE_TYPE, exception.AggregateType);
@@ -25,7 +25,7 @@ public class NotFoundExceptionTests
     [Fact]
     public void Message_IncludesIdAndType()
     {
-        TestNotFoundException exception = new("missing");
+        TestNotFoundException exception = new TestNotFoundException("missing");
 
         Assert.Equal($"{exception.AggregateId}/NotFoundException => missing", exception.Message);
     }
@@ -33,7 +33,7 @@ public class NotFoundExceptionTests
     [Fact]
     public void Message_OmitsArrow_WhenNoMessage()
     {
-        TestNotFoundException exception = new();
+        TestNotFoundException exception = new TestNotFoundException();
 
         Assert.Equal($"{exception.AggregateId}/NotFoundException", exception.Message);
     }
@@ -43,9 +43,9 @@ public class NotFoundExceptionTests
     {
         Guid id = Guid.NewGuid();
         Guid code = Guid.NewGuid();
-        DateTime occurredAt = new(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitNotFoundException exception = new(id, "My.Type", code, 404, occurredAt, "msg", null);
+        TestExplicitNotFoundException exception = new TestExplicitNotFoundException(id, "My.Type", code, 404, occurredAt, "msg", null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Type", exception.AggregateType);
@@ -57,9 +57,9 @@ public class NotFoundExceptionTests
     [Fact]
     public void InnerException_IsPropagated()
     {
-        InvalidOperationException inner = new("cause");
+        InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitNotFoundException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 404, DateTime.UtcNow, "m", inner);
+        TestExplicitNotFoundException exception = new TestExplicitNotFoundException(Guid.NewGuid(), "T", Guid.NewGuid(), 404, DateTime.UtcNow, "m", inner);
 
         Assert.Same(inner, exception.InnerException);
     }

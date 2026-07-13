@@ -8,7 +8,7 @@ public class SerilogContextTests
     [Fact]
     public void AddSerilogContext_RegistersBothListenersAsSingletons()
     {
-        ServiceCollection services = [];
+        ServiceCollection services = new ServiceCollection();
 
         services.AddSerilogContext();
 

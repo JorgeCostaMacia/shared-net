@@ -34,7 +34,7 @@ public record OrderTypeValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source order-type string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="OrderTypeValueObject"/> instance.</returns>
-    public new static OrderTypeValueObject From(string value) => new OrderTypeValueObject(Convert(value));
+    public static new OrderTypeValueObject From(string value) => new OrderTypeValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -43,7 +43,7 @@ public record OrderTypeValueObject : StringValueObject
     /// <param name="value">The source order-type string value.</param>
     /// <returns>A new, validated <see cref="OrderTypeValueObject"/> instance.</returns>
     /// <exception cref="OrderTypeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static OrderTypeValueObject Create(string value)
+    public static new OrderTypeValueObject Create(string value)
     {
         OrderTypeValueObject vo = From(value);
         OrderTypeValueObjectValidator.Create().ValidateAndThrow(vo);
