@@ -65,16 +65,16 @@ public class LongValueObjectTests
     {
         public TestLong(long value) : base(value) { }
 
-        public new static long Convert(string value) => LongValueObject.Convert(value);
+        public static new long Convert(string value) => LongValueObject.Convert(value);
 
-        public new static long Convert(int value) => LongValueObject.Convert(value);
+        public static new long Convert(int value) => LongValueObject.Convert(value);
 
-        public new static long Convert(float value) => LongValueObject.Convert(value);
+        public static new long Convert(float value) => LongValueObject.Convert(value);
 
-        public new static long Convert(double value) => LongValueObject.Convert(value);
+        public static new long Convert(double value) => LongValueObject.Convert(value);
 
-        public new static long Convert(decimal value) => LongValueObject.Convert(value);
+        public static new long Convert(decimal value) => LongValueObject.Convert(value);
 
-        public new static long Convert(bool value) => LongValueObject.Convert(value);
+        public static new long Convert(bool value) => LongValueObject.Convert(value);
     }
 }

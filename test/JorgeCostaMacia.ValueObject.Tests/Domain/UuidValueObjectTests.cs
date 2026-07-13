@@ -55,6 +55,6 @@ public class UuidValueObjectTests
     {
         public TestUuid(Guid value) : base(value) { }
 
-        public new static Guid Convert(string value) => UuidValueObject.Convert(value);
+        public static new Guid Convert(string value) => UuidValueObject.Convert(value);
     }
 }

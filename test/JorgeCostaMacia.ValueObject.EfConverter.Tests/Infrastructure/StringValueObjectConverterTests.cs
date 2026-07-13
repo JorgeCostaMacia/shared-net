@@ -8,7 +8,7 @@ public class StringValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        StringValueObjectConverter<TestString> converter = new();
+        StringValueObjectConverter<TestString> converter = new StringValueObjectConverter<TestString>();
 
         Assert.Equal("hi", (string)converter.ConvertToProvider(new TestString("hi"))!);
         Assert.Equal("hi", ((TestString)converter.ConvertFromProvider("hi")!).Value);

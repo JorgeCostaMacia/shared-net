@@ -1,22 +1,24 @@
 using JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Support;
-using Microsoft.EntityFrameworkCore;
 
 namespace JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Infrastructure;
 
 [Collection(nameof(PostgreSqlCollection))]
 public class EfConverterRoundTripIntegrationTests
 {
-    private readonly PostgreSqlFixture fixture;
+    private readonly PostgreSqlFixture _fixture;
 
-    public EfConverterRoundTripIntegrationTests(PostgreSqlFixture fixture) => this.fixture = fixture;
+    public EfConverterRoundTripIntegrationTests(PostgreSqlFixture fixture)
+    {
+        _fixture = fixture;
+    }
 
     [Fact]
     public async Task EveryFamily_RoundTripsThroughRealPostgres()
     {
         CancellationToken cancellationToken = TestContext.Current.CancellationToken;
-        Guid reference = new("11111111-1111-1111-1111-111111111111");
+        Guid reference = new Guid("11111111-1111-1111-1111-111111111111");
 
-        await using (ProbeDbContext write = fixture.NewContext())
+        await using (ProbeDbContext write = _fixture.NewContext())
         {
             write.Add(new Sample
             {
@@ -29,7 +31,7 @@ public class EfConverterRoundTripIntegrationTests
                 Amount = new SampleAmount(123.45m),
                 Ratio = new SampleRatio(1.5d),
                 Weight = new SampleWeight(2.5f),
-                Blob = new SampleBlob([1, 2, 3]),
+                Blob = new SampleBlob(new byte[] { 1, 2, 3 }),
                 When = new SampleWhen(new DateTime(2026, 7, 12, 10, 30, 0, DateTimeKind.Unspecified)),
                 WhenUtc = new SampleWhenUtc(new DateTime(2026, 7, 12, 10, 30, 0, DateTimeKind.Utc))
             });
@@ -37,8 +39,8 @@ public class EfConverterRoundTripIntegrationTests
         }
 
         // fresh context: the row comes back from the database, not from an identity map
-        await using ProbeDbContext read = fixture.NewContext();
-        Sample? loaded = await read.Samples.FindAsync([new SampleId(1)], cancellationToken);   // key lookup translates through the converter
+        await using ProbeDbContext read = _fixture.NewContext();
+        Sample? loaded = await read.Samples.FindAsync(new object[] { new SampleId(1) }, cancellationToken);   // key lookup translates through the converter
 
         Assert.NotNull(loaded);
         Assert.Equal(1, loaded!.Id.Value);

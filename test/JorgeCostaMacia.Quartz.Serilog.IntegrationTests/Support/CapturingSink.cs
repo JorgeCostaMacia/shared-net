@@ -10,23 +10,23 @@ namespace JorgeCostaMacia.Quartz.Serilog.IntegrationTests.Support;
 /// </summary>
 internal sealed class CapturingSink : ILogEventSink
 {
-    private readonly object gate = new();
-    private readonly List<LogEvent> events = [];
+    private readonly object _gate = new object();
+    private readonly List<LogEvent> _events = new List<LogEvent>();
 
     public void Emit(LogEvent logEvent)
     {
-        lock (gate)
+        lock (_gate)
         {
-            events.Add(logEvent);
+            _events.Add(logEvent);
         }
     }
 
     /// <summary>A stable copy of the events captured so far, in emission order.</summary>
     public IReadOnlyList<LogEvent> Snapshot()
     {
-        lock (gate)
+        lock (_gate)
         {
-            return [.. events];
+            return _events.ToList();
         }
     }
 }

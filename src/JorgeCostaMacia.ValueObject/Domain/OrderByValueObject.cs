@@ -33,7 +33,7 @@ public record OrderByValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source order-by string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="OrderByValueObject"/> instance.</returns>
-    public new static OrderByValueObject From(string value) => new OrderByValueObject(Convert(value));
+    public static new OrderByValueObject From(string value) => new OrderByValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -42,7 +42,7 @@ public record OrderByValueObject : StringValueObject
     /// <param name="value">The source order-by string value.</param>
     /// <returns>A new, validated <see cref="OrderByValueObject"/> instance.</returns>
     /// <exception cref="OrderByValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static OrderByValueObject Create(string value)
+    public static new OrderByValueObject Create(string value)
     {
         OrderByValueObject vo = From(value);
         OrderByValueObjectValidator.Create().ValidateAndThrow(vo);

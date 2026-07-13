@@ -30,7 +30,10 @@ public record UuidValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The GUID value to encapsulate.</param>
-    public UuidValueObject(Guid value) => Value = value;
+    public UuidValueObject(Guid value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="UuidValueObject"/> from the natural primitive through

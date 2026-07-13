@@ -12,50 +12,42 @@ namespace JorgeCostaMacia.Aggregate.Domain;
 /// logic to add events and to pull and clear them, ensuring that events are only
 /// published once when the aggregate's state is persisted.
 /// </para>
+/// <para>
+/// Whether an aggregate is loaded from persistence — its state restored independently of this
+/// base class, e.g. by the ORM or a derived constructor — or created fresh from a service payload,
+/// it starts with no pending domain events. They accumulate only as a result of operations
+/// performed during the current unit of work, and are drained by <see cref="PullEvents"/> once
+/// the aggregate has been persisted.
+/// </para>
 /// </remarks>
 public abstract class Aggregate : IAggregate
 {
-    private List<IDomainEvent> DomainEvents { get; init; }
+    private readonly List<IDomainEvent> _events = new List<IDomainEvent>();
 
-    /// <summary>
-    /// Initializes a new Aggregate instance with an empty pending-events list.
-    /// </summary>
-    /// <remarks>
-    /// Used both when loading an existing aggregate from persistence — where state is
-    /// restored independently of this base class, e.g., by the ORM or a derived class's
-    /// own constructor — and when creating a brand-new aggregate from a service payload.
-    /// In both cases, there are no domain events pending publication yet; they only
-    /// accumulate as a result of operations performed during the current unit of work.
-    /// </remarks>
-    protected Aggregate()
+    /// <inheritdoc/>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="event"/> is null.</exception>
+    public void AddEvent(IDomainEvent @event)
     {
-        DomainEvents = new List<IDomainEvent>();
+        ArgumentNullException.ThrowIfNull(@event);
+
+        _events.Add(@event);
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="domainEvent"/> is null.</exception>
-    public void AddDomainEvents(IDomainEvent domainEvent)
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="events"/> is null.</exception>
+    public void AddEvents(IEnumerable<IDomainEvent> events)
     {
-        ArgumentNullException.ThrowIfNull(domainEvent);
+        ArgumentNullException.ThrowIfNull(events);
 
-        DomainEvents.Add(domainEvent);
+        _events.AddRange(events);
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="domainEvent"/> is null.</exception>
-    public void AddDomainEvents(IEnumerable<IDomainEvent> domainEvent)
+    public IEnumerable<IDomainEvent> PullEvents()
     {
-        ArgumentNullException.ThrowIfNull(domainEvent);
+        IEnumerable<IDomainEvent> events = _events.ToList();
+        _events.Clear();
 
-        DomainEvents.AddRange(domainEvent);
-    }
-
-    /// <inheritdoc/>
-    public IEnumerable<IDomainEvent> PullDomainEvents()
-    {
-        IEnumerable<IDomainEvent> domainEventsAux = DomainEvents.ToList();
-        DomainEvents.Clear();
-
-        return domainEventsAux;
+        return events;
     }
 }

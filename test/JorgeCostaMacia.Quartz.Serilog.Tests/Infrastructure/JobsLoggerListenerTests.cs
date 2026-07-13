@@ -10,10 +10,10 @@ namespace JorgeCostaMacia.Quartz.Serilog.Tests.Infrastructure;
 
 public class JobsLoggerListenerTests
 {
-    private readonly CapturingSink sink = new();
+    private readonly CapturingSink _sink = new CapturingSink();
 
     private JobsLoggerListener Listener()
-        => new(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(sink).CreateLogger()).CreateLogger<JobsLoggerListener>());
+        => new JobsLoggerListener(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(_sink).CreateLogger()).CreateLogger<JobsLoggerListener>());
 
     [Fact]
     public async Task JobToBeExecuted_LogsInformation_WithFixedMessageAndContext()
@@ -22,7 +22,7 @@ public class JobsLoggerListenerTests
 
         await Listener().JobToBeExecuted(context, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("JobToBeExecuted", logEvent.MessageTemplate.Text);   // fixed, low-cardinality message
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.Equal("\"job-1\"", logEvent.Properties["Job"].ToString());
@@ -43,7 +43,7 @@ public class JobsLoggerListenerTests
 
         await Listener().JobExecutionVetoed(context, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("JobExecutionVetoed", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Warning, logEvent.Level);
     }
@@ -55,7 +55,7 @@ public class JobsLoggerListenerTests
 
         await Listener().JobWasExecuted(context, jobException: null, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.Null(logEvent.Exception);
@@ -66,11 +66,11 @@ public class JobsLoggerListenerTests
     public async Task JobWasExecuted_WithException_LogsError_WithTheRootCause()
     {
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
-        InvalidOperationException cause = new("boom");
+        InvalidOperationException cause = new InvalidOperationException("boom");
 
         await Listener().JobWasExecuted(context, new JobExecutionException(cause), TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);   // same fixed message; the level carries the outcome
         Assert.Equal(LogEventLevel.Error, logEvent.Level);
         Assert.Same(cause, logEvent.Exception);                          // the root cause, not the Quartz wrapper
@@ -86,8 +86,8 @@ public class JobsLoggerListenerTests
         await listener.JobToBeExecuted(context, TestContext.Current.CancellationToken);
         await listener.JobWasExecuted(context, jobException: null, TestContext.Current.CancellationToken);
 
-        Assert.Equal(2, sink.Events.Count);
-        Assert.Equal(sink.Events[0].Properties["AggregateId"].ToString(), sink.Events[1].Properties["AggregateId"].ToString());
-        Assert.Equal(sink.Events[0].Properties["CorrelationId"].ToString(), sink.Events[1].Properties["CorrelationId"].ToString());
+        Assert.Equal(2, _sink.Events.Count);
+        Assert.Equal(_sink.Events[0].Properties["AggregateId"].ToString(), _sink.Events[1].Properties["AggregateId"].ToString());
+        Assert.Equal(_sink.Events[0].Properties["CorrelationId"].ToString(), _sink.Events[1].Properties["CorrelationId"].ToString());
     }
 }

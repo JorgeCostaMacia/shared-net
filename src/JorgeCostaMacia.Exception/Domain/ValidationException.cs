@@ -63,7 +63,7 @@ public abstract class ValidationException : DomainException
     /// Constructor with optional metadata, automatically generating IDs and formatting the message
     /// from the validation failures, leveraging <see cref="ValidationExceptionDefaults"/>.
     /// </summary>
-    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
+    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
     /// <param name="aggregateType">Optional full type name of the exception. Defaults to <see cref="ValidationExceptionDefaults.AGGREGATE_TYPE"/> if null.</param>
     /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the fixed GUID from <see cref="ValidationExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
     /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to 400 (Bad Request) from <see cref="ValidationExceptionDefaults.AGGREGATE_HTTP_CODE"/> if null.</param>

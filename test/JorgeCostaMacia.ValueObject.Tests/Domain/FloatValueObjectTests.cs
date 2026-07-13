@@ -46,16 +46,16 @@ public class FloatValueObjectTests
     {
         public TestFloat(float value) : base(value) { }
 
-        public new static float Convert(string value) => FloatValueObject.Convert(value);
+        public static new float Convert(string value) => FloatValueObject.Convert(value);
 
-        public new static float Convert(int value) => FloatValueObject.Convert(value);
+        public static new float Convert(int value) => FloatValueObject.Convert(value);
 
-        public new static float Convert(decimal value) => FloatValueObject.Convert(value);
+        public static new float Convert(decimal value) => FloatValueObject.Convert(value);
 
-        public new static float Convert(bool value) => FloatValueObject.Convert(value);
+        public static new float Convert(bool value) => FloatValueObject.Convert(value);
 
-        public new static float Convert(long value) => FloatValueObject.Convert(value);
+        public static new float Convert(long value) => FloatValueObject.Convert(value);
 
-        public new static float Convert(double value) => FloatValueObject.Convert(value);
+        public static new float Convert(double value) => FloatValueObject.Convert(value);
     }
 }

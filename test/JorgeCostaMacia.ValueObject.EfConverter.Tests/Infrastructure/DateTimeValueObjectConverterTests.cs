@@ -8,8 +8,8 @@ public class DateTimeValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        DateTime now = new(2026, 7, 7, 12, 0, 0, DateTimeKind.Utc);
-        DateTimeValueObjectConverter<TestDateTime> converter = new();
+        DateTime now = new DateTime(2026, 7, 7, 12, 0, 0, DateTimeKind.Utc);
+        DateTimeValueObjectConverter<TestDateTime> converter = new DateTimeValueObjectConverter<TestDateTime>();
 
         Assert.Equal(now, (DateTime)converter.ConvertToProvider(new TestDateTime(now))!);
         Assert.Equal(now, ((TestDateTime)converter.ConvertFromProvider(now)!).Value);

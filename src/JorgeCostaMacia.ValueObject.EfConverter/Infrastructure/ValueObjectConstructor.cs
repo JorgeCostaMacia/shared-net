@@ -27,7 +27,7 @@ internal static class ValueObjectConstructor
     public static Expression<Func<TValue, TValueObject>> From<TValueObject, TValue>()
     {
         ConstructorInfo constructor = typeof(TValueObject).GetConstructor(
-            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, [typeof(TValue)], null)
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[] { typeof(TValue) }, null)
             ?? throw new InvalidOperationException($"'{typeof(TValueObject).Name}' needs a constructor taking a single '{typeof(TValue).Name}' to be rehydrated.");
 
         ParameterExpression value = Expression.Parameter(typeof(TValue), "value");

@@ -8,7 +8,7 @@ public class DoubleValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        DoubleValueObjectConverter<TestDouble> converter = new();
+        DoubleValueObjectConverter<TestDouble> converter = new DoubleValueObjectConverter<TestDouble>();
 
         Assert.Equal(2.5d, (double)converter.ConvertToProvider(new TestDouble(2.5d))!);
         Assert.Equal(2.5d, ((TestDouble)converter.ConvertFromProvider(2.5d)!).Value);

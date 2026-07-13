@@ -28,19 +28,19 @@ public sealed class Order : Aggregate
     public void Place()
     {
         // ... mutate state ...
-        AddDomainEvents(new OrderPlaced(Id));
+        AddEvent(new OrderPlaced(Id));
     }
 }
 
 // after handling a command, the persistence/publish layer drains the events exactly once:
-IEnumerable<IDomainEvent> events = order.PullDomainEvents();
+IEnumerable<IDomainEvent> events = order.PullEvents();
 ```
 
 ## Transport-agnostic by design
 
 The aggregate accumulates **`IDomainEvent`** — a pure marker from [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) with no knowledge of any bus. A messaging layer specializes it (`IEvent : IDomainEvent, ...`), so concrete events still fit the aggregate's event list while the domain stays free of any transport dependency.
 
-`PullDomainEvents()` returns the pending events **and clears** the internal list, so they are published exactly once per unit of work.
+`PullEvents()` returns the pending events **and clears** the internal list, so they are published exactly once per unit of work. Add events with `AddEvent(...)` (one) or `AddEvents(...)` (a range).
 
 ## Requirements
 

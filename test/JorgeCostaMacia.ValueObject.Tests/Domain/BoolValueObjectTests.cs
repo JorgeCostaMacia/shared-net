@@ -59,16 +59,16 @@ public class BoolValueObjectTests
     {
         public TestBool(bool value) : base(value) { }
 
-        public new static bool Convert(string value) => BoolValueObject.Convert(value);
+        public static new bool Convert(string value) => BoolValueObject.Convert(value);
 
-        public new static bool Convert(int value) => BoolValueObject.Convert(value);
+        public static new bool Convert(int value) => BoolValueObject.Convert(value);
 
-        public new static bool Convert(float value) => BoolValueObject.Convert(value);
+        public static new bool Convert(float value) => BoolValueObject.Convert(value);
 
-        public new static bool Convert(long value) => BoolValueObject.Convert(value);
+        public static new bool Convert(long value) => BoolValueObject.Convert(value);
 
-        public new static bool Convert(double value) => BoolValueObject.Convert(value);
+        public static new bool Convert(double value) => BoolValueObject.Convert(value);
 
-        public new static bool Convert(decimal value) => BoolValueObject.Convert(value);
+        public static new bool Convert(decimal value) => BoolValueObject.Convert(value);
     }
 }

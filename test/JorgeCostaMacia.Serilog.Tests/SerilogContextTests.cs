@@ -24,7 +24,7 @@ public class SerilogContextTests
     [Fact]
     public void AddSerilogContext_ReturnsSameServiceCollection_ForChaining()
     {
-        ServiceCollection services = new();
+        ServiceCollection services = new ServiceCollection();
 
         Assert.Same(services, services.AddSerilogContext(EmptyConfiguration()));
     }

@@ -10,7 +10,7 @@ namespace JorgeCostaMacia.Quartz.Serilog.Tests.Fakes;
 /// </summary>
 internal sealed class JobExecutionContextFake : IJobExecutionContext
 {
-    private readonly Dictionary<object, object> items = [];
+    private readonly Dictionary<object, object> _items = new Dictionary<object, object>();
 
     public JobExecutionContextFake(IScheduler scheduler, IJobDetail jobDetail, ITrigger trigger)
     {
@@ -35,9 +35,9 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
         return new JobExecutionContextFake(scheduler, job, trigger);
     }
 
-    public void Put(object key, object objectValue) => items[key] = objectValue;
+    public void Put(object key, object objectValue) => _items[key] = objectValue;
 
-    public object? Get(object key) => items.TryGetValue(key, out object? value) ? value : null;
+    public object? Get(object key) => _items.TryGetValue(key, out object? value) ? value : null;
 
     public IScheduler Scheduler { get; }
     public ITrigger Trigger { get; }
@@ -45,7 +45,7 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
     public bool Recovering => false;
     public TriggerKey RecoveringTriggerKey => throw new NotImplementedException();
     public int RefireCount => 0;
-    public JobDataMap MergedJobDataMap { get; } = [];
+    public JobDataMap MergedJobDataMap { get; } = new JobDataMap();
     public IJobDetail JobDetail { get; }
     public IJob JobInstance => throw new NotImplementedException();
     public DateTimeOffset FireTimeUtc { get; } = DateTimeOffset.UtcNow;

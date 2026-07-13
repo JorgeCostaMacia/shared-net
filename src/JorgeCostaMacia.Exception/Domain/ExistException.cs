@@ -63,7 +63,7 @@ public abstract class ExistException : DomainException
     /// Constructor with optional metadata, automatically generating IDs and using existence conflict defaults.
     /// The default <see cref="DomainException.AggregateHttpCode"/> is set to 409 Conflict.
     /// </summary>
-    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create()"/>.</param>
+    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="GuidFactory.Domain.GuidFactory.Create()"/>.</param>
     /// <param name="aggregateType">Optional full type name of the exception. Defaults to <see cref="ExistExceptionDefaults.AGGREGATE_TYPE"/> if null.</param>
     /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the fixed GUID from <see cref="ExistExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
     /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to 409 (Conflict) from <see cref="ExistExceptionDefaults.AGGREGATE_HTTP_CODE"/> if null.</param>
