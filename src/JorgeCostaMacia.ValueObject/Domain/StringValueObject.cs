@@ -31,7 +31,10 @@ public record StringValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The string value to encapsulate.</param>
-    public StringValueObject(string value) => Value = value;
+    public StringValueObject(string value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: normalizes the input through <see cref="Convert(string)"/> (trims whitespace) and materializes

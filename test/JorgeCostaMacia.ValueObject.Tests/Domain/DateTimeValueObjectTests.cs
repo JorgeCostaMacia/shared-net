@@ -11,7 +11,7 @@ public class DateTimeValueObjectTests
     [Fact]
     public void From_PreservesKind_DoesNotForceUtc()
     {
-        DateTime local = new(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
+        DateTime local = new DateTime(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
 
         DateTimeValueObject valueObject = DateTimeValueObject.From(local);
 
@@ -26,7 +26,7 @@ public class DateTimeValueObjectTests
     [Fact]
     public void Create_PreservesKind_DoesNotForceUtc()
     {
-        DateTime local = new(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
+        DateTime local = new DateTime(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
 
         DateTimeValueObject valueObject = DateTimeValueObject.Create(local);
 
@@ -37,7 +37,7 @@ public class DateTimeValueObjectTests
     [Fact]
     public void Create_FromUnspecified_StaysUnspecified()
     {
-        DateTime unspecified = new(2026, 6, 29, 12, 0, 0);
+        DateTime unspecified = new DateTime(2026, 6, 29, 12, 0, 0);
 
         Assert.Equal(DateTimeKind.Unspecified, DateTimeValueObject.Create(unspecified).Value.Kind);
     }
@@ -59,7 +59,7 @@ public class DateTimeValueObjectTests
     [Fact]
     public void ImplicitOperator_ReturnsUnderlyingValue()
     {
-        DateTime moment = new(2020, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+        DateTime moment = new DateTime(2020, 1, 1, 12, 0, 0, DateTimeKind.Utc);
         DateTime value = DateTimeValueObject.Create(moment);
         Assert.Equal(moment, value);
     }
@@ -69,8 +69,8 @@ public class DateTimeValueObjectTests
     [Fact]
     public void Convert_FromDateAndTime_TakesDateFromFirstAndTimeFromSecond()
     {
-        DateTime date = new(2026, 3, 15, 9, 8, 7);
-        DateTime time = new(2001, 1, 1, 14, 30, 45);
+        DateTime date = new DateTime(2026, 3, 15, 9, 8, 7);
+        DateTime time = new DateTime(2001, 1, 1, 14, 30, 45);
 
         Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));   // hour is 14 (from time), not 9 (from date)
     }
@@ -78,8 +78,8 @@ public class DateTimeValueObjectTests
     [Fact]
     public void Convert_FromDateOnlyAndTimeOnly_Combines()
     {
-        DateOnly date = new(2026, 3, 15);
-        TimeOnly time = new(14, 30, 45);
+        DateOnly date = new DateOnly(2026, 3, 15);
+        TimeOnly time = new TimeOnly(14, 30, 45);
 
         Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));
     }
@@ -96,12 +96,12 @@ public class DateTimeValueObjectTests
     {
         public TestDateTime(DateTime value) : base(value) { }
 
-        public new static DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
 
-        public new static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
 
-        public new static DateTime Convert(string value) => DateTimeValueObject.Convert(value);
+        public static new DateTime Convert(string value) => DateTimeValueObject.Convert(value);
 
-        public new static DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
     }
 }

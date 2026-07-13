@@ -90,7 +90,7 @@ public abstract class DomainException : System.Exception
     /// <summary>
     /// Constructor that allows optional metadata fields.
     /// Automatically generates IDs, timestamps, and default codes if not provided,
-    /// leveraging the <see cref="DomainExceptionDefaults"/> class for constants and <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory"/> for dynamic values.
+    /// leveraging the <see cref="DomainExceptionDefaults"/> class for constants and <see cref="GuidFactory.Domain.GuidFactory"/> for dynamic values.
     /// </summary>
     /// <remarks>
     /// When <paramref name="aggregateId"/> is <c>null</c>, the generated <see cref="Guid"/> is
@@ -98,7 +98,7 @@ public abstract class DomainException : System.Exception
     /// <see cref="AggregateId"/> property, ensuring both always refer to the exact same identifier
     /// rather than two independently generated values.
     /// </remarks>
-    /// <param name="aggregateId">Optional unique identifier of this exception instance. <b>Generates a new GUID</b> using <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
+    /// <param name="aggregateId">Optional unique identifier of this exception instance. <b>Generates a new GUID</b> using <see cref="GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
     /// <param name="aggregateType">Optional full type name of the exception. Defaults to <see cref="DomainExceptionDefaults.AGGREGATE_TYPE"/> (the full name of the base class) if null.</param>
     /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the <b>fixed GUID</b> defined in <see cref="DomainExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
     /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to the constant <see cref="DomainExceptionDefaults.AGGREGATE_HTTP_CODE"/> (500) if null.</param>
@@ -113,9 +113,9 @@ public abstract class DomainException : System.Exception
         DateTime? aggregateOccurredAt,
         string? message,
         System.Exception? innerException
-    ) : base($"{aggregateId ?? (aggregateId = JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create())}/{(aggregateType ?? DomainExceptionDefaults.AGGREGATE_TYPE).Split('.').Last()}{(string.IsNullOrEmpty(message) ? string.Empty : " => " + message?.Trim())}", innerException)
+    ) : base($"{aggregateId ??= GuidFactory.Domain.GuidFactory.Create()}/{(aggregateType ?? DomainExceptionDefaults.AGGREGATE_TYPE).Split('.').Last()}{(string.IsNullOrEmpty(message) ? string.Empty : " => " + message?.Trim())}", innerException)
     {
-        AggregateId = aggregateId ?? JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create();
+        AggregateId = aggregateId ?? GuidFactory.Domain.GuidFactory.Create();
         AggregateType = aggregateType ?? DomainExceptionDefaults.AGGREGATE_TYPE;
         AggregateCode = aggregateCode ?? DomainExceptionDefaults.AGGREGATE_CODE;
         AggregateHttpCode = aggregateHttpCode ?? DomainExceptionDefaults.AGGREGATE_HTTP_CODE;

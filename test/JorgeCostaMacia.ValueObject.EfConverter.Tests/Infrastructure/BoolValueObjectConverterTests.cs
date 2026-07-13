@@ -8,7 +8,7 @@ public class BoolValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        BoolValueObjectConverter<TestBool> converter = new();
+        BoolValueObjectConverter<TestBool> converter = new BoolValueObjectConverter<TestBool>();
 
         Assert.True((bool)converter.ConvertToProvider(new TestBool(true))!);
         Assert.True(((TestBool)converter.ConvertFromProvider(true)!).Value);

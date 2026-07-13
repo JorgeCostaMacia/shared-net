@@ -6,18 +6,21 @@ namespace JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Infrastructur
 [Collection(nameof(PostgreSqlCollection))]
 public class DateTimeValueObjectMappingIntegrationTests
 {
-    private readonly PostgreSqlFixture fixture;
+    private readonly PostgreSqlFixture _fixture;
 
-    public DateTimeValueObjectMappingIntegrationTests(PostgreSqlFixture fixture) => this.fixture = fixture;
+    public DateTimeValueObjectMappingIntegrationTests(PostgreSqlFixture fixture)
+    {
+        _fixture = fixture;
+    }
 
     [Fact]
     public async Task PlainAndUtc_LandInTheirColumnTypes_AndPreserveKindOnRoundTrip()
     {
         CancellationToken cancellationToken = TestContext.Current.CancellationToken;
-        DateTime plain = new(2026, 7, 12, 10, 30, 0, DateTimeKind.Unspecified);
-        DateTime utc = new(2026, 7, 12, 10, 30, 0, DateTimeKind.Utc);
+        DateTime plain = new DateTime(2026, 7, 12, 10, 30, 0, DateTimeKind.Unspecified);
+        DateTime utc = new DateTime(2026, 7, 12, 10, 30, 0, DateTimeKind.Utc);
 
-        await using (ProbeDbContext write = fixture.NewContext())
+        await using (ProbeDbContext write = _fixture.NewContext())
         {
             write.Add(new Sample
             {
@@ -29,7 +32,7 @@ public class DateTimeValueObjectMappingIntegrationTests
                 Amount = new SampleAmount(0m),
                 Ratio = new SampleRatio(0d),
                 Weight = new SampleWeight(0f),
-                Blob = new SampleBlob([]),
+                Blob = new SampleBlob(Array.Empty<byte>()),
                 When = new SampleWhen(plain),
                 WhenUtc = new SampleWhenUtc(utc)
             });
@@ -37,11 +40,11 @@ public class DateTimeValueObjectMappingIntegrationTests
         }
 
         // the two time worlds really map to different Postgres column types
-        await using ProbeDbContext read = fixture.NewContext();
+        await using ProbeDbContext read = _fixture.NewContext();
         Assert.Equal("timestamp without time zone", await ColumnTypeAsync(read, "When", cancellationToken));
         Assert.Equal("timestamp with time zone", await ColumnTypeAsync(read, "WhenUtc", cancellationToken));
 
-        Sample loaded = (await read.Samples.FindAsync([new SampleId(2)], cancellationToken))!;
+        Sample loaded = (await read.Samples.FindAsync(new object[] { new SampleId(2) }, cancellationToken))!;
 
         // the plain stamp keeps its wall-clock value with no zone; the UTC stamp comes back tagged UTC
         Assert.Equal(plain, loaded.When.Value);

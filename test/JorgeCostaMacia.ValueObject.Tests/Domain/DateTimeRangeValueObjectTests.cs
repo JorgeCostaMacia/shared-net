@@ -4,46 +4,46 @@ namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
 public class DateTimeRangeValueObjectTests
 {
-    private static readonly DateTime Early = new(2026, 1, 1, 0, 0, 0);
-    private static readonly DateTime Late = new(2026, 12, 31, 0, 0, 0);
+    private static readonly DateTime _early = new DateTime(2026, 1, 1, 0, 0, 0);
+    private static readonly DateTime _late = new DateTime(2026, 12, 31, 0, 0, 0);
 
     [Fact]
     public void Ctor_HydratesRawParts_WithoutValidating()
     {
-        DateTimeRangeValueObject range = new DateTimeRangeValueObject(new DateTimeValueObject(Late), new DateTimeValueObject(Early));
+        DateTimeRangeValueObject range = new DateTimeRangeValueObject(new DateTimeValueObject(_late), new DateTimeValueObject(_early));
 
-        Assert.Equal(Late, range.ValueStart.Value);
-        Assert.Equal(Early, range.ValueEnd.Value);
+        Assert.Equal(_late, range.ValueStart.Value);
+        Assert.Equal(_early, range.ValueEnd.Value);
     }
 
     [Fact]
     public void From_SetsStartAndEnd()
     {
-        DateTimeRangeValueObject range = DateTimeRangeValueObject.From(Early, Late);
+        DateTimeRangeValueObject range = DateTimeRangeValueObject.From(_early, _late);
 
-        Assert.Equal(Early, range.ValueStart.Value);
-        Assert.Equal(Late, range.ValueEnd.Value);
+        Assert.Equal(_early, range.ValueStart.Value);
+        Assert.Equal(_late, range.ValueEnd.Value);
     }
 
     [Fact]
     public void From_OnInvalidRange_DoesNotThrow()
     {
-        DateTimeRangeValueObject range = DateTimeRangeValueObject.From(Late, Early);   // start > end, still materializes
+        DateTimeRangeValueObject range = DateTimeRangeValueObject.From(_late, _early);   // start > end, still materializes
 
-        Assert.Equal(Late, range.ValueStart.Value);
-        Assert.Equal(Early, range.ValueEnd.Value);
+        Assert.Equal(_late, range.ValueStart.Value);
+        Assert.Equal(_early, range.ValueEnd.Value);
     }
 
     [Fact]
     public void Create_SetsStartAndEnd()
     {
-        DateTimeRangeValueObject range = DateTimeRangeValueObject.Create(Early, Late);
+        DateTimeRangeValueObject range = DateTimeRangeValueObject.Create(_early, _late);
 
-        Assert.Equal(Early, range.ValueStart.Value);
-        Assert.Equal(Late, range.ValueEnd.Value);
+        Assert.Equal(_early, range.ValueStart.Value);
+        Assert.Equal(_late, range.ValueEnd.Value);
     }
 
     [Fact]
     public void Create_OnInvalid_ThrowsDateTimeRangeValueObjectValidationException()
-        => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => DateTimeRangeValueObject.Create(Late, Early));
+        => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => DateTimeRangeValueObject.Create(_late, _early));
 }

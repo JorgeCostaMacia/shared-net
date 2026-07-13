@@ -20,7 +20,6 @@ One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
 | --- | --- |
 | [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) | Time-ordered GUIDs (UUIDv7) with automatic v4 fallback. |
 | [JorgeCostaMacia.GuidMySqlConverter](https://www.nuget.org/packages/JorgeCostaMacia.GuidMySqlConverter/) | Converts a `Guid` to/from the MySQL / MariaDB `BINARY(16)` byte layout. |
-| [JorgeCostaMacia.ExpressionConverter](https://www.nuget.org/packages/JorgeCostaMacia.ExpressionConverter/) | Convert simple LINQ predicates to/from `Dictionary<string, string>`. |
 | [JorgeCostaMacia.Entity](https://www.nuget.org/packages/JorgeCostaMacia.Entity/) | `IEntity` marker — identity-based DDD entities. |
 | [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
 | [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |

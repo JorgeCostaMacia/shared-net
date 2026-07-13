@@ -31,7 +31,10 @@ public record IntValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The integer value to encapsulate.</param>
-    public IntValueObject(int value) => Value = value;
+    public IntValueObject(int value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="IntValueObject"/> from the natural primitive through

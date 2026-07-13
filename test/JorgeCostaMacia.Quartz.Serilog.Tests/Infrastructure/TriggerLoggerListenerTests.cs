@@ -10,10 +10,10 @@ namespace JorgeCostaMacia.Quartz.Serilog.Tests.Infrastructure;
 
 public class TriggerLoggerListenerTests
 {
-    private readonly CapturingSink sink = new();
+    private readonly CapturingSink _sink = new CapturingSink();
 
     private TriggerLoggerListener Listener()
-        => new(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(sink).CreateLogger()).CreateLogger<TriggerLoggerListener>());
+        => new TriggerLoggerListener(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(_sink).CreateLogger()).CreateLogger<TriggerLoggerListener>());
 
     [Fact]
     public async Task TriggerFired_LogsInformation_WithFixedMessageAndContext()
@@ -22,7 +22,7 @@ public class TriggerLoggerListenerTests
 
         await Listener().TriggerFired(context.Trigger, context, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerFired", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.Equal("\"trigger-1\"", logEvent.Properties["Trigger"].ToString());
@@ -37,7 +37,7 @@ public class TriggerLoggerListenerTests
         bool vetoed = await Listener().VetoJobExecution(context.Trigger, context, TestContext.Current.CancellationToken);
 
         Assert.False(vetoed);
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("VetoJobExecution", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
     }
@@ -49,7 +49,7 @@ public class TriggerLoggerListenerTests
 
         await Listener().TriggerMisfired(context.Trigger, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerMisfired", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Error, logEvent.Level);
         Assert.Equal("\"trigger-1\"", logEvent.Properties["Trigger"].ToString());
@@ -64,7 +64,7 @@ public class TriggerLoggerListenerTests
 
         await Listener().TriggerComplete(context.Trigger, context, SchedulerInstruction.NoInstruction, TestContext.Current.CancellationToken);
 
-        LogEvent logEvent = Assert.Single(sink.Events);
+        LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerComplete", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.True(logEvent.Properties.ContainsKey("TriggerResult"));

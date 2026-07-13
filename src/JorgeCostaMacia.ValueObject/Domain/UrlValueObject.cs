@@ -33,7 +33,7 @@ public record UrlValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source URL string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="UrlValueObject"/> instance.</returns>
-    public new static UrlValueObject From(string value) => new UrlValueObject(Convert(value));
+    public static new UrlValueObject From(string value) => new UrlValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -42,7 +42,7 @@ public record UrlValueObject : StringValueObject
     /// <param name="value">The source URL string value.</param>
     /// <returns>A new, validated <see cref="UrlValueObject"/> instance.</returns>
     /// <exception cref="UrlValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static UrlValueObject Create(string value)
+    public static new UrlValueObject Create(string value)
     {
         UrlValueObject vo = From(value);
         UrlValueObjectValidator.Create().ValidateAndThrow(vo);

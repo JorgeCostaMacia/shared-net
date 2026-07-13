@@ -7,7 +7,7 @@ namespace JorgeCostaMacia.Quartz.Serilog.Tests.Fakes;
 internal sealed class CapturingSink : ILogEventSink
 {
     /// <summary>The captured events, in emission order.</summary>
-    public List<LogEvent> Events { get; } = [];
+    public List<LogEvent> Events { get; } = new List<LogEvent>();
 
     public void Emit(LogEvent logEvent) => Events.Add(logEvent);
 }

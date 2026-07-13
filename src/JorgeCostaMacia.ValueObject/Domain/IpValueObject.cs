@@ -33,7 +33,7 @@ public record IpValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source IP address string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="IpValueObject"/> instance.</returns>
-    public new static IpValueObject From(string value) => new IpValueObject(Convert(value));
+    public static new IpValueObject From(string value) => new IpValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -42,7 +42,7 @@ public record IpValueObject : StringValueObject
     /// <param name="value">The source IP address string value.</param>
     /// <returns>A new, validated <see cref="IpValueObject"/> instance.</returns>
     /// <exception cref="IpValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static IpValueObject Create(string value)
+    public static new IpValueObject Create(string value)
     {
         IpValueObject vo = From(value);
         IpValueObjectValidator.Create().ValidateAndThrow(vo);

@@ -30,7 +30,10 @@ public record ByteValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The byte array to encapsulate.</param>
-    public ByteValueObject(byte[] value) => Value = value;
+    public ByteValueObject(byte[] value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="ByteValueObject"/> from the natural primitive through

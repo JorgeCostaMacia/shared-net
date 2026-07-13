@@ -8,7 +8,7 @@ public class LongValueObjectConverterTests
     [Fact]
     public void RoundTrips()
     {
-        LongValueObjectConverter<TestLong> converter = new();
+        LongValueObjectConverter<TestLong> converter = new LongValueObjectConverter<TestLong>();
 
         Assert.Equal(9L, (long)converter.ConvertToProvider(new TestLong(9L))!);
         Assert.Equal(9L, ((TestLong)converter.ConvertFromProvider(9L)!).Value);

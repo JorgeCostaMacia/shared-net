@@ -8,7 +8,7 @@ public class ValueObjectConstructorTests
     [Fact]
     public void FromProvider_CallsTheConstructor_NotCreate()
     {
-        IntValueObjectConverter<TestCreateThrows> converter = new();
+        IntValueObjectConverter<TestCreateThrows> converter = new IntValueObjectConverter<TestCreateThrows>();
 
         // Create throws; if the converter used it this would blow up. It uses the constructor instead.
         Assert.Equal(7, ((TestCreateThrows)converter.ConvertFromProvider(7)!).Value);
@@ -17,7 +17,7 @@ public class ValueObjectConstructorTests
     [Fact]
     public void FromProvider_UsesNonPublicConstructor()
     {
-        StringValueObjectConverter<TestPrivateCtor> converter = new();
+        StringValueObjectConverter<TestPrivateCtor> converter = new StringValueObjectConverter<TestPrivateCtor>();
 
         Assert.Equal("x", ((TestPrivateCtor)converter.ConvertFromProvider("x")!).Value);
     }
@@ -41,7 +41,7 @@ public class ValueObjectConstructorTests
     {
         private TestPrivateCtor(string value) : base(value) { }
 
-        public static new TestPrivateCtor Create(string value) => new(value);
+        public static new TestPrivateCtor Create(string value) => new TestPrivateCtor(value);
     }
 
     // Derives from a family base but has NO single-int constructor, so rehydration cannot find one.

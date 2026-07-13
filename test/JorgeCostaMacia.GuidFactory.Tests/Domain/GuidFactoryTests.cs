@@ -5,16 +5,13 @@ namespace JorgeCostaMacia.GuidFactory.Tests.Domain;
 public class GuidFactoryTests
 {
     [Fact]
-    public void Create_ReturnsNonEmptyGuid()
-    {
-        Assert.NotEqual(Guid.Empty, GuidFactory.Domain.GuidFactory.Create());
-    }
+    public void Create_ReturnsNonEmptyGuid() => Assert.NotEqual(Guid.Empty, GuidFactory.Domain.GuidFactory.Create());
 
     [Fact]
     public void Create_ReturnsUniqueValues()
     {
         int count = 1000;
-        HashSet<Guid> ids = new();
+        HashSet<Guid> ids = new HashSet<Guid>();
 
         for (int i = 0; i < count; i++)
         {
@@ -35,10 +32,7 @@ public class GuidFactoryTests
 
 #if NET9_0_OR_GREATER
     [Fact]
-    public void Create_OnNet9OrGreater_ReturnsVersion7()
-    {
-        Assert.Equal(7, GuidFactory.Domain.GuidFactory.Create().Version);
-    }
+    public void Create_OnNet9OrGreater_ReturnsVersion7() => Assert.Equal(7, GuidFactory.Domain.GuidFactory.Create().Version);
 #else
     [Fact]
     public void Create_OnNet8_ReturnsVersion4()

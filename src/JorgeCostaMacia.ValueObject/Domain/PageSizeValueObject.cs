@@ -32,7 +32,7 @@ public record PageSizeValueObject : IntValueObject
     /// </summary>
     /// <param name="value">The source page size value.</param>
     /// <returns>A new, unvalidated <see cref="PageSizeValueObject"/> instance.</returns>
-    public new static PageSizeValueObject From(int value) => new PageSizeValueObject(Convert(value));
+    public static new PageSizeValueObject From(int value) => new PageSizeValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(int)"/> and validates it —
@@ -41,7 +41,7 @@ public record PageSizeValueObject : IntValueObject
     /// <param name="value">The source page size value.</param>
     /// <returns>A new, validated <see cref="PageSizeValueObject"/> instance.</returns>
     /// <exception cref="PageSizeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static PageSizeValueObject Create(int value)
+    public static new PageSizeValueObject Create(int value)
     {
         PageSizeValueObject vo = From(value);
         PageSizeValueObjectValidator.Create().ValidateAndThrow(vo);

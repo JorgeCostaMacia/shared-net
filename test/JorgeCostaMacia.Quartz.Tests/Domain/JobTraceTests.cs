@@ -18,7 +18,7 @@ public class JobTraceTests
     [Fact]
     public void GetOrCreate_NoIdentifiers_MintsAndStoresThePair()
     {
-        JobExecutionContextFake context = new();
+        JobExecutionContextFake context = new JobExecutionContextFake();
 
         JobTrace trace = JobTrace.GetOrCreate(context);
 
@@ -31,7 +31,7 @@ public class JobTraceTests
     [Fact]
     public void GetOrCreate_ExistingIdentifiers_ReturnsThem()
     {
-        JobExecutionContextFake context = new();
+        JobExecutionContextFake context = new JobExecutionContextFake();
         Guid aggregateId = Guid.NewGuid();
         Guid correlationId = Guid.NewGuid();
         context.Put("AggregateId", aggregateId);
@@ -46,7 +46,7 @@ public class JobTraceTests
     [Fact]
     public void GetOrCreate_ExistingAggregateOnly_CorrelationDefaultsToIt()
     {
-        JobExecutionContextFake context = new();
+        JobExecutionContextFake context = new JobExecutionContextFake();
         Guid aggregateId = Guid.NewGuid();
         context.Put("AggregateId", aggregateId);
 
@@ -60,7 +60,7 @@ public class JobTraceTests
     public void GetOrCreate_CalledBySeveralObservers_ConvergesOnTheFirstPair()
     {
         // the idempotence every listener relies on: no registration-order contract.
-        JobExecutionContextFake context = new();
+        JobExecutionContextFake context = new JobExecutionContextFake();
 
         JobTrace first = JobTrace.GetOrCreate(context);
         JobTrace second = JobTrace.GetOrCreate(context);

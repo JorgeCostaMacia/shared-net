@@ -30,7 +30,10 @@ public record BoolValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The boolean value to encapsulate.</param>
-    public BoolValueObject(bool value) => Value = value;
+    public BoolValueObject(bool value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="BoolValueObject"/> from the natural primitive through

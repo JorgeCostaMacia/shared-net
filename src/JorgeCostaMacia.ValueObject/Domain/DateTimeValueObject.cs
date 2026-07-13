@@ -35,7 +35,10 @@ public record DateTimeValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate.</param>
-    public DateTimeValueObject(DateTime value) => Value = value;
+    public DateTimeValueObject(DateTime value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="DateTimeValueObject"/> from the natural primitive through

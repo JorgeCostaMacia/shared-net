@@ -16,7 +16,7 @@ public class ValidationExceptionTests
     [Fact]
     public void Defaults_AreApplied_WhenMetadataOmitted()
     {
-        TestValidationException exception = new([]);
+        TestValidationException exception = new TestValidationException(Array.Empty<ValidationFailure>());
 
         Assert.Equal(ValidationExceptionDefaults.AGGREGATE_TYPE, exception.AggregateType);
         Assert.Equal(ValidationExceptionDefaults.AGGREGATE_CODE, exception.AggregateCode);
@@ -26,13 +26,13 @@ public class ValidationExceptionTests
     [Fact]
     public void Validations_AreStored_AndFormattedIntoMessage()
     {
-        ValidationFailure[] failures =
-        [
-            new("Name", "is required"),
-            new("Age", "must be positive"),
-        ];
+        ValidationFailure[] failures = new ValidationFailure[]
+        {
+            new ValidationFailure("Name", "is required"),
+            new ValidationFailure("Age", "must be positive"),
+        };
 
-        TestValidationException exception = new(failures);
+        TestValidationException exception = new TestValidationException(failures);
 
         Assert.Equal(2, exception.Validations.Count);
         Assert.Equal("Name", exception.Validations[0].PropertyName);
@@ -42,7 +42,7 @@ public class ValidationExceptionTests
     [Fact]
     public void EmptyValidations_ProduceNoArrow()
     {
-        TestValidationException exception = new([]);
+        TestValidationException exception = new TestValidationException(Array.Empty<ValidationFailure>());
 
         Assert.Equal($"{exception.AggregateId}/ValidationException", exception.Message);
     }
@@ -50,10 +50,10 @@ public class ValidationExceptionTests
     [Fact]
     public void Validations_AreIsolatedFromTheSourceSequence()
     {
-        List<ValidationFailure> source = [new("Name", "is required")];
-        TestValidationException exception = new(source);
+        List<ValidationFailure> source = new List<ValidationFailure> { new ValidationFailure("Name", "is required") };
+        TestValidationException exception = new TestValidationException(source);
 
-        source.Add(new("Age", "must be positive"));
+        source.Add(new ValidationFailure("Age", "must be positive"));
 
         Assert.Single(exception.Validations);
     }
@@ -62,9 +62,9 @@ public class ValidationExceptionTests
     public void ExplicitCtor_StoresValidationsAndMetadata()
     {
         Guid id = Guid.NewGuid();
-        ImmutableList<ValidationFailure> validations = [new("Name", "is required")];
+        ImmutableList<ValidationFailure> validations = ImmutableList.Create(new ValidationFailure("Name", "is required"));
 
-        TestExplicitValidationException exception = new(id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", null, validations);
+        TestExplicitValidationException exception = new TestExplicitValidationException(id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", null, validations);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal(validations, exception.Validations);
@@ -73,9 +73,9 @@ public class ValidationExceptionTests
     [Fact]
     public void InnerException_IsPropagated()
     {
-        InvalidOperationException inner = new("cause");
+        InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitValidationException exception = new(Guid.NewGuid(), "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", inner, []);
+        TestExplicitValidationException exception = new TestExplicitValidationException(Guid.NewGuid(), "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", inner, ImmutableList<ValidationFailure>.Empty);
 
         Assert.Same(inner, exception.InnerException);
     }
@@ -83,12 +83,12 @@ public class ValidationExceptionTests
     [Fact]
     public void Validations_WithNullPropertyName_FormatWithLeadingColon()
     {
-        TestValidationException exception = new([new ValidationFailure(null, "is required")]);
+        TestValidationException exception = new TestValidationException(new ValidationFailure[] { new ValidationFailure(null, "is required") });
 
         Assert.EndsWith("=> : is required", exception.Message);
     }
 
     [Fact]
     public void Instance_IsAssignableToDomainException()
-        => Assert.IsAssignableFrom<DomainException>(new TestValidationException([]));
+        => Assert.IsAssignableFrom<DomainException>(new TestValidationException(Array.Empty<ValidationFailure>()));
 }

@@ -63,7 +63,7 @@ public abstract class NotFoundException : DomainException
     /// Constructor with optional metadata, automatically generating IDs and using 'Not Found' defaults.
     /// The default <see cref="DomainException.AggregateHttpCode"/> is set to 404 Not Found.
     /// </summary>
-    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="JorgeCostaMacia.GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
+    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="GuidFactory.Domain.GuidFactory.Create()"/> if null.</param>
     /// <param name="aggregateType">Optional full type name of the exception. Defaults to <see cref="NotFoundExceptionDefaults.AGGREGATE_TYPE"/> if null.</param>
     /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the fixed GUID from <see cref="NotFoundExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
     /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to 404 (Not Found) from <see cref="NotFoundExceptionDefaults.AGGREGATE_HTTP_CODE"/> if null.</param>

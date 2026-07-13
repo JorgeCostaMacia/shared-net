@@ -31,7 +31,10 @@ public record FloatValueObject : IValueObject
     /// Reserved for infrastructure (ORMs, deserializers, database mapping — the EF converters rely on it).
     /// </summary>
     /// <param name="value">The float value to encapsulate.</param>
-    public FloatValueObject(float value) => Value = value;
+    public FloatValueObject(float value)
+    {
+        Value = value;
+    }
 
     /// <summary>
     /// Converts: materializes a new <see cref="FloatValueObject"/> from the natural primitive through

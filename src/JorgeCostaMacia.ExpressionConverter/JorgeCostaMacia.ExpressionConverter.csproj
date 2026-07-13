@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<Description>Convert LINQ predicate expressions to and from string dictionaries</Description>
-		<PackageTags>expression,linq,predicate,converter,dictionary</PackageTags>
-	</PropertyGroup>
-
-</Project>

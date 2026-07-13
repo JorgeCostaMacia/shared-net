@@ -33,7 +33,7 @@ public record GroupByValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source group-by string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="GroupByValueObject"/> instance.</returns>
-    public new static GroupByValueObject From(string value) => new GroupByValueObject(Convert(value));
+    public static new GroupByValueObject From(string value) => new GroupByValueObject(Convert(value));
 
     /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
@@ -42,7 +42,7 @@ public record GroupByValueObject : StringValueObject
     /// <param name="value">The source group-by string value.</param>
     /// <returns>A new, validated <see cref="GroupByValueObject"/> instance.</returns>
     /// <exception cref="GroupByValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
-    public new static GroupByValueObject Create(string value)
+    public static new GroupByValueObject Create(string value)
     {
         GroupByValueObject vo = From(value);
         GroupByValueObjectValidator.Create().ValidateAndThrow(vo);
