@@ -64,7 +64,7 @@ public class StringValueObjectValidationException : ValidationException
     /// <param name="message">A user-friendly description of the error, or null to build one from the validations.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">The validation failures that triggered this exception.</param>
-    protected StringValueObjectValidationException(
+    public StringValueObjectValidationException(
         Guid? aggregateId,
         string? aggregateType,
         Guid? aggregateCode,
