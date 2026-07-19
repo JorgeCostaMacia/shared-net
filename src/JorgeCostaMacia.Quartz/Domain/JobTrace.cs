@@ -21,8 +21,8 @@ namespace JorgeCostaMacia.Quartz.Domain;
 /// </remarks>
 public sealed record JobTrace
 {
-    private const string AGGREGATE_ID_KEY = "AggregateId";
-    private const string CORRELATION_ID_KEY = "CorrelationId";
+    private const string AggregateIdKey = "AggregateId";
+    private const string CorrelationIdKey = "CorrelationId";
 
     /// <summary>
     /// Unique identifier of this execution's subject, minted by the GuidFactory
@@ -67,11 +67,11 @@ public sealed record JobTrace
     /// <returns>The execution's <see cref="JobTrace"/>.</returns>
     public static JobTrace GetOrCreate(IJobExecutionContext context)
     {
-        Guid aggregateId = context.Get(AGGREGATE_ID_KEY) is Guid id ? id : GuidFactory.Domain.GuidFactory.Create();
-        Guid correlationId = context.Get(CORRELATION_ID_KEY) is Guid correlation ? correlation : aggregateId;
+        Guid aggregateId = context.Get(AggregateIdKey) is Guid id ? id : GuidFactory.Domain.GuidFactory.Create();
+        Guid correlationId = context.Get(CorrelationIdKey) is Guid correlation ? correlation : aggregateId;
 
-        context.Put(AGGREGATE_ID_KEY, aggregateId);
-        context.Put(CORRELATION_ID_KEY, correlationId);
+        context.Put(AggregateIdKey, aggregateId);
+        context.Put(CorrelationIdKey, correlationId);
 
         return new JobTrace(aggregateId, correlationId);
     }
