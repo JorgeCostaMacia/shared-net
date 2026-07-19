@@ -1,11 +1,9 @@
-using global::Serilog;
-using global::Serilog.Events;
-using global::Serilog.Sinks.InMemory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.InMemory;
 
-// 'Serilog' (the third-party namespace) is referenced with global:: so it isn't shadowed by the
-// enclosing 'JorgeCostaMacia.Serilog' package namespace in test code.
 namespace JorgeCostaMacia.Serilog.Tests;
 
 public class SerilogContextTests

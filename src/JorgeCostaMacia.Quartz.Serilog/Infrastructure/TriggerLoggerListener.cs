@@ -1,8 +1,8 @@
-using global::Serilog.Context;
-using global::Serilog.Core.Enrichers;
 using JorgeCostaMacia.Quartz.Domain;
 using Microsoft.Extensions.Logging;
 using Quartz;
+using Serilog.Context;
+using Serilog.Core.Enrichers;
 
 namespace JorgeCostaMacia.Quartz.Serilog.Infrastructure;
 
