@@ -56,7 +56,7 @@ public class ErrorExceptionTests
     {
         TestErrorException exception = new TestErrorException(new string[] { "first", "second" });
 
-        Assert.Equal(new[] { "first", "second" }, exception.Errors.ToArray());
+        Assert.Equal(new string[] { "first", "second" }, exception.Errors.ToArray());
         Assert.Equal($"{exception.AggregateId}/ErrorException => first; second", exception.Message);
     }
 
@@ -66,7 +66,7 @@ public class ErrorExceptionTests
         TestErrorException exception = new TestErrorException(new string[] { "a", "b" }, "custom");
 
         Assert.EndsWith("=> custom", exception.Message);
-        Assert.Equal(new[] { "a", "b" }, exception.Errors.ToArray());
+        Assert.Equal(new string[] { "a", "b" }, exception.Errors.ToArray());
     }
 
     [Fact]

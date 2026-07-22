@@ -21,6 +21,14 @@ jobs:
       - uses: actions/checkout@v7
         with:
           clean: true
+      - name: Convention guard — explicit types
+        # The .editorconfig can't flag target-typed new()/implicit new[] (the analyzer never reports the
+        # implicit form), so they drift silently. This grep fails the build if any reappear — spell the type out.
+        run: |
+          if grep -rnE '\bnew\(|new\[\]' --include='*.cs' --exclude-dir=obj --exclude-dir=bin src test | grep -vE ': new\(\)'; then
+            echo "::error::Target-typed 'new(' or implicit 'new[]' found — the convention requires explicit types (write 'new Type(...)'). See AGENTS.md."
+            exit 1
+          fi
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
