@@ -2,7 +2,7 @@
 
 	<!-- Repo identity + the single (lockstep) release version — shared by every project -->
 	<PropertyGroup>
-		<VersionPrefix>6.0.2</VersionPrefix>
+		<VersionPrefix>6.0.3</VersionPrefix>
 		<Authors>JorgeCostaMacia</Authors>
 		<Company>$(Authors)</Company>
 		<Copyright>2023 Jorge Costa Maciá</Copyright>

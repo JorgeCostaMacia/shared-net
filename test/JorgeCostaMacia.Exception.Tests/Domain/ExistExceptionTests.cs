@@ -9,6 +9,21 @@ file sealed class TestExplicitExistException(
     Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
     : ExistException(id, type, code, httpCode, occurredAt, message, innerException);
 
+// Test Data Builder: defaults the metadata noise so each test states only the field it varies.
+file sealed class ExistExceptionBuilder
+{
+    private System.Exception? _innerException = null;
+
+    public ExistExceptionBuilder WithInnerException(System.Exception innerException)
+    {
+        _innerException = innerException;
+        return this;
+    }
+
+    public TestExplicitExistException Build()
+        => new TestExplicitExistException(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", _innerException);
+}
+
 public class ExistExceptionTests
 {
     [Fact]
@@ -59,7 +74,7 @@ public class ExistExceptionTests
     {
         InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitExistException exception = new TestExplicitExistException(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", inner);
+        TestExplicitExistException exception = new ExistExceptionBuilder().WithInnerException(inner).Build();
 
         Assert.Same(inner, exception.InnerException);
     }

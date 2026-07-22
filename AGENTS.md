@@ -31,7 +31,7 @@ Third-party package versions are centralized in **`Directory.Packages.props`** (
 Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 - Feature/bugfix → `feature/`|`bugfix/<name>-<ts>` from develop → finish `--no-ff` into develop.
-- Release → `release/<version>` from develop → bump the **single** `VersionPrefix` in `src/Directory.Build.props` (all packages version in lockstep) → Release Finish (merge develop+main, annotated tag `v<version>`, atomic push). One bump versions everything; the `ProjectReference` cross-deps follow automatically.
+- Release → `release/<version>` from develop → bump the **single** `VersionPrefix` in the **root** `Directory.Build.props` (the one holding the solution identity — all packages version in lockstep) → Release Finish (merge develop+main, annotated tag `v<version>`, atomic push). One bump versions everything; the `ProjectReference` cross-deps follow automatically.
 - Use git's **default merge message** (`--no-ff --no-edit`, never `-m`).
 - Branch prefixes only: `feature` / `bugfix` / `release` / `hotfix`.
 
