@@ -9,6 +9,21 @@ file sealed class TestExplicitNotFoundException(
     Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
     : NotFoundException(id, type, code, httpCode, occurredAt, message, innerException);
 
+// Test Data Builder: defaults the metadata noise so each test states only the field it varies.
+file sealed class NotFoundExceptionBuilder
+{
+    private System.Exception? _innerException = null;
+
+    public NotFoundExceptionBuilder WithInnerException(System.Exception innerException)
+    {
+        _innerException = innerException;
+        return this;
+    }
+
+    public TestExplicitNotFoundException Build()
+        => new TestExplicitNotFoundException(Guid.NewGuid(), "T", Guid.NewGuid(), 404, DateTime.UtcNow, "m", _innerException);
+}
+
 public class NotFoundExceptionTests
 {
     [Fact]
@@ -59,7 +74,7 @@ public class NotFoundExceptionTests
     {
         InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitNotFoundException exception = new TestExplicitNotFoundException(Guid.NewGuid(), "T", Guid.NewGuid(), 404, DateTime.UtcNow, "m", inner);
+        TestExplicitNotFoundException exception = new NotFoundExceptionBuilder().WithInnerException(inner).Build();
 
         Assert.Same(inner, exception.InnerException);
     }

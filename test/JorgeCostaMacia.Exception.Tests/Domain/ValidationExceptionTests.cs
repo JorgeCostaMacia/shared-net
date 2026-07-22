@@ -11,6 +11,35 @@ file sealed class TestExplicitValidationException(
     Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException, ImmutableList<ValidationFailure> validations)
     : ValidationException(id, type, code, httpCode, occurredAt, message, innerException, validations);
 
+// Test Data Builder: defaults the metadata noise so each test states only the field it varies.
+file sealed class ValidationExceptionBuilder
+{
+    private Guid _id = Guid.NewGuid();
+    private ImmutableList<ValidationFailure> _validations = ImmutableList<ValidationFailure>.Empty;
+    private System.Exception? _innerException = null;
+
+    public ValidationExceptionBuilder WithId(Guid id)
+    {
+        _id = id;
+        return this;
+    }
+
+    public ValidationExceptionBuilder WithValidations(ImmutableList<ValidationFailure> validations)
+    {
+        _validations = validations;
+        return this;
+    }
+
+    public ValidationExceptionBuilder WithInnerException(System.Exception innerException)
+    {
+        _innerException = innerException;
+        return this;
+    }
+
+    public TestExplicitValidationException Build()
+        => new TestExplicitValidationException(_id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", _innerException, _validations);
+}
+
 public class ValidationExceptionTests
 {
     [Fact]
@@ -64,7 +93,7 @@ public class ValidationExceptionTests
         Guid id = Guid.NewGuid();
         ImmutableList<ValidationFailure> validations = ImmutableList.Create(new ValidationFailure("Name", "is required"));
 
-        TestExplicitValidationException exception = new TestExplicitValidationException(id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", null, validations);
+        TestExplicitValidationException exception = new ValidationExceptionBuilder().WithId(id).WithValidations(validations).Build();
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal(validations, exception.Validations);
@@ -75,7 +104,7 @@ public class ValidationExceptionTests
     {
         InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitValidationException exception = new TestExplicitValidationException(Guid.NewGuid(), "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", inner, ImmutableList<ValidationFailure>.Empty);
+        TestExplicitValidationException exception = new ValidationExceptionBuilder().WithInnerException(inner).Build();
 
         Assert.Same(inner, exception.InnerException);
     }

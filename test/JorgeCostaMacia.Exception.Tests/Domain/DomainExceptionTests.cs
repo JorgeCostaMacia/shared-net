@@ -9,6 +9,28 @@ file sealed class TestExplicitDomainException(
     Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
     : DomainException(id, type, code, httpCode, occurredAt, message, innerException);
 
+// Test Data Builder: defaults the metadata noise so each test states only the field it varies.
+file sealed class DomainExceptionBuilder
+{
+    private string? _message = "m";
+    private System.Exception? _innerException = null;
+
+    public DomainExceptionBuilder WithMessage(string? message)
+    {
+        _message = message;
+        return this;
+    }
+
+    public DomainExceptionBuilder WithInnerException(System.Exception innerException)
+    {
+        _innerException = innerException;
+        return this;
+    }
+
+    public TestExplicitDomainException Build()
+        => new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, _message, _innerException);
+}
+
 public class DomainExceptionTests
 {
     [Fact]
@@ -81,7 +103,7 @@ public class DomainExceptionTests
     {
         InvalidOperationException inner = new InvalidOperationException("cause");
 
-        TestExplicitDomainException exception = new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "m", inner);
+        TestExplicitDomainException exception = new DomainExceptionBuilder().WithInnerException(inner).Build();
 
         Assert.Same(inner, exception.InnerException);
     }
@@ -110,7 +132,7 @@ public class DomainExceptionTests
     [Fact]
     public void ExplicitCtor_Message_IsRawAndUnprefixed()
     {
-        TestExplicitDomainException exception = new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, "raw message", null);
+        TestExplicitDomainException exception = new DomainExceptionBuilder().WithMessage("raw message").Build();
 
         Assert.Equal("raw message", exception.Message);
     }
