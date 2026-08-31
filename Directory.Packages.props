@@ -29,8 +29,8 @@
 		<PackageVersion Include="Serilog.Sinks.InMemory" Version="2.0.0" />
 		<PackageVersion Include="Testcontainers" Version="4.14.0" />
 		<PackageVersion Include="Testcontainers.PostgreSql" Version="4.14.0" />
-		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
-		<PackageVersion Include="xunit.v3" Version="3.2.2" />
+		<PackageVersion Include="xunit.runner.visualstudio" Version="4.0.0" />
+		<PackageVersion Include="xunit.v3" Version="4.0.0" />
 	</ItemGroup>
 
 	<!-- EF Core 10 is net10-only; net8/net9 must stay on EF Core 9. Give the net10 build the latest,
