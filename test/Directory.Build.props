@@ -7,7 +7,6 @@
 		<IsPackable>false</IsPackable>
 		<IsPublishable>false</IsPublishable>
 		<OutputType>Exe</OutputType>
-		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
 	</PropertyGroup>
 
 	<ItemGroup>
