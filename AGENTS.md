@@ -10,7 +10,7 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 ## Targets & stack
 
 - TFMs: **`net8.0;net9.0;net10.0`** (net6/7 dropped — EOL). No per-TFM conditionals except the `#if NET9_0_OR_GREATER` GUID branch in Exception/ValueObject.
-- Tests: **xUnit.v3 on Microsoft.Testing.Platform (MTP)** — test projects are `OutputType=Exe` + `TestingPlatformDotnetTestSupport=true`. Not MSTest, not VSTest.
+- Tests: **xUnit v4 (the `xunit.v3` package, 4.x) on Microsoft.Testing.Platform v2 (MTP)** — test projects are `OutputType=Exe`, and `dotnet test` runs MTP because the root **`global.json`** opts in (`"test": { "runner": "Microsoft.Testing.Platform" }`). MTP v2 dropped the VSTest bridge, so `TestingPlatformDotnetTestSupport` is gone and running the tests needs the **.NET 10 SDK**. Not MSTest, not VSTest.
 - Source is **UTF-8 without BOM** (`.editorconfig` `charset = utf-8`). camelCase locals, PascalCase types, I-prefixed interfaces. Copyright year stays **2023** (deliberate — don't bump).
 - **Explicit types everywhere — spell the type out.** Never `var`, never target-typed `new()`, never collection expressions `[]`: write `new Foo(...)`, `new byte[] { ... }`, `new List<T> { ... }`, `Array.Empty<T>()`. The `.editorconfig` sets all three to explicit, but only `var` is analyzer-enforced — `new()`/`[]` can't be flagged (the analyzer never reports the implicit form), so they are **convention, kept explicit by hand and by the IDE generating explicit**. Do not introduce `new()`/`[]` when editing.
 
@@ -67,7 +67,7 @@ Not relevant to this foundation library (skip): `dotnet-ai`, `dotnet-maui`, `dot
 ```
 dotnet format shared-net.slnx                  # apply .editorconfig (using order, whitespace) — run before committing
 dotnet build  shared-net.slnx -c Release
-dotnet test   shared-net.slnx -c Release       # MTP prints a per-assembly summary; --logger is VSTest-only (MTP0001)
+dotnet test   shared-net.slnx -c Release       # MTP v2 via global.json (needs the .NET 10 SDK); --logger is VSTest-only (MTP0001)
 dotnet pack   shared-net.slnx -c Release        # packs all packable; tests are IsPackable=false
 ```
 
