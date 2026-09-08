@@ -63,10 +63,13 @@ public record FloatRangeValueObject : IValueObject
     public static FloatRangeValueObject Create(float valueStart, float valueEnd)
     {
         FloatRangeValueObject vo = From(valueStart, valueEnd);
-        FloatRangeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => FloatRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Returns the string representation of the numeric range in the format "Start Value - End Value".

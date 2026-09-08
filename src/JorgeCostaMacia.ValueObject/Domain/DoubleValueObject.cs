@@ -54,10 +54,13 @@ public record DoubleValueObject : IValueObject
     public static DoubleValueObject Create(double value)
     {
         DoubleValueObject vo = From(value);
-        DoubleValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => DoubleValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>Converts a double value (identity conversion).</summary>
     protected static double Convert(double value) => value;

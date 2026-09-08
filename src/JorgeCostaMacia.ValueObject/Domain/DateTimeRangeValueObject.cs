@@ -63,10 +63,13 @@ public record DateTimeRangeValueObject : IValueObject
     public static DateTimeRangeValueObject Create(DateTime valueStart, DateTime valueEnd)
     {
         DateTimeRangeValueObject vo = From(valueStart, valueEnd);
-        DateTimeRangeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => DateTimeRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Returns the string representation of the date range in the format "Start Date - End Date".

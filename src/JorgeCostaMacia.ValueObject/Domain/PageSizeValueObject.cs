@@ -44,8 +44,11 @@ public record PageSizeValueObject : IntValueObject
     public static new PageSizeValueObject Create(int value)
     {
         PageSizeValueObject vo = From(value);
-        PageSizeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => PageSizeValueObjectValidator.Create().ValidateAndThrow(this);
 }

@@ -63,10 +63,13 @@ public record PageNumberRangeValueObject : IValueObject
     public static PageNumberRangeValueObject Create(int valueStart, int valueEnd)
     {
         PageNumberRangeValueObject vo = From(valueStart, valueEnd);
-        PageNumberRangeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => PageNumberRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Returns the string representation of the page number range in the format "Start Page - End Page".

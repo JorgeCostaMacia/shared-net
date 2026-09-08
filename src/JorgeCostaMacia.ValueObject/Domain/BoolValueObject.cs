@@ -53,10 +53,13 @@ public record BoolValueObject : IValueObject
     public static BoolValueObject Create(bool value)
     {
         BoolValueObject vo = From(value);
-        BoolValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => BoolValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts a boolean value (identity conversion).

@@ -47,10 +47,13 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     public static new DateTimeUtcValueObject Create(DateTime value)
     {
         DateTimeUtcValueObject vo = From(value);
-        DateTimeUtcValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => DateTimeUtcValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Tags the value as <see cref="DateTimeKind.Utc"/> without shifting it (assumes it already represents UTC).

@@ -59,10 +59,13 @@ public record DateTimeValueObject : IValueObject
     public static DateTimeValueObject Create(DateTime value)
     {
         DateTimeValueObject vo = From(value);
-        DateTimeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => DateTimeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Returns the <see cref="DateTime"/> value as-is, preserving its <see cref="DateTimeKind"/>.
