@@ -45,8 +45,11 @@ public record IpValueObject : StringValueObject
     public static new IpValueObject Create(string value)
     {
         IpValueObject vo = From(value);
-        IpValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => IpValueObjectValidator.Create().ValidateAndThrow(this);
 }

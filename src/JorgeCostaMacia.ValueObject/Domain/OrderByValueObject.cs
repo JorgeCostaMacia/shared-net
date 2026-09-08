@@ -45,10 +45,13 @@ public record OrderByValueObject : StringValueObject
     public static new OrderByValueObject Create(string value)
     {
         OrderByValueObject vo = From(value);
-        OrderByValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => OrderByValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>

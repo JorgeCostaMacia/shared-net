@@ -63,10 +63,13 @@ public record IntRangeValueObject : IValueObject
     public static IntRangeValueObject Create(int valueStart, int valueEnd)
     {
         IntRangeValueObject vo = From(valueStart, valueEnd);
-        IntRangeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => IntRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Returns the string representation of the integer range in the format "Start Value - End Value".

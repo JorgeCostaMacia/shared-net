@@ -45,8 +45,11 @@ public record EmailValueObject : StringValueObject
     public static new EmailValueObject Create(string value)
     {
         EmailValueObject vo = From(value);
-        EmailValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => EmailValueObjectValidator.Create().ValidateAndThrow(this);
 }

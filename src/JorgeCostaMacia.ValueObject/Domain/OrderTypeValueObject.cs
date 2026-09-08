@@ -46,10 +46,13 @@ public record OrderTypeValueObject : StringValueObject
     public static new OrderTypeValueObject Create(string value)
     {
         OrderTypeValueObject vo = From(value);
-        OrderTypeValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => OrderTypeValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>

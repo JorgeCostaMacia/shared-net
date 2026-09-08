@@ -54,10 +54,13 @@ public record IntValueObject : IValueObject
     public static IntValueObject Create(int value)
     {
         IntValueObject vo = From(value);
-        IntValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => IntValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts an integer value (identity conversion).

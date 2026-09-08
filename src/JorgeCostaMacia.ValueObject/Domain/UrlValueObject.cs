@@ -45,8 +45,11 @@ public record UrlValueObject : StringValueObject
     public static new UrlValueObject Create(string value)
     {
         UrlValueObject vo = From(value);
-        UrlValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => UrlValueObjectValidator.Create().ValidateAndThrow(this);
 }

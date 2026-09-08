@@ -54,10 +54,13 @@ public record LongValueObject : IValueObject
     public static LongValueObject Create(long value)
     {
         LongValueObject vo = From(value);
-        LongValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => LongValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>Converts a long value (identity conversion).</summary>
     protected static long Convert(long value) => value;

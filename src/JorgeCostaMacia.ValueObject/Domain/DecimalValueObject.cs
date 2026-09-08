@@ -54,10 +54,13 @@ public record DecimalValueObject : IValueObject
     public static DecimalValueObject Create(decimal value)
     {
         DecimalValueObject vo = From(value);
-        DecimalValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => DecimalValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts a decimal value (identity conversion).
