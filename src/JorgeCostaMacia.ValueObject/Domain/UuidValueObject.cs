@@ -53,10 +53,13 @@ public record UuidValueObject : IValueObject
     public static UuidValueObject Create(Guid value)
     {
         UuidValueObject vo = From(value);
-        UuidValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => UuidValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts a GUID value (identity conversion).

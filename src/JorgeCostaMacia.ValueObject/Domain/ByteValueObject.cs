@@ -53,10 +53,13 @@ public record ByteValueObject : IValueObject
     public static ByteValueObject Create(byte[] value)
     {
         ByteValueObject vo = From(value);
-        ByteValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => ByteValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts an existing byte array (identity conversion).

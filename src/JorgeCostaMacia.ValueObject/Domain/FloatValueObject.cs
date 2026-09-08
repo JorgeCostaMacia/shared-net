@@ -54,10 +54,13 @@ public record FloatValueObject : IValueObject
     public static FloatValueObject Create(float value)
     {
         FloatValueObject vo = From(value);
-        FloatValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => FloatValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts a float value (identity conversion).

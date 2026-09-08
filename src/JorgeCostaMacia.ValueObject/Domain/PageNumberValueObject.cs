@@ -44,8 +44,11 @@ public record PageNumberValueObject : IntValueObject
     public static new PageNumberValueObject Create(int value)
     {
         PageNumberValueObject vo = From(value);
-        PageNumberValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => PageNumberValueObjectValidator.Create().ValidateAndThrow(this);
 }

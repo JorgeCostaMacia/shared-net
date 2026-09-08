@@ -45,10 +45,13 @@ public record GroupByValueObject : StringValueObject
     public static new GroupByValueObject Create(string value)
     {
         GroupByValueObject vo = From(value);
-        GroupByValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => GroupByValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>

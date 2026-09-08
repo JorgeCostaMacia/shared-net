@@ -54,10 +54,13 @@ public record StringValueObject : IValueObject
     public static StringValueObject Create(string value)
     {
         StringValueObject vo = From(value);
-        StringValueObjectValidator.Create().ValidateAndThrow(vo);
+        vo.Validate();
 
         return vo;
     }
+
+    /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
+    private void Validate() => StringValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
     /// Converts and cleanses a string value. By default, this method trims whitespace.
