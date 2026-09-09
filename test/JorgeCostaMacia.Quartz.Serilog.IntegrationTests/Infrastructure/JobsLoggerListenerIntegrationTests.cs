@@ -37,7 +37,7 @@ public class JobsLoggerListenerIntegrationTests
         Assert.False(Assert.IsType<bool>(((ScalarValue)was.Properties["Recovering"]).Value));
         Assert.Equal(0, Assert.IsType<int>(((ScalarValue)was.Properties["RefireCount"]).Value));
 
-        // the trace identity is shared across the execution's callbacks (real Get/Put on the context)
+        // the trace identity is shared across the firing's callbacks (a real MergedJobDataMap on the context)
         Assert.Equal(((ScalarValue)toBe.Properties["AggregateId"]).Value, ((ScalarValue)was.Properties["AggregateId"]).Value);
     }
 
