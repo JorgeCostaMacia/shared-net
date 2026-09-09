@@ -47,7 +47,7 @@ public class TriggerLoggerListenerTests
     {
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
 
-        await Listener().TriggerMisfired(context.Trigger, TestContext.Current.CancellationToken);
+        await Listener().TriggerMisfired(context.Trigger, context.Scheduler, TestContext.Current.CancellationToken);
 
         LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerMisfired", logEvent.MessageTemplate.Text);

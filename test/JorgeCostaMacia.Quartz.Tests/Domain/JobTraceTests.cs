@@ -1,5 +1,6 @@
 using JorgeCostaMacia.Quartz.Domain;
 using JorgeCostaMacia.Quartz.Tests.Fakes;
+using Quartz;
 
 namespace JorgeCostaMacia.Quartz.Tests.Domain;
 
@@ -24,8 +25,8 @@ public class JobTraceTests
 
         Assert.NotEqual(Guid.Empty, trace.AggregateId);
         Assert.Equal(trace.AggregateId, trace.CorrelationId);   // a fresh correlation defaults to the aggregate id
-        Assert.Equal(trace.AggregateId, context.Get("AggregateId"));
-        Assert.Equal(trace.CorrelationId, context.Get("CorrelationId"));
+        Assert.Equal(trace.AggregateId, context.MergedJobDataMap.Get<Guid>("AggregateId"));
+        Assert.Equal(trace.CorrelationId, context.MergedJobDataMap.Get<Guid>("CorrelationId"));
     }
 
     [Fact]
@@ -34,8 +35,8 @@ public class JobTraceTests
         JobExecutionContextFake context = new JobExecutionContextFake();
         Guid aggregateId = Guid.NewGuid();
         Guid correlationId = Guid.NewGuid();
-        context.Put("AggregateId", aggregateId);
-        context.Put("CorrelationId", correlationId);
+        context.MergedJobDataMap["AggregateId"] = aggregateId;
+        context.MergedJobDataMap["CorrelationId"] = correlationId;
 
         JobTrace trace = JobTrace.GetOrCreate(context);
 
@@ -48,7 +49,7 @@ public class JobTraceTests
     {
         JobExecutionContextFake context = new JobExecutionContextFake();
         Guid aggregateId = Guid.NewGuid();
-        context.Put("AggregateId", aggregateId);
+        context.MergedJobDataMap["AggregateId"] = aggregateId;
 
         JobTrace trace = JobTrace.GetOrCreate(context);
 

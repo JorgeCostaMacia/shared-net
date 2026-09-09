@@ -1,16 +1,13 @@
-using System.Collections.Specialized;
 using Quartz;
-using Quartz.Impl;
 
 namespace JorgeCostaMacia.Quartz.Serilog.Tests.Fakes;
 
 /// <summary>
 /// Execution-context double over a real (never started) in-memory scheduler and real job/trigger
-/// keys — everything the listeners read, plus the Get/Put bag the trace travels in.
+/// keys — everything the listeners read, plus the per-firing data map the trace travels in.
 /// </summary>
 internal sealed class JobExecutionContextFake : IJobExecutionContext
 {
-    private readonly Dictionary<object, object> _items = new Dictionary<object, object>();
 
     public JobExecutionContextFake(IScheduler scheduler, IJobDetail jobDetail, ITrigger trigger)
     {
@@ -22,12 +19,12 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
     /// <summary>Builds a fake over a fresh in-memory scheduler and an <c>orders</c> job/trigger pair.</summary>
     public static async Task<JobExecutionContextFake> Create()
     {
-        IScheduler scheduler = await new StdSchedulerFactory(new NameValueCollection
-        {
-            ["quartz.scheduler.instanceName"] = $"test-{Guid.NewGuid():N}",
-            ["quartz.jobStore.type"] = "Quartz.Simpl.RAMJobStore, Quartz",
-            ["quartz.threadPool.threadCount"] = "1"
-        }).GetScheduler();
+        IScheduler scheduler = await QuartzSchedulerBuilder
+            .Create(quartz => quartz
+                .ConfigureScheduler(options => options.InstanceName = $"test-{Guid.NewGuid():N}")
+                .UseDefaultThreadPool(1)
+                .UseInMemoryStore())
+            .BuildScheduler();
 
         IJobDetail job = JobBuilder.Create<NoOpJob>().WithIdentity("job-1", "orders").Build();
         ITrigger trigger = TriggerBuilder.Create().ForJob(job).WithIdentity("trigger-1", "orders").StartNow().Build();
@@ -35,16 +32,13 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
         return new JobExecutionContextFake(scheduler, job, trigger);
     }
 
-    public void Put(object key, object objectValue) => _items[key] = objectValue;
-
-    public object? Get(object key) => _items.TryGetValue(key, out object? value) ? value : null;
-
     public IScheduler Scheduler { get; }
     public ITrigger Trigger { get; }
     public ICalendar? Calendar => null;
     public bool Recovering => false;
     public TriggerKey RecoveringTriggerKey => throw new NotImplementedException();
     public int RefireCount => 0;
+    public int RetryAttempt => 0;
     public JobDataMap MergedJobDataMap { get; } = new JobDataMap();
     public IJobDetail JobDetail { get; }
     public IJob JobInstance => throw new NotImplementedException();
@@ -60,6 +54,6 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
     /// <summary>Inert job type for the fake's job detail — never executed.</summary>
     internal sealed class NoOpJob : IJob
     {
-        public Task Execute(IJobExecutionContext context) => Task.CompletedTask;
+        public ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken) => ValueTask.CompletedTask;
     }
 }
