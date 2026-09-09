@@ -26,7 +26,7 @@ JobTrace trace = JobTrace.GetOrCreate(context);   // reads the pair, minting + s
 await bus.Publish(new JobCompletedEvent(..., trace.AggregateId, trace.CorrelationId));
 ```
 
-`GetOrCreate` is **idempotent**: the first caller mints the pair (time-ordered UUIDv7s) and puts it on the context; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
+`GetOrCreate` is **idempotent**: the first caller mints the pair (time-ordered UUIDv7s) and puts it on the firing's own `MergedJobDataMap`; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
 
 For observers **without** an execution context (e.g. a trigger misfire), `JobTrace.Create()` mints a fresh, unshared pair.
 

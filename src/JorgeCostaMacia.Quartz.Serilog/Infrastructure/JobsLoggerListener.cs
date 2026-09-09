@@ -36,27 +36,27 @@ public sealed class JobsLoggerListener : IJobListener
     /// <summary>Logs <c>JobToBeExecuted</c> at <see cref="LogLevel.Information"/> before the job runs.</summary>
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
         {
             _logger.LogInformation("JobToBeExecuted");
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>Logs <c>JobExecutionVetoed</c> at <see cref="LogLevel.Warning"/> when a trigger listener vetoed the execution.</summary>
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
         {
             _logger.LogWarning("JobExecutionVetoed");
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class JobsLoggerListener : IJobListener
     /// <param name="context">The execution context.</param>
     /// <param name="jobException">The exception the execution produced, or <see langword="null"/>.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
+    public ValueTask JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
         using (LogContext.PushProperty("JobRunTime", context.JobRunTime))
@@ -82,7 +82,7 @@ public sealed class JobsLoggerListener : IJobListener
             }
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity and recovery state — into the log context, in a single native push.</summary>
