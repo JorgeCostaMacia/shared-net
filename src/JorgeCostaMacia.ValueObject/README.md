@@ -45,21 +45,26 @@ EmailValueObjectValidator.Create().ValidateAndThrow(email);   // throws EmailVal
 
 ### Deriving your own value object
 
-Derive from the matching base and keep the type inside the contract — a **public hydration constructor** plus your own **`From`** and **`Create`** (the inherited ones return the *base* type, so re-declare them with `new static` returning yours), each on the natural primitive:
+Derive from the matching base and keep the type inside the contract — a **public hydration constructor** plus your own **`From`** and **`Create`** (the inherited ones return the *base* type, so re-declare them with `static new` returning yours), each on the natural primitive:
 
 ```csharp
 public sealed record ClientName : StringValueObject
 {
-    public ClientName(string value) : base(value) { }                       // hydration ctor
+    public ClientName(string value) : base(value) { }   // hydration ctor
 
-    public new static ClientName From(string value) => new(Convert(value)); // Convert is the base's protected cleanser
+    // Convert is the base's protected cleanser
+    public static new ClientName From(string value) => new ClientName(Convert(value));
 
-    public new static ClientName Create(string value)
+    public static new ClientName Create(string value)
     {
         ClientName vo = From(value);
-        ClientNameValidator.Create().ValidateAndThrow(vo);                  // your FluentValidation validator
+        vo.Validate();
+
         return vo;
     }
+
+    // one line per value object, mirroring the bases: Create reads as From + Validate
+    private void Validate() => ClientNameValidator.Create().ValidateAndThrow(this);
 }
 ```
 

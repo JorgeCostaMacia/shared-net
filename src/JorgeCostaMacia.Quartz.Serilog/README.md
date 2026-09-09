@@ -1,6 +1,6 @@
 # JorgeCostaMacia.Quartz.Serilog
 
-**Serilog observability for Quartz**: job and trigger log listeners that emit **fixed, low-cardinality messages** (`JobToBeExecuted`, `JobWasExecuted`, `TriggerFired`, `TriggerMisfired`…) and push everything variable — scheduler, job, trigger, data, times and the trace identifiers — through the Serilog log context. Cheap to index (Loki/Grafana-friendly), structural to search.
+**Serilog observability for Quartz**: job and trigger log listeners that emit **fixed, low-cardinality messages** (`JobToBeExecuted`, `JobWasExecuted`, `TriggerFired`, `TriggerMisfired`…) and push everything variable — scheduler, job, trigger, data, times, refire/retry counters and the trace identifiers — through the Serilog log context. Cheap to index (Loki/Grafana-friendly), structural to search.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Quartz.Serilog.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz.Serilog/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Quartz.Serilog.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz.Serilog/)
@@ -33,7 +33,7 @@ services
 
 - **`JobsLoggerListener`** — `JobToBeExecuted` (Information), `JobExecutionVetoed` (Warning), `JobWasExecuted` (Information, or **Error with the root cause attached** when the job threw).
 - **`TriggerLoggerListener`** — `TriggerFired` / `TriggerComplete` (Information, with the scheduler's resulting instruction), `VetoJobExecution` (Information, never vetoes), `TriggerMisfired` (**Error** — the trigger missed its scheduled time).
-- Every event carries `AggregateId`/`CorrelationId` from [`JobTrace`](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/) — idempotent get-or-create on the execution context, so your own listeners (e.g. event publishers) read the same pair with `JobTrace.GetOrCreate(context)`, in any order.
+- Every event carries `AggregateId`/`CorrelationId` from [`JobTrace`](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/) — idempotent get-or-create on the firing's own data map, so your own listeners (e.g. event publishers) read the same pair with `JobTrace.GetOrCreate(context)`, in any order.
 
 ## Requirements
 
