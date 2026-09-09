@@ -52,7 +52,7 @@ Skills that apply to this repo — let them trigger, or invoke explicitly. `gitf
 - **`ddd`** — tactical DDD, canon-anchored: aggregates, value objects, factories & hydration, validation principles, domain events, domain errors. This repo IS those building blocks — the skill is its conceptual spec.
 - **`testing`** — testing principles: done-means-tested, one test file per unit, names as specification, classicist doubles, rule coverage.
 - **`logging-net`** — the logging style for every log statement: fixed low-cardinality messages as grouping keys (no interpolation, no placeholders), all variable data via `LogContext` (a `PushProperties` helper per class), correlation ids in every scope. The `JorgeCostaMacia.Serilog` and `Quartz.Serilog` packages implement it.
-- **`validation-net`** — **the spec this library implements**: the three-verb surface (ctor hydrates · `From` converts · `Create` validates), per-call validators assembled via static `Create()` chains, family exceptions with fixed codes, the factory-vs-DI rule. Read it before touching ValueObject/Aggregate creation or validators (v4.0.0 implements it).
+- **`validation-net`** — **the spec this library implements**: the three-verb surface (ctor hydrates · `From` converts · `Create` validates), per-call validators assembled via static `Create()` chains, family exceptions with fixed codes, the factory-vs-DI rule. Read it before touching ValueObject/Aggregate creation or validators.
 - **`dotnet`** — C# language server + general .NET development.
 - **`dotnet-msbuild`** — `Directory.Build.props`, project-file quality/review, Central Package Management, build perf, modernization (msbuild-antipatterns, directory-build-organization, convert-to-cpm…).
 - **`dotnet-nuget`** — dependency management and package modernization.
@@ -68,8 +68,10 @@ Not relevant to this foundation library (skip): `dotnet-ai`, `dotnet-maui`, `dot
 ```
 dotnet format shared-net.slnx                  # apply .editorconfig (using order, whitespace) — run before committing
 dotnet build  shared-net.slnx -c Release
-dotnet test   shared-net.slnx -c Release       # MTP v2 via global.json (needs the .NET 10 SDK); --logger is VSTest-only (MTP0001)
+dotnet test   shared-net.slnx -c Release       # MTP v2 via global.json (needs the .NET 10 SDK + Docker); --logger is VSTest-only (MTP0001)
 dotnet pack   shared-net.slnx -c Release        # packs all packable; tests are IsPackable=false
 ```
+
+One suite needs **Docker running locally**: `ValueObject.EfConverter.IntegrationTests` starts a Testcontainers Postgres, and without a daemon `dotnet test` fails there rather than skipping. `Quartz.Serilog.IntegrationTests` needs nothing external — it drives a real but in-memory Quartz scheduler. The whole solution runs in well under a minute.
 
 Run **`dotnet format` before committing** — it applies the `.editorconfig` (using ordering, whitespace), the CLI equivalent of Visual Studio's *Code Cleanup*, so generated code doesn't drift from what the IDE would produce. `develop.yml` runs the `--verify-no-changes` form, so skipping it fails CI rather than landing quietly.
