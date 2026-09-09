@@ -72,7 +72,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts an integer to a string.
     /// </summary>
-    protected static string Convert(int value) => Convert(value.ToString());
+    protected static string Convert(int value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a float to a string.
@@ -92,7 +92,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a long to a string.
     /// </summary>
-    protected static string Convert(long value) => Convert(value.ToString());
+    protected static string Convert(long value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a double to a string.
@@ -102,7 +102,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a DateTime to a string.
     /// </summary>
-    protected static string Convert(DateTime value) => Convert(value.ToString(CultureInfo.InvariantCulture));
+    protected static string Convert(DateTime value) => Convert(value.ToString("O", CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a Guid to a string.
