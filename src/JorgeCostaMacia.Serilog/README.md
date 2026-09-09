@@ -29,7 +29,7 @@ Bundled Serilog packages: `Settings.Configuration`, `Extensions.Hosting`, `Sinks
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 ## About
 

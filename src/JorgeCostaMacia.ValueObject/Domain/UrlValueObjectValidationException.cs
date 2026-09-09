@@ -95,12 +95,7 @@ public class UrlValueObjectValidationException : StringValueObjectValidationExce
     ) : base(
         null,
         typeof(UrlValueObjectValidationException).FullName ?? typeof(UrlValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f44-0397-7ea0-8872-ef9b2ba6bfb1")
-#else
-    new Guid("fd09dd89-0e91-4b32-bc84-630c7a63c986")
-#endif
-        ,
+        new Guid("01951f44-0397-7ea0-8872-ef9b2ba6bfb1"),
         null,
         null,
         null,

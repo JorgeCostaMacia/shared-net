@@ -30,17 +30,6 @@ public class GuidFactoryTests
         Assert.Equal(0x80, variant & 0xC0);
     }
 
-#if NET9_0_OR_GREATER
     [Fact]
-    public void Create_OnNet9OrGreater_ReturnsVersion7() => Assert.Equal(7, GuidFactory.Domain.GuidFactory.Create().Version);
-#else
-    [Fact]
-    public void Create_OnNet8_ReturnsVersion4()
-    {
-        // Guid.Version is .NET 9+; on net8 read the version nibble (high 4 bits of byte 7 of the layout).
-        int version = (GuidFactory.Domain.GuidFactory.Create().ToByteArray()[7] & 0xF0) >> 4;
-
-        Assert.Equal(4, version);
-    }
-#endif
+    public void Create_ReturnsVersion7() => Assert.Equal(7, GuidFactory.Domain.GuidFactory.Create().Version);
 }

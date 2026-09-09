@@ -12,7 +12,7 @@
 
 	<!-- Build settings common to every project (packages and tests alike) -->
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest</AnalysisLevel>

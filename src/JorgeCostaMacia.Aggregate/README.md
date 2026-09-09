@@ -44,7 +44,7 @@ The aggregate accumulates **`IDomainEvent`** — a pure marker from [JorgeCostaM
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 Depends on [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/).
 

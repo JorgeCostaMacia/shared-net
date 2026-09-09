@@ -37,7 +37,7 @@ services
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 Depends on [JorgeCostaMacia.Quartz](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/), [Quartz](https://www.nuget.org/packages/Quartz/) and [Serilog](https://www.nuget.org/packages/Serilog/).
 

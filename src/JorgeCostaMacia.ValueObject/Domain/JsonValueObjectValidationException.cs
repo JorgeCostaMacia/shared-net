@@ -95,12 +95,7 @@ public class JsonValueObjectValidationException : StringValueObjectValidationExc
     ) : base(
         null,
         typeof(JsonValueObjectValidationException).FullName ?? typeof(JsonValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f42-0686-7b9b-bb04-c1cd39ecdf75")
-#else
-    new Guid("f0db9008-f7a9-4280-9f54-8fe4efef1398")
-#endif
-        ,
+        new Guid("01951f42-0686-7b9b-bb04-c1cd39ecdf75"),
         null,
         null,
         null,

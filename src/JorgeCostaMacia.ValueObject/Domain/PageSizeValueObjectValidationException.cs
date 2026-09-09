@@ -95,12 +95,7 @@ public class PageSizeValueObjectValidationException : IntValueObjectValidationEx
     ) : base(
         null,
         typeof(PageSizeValueObjectValidationException).FullName ?? typeof(PageSizeValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f43-cfdf-70ed-ac22-e0047d9318d0")
-#else
-    new Guid("3c136f5a-cf10-4555-b0a4-04cbff3d3c1f")
-#endif
-        ,
+        new Guid("01951f43-cfdf-70ed-ac22-e0047d9318d0"),
         null,
         null,
         null,

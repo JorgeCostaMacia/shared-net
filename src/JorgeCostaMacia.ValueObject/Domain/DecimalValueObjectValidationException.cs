@@ -96,12 +96,7 @@ public class DecimalValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(DecimalValueObjectValidationException).FullName ?? typeof(DecimalValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f27-f7f2-784d-9f33-bcf68d0f61c0")
-#else
-    new Guid("ad4b1bff-0e6c-4a61-9b3c-ab1821c9ab5a")
-#endif
-        ,
+        new Guid("01951f27-f7f2-784d-9f33-bcf68d0f61c0"),
         null,
         null,
         null,

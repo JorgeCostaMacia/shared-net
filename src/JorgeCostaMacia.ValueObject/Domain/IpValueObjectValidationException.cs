@@ -95,12 +95,7 @@ public class IpValueObjectValidationException : StringValueObjectValidationExcep
     ) : base(
         null,
         typeof(IpValueObjectValidationException).FullName ?? typeof(IpValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f41-9ac1-7804-9d2d-adfe0eeb472b")
-#else
-    new Guid("7739deb2-b5d0-4274-a3dd-858b53b91286")
-#endif
-        ,
+        new Guid("01951f41-9ac1-7804-9d2d-adfe0eeb472b"),
         null,
         null,
         null,

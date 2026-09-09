@@ -23,11 +23,11 @@ using JorgeCostaMacia.GuidFactory.Domain;
 Guid id = GuidFactory.Create();
 ```
 
-On **.NET 9+** it returns a time-ordered **UUIDv7** (`Guid.CreateVersion7()`) — better database index locality and natural sortability. On earlier runtimes it falls back to a standard **UUIDv4** (`Guid.NewGuid()`).
+It returns a time-ordered **UUIDv7** (`Guid.CreateVersion7()`) — better database index locality and natural sortability.
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 ## About
 

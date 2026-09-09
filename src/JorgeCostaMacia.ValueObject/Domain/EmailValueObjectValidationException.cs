@@ -95,12 +95,7 @@ public class EmailValueObjectValidationException : StringValueObjectValidationEx
     ) : base(
         null,
         typeof(EmailValueObjectValidationException).FullName ?? typeof(EmailValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f3f-69d9-73e3-be78-61a2210d3e62")
-#else
-    new Guid("95fbf7ef-80b5-4b1b-972e-8df943fb03fb")
-#endif
-        ,
+        new Guid("01951f3f-69d9-73e3-be78-61a2210d3e62"),
         null,
         null,
         null,
