@@ -96,12 +96,7 @@ public class IntRangeValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(IntRangeValueObjectValidationException).FullName ?? typeof(IntRangeValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f40-ed09-7091-b79d-f0c7276d613c")
-#else
-    new Guid("21f7b715-6c5e-4cba-a8c0-de7629f69463")
-#endif
-        ,
+        new Guid("01951f40-ed09-7091-b79d-f0c7276d613c"),
         null,
         null,
         null,

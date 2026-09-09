@@ -32,10 +32,5 @@ public static class ValidationExceptionDefaults
     /// The default fixed unique identifier representing a generic Validation Error.
     /// This constant allows grouping of all unspecified <see cref="ValidationException"/> instances under a single code for logging and monitoring.
     /// </summary>
-    public static Guid AGGREGATE_CODE =>
-#if NET9_0_OR_GREATER
-    new Guid("019ab702-1cb1-7a71-a8f0-2f789e830fb5");
-#else
-    new Guid("efa5e0c0-cfad-4941-90bf-df535bd344f2");
-#endif
+    public static Guid AGGREGATE_CODE => new Guid("019ab702-1cb1-7a71-a8f0-2f789e830fb5");
 }

@@ -96,12 +96,7 @@ public class FloatValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(FloatValueObjectValidationException).FullName ?? typeof(FloatValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f40-206d-7df6-8a68-b19c832e3752")
-#else
-    new Guid("fc890a68-6fd3-4001-8c9f-50904b3d6037")
-#endif
-        ,
+        new Guid("01951f40-206d-7df6-8a68-b19c832e3752"),
         null,
         null,
         null,

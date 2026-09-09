@@ -32,10 +32,5 @@ public static class NotFoundExceptionDefaults
     /// The default fixed unique identifier representing a generic Not Found error.
     /// This constant allows grouping of all unspecified <see cref="NotFoundException"/> instances under a single code for logging and monitoring.
     /// </summary>
-    public static Guid AGGREGATE_CODE =>
-#if NET9_0_OR_GREATER
-    new Guid("019ab701-befa-7735-bae0-1587c5504777");
-#else
-    new Guid("a7348a55-d8d8-48f9-b167-e96aa7e16337");
-#endif
+    public static Guid AGGREGATE_CODE => new Guid("019ab701-befa-7735-bae0-1587c5504777");
 }

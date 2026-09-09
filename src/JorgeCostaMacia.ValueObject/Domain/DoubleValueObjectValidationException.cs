@@ -91,12 +91,7 @@ public class DoubleValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(DoubleValueObjectValidationException).FullName ?? typeof(DoubleValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("f1b59bf1-2f0f-7072-a50f-4ad6e0d6eeca")
-#else
-    new Guid("4a3b00ad-6f29-4510-ab5f-9e9be8393039")
-#endif
-        ,
+        new Guid("f1b59bf1-2f0f-7072-a50f-4ad6e0d6eeca"),
         null,
         null,
         null,

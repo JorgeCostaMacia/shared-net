@@ -76,7 +76,7 @@ git checkout develop
 
 ## Building & testing
 
-Packages multi-target **.NET 8 / 9 / 10** (10 recommended).
+Packages target **.NET 10**.
 
 ```bash
 dotnet build -c Release

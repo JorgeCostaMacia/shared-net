@@ -96,12 +96,7 @@ public class ByteValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(ByteValueObjectValidationException).FullName ?? typeof(ByteValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f26-4ab1-7e27-be00-23ab5cf76063")
-#else
-    new Guid("5586c37b-7e47-42e8-9722-5f026c36fed5")
-#endif
-        ,
+        new Guid("01951f26-4ab1-7e27-be00-23ab5cf76063"),
         null,
         null,
         null,

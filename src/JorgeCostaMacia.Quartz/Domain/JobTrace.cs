@@ -25,8 +25,7 @@ public sealed record JobTrace
     private const string CorrelationIdKey = "CorrelationId";
 
     /// <summary>
-    /// Unique identifier of this execution's subject, minted by the GuidFactory
-    /// (UUIDv7 on .NET 9+, UUIDv4 on .NET 8) when absent from the context.
+    /// Unique identifier of this execution's subject, minted by the GuidFactory when absent from the context.
     /// </summary>
     public Guid AggregateId { get; init; }
 

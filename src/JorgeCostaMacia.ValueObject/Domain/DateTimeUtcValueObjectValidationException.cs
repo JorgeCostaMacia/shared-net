@@ -95,12 +95,7 @@ public class DateTimeUtcValueObjectValidationException : DateTimeValueObjectVali
     ) : base(
         null,
         typeof(DateTimeUtcValueObjectValidationException).FullName ?? typeof(DateTimeUtcValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("b6ac0653-0f46-4f9b-864d-c63036e2a11f")
-#else
-    new Guid("a18b865d-0892-4b84-b479-a458be3f9a41")
-#endif
-        ,
+        new Guid("b6ac0653-0f46-4f9b-864d-c63036e2a11f"),
         null,
         null,
         null,

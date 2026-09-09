@@ -96,12 +96,7 @@ public class IntValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(IntValueObjectValidationException).FullName ?? typeof(IntValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f41-4071-72b9-a614-5cb655b2bda9")
-#else
-    new Guid("75158762-b08e-45de-9ba6-fdc9b798f66f")
-#endif
-        ,
+        new Guid("01951f41-4071-72b9-a614-5cb655b2bda9"),
         null,
         null,
         null,

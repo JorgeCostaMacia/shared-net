@@ -32,10 +32,5 @@ public static class ExistExceptionDefaults
     /// The default fixed unique identifier representing a generic existence conflict error.
     /// This constant allows grouping of all unspecified <see cref="ExistException"/> instances under a single code for logging and monitoring.
     /// </summary>
-    public static Guid AGGREGATE_CODE =>
-#if NET9_0_OR_GREATER
-    new Guid("019ab6ff-ffdc-7cb7-8b57-8bddf0f63806");
-#else
-    new Guid("98f2b2e0-beee-4743-ab26-96f5cb8351be");
-#endif
+    public static Guid AGGREGATE_CODE => new Guid("019ab6ff-ffdc-7cb7-8b57-8bddf0f63806");
 }

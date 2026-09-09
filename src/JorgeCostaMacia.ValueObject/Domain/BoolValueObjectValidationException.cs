@@ -96,12 +96,7 @@ public class BoolValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(BoolValueObjectValidationException).FullName ?? typeof(BoolValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951db1-9cf8-72ba-9bea-398222a41bec")
-#else
-    new Guid("22045d32-bade-4937-8bd5-63373e8c8738")
-#endif
-        ,
+        new Guid("01951db1-9cf8-72ba-9bea-398222a41bec"),
         null,
         null,
         null,

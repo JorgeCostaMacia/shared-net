@@ -95,12 +95,7 @@ public class OrderByValueObjectValidationException : StringValueObjectValidation
     ) : base(
         null,
         typeof(OrderByValueObjectValidationException).FullName ?? typeof(OrderByValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f42-7f59-7e43-8484-686d8de64b80")
-#else
-    new Guid("87b0b944-7d1a-4b9c-bda7-f66433658acb")
-#endif
-        ,
+        new Guid("01951f42-7f59-7e43-8484-686d8de64b80"),
         null,
         null,
         null,

@@ -95,12 +95,7 @@ public class OrderTypeValueObjectValidationException : StringValueObjectValidati
     ) : base(
         null,
         typeof(OrderTypeValueObjectValidationException).FullName ?? typeof(OrderTypeValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f42-bb30-7ebe-8bf5-c6ee31b6789a")
-#else
-    new Guid("a42da363-f5dd-4b99-9d8f-e3f046c24a8d")
-#endif
-        ,
+        new Guid("01951f42-bb30-7ebe-8bf5-c6ee31b6789a"),
         null,
         null,
         null,
