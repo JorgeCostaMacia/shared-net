@@ -25,5 +25,9 @@ public class TriggerLoggerListenerIntegrationTests
         // a one-shot trigger has no next fire once complete
         Assert.True(complete.Properties.ContainsKey("NextFireTime"));
         Assert.Null(((ScalarValue)complete.Properties["NextFireTime"]).Value);
+
+        // a regular fire is not a persisted retry, and both callbacks carry the counter
+        Assert.Equal(0, Assert.IsType<int>(((ScalarValue)fired.Properties["RetryAttempt"]).Value));
+        Assert.Equal(0, Assert.IsType<int>(((ScalarValue)complete.Properties["RetryAttempt"]).Value));
     }
 }

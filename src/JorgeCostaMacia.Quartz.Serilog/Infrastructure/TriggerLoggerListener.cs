@@ -108,7 +108,7 @@ public sealed class TriggerLoggerListener : ITriggerListener
         return ValueTask.CompletedTask;
     }
 
-    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity and recovery state — into the log context, in a single native push.</summary>
+    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity, retry state and recovery state — into the log context, in a single native push.</summary>
     /// <param name="context">The execution context.</param>
     /// <returns>A disposable that pops the pushed properties.</returns>
     private static IDisposable PushProperties(IJobExecutionContext context)
@@ -128,6 +128,7 @@ public sealed class TriggerLoggerListener : ITriggerListener
             new PropertyEnricher("FireTime", context.FireTimeUtc.UtcDateTime),
             new PropertyEnricher("NextFireTime", context.NextFireTimeUtc?.UtcDateTime),
             new PropertyEnricher("RefireCount", context.RefireCount),
+            new PropertyEnricher("RetryAttempt", context.RetryAttempt),
             new PropertyEnricher("FireInstanceId", context.FireInstanceId),
             new PropertyEnricher("Recovering", context.Recovering));
     }
