@@ -6,10 +6,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="../JorgeCostaMacia.GuidFactory/JorgeCostaMacia.GuidFactory.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FluentValidation" />
 	</ItemGroup>
 

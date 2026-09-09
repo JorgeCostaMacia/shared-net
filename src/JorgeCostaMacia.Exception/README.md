@@ -35,7 +35,7 @@ using JorgeCostaMacia.Exception.Domain;
 public sealed class CustomerNotFoundException(Guid customerId)
     : NotFoundException(null, null, null, null, null, $"Customer {customerId} was not found.", null);
 
-// every null falls back to a default: AggregateId (UUIDv7 via GuidFactory),
+// every null falls back to a default: AggregateId (UUIDv7),
 // AggregateType (the NotFoundException full name), AggregateCode,
 // AggregateHttpCode (404), AggregateOccurredAt (UTC now).
 ```
@@ -51,7 +51,7 @@ protected override void RaiseValidationException(ValidationContext<T> context, V
 
 The **.NET 10** SDK.
 
-Depends on [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) and [FluentValidation](https://www.nuget.org/packages/FluentValidation/).
+Depends on [FluentValidation](https://www.nuget.org/packages/FluentValidation/).
 
 ## About
 

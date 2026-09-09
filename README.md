@@ -18,7 +18,6 @@ The **.NET 10** SDK.
 
 | Package | What it does |
 | --- | --- |
-| [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) | Time-ordered GUIDs (UUIDv7) with automatic v4 fallback. |
 | [JorgeCostaMacia.GuidMySqlConverter](https://www.nuget.org/packages/JorgeCostaMacia.GuidMySqlConverter/) | Converts a `Guid` to/from the MySQL / MariaDB `BINARY(16)` byte layout. |
 | [JorgeCostaMacia.Entity](https://www.nuget.org/packages/JorgeCostaMacia.Entity/) | `IEntity` marker — identity-based DDD entities. |
 | [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
