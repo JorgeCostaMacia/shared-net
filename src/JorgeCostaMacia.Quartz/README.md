@@ -26,7 +26,7 @@ JobTrace trace = JobTrace.GetOrCreate(context);   // reads the pair, minting + s
 await bus.Publish(new JobCompletedEvent(..., trace.AggregateId, trace.CorrelationId));
 ```
 
-`GetOrCreate` is **idempotent**: the first caller mints the pair (via [GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) — UUIDv7) and puts it on the context; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
+`GetOrCreate` is **idempotent**: the first caller mints the pair (time-ordered UUIDv7s) and puts it on the context; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
 
 For observers **without** an execution context (e.g. a trigger misfire), `JobTrace.Create()` mints a fresh, unshared pair.
 
@@ -34,7 +34,7 @@ For observers **without** an execution context (e.g. a trigger misfire), `JobTra
 
 The **.NET 10** SDK.
 
-Depends on [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) and [Quartz](https://www.nuget.org/packages/Quartz/).
+Depends on [Quartz](https://www.nuget.org/packages/Quartz/).
 
 ## About
 

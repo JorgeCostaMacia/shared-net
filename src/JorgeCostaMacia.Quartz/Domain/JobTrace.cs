@@ -25,7 +25,7 @@ public sealed record JobTrace
     private const string CorrelationIdKey = "CorrelationId";
 
     /// <summary>
-    /// Unique identifier of this execution's subject, minted by the GuidFactory when absent from the context.
+    /// Unique identifier of this execution's subject, minted when absent from the context.
     /// </summary>
     public Guid AggregateId { get; init; }
 
@@ -52,7 +52,7 @@ public sealed record JobTrace
     /// <returns>A new, unshared <see cref="JobTrace"/>.</returns>
     public static JobTrace Create()
     {
-        Guid aggregateId = GuidFactory.Domain.GuidFactory.Create();
+        Guid aggregateId = Guid.CreateVersion7();
 
         return new JobTrace(aggregateId, aggregateId);
     }
@@ -66,7 +66,7 @@ public sealed record JobTrace
     /// <returns>The execution's <see cref="JobTrace"/>.</returns>
     public static JobTrace GetOrCreate(IJobExecutionContext context)
     {
-        Guid aggregateId = context.Get(AggregateIdKey) is Guid id ? id : GuidFactory.Domain.GuidFactory.Create();
+        Guid aggregateId = context.Get(AggregateIdKey) is Guid id ? id : Guid.CreateVersion7();
         Guid correlationId = context.Get(CorrelationIdKey) is Guid correlation ? correlation : aggregateId;
 
         context.Put(AggregateIdKey, aggregateId);

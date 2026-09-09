@@ -277,5 +277,5 @@ dotnet_naming_rule.type_parameters_t_prefixed.severity = warning
 # Analyzer severities / intentional suppressions
 # ------------------------------------------------------------------------------------------
 # Building-block types intentionally share their name with the package namespace
-# (Aggregate, Entity, ValueObject, GuidFactory...). The .Domain sub-namespace keeps usage unambiguous.
+# (Aggregate, Entity, ValueObject, Serilog...). The .Domain sub-namespace keeps usage unambiguous.
 dotnet_diagnostic.CA1724.severity = none

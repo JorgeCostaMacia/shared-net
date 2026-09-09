@@ -9,14 +9,14 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 
 ## Targets & stack
 
-- TFM: **`net10.0`**, single-target. net6/7/8/9 were dropped as they reached EOL — net9 in May 2026, net8 in November 2026 — and the last multi-targeting release is **6.0.6**, which stays on nuget.org for anyone pinned to a down-level runtime. Being single-target is what removes the per-TFM `#if NET9_0_OR_GREATER` branches (GuidFactory always mints a UUIDv7) and the conditional EF Core block in `Directory.Packages.props`: there is now **one** version of every package. **Do not reintroduce a per-TFM conditional** — if a dependency needs one, the answer is to move the whole repo, not to split it.
+- TFM: **`net10.0`**, single-target. net6/7/8/9 were dropped as they reached EOL — net9 in May 2026, net8 in November 2026 — and the last multi-targeting release is **6.0.6**, which stays on nuget.org for anyone pinned to a down-level runtime. Being single-target is what removes the per-TFM `#if NET9_0_OR_GREATER` branches and the conditional EF Core block in `Directory.Packages.props`: there is now **one** version of every package. **Do not reintroduce a per-TFM conditional** — if a dependency needs one, the answer is to move the whole repo, not to split it.
 - Tests: **xUnit v4 (the `xunit.v3` package, 4.x) on Microsoft.Testing.Platform v2 (MTP)** — test projects are `OutputType=Exe`, and `dotnet test` runs MTP because the root **`global.json`** opts in (`"test": { "runner": "Microsoft.Testing.Platform" }`). MTP v2 dropped the VSTest bridge, so `TestingPlatformDotnetTestSupport` is gone and running the tests needs the **.NET 10 SDK**. Not MSTest, not VSTest.
 - Source is **UTF-8 without BOM** (`.editorconfig` `charset = utf-8`). camelCase locals, PascalCase types, I-prefixed interfaces. Copyright year stays **2023** (deliberate — don't bump).
 - **Explicit types everywhere — spell the type out.** Never `var`, never target-typed `new()`, never collection expressions `[]`: write `new Foo(...)`, `new byte[] { ... }`, `new List<T> { ... }`, `Array.Empty<T>()`. The `.editorconfig` sets all three to explicit, but only `var` is analyzer-enforced — `new()`/`[]` can't be flagged (the analyzer never reports the implicit form), so they are **convention, kept explicit by hand and by the IDE generating explicit**. Do not introduce `new()`/`[]` when editing.
 
 ## Inter-package dependencies
 
-Packages reference each other via **`ProjectReference`** (e.g. ValueObject → Exception → GuidFactory, Aggregate → DomainEvent). `dotnet pack` turns each `ProjectReference` into a NuGet `<dependency>` at the sibling's version, so the dependency graph still ships in the nuspec — but you build against local source and **release everything together** (no phased, tier-by-tier publishing). Don't reintroduce `PackageReference` between these packages.
+Packages reference each other via **`ProjectReference`** (e.g. ValueObject → Exception, Aggregate → DomainEvent). `dotnet pack` turns each `ProjectReference` into a NuGet `<dependency>` at the sibling's version, so the dependency graph still ships in the nuspec — but you build against local source and **release everything together** (no phased, tier-by-tier publishing). Don't reintroduce `PackageReference` between these packages.
 
 ## Dependencies — Central Package Management
 
