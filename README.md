@@ -23,7 +23,7 @@ The **.NET 10** SDK.
 | [JorgeCostaMacia.DomainEvent](https://www.nuget.org/packages/JorgeCostaMacia.DomainEvent/) | `IDomainEvent` marker — transport-agnostic domain events. |
 | [JorgeCostaMacia.Aggregate](https://www.nuget.org/packages/JorgeCostaMacia.Aggregate/) | DDD Aggregate Root base that accumulates `IDomainEvent`s. |
 | [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) | Domain exception hierarchy with traceable metadata. |
-| [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | One-call Serilog bootstrap (enrichers in code, sinks/levels from config). |
+| [JorgeCostaMacia.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/) | The family logging baseline as a `LoggerConfiguration` extension (enrichers + entry-assembly properties; sinks and levels stay in config). |
 | [JorgeCostaMacia.Quartz](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/) | `JobTrace` — idempotent AggregateId/CorrelationId correlation on the Quartz execution context. |
 | [JorgeCostaMacia.Quartz.Serilog](https://www.nuget.org/packages/JorgeCostaMacia.Quartz.Serilog/) | Quartz job/trigger log listeners — fixed low-cardinality messages, everything variable in the log context. |
 | [JorgeCostaMacia.ValueObject](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/) | Immutable typed value objects (primitives, semantic strings, ranges, paging) with FluentValidation validators. |

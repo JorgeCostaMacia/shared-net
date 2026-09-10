@@ -1,17 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Description>One-call Serilog bootstrap: registers Serilog with a standard enricher baseline (log context, thread, process, exceptions, version, application) and reads sinks and minimum levels from the "Serilog" configuration section</Description>
-		<PackageTags>serilog,logging,log,configuration,hosting</PackageTags>
+		<Description>The family Serilog baseline as a LoggerConfiguration extension: WithDefaults() attaches the enrichers every app shares (log context, thread, process, exception details) plus the Version and Application properties read from the entry assembly, which a configuration file cannot express. The host keeps its own AddSerilog call, and sinks and levels stay in the "Serilog" configuration section</Description>
+		<PackageTags>serilog,logging,log,enrichers,configuration</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Serilog" />
 		<PackageReference Include="Serilog.Enrichers.Process" />
 		<PackageReference Include="Serilog.Enrichers.Thread" />
 		<PackageReference Include="Serilog.Exceptions" />
-		<PackageReference Include="Serilog.Extensions.Hosting" />
-		<PackageReference Include="Serilog.Settings.Configuration" />
-		<PackageReference Include="Serilog.Sinks.Console" />
 	</ItemGroup>
 
 </Project>
