@@ -76,4 +76,8 @@ public class DateTimeRangeValueObjectTests
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
         => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => DateTimeRangeValueObject.CreateOrNull(new DateTime(2026, 2, 1), new DateTime(2026, 1, 1)));
+    // A range prints both bounds joined, not the record dump of the two value objects.
+    [Fact]
+    public void ToString_ShowsBothBoundsJoined()
+        => Assert.Equal(new DateTime(2026, 1, 1).ToString() + " - " + new DateTime(2026, 2, 1).ToString(), DateTimeRangeValueObject.From(new DateTime(2026, 1, 1), new DateTime(2026, 2, 1)).ToString());
 }

@@ -73,4 +73,8 @@ public class FloatRangeValueObjectTests
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
         => Assert.Throws<FloatRangeValueObjectValidationException>(() => FloatRangeValueObject.CreateOrNull(5f, 1f));
+    // A range prints both bounds joined, not the record dump of the two value objects.
+    [Fact]
+    public void ToString_ShowsBothBoundsJoined()
+        => Assert.Equal(1f.ToString() + " - " + 5f.ToString(), FloatRangeValueObject.From(1f, 5f).ToString());
 }

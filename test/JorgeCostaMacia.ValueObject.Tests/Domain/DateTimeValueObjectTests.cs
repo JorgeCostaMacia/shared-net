@@ -92,9 +92,24 @@ public class DateTimeValueObjectTests
     public void Convert_FromDateAndTimeStrings_Combines()
         => Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert("2026-03-15", "14:30:45"));
 
+    // The numeric overloads read the value as ticks, so 1 is one tick past DateTime.MinValue.
+    [Fact]
+    public void Convert_FromNumbers_ReadsTheValueAsTicks()
+    {
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1));
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1f));
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1m));
+    }
+
     public sealed record TestDateTime : DateTimeValueObject
     {
         public TestDateTime(DateTime value) : base(value) { }
+
+        public static new DateTime Convert(int value) => DateTimeValueObject.Convert(value);
+
+        public static new DateTime Convert(float value) => DateTimeValueObject.Convert(value);
+
+        public static new DateTime Convert(decimal value) => DateTimeValueObject.Convert(value);
 
         public static new DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
 

@@ -55,6 +55,15 @@ public class BoolValueObjectTests
         Assert.True(TestBool.Convert(1m));
     }
 
+    // Every numeric overload funnels through Convert(int value == 1); float had no caller.
+    [Fact]
+    public void Convert_FromFloat_TreatsOneAsTrue()
+    {
+        Assert.True(TestBool.Convert(1f));
+        Assert.False(TestBool.Convert(0f));
+        Assert.False(TestBool.Convert(2f));
+    }
+
     public sealed record TestBool : BoolValueObject
     {
         public TestBool(bool value) : base(value) { }

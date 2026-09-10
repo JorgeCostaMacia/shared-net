@@ -32,6 +32,17 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
         return new JobExecutionContextFake(scheduler, job, trigger);
     }
 
+    /// <summary>
+    /// The same firing with its timestamps the other way round: no scheduled time, a next fire due.
+    /// Both listeners guard the two with <c>?.</c>, so this is the side <see cref="Create"/> does not reach.
+    /// </summary>
+    public JobExecutionContextFake WithFlippedTimestamps()
+        => new JobExecutionContextFake(Scheduler, JobDetail, Trigger)
+        {
+            ScheduledFireTimeUtc = null,
+            NextFireTimeUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+        };
+
     public IScheduler Scheduler { get; }
     public ITrigger Trigger { get; }
     public ICalendar? Calendar => null;
@@ -43,9 +54,12 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
     public IJobDetail JobDetail { get; }
     public IJob JobInstance => throw new NotImplementedException();
     public DateTimeOffset FireTimeUtc { get; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? ScheduledFireTimeUtc { get; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset? PreviousFireTimeUtc => null;
-    public DateTimeOffset? NextFireTimeUtc => null;
+    // Settable: the listeners guard both timestamps with ?., so a test needs to drive the nullness
+    // from either side — Quartz leaves NextFireTimeUtc empty on a one-shot and ScheduledFireTimeUtc
+    // empty on a manual trigger.
+    public DateTimeOffset? ScheduledFireTimeUtc { get; init; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? PreviousFireTimeUtc { get; init; }
+    public DateTimeOffset? NextFireTimeUtc { get; init; }
     public string FireInstanceId => "fire-1";
     public object? Result { get; set; }
     public TimeSpan JobRunTime => TimeSpan.Zero;

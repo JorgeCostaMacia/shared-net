@@ -79,4 +79,13 @@ public class UuidValueObjectTests
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
         => Assert.Throws<UuidValueObjectValidationException>(() => UuidValueObject.CreateOrNull(Guid.Empty));
+    // A record generates a ToString() that prints the type and its properties; the override replaces
+    // it with the bare value, which is what a log line or an interpolated string should show.
+    [Fact]
+    public void ToString_ShowsTheBareValue()
+    {
+        Guid id = Guid.NewGuid();
+
+        Assert.Equal(id.ToString(), UuidValueObject.From(id).ToString());
+    }
 }

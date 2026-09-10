@@ -86,4 +86,8 @@ public class PageNumberRangeValueObjectTests
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
         => Assert.Throws<PageNumberRangeValueObjectValidationException>(() => PageNumberRangeValueObject.CreateOrNull(5, 1));
+    // A range prints both bounds joined, not the record dump of the two value objects.
+    [Fact]
+    public void ToString_ShowsBothBoundsJoined()
+        => Assert.Equal("1 - 5", PageNumberRangeValueObject.From(1, 5).ToString());
 }
