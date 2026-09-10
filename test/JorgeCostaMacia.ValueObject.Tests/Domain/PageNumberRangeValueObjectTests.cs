@@ -56,4 +56,38 @@ public class PageNumberRangeValueObjectTests
         Assert.Contains(exception.Validations, v => v.PropertyName == "ValueStart.Value");
         Assert.Contains(exception.Validations, v => v.PropertyName == "ValueEnd.Value");
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(PageNumberRangeValueObject.FromOrNull(null, null));
+
+    // A window needs both bounds, so a half-supplied one gives no window rather than half of one.
+    [Fact]
+    public void FromOrNull_WithOnlyOneBound_ShortCircuitsToNull()
+    {
+        Assert.Null(PageNumberRangeValueObject.FromOrNull(1, null));
+        Assert.Null(PageNumberRangeValueObject.FromOrNull(null, 5));
+    }
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(PageNumberRangeValueObject.FromOrNull(1, 5));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(PageNumberRangeValueObject.CreateOrNull(null, null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(PageNumberRangeValueObject.CreateOrNull(1, 5));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<PageNumberRangeValueObjectValidationException>(() => PageNumberRangeValueObject.CreateOrNull(5, 1));
+    // A range prints both bounds joined, not the record dump of the two value objects.
+    [Fact]
+    public void ToString_ShowsBothBoundsJoined()
+        => Assert.Equal("1 - 5", PageNumberRangeValueObject.From(1, 5).ToString());
 }

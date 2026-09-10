@@ -2,6 +2,8 @@
 
 Quartz job-execution **trace correlation**: `JobTrace` get-or-creates the `AggregateId`/`CorrelationId` pair on the execution context, so every observer of the same execution — log listeners, event publishers, the job itself — shares the same identifiers **regardless of who runs first**.
 
+And the **clustered Postgres store** every host in the family repeats, as one `IQuartzBuilder` extension.
+
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Quartz.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Quartz.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/)
 [![Build](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/JorgeCostaMacia/shared-net/actions/workflows/main.yml)
@@ -26,15 +28,31 @@ JobTrace trace = JobTrace.GetOrCreate(context);   // reads the pair, minting + s
 await bus.Publish(new JobCompletedEvent(..., trace.AggregateId, trace.CorrelationId));
 ```
 
-`GetOrCreate` is **idempotent**: the first caller mints the pair (via [GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) — UUIDv7 on .NET 9+, v4 on .NET 8) and puts it on the context; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
+`GetOrCreate` is **idempotent**: the first caller mints the pair (time-ordered UUIDv7s) and puts it on the firing's own `MergedJobDataMap`; every later caller reads the same values. There is no registration-order contract between listeners — the keys and the get-or-create logic live once, here, instead of being re-implemented per listener per service.
 
 For observers **without** an execution context (e.g. a trigger misfire), `JobTrace.Create()` mints a fresh, unshared pair.
 
+### The store configuration
+
+```csharp
+using JorgeCostaMacia.Quartz.Infrastructure;
+
+builder.Services.AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"));
+```
+
+`WithPostgresDefaults()` is an extension on `IQuartzBuilder`, **not** an `Add…` facade: your `AddQuartz` call stays in your `Program`, so what the host composes is visible where it happens. It applies the machine name as the instance id, a simple type loader, and the ADO store on Postgres with clustering, job data stored as strings, and the System.Text.Json serializer.
+
+The three arguments are the only things that differ between hosts: the scheduler's name, the **name** of the connection string (Quartz resolves it from `ConnectionStrings`, and a name that does not resolve fails the scheduler's start with a `SchedulerConfigException` naming it), and the schema holding the store tables — **without** the trailing dot, which is appended for you.
+
+One requirement this package cannot declare: Quartz resolves its ADO provider **by name at runtime**, so your host must reference `Npgsql` itself. This package depends on `Quartz` alone — a consumer that only wants `JobTrace` should not pull in a database driver — and a host that forgets fails at startup with `ArgumentException: Error while reading metadata information for provider 'Npgsql'`.
+
+That last one is Quartz's `TablePrefix`, and it **replaces** the `QRTZ_` default rather than adding to it: with `bus` the store reads `bus.TRIGGERS` and `bus.JOB_DETAILS`, not `bus.QRTZ_TRIGGERS`.
+
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
-Depends on [JorgeCostaMacia.GuidFactory](https://www.nuget.org/packages/JorgeCostaMacia.GuidFactory/) and [Quartz](https://www.nuget.org/packages/Quartz/).
+Depends on [Quartz](https://www.nuget.org/packages/Quartz/).
 
 ## About
 

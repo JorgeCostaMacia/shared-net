@@ -9,14 +9,15 @@ namespace JorgeCostaMacia.Quartz.Domain;
 /// <remarks>
 /// <para>
 /// <see cref="GetOrCreate(IJobExecutionContext)"/> is the single place where the pair is minted and
-/// stored: it reads the identifiers from the execution context, creates the missing ones, and puts
+/// stored: it reads the identifiers from the firing's data map, creates the missing ones, and puts
 /// them back — so job listeners, trigger listeners, event publishers and the job itself all converge
 /// on the same identifiers <b>regardless of who runs first</b>. The get-or-create is idempotent:
 /// there is no registration-order contract between observers.
 /// </para>
 /// <para>
-/// The identifiers live in the context under the <c>AggregateId</c>/<c>CorrelationId</c> keys, the
-/// same names the rest of the <c>JorgeCostaMacia.*</c> ecosystem uses for message and log correlation.
+/// The identifiers live in <see cref="IJobExecutionContext.MergedJobDataMap"/> — the firing's own map,
+/// copied once per fire and persisted nowhere — under the <c>AggregateId</c>/<c>CorrelationId</c> keys,
+/// the same names the rest of the <c>JorgeCostaMacia.*</c> ecosystem uses for message and log correlation.
 /// </para>
 /// </remarks>
 public sealed record JobTrace
@@ -25,8 +26,7 @@ public sealed record JobTrace
     private const string CorrelationIdKey = "CorrelationId";
 
     /// <summary>
-    /// Unique identifier of this execution's subject, minted by the GuidFactory
-    /// (UUIDv7 on .NET 9+, UUIDv4 on .NET 8) when absent from the context.
+    /// Unique identifier of this execution's subject, minted when absent from the context.
     /// </summary>
     public Guid AggregateId { get; init; }
 
@@ -53,7 +53,7 @@ public sealed record JobTrace
     /// <returns>A new, unshared <see cref="JobTrace"/>.</returns>
     public static JobTrace Create()
     {
-        Guid aggregateId = GuidFactory.Domain.GuidFactory.Create();
+        Guid aggregateId = Guid.CreateVersion7();
 
         return new JobTrace(aggregateId, aggregateId);
     }
@@ -67,11 +67,13 @@ public sealed record JobTrace
     /// <returns>The execution's <see cref="JobTrace"/>.</returns>
     public static JobTrace GetOrCreate(IJobExecutionContext context)
     {
-        Guid aggregateId = context.Get(AggregateIdKey) is Guid id ? id : GuidFactory.Domain.GuidFactory.Create();
-        Guid correlationId = context.Get(CorrelationIdKey) is Guid correlation ? correlation : aggregateId;
+        JobDataMap map = context.MergedJobDataMap;
 
-        context.Put(AggregateIdKey, aggregateId);
-        context.Put(CorrelationIdKey, correlationId);
+        Guid aggregateId = map.TryGet(AggregateIdKey, out Guid id) ? id : Guid.CreateVersion7();
+        Guid correlationId = map.TryGet(CorrelationIdKey, out Guid correlation) ? correlation : aggregateId;
+
+        map[AggregateIdKey] = aggregateId;
+        map[CorrelationIdKey] = correlationId;
 
         return new JobTrace(aggregateId, correlationId);
     }

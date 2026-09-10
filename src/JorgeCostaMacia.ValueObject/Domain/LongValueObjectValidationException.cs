@@ -91,12 +91,7 @@ public class LongValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(LongValueObjectValidationException).FullName ?? typeof(LongValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("00a6307a-a9aa-7e5a-9f7f-4c223fa2c0c8")
-#else
-    new Guid("c3b6a04a-3152-4615-88cf-464e62bb8ce4")
-#endif
-        ,
+        new Guid("00a6307a-a9aa-7e5a-9f7f-4c223fa2c0c8"),
         null,
         null,
         null,

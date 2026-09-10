@@ -1,8 +1,6 @@
-using System.Collections.Specialized;
 using JorgeCostaMacia.Quartz.Serilog.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Quartz;
-using Quartz.Impl;
 using Serilog;
 using Serilog.Extensions.Logging;
 
@@ -34,12 +32,12 @@ internal sealed class SchedulerHarness : IAsyncDisposable
         ILoggerFactory loggerFactory = new SerilogLoggerFactory(
             new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(sink).CreateLogger());
 
-        IScheduler scheduler = await new StdSchedulerFactory(new NameValueCollection
-        {
-            ["quartz.scheduler.instanceName"] = $"itest-{Guid.NewGuid():N}",
-            ["quartz.jobStore.type"] = "Quartz.Simpl.RAMJobStore, Quartz",
-            ["quartz.threadPool.threadCount"] = "1"
-        }).GetScheduler();
+        IScheduler scheduler = await QuartzSchedulerBuilder
+            .Create(quartz => quartz
+                .ConfigureScheduler(options => options.InstanceName = $"itest-{Guid.NewGuid():N}")
+                .UseDefaultThreadPool(1)
+                .UseInMemoryStore())
+            .BuildScheduler();
 
         scheduler.ListenerManager.AddJobListener(new JobsLoggerListener(loggerFactory.CreateLogger<JobsLoggerListener>()));
         scheduler.ListenerManager.AddTriggerListener(new TriggerLoggerListener(loggerFactory.CreateLogger<TriggerLoggerListener>()));
@@ -61,7 +59,7 @@ internal sealed class SchedulerHarness : IAsyncDisposable
         IJobDetail job = JobBuilder.Create<TJob>().WithIdentity("job-1", "orders").Build();
         ITrigger trigger = TriggerBuilder.Create().ForJob(job).WithIdentity("trigger-1", "orders").StartNow().Build();
 
-        await _scheduler.ScheduleJob(job, trigger, cancellationToken);
+        await _scheduler.ScheduleJob(job, trigger, cancellationToken: cancellationToken);
         await WaitForAsync("TriggerComplete", cancellationToken);
     }
 

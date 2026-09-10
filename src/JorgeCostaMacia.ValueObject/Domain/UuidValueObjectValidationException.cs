@@ -96,12 +96,7 @@ public class UuidValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(UuidValueObjectValidationException).FullName ?? typeof(UuidValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f44-5081-7a24-a1c8-fcd7b5d9f1ed")
-#else
-    new Guid("9a6d9202-fa4b-4229-8c2e-28f2768eaa63")
-#endif
-        ,
+        new Guid("01951f44-5081-7a24-a1c8-fcd7b5d9f1ed"),
         null,
         null,
         null,

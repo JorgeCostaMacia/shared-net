@@ -50,6 +50,14 @@ public record DateTimeValueObject : IValueObject
     public static DateTimeValueObject From(DateTime value) => new DateTimeValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(DateTime)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="DateTimeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static DateTimeValueObject? FromOrNull(DateTime? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -60,6 +68,21 @@ public record DateTimeValueObject : IValueObject
     {
         DateTimeValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(DateTime)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="DateTimeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="DateTimeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static DateTimeValueObject? CreateOrNull(DateTime? value)
+    {
+        DateTimeValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }
@@ -118,5 +141,5 @@ public record DateTimeValueObject : IValueObject
     /// Returns the string representation of the encapsulated <see cref="DateTime"/> value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

@@ -90,4 +90,33 @@ public class JobsLoggerListenerTests
         Assert.Equal(_sink.Events[0].Properties["AggregateId"].ToString(), _sink.Events[1].Properties["AggregateId"].ToString());
         Assert.Equal(_sink.Events[0].Properties["CorrelationId"].ToString(), _sink.Events[1].Properties["CorrelationId"].ToString());
     }
+    // The other side of the two ?. guards: Quartz leaves ScheduledFireTimeUtc empty on a manual
+    // trigger and NextFireTimeUtc empty on a one-shot, so both have to log as null rather than throw.
+    // The error path: a real Quartz-wrapped fault has to reach the log with its root cause, which is
+    // the other side of the jobException guard.
+    [Fact]
+    public async Task JobWasExecuted_WithAFault_LogsItAsError()
+    {
+        JobExecutionContextFake context = await JobExecutionContextFake.Create();
+        JobExecutionException fault = new JobExecutionException(new InvalidOperationException("boom"));
+
+        await Listener().JobWasExecuted(context, fault, TestContext.Current.CancellationToken);
+
+        LogEvent logEvent = Assert.Single(_sink.Events);
+        Assert.Equal(LogEventLevel.Error, logEvent.Level);
+        Assert.NotNull(logEvent.Exception);
+        Assert.Equal("boom", logEvent.Exception.Message);
+    }
+
+    [Fact]
+    public async Task JobToBeExecuted_WithTheTimestampsFlipped_LogsThemAsTheyCome()
+    {
+        JobExecutionContextFake flipped = (await JobExecutionContextFake.Create()).WithFlippedTimestamps();
+
+        await Listener().JobToBeExecuted(flipped, TestContext.Current.CancellationToken);
+
+        LogEvent logEvent = Assert.Single(_sink.Events);
+        Assert.Null(((ScalarValue)logEvent.Properties["ScheduleTime"]).Value);
+        Assert.NotNull(((ScalarValue)logEvent.Properties["NextFireTime"]).Value);
+    }
 }

@@ -45,35 +45,48 @@ EmailValueObjectValidator.Create().ValidateAndThrow(email);   // throws EmailVal
 
 ### Deriving your own value object
 
-Derive from the matching base and keep the type inside the contract — a **public hydration constructor** plus your own **`From`** and **`Create`** (the inherited ones return the *base* type, so re-declare them with `new static` returning yours), each on the natural primitive:
+Derive from the matching base and keep the type inside the contract — a **public hydration constructor** plus your own **`From`** and **`Create`** (the inherited ones return the *base* type, so re-declare them with `static new` returning yours), each on the natural primitive:
 
 ```csharp
 public sealed record ClientName : StringValueObject
 {
-    public ClientName(string value) : base(value) { }                       // hydration ctor
+    public ClientName(string value) : base(value) { }   // hydration ctor
 
-    public new static ClientName From(string value) => new(Convert(value)); // Convert is the base's protected cleanser
+    // Convert is the base's protected cleanser
+    public static new ClientName From(string value) => new ClientName(Convert(value));
 
-    public new static ClientName Create(string value)
+    public static new ClientName Create(string value)
     {
         ClientName vo = From(value);
-        ClientNameValidator.Create().ValidateAndThrow(vo);                  // your FluentValidation validator
+        vo.Validate();
+
         return vo;
     }
+
+    // one line per value object, mirroring the bases: Create reads as From + Validate
+    private void Validate() => ClientNameValidator.Create().ValidateAndThrow(this);
 }
 ```
 
 This surface is **required**, not optional: the ecosystem depends on it — the EF converters rehydrate through the constructor, deserializers too — so every value object here carries it and a contract test keeps it that way.
 
-### Register the validators
+### No DI registration needed
+
+Each validator assembles itself through its static `Create()`, chaining the `Create()` of the validators
+it includes, so a value object's `Create()` reaches its rules with nothing registered anywhere:
 
 ```csharp
-services.AddValueObjectContext();   // registers every IValidator<…> for the value objects
+EmailValueObject email = EmailValueObject.Create("user@host.com");   // its validator builds itself
 ```
+
+The constructors stay public, so a consumer that wants a validator from its own container can register
+one — `services.AddScoped<IValidator<EmailValueObject>, EmailValueObjectValidator>()` — and inject the
+`IValidator<StringValueObject>` it composes. This package registers nothing on your behalf, and takes
+no dependency on the DI abstractions.
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 Depends on [JorgeCostaMacia.Exception](https://www.nuget.org/packages/JorgeCostaMacia.Exception/) and [FluentValidation](https://www.nuget.org/packages/FluentValidation/).
 

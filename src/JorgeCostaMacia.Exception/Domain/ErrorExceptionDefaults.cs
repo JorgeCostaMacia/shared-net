@@ -32,10 +32,5 @@ public static class ErrorExceptionDefaults
     /// The default fixed unique identifier representing a generic Aggregated Domain Error.
     /// This constant allows grouping of all unspecified <see cref="ErrorException"/> instances under a single code for logging and monitoring.
     /// </summary>
-    public static Guid AGGREGATE_CODE =>
-#if NET9_0_OR_GREATER
-    new Guid("019ab6fc-8bb5-7c62-ad6f-b5062c8d5575");
-#else
-    new Guid("952fff75-0db0-46f1-8f82-b108e001f03e");
-#endif
+    public static Guid AGGREGATE_CODE => new Guid("019ab6fc-8bb5-7c62-ad6f-b5062c8d5575");
 }

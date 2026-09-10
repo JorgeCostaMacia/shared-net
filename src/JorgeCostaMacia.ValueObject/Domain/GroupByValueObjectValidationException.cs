@@ -95,12 +95,7 @@ public class GroupByValueObjectValidationException : StringValueObjectValidation
     ) : base(
         null,
         typeof(GroupByValueObjectValidationException).FullName ?? typeof(GroupByValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f40-7d68-762c-9214-6ffc5730839b")
-#else
-    new Guid("7e1b7f97-e09a-4037-9a9c-4eb11a6399b1")
-#endif
-        ,
+        new Guid("01951f40-7d68-762c-9214-6ffc5730839b"),
         null,
         null,
         null,

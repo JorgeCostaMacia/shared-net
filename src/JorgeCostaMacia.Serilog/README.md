@@ -1,6 +1,6 @@
 # JorgeCostaMacia.Serilog
 
-One-call **Serilog bootstrap** for .NET apps: reads the `Serilog` configuration section, registers Serilog as the logging provider, and enriches every log entry with the entry assembly's version.
+The **family Serilog baseline** as a `LoggerConfiguration` extension: one call inside your own `AddSerilog` attaches the enrichers every app shares, plus the entry assembly's version and name.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Serilog.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Serilog.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Serilog/)
@@ -18,18 +18,39 @@ dotnet add package JorgeCostaMacia.Serilog
 ## Usage
 
 ```csharp
-using JorgeCostaMacia.Serilog;
+using JorgeCostaMacia.Serilog.Infrastructure;
 
-builder.Services.AddSerilogContext(builder.Configuration);
+builder.Services.AddSerilog((_, config) => config
+    .ReadFrom.Configuration(builder.Configuration)
+    .WithDefaults());
 ```
 
-It reads the `Serilog` section via `ReadFrom.Configuration(...)` and applies a common enricher baseline **in code** — `FromLogContext`, `ThreadId`, `ProcessId`, exception details, plus `Version` and `Application` properties taken from the entry assembly (your host/worker). Your `appsettings.json` only declares **sinks and levels** (`Using`, `WriteTo`, `MinimumLevel`) — don't repeat those enrichers or a `Properties:Application` there. See the XML docs on `AddSerilogContext` for ready-to-use production and development `Serilog` sections.
+`WithDefaults()` is an extension on `LoggerConfiguration`, **not** an `Add…` facade: your `AddSerilog` call stays in your `Program`, so what the host composes is visible where it happens. It attaches `FromLogContext`, `ThreadId`, `ProcessId` and exception details, plus `Version` and `Application` read from the entry assembly — the two a configuration file cannot express.
 
-Bundled Serilog packages: `Settings.Configuration`, `Extensions.Hosting`, `Sinks.Console`, `Exceptions`, and the `Process` / `Thread` enrichers.
+Your `Serilog` section then declares only what varies per app and per environment:
+
+```json
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console" ],
+    "MinimumLevel": {
+      "Default": "Error",
+      "Override": { "Microsoft.Hosting.Lifetime": "Information" }
+    },
+    "WriteTo": [
+      { "Name": "Console", "Args": { "formatter": "Serilog.Formatting.Json.JsonFormatter, Serilog" } }
+    ]
+  }
+}
+```
+
+No `Enrich` array, no enricher assemblies in `Using`, and **no `Properties:Application`** — Serilog adds properties *if absent*, so a value there would win over the assembly name and you would never see it.
+
+Bundled Serilog packages: `Exceptions` and the `Process` / `Thread` enrichers — the ones the baseline needs. Your sinks, and `Serilog.Settings.Configuration` for the section above, stay with the host that chooses them.
 
 ## Requirements
 
-One of the following SDKs: **.NET 8 / 9 / 10** *(.NET 10 recommended)*.
+The **.NET 10** SDK.
 
 ## About
 

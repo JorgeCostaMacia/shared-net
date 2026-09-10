@@ -53,6 +53,15 @@ public record FloatRangeValueObject : IValueObject
     public static FloatRangeValueObject From(float valueStart, float valueEnd) => new FloatRangeValueObject(FloatValueObject.From(valueStart), FloatValueObject.From(valueEnd));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(float, float)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="valueStart">The start numeric Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end numeric Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="FloatRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static FloatRangeValueObject? FromOrNull(float? valueStart, float? valueEnd) => valueStart is null || valueEnd is null ? null : From(valueStart.Value, valueEnd.Value);
+
+    /// <summary>
     /// Creates: materializes the range through <see cref="From(float, float)"/> and validates it composed,
     /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
@@ -68,6 +77,22 @@ public record FloatRangeValueObject : IValueObject
         return vo;
     }
 
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(float, float)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="valueStart">The start numeric Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end numeric Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="FloatRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="FloatRangeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static FloatRangeValueObject? CreateOrNull(float? valueStart, float? valueEnd)
+    {
+        FloatRangeValueObject? vo = FromOrNull(valueStart, valueEnd);
+        vo?.Validate();
+
+        return vo;
+    }
+
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => FloatRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
@@ -75,5 +100,5 @@ public record FloatRangeValueObject : IValueObject
     /// Returns the string representation of the numeric range in the format "Start Value - End Value".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>
-    public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+    public sealed override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
 }

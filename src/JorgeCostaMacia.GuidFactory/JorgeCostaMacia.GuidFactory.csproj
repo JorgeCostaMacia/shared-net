@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<Description>Factory for creating time-ordered GUIDs (UUIDv7)</Description>
-		<PackageTags>guid,uuid,uuidv7,factory,identifier,id</PackageTags>
-	</PropertyGroup>
-
-</Project>

@@ -36,27 +36,27 @@ public sealed class JobsLoggerListener : IJobListener
     /// <summary>Logs <c>JobToBeExecuted</c> at <see cref="LogLevel.Information"/> before the job runs.</summary>
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
         {
             _logger.LogInformation("JobToBeExecuted");
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>Logs <c>JobExecutionVetoed</c> at <see cref="LogLevel.Warning"/> when a trigger listener vetoed the execution.</summary>
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
     {
         using (PushProperties(context))
         {
             _logger.LogWarning("JobExecutionVetoed");
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>
@@ -67,25 +67,29 @@ public sealed class JobsLoggerListener : IJobListener
     /// <param name="context">The execution context.</param>
     /// <param name="jobException">The exception the execution produced, or <see langword="null"/>.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
+    public ValueTask JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
+        // The root cause is resolved once: asking twice walked the chain twice and left a branch that
+        // no input can reach (non-null at the test, null at the log call).
+        System.Exception? cause = jobException?.GetBaseException();
+
         using (PushProperties(context))
         using (LogContext.PushProperty("JobRunTime", context.JobRunTime))
         {
-            if (jobException?.GetBaseException() is null)
+            if (cause is null)
             {
                 _logger.LogInformation("JobWasExecuted");
             }
             else
             {
-                _logger.LogError(jobException?.GetBaseException(), "JobWasExecuted");
+                _logger.LogError(cause, "JobWasExecuted");
             }
         }
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
-    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity and recovery state — into the log context, in a single native push.</summary>
+    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity, retry state and recovery state — into the log context, in a single native push.</summary>
     /// <param name="context">The execution context.</param>
     /// <returns>A disposable that pops the pushed properties.</returns>
     private static IDisposable PushProperties(IJobExecutionContext context)
@@ -105,6 +109,7 @@ public sealed class JobsLoggerListener : IJobListener
             new PropertyEnricher("FireTime", context.FireTimeUtc.UtcDateTime),
             new PropertyEnricher("NextFireTime", context.NextFireTimeUtc?.UtcDateTime),
             new PropertyEnricher("RefireCount", context.RefireCount),
+            new PropertyEnricher("RetryAttempt", context.RetryAttempt),
             new PropertyEnricher("FireInstanceId", context.FireInstanceId),
             new PropertyEnricher("Recovering", context.Recovering));
     }

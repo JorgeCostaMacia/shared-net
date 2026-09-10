@@ -45,6 +45,14 @@ public record DecimalValueObject : IValueObject
     public static DecimalValueObject From(decimal value) => new DecimalValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(decimal)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The decimal value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="DecimalValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static DecimalValueObject? FromOrNull(decimal? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(decimal)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -55,6 +63,21 @@ public record DecimalValueObject : IValueObject
     {
         DecimalValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(decimal)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The decimal value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="DecimalValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="DecimalValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static DecimalValueObject? CreateOrNull(decimal? value)
+    {
+        DecimalValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }
@@ -105,5 +128,5 @@ public record DecimalValueObject : IValueObject
     /// Returns the string representation of the encapsulated decimal value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

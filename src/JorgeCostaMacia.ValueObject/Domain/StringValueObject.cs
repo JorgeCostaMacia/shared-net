@@ -45,6 +45,14 @@ public record StringValueObject : IValueObject
     public static StringValueObject From(string value) => new StringValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="StringValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static StringValueObject? FromOrNull(string? value) => value is null ? null : From(value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -55,6 +63,21 @@ public record StringValueObject : IValueObject
     {
         StringValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="StringValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="StringValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static StringValueObject? CreateOrNull(string? value)
+    {
+        StringValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }
@@ -72,7 +95,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts an integer to a string.
     /// </summary>
-    protected static string Convert(int value) => Convert(value.ToString());
+    protected static string Convert(int value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a float to a string.
@@ -92,7 +115,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a long to a string.
     /// </summary>
-    protected static string Convert(long value) => Convert(value.ToString());
+    protected static string Convert(long value) => Convert(value.ToString(CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a double to a string.
@@ -102,7 +125,7 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Converts a DateTime to a string.
     /// </summary>
-    protected static string Convert(DateTime value) => Convert(value.ToString(CultureInfo.InvariantCulture));
+    protected static string Convert(DateTime value) => Convert(value.ToString("O", CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts a Guid to a string.
@@ -116,6 +139,12 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Returns the string representation of the encapsulated value.
     /// </summary>
+    /// <remarks>
+    /// <b>Sealed on purpose.</b> A record synthesizes its own <see cref="ToString"/> override unless it
+    /// declares one, and the synthesized one prints <c>TypeName { Value = … }</c>. Sealing here stops the
+    /// compiler from generating it in every derived value object, so the whole hierarchy keeps printing
+    /// the bare value without repeating this method.
+    /// </remarks>
     /// <returns>The internal value (<see cref="Value"/>).</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

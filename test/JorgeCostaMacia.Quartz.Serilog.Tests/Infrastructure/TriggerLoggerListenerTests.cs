@@ -47,7 +47,7 @@ public class TriggerLoggerListenerTests
     {
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
 
-        await Listener().TriggerMisfired(context.Trigger, TestContext.Current.CancellationToken);
+        await Listener().TriggerMisfired(context.Trigger, context.Scheduler, TestContext.Current.CancellationToken);
 
         LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerMisfired", logEvent.MessageTemplate.Text);
@@ -68,5 +68,18 @@ public class TriggerLoggerListenerTests
         Assert.Equal("TriggerComplete", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.True(logEvent.Properties.ContainsKey("TriggerResult"));
+    }
+    // The other side of the two ?. guards: Quartz leaves ScheduledFireTimeUtc empty on a manual
+    // trigger and NextFireTimeUtc empty on a one-shot, so both have to log as null rather than throw.
+    [Fact]
+    public async Task TriggerFired_WithTheTimestampsFlipped_LogsThemAsTheyCome()
+    {
+        JobExecutionContextFake flipped = (await JobExecutionContextFake.Create()).WithFlippedTimestamps();
+
+        await Listener().TriggerFired(flipped.Trigger, flipped, TestContext.Current.CancellationToken);
+
+        LogEvent logEvent = Assert.Single(_sink.Events);
+        Assert.Null(((ScalarValue)logEvent.Properties["ScheduleTime"]).Value);
+        Assert.NotNull(((ScalarValue)logEvent.Properties["NextFireTime"]).Value);
     }
 }

@@ -35,6 +35,14 @@ public record PageNumberValueObject : IntValueObject
     public static new PageNumberValueObject From(int value) => new PageNumberValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(int)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The page number value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="PageNumberValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static new PageNumberValueObject? FromOrNull(int? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(int)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -45,6 +53,21 @@ public record PageNumberValueObject : IntValueObject
     {
         PageNumberValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(int)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The page number value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="PageNumberValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="PageNumberValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static new PageNumberValueObject? CreateOrNull(int? value)
+    {
+        PageNumberValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

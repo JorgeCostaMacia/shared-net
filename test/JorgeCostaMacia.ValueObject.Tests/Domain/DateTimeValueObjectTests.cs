@@ -92,9 +92,24 @@ public class DateTimeValueObjectTests
     public void Convert_FromDateAndTimeStrings_Combines()
         => Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert("2026-03-15", "14:30:45"));
 
+    // The numeric overloads read the value as ticks, so 1 is one tick past DateTime.MinValue.
+    [Fact]
+    public void Convert_FromNumbers_ReadsTheValueAsTicks()
+    {
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1));
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1f));
+        Assert.Equal(new DateTime(1), TestDateTime.Convert(1m));
+    }
+
     public sealed record TestDateTime : DateTimeValueObject
     {
         public TestDateTime(DateTime value) : base(value) { }
+
+        public static new DateTime Convert(int value) => DateTimeValueObject.Convert(value);
+
+        public static new DateTime Convert(float value) => DateTimeValueObject.Convert(value);
+
+        public static new DateTime Convert(decimal value) => DateTimeValueObject.Convert(value);
 
         public static new DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
 
@@ -104,4 +119,26 @@ public class DateTimeValueObjectTests
 
         public static new DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(DateTimeValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(DateTimeValueObject.FromOrNull(new DateTime(2026, 1, 1)));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(DateTimeValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(DateTimeValueObject.CreateOrNull(new DateTime(2026, 1, 1)));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<DateTimeValueObjectValidationException>(() => DateTimeValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
 }

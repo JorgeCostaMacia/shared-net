@@ -35,10 +35,5 @@ public static class DomainExceptionDefaults
     /// The default fixed unique identifier representing a generic Domain Error.
     /// This constant allows grouping of all unspecified domain exceptions under a single code.
     /// </summary>
-    public static Guid AGGREGATE_CODE =>
-#if NET9_0_OR_GREATER
-    new Guid("019ab6e5-2892-731e-84b6-028973d9a20a");
-#else
-    new Guid("59f1d620-5763-4045-81ef-440061d162d8");
-#endif
+    public static Guid AGGREGATE_CODE => new Guid("019ab6e5-2892-731e-84b6-028973d9a20a");
 }

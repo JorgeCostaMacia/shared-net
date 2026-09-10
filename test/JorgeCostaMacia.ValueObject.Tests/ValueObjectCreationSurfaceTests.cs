@@ -6,7 +6,8 @@ namespace JorgeCostaMacia.ValueObject.Tests;
 /// <summary>
 /// Contract test over the whole library: every value object must expose the creation surface the rest
 /// of the ecosystem relies on — a public constructor (hydration, used by the EF converters and
-/// deserializers) plus exactly one public static <c>From</c> and <c>Create</c> returning its own type.
+/// deserializers), exactly one public static <c>From</c> and <c>Create</c> returning its own type, and
+/// their absence-propagating siblings <c>FromOrNull</c> and <c>CreateOrNull</c>.
 /// A value object added without them is caught here, not in a consumer at runtime.
 /// </summary>
 public class ValueObjectCreationSurfaceTests
@@ -36,6 +37,16 @@ public class ValueObjectCreationSurfaceTests
             if (!DeclaresSingleFactory(valueObject, "Create"))
             {
                 violations.Add($"{valueObject.Name}: needs exactly one public static 'Create' returning {valueObject.Name}");
+            }
+
+            if (!DeclaresSingleFactory(valueObject, "FromOrNull"))
+            {
+                violations.Add($"{valueObject.Name}: needs exactly one public static 'FromOrNull' returning {valueObject.Name}?");
+            }
+
+            if (!DeclaresSingleFactory(valueObject, "CreateOrNull"))
+            {
+                violations.Add($"{valueObject.Name}: needs exactly one public static 'CreateOrNull' returning {valueObject.Name}?");
             }
         }
 

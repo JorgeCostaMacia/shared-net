@@ -33,4 +33,30 @@ public class EmailValueObjectTests
 
         Assert.Equal(2, exception.Validations.Count);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out. It is not a second
+    // policy for invalid input — a supplied value still goes through the same rules.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(EmailValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.Equal("user@host.com", EmailValueObject.FromOrNull("  user@host.com  ")!.Value);
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(EmailValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<EmailValueObjectValidationException>(() => EmailValueObject.CreateOrNull("notanemail"));
+
+    [Fact]
+    public void CreateOrNull_WithAValidValue_ReturnsTheValueObject()
+        => Assert.Equal("user@host.com", EmailValueObject.CreateOrNull("user@host.com")!.Value);
+    // A record generates a ToString() that prints the type and its properties; the override replaces
+    // it with the bare value, which is what a log line or an interpolated string should show.
+    [Fact]
+    public void ToString_ShowsTheBareValue()
+        => Assert.Equal("user@host.com", EmailValueObject.From("user@host.com").ToString());
 }

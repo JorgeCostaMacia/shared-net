@@ -44,6 +44,14 @@ public record UuidValueObject : IValueObject
     public static UuidValueObject From(Guid value) => new UuidValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(Guid)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The GUID value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="UuidValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static UuidValueObject? FromOrNull(Guid? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(Guid)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -54,6 +62,21 @@ public record UuidValueObject : IValueObject
     {
         UuidValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(Guid)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The GUID value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="UuidValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="UuidValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static UuidValueObject? CreateOrNull(Guid? value)
+    {
+        UuidValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }
@@ -79,5 +102,5 @@ public record UuidValueObject : IValueObject
     /// Returns the string representation of the encapsulated GUID value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a standard string representation of a GUID.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

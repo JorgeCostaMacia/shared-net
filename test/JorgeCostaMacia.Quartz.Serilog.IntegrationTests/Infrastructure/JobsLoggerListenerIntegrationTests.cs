@@ -33,11 +33,12 @@ public class JobsLoggerListenerIntegrationTests
         Assert.True(was.Properties.ContainsKey("NextFireTime"));
         Assert.Null(((ScalarValue)was.Properties["NextFireTime"]).Value);
 
-        // not a recovery re-run, and no immediate refires
+        // not a recovery re-run, no immediate refires and not a persisted retry — three distinct counters
         Assert.False(Assert.IsType<bool>(((ScalarValue)was.Properties["Recovering"]).Value));
         Assert.Equal(0, Assert.IsType<int>(((ScalarValue)was.Properties["RefireCount"]).Value));
+        Assert.Equal(0, Assert.IsType<int>(((ScalarValue)was.Properties["RetryAttempt"]).Value));
 
-        // the trace identity is shared across the execution's callbacks (real Get/Put on the context)
+        // the trace identity is shared across the firing's callbacks (a real MergedJobDataMap on the context)
         Assert.Equal(((ScalarValue)toBe.Properties["AggregateId"]).Value, ((ScalarValue)was.Properties["AggregateId"]).Value);
     }
 

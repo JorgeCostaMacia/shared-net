@@ -96,12 +96,7 @@ public class StringValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(StringValueObjectValidationException).FullName ?? typeof(StringValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f3f-18de-7f25-ba72-abd5dbfff4b2")
-#else
-    new Guid("a7549f4f-a629-4989-b446-9e77fcb19971")
-#endif
-        ,
+        new Guid("01951f3f-18de-7f25-ba72-abd5dbfff4b2"),
         null,
         null,
         null,

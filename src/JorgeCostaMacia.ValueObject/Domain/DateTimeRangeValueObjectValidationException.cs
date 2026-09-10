@@ -96,12 +96,7 @@ public class DateTimeRangeValueObjectValidationException : ValidationException
     ) : base(
         null,
         typeof(DateTimeRangeValueObjectValidationException).FullName ?? typeof(DateTimeRangeValueObjectValidationException).Name,
-#if NET9_0_OR_GREATER
-    new Guid("01951f26-fd3e-7370-be17-d590fb9e54b9")
-#else
-    new Guid("a9a32cd8-4197-4c59-8abf-8ae7f644cdd5")
-#endif
-        ,
+        new Guid("01951f26-fd3e-7370-be17-d590fb9e54b9"),
         null,
         null,
         null,

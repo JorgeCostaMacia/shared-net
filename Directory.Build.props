@@ -2,7 +2,7 @@
 
 	<!-- Repo identity + the single (lockstep) release version — shared by every project -->
 	<PropertyGroup>
-		<VersionPrefix>6.0.6</VersionPrefix>
+		<VersionPrefix>7.0.0</VersionPrefix>
 		<Authors>JorgeCostaMacia</Authors>
 		<Company>$(Authors)</Company>
 		<Copyright>2023 Jorge Costa Maciá</Copyright>
@@ -12,7 +12,7 @@
 
 	<!-- Build settings common to every project (packages and tests alike) -->
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest</AnalysisLevel>

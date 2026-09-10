@@ -53,6 +53,15 @@ public record IntRangeValueObject : IValueObject
     public static IntRangeValueObject From(int valueStart, int valueEnd) => new IntRangeValueObject(IntValueObject.From(valueStart), IntValueObject.From(valueEnd));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(int, int)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="valueStart">The start integer Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end integer Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="IntRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static IntRangeValueObject? FromOrNull(int? valueStart, int? valueEnd) => valueStart is null || valueEnd is null ? null : From(valueStart.Value, valueEnd.Value);
+
+    /// <summary>
     /// Creates: materializes the range through <see cref="From(int, int)"/> and validates it composed,
     /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
@@ -68,6 +77,22 @@ public record IntRangeValueObject : IValueObject
         return vo;
     }
 
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(int, int)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="valueStart">The start integer Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end integer Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="IntRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="IntRangeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static IntRangeValueObject? CreateOrNull(int? valueStart, int? valueEnd)
+    {
+        IntRangeValueObject? vo = FromOrNull(valueStart, valueEnd);
+        vo?.Validate();
+
+        return vo;
+    }
+
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => IntRangeValueObjectValidator.Create().ValidateAndThrow(this);
 
@@ -75,5 +100,5 @@ public record IntRangeValueObject : IValueObject
     /// Returns the string representation of the integer range in the format "Start Value - End Value".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>
-    public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+    public sealed override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
 }
