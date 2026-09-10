@@ -48,6 +48,12 @@ the build carries zero warnings.
 
 Packages reference each other via **`ProjectReference`** (e.g. ValueObject → Exception, Aggregate → DomainEvent). `dotnet pack` turns each `ProjectReference` into a NuGet `<dependency>` at the sibling's version, so the dependency graph still ships in the nuspec — but you build against local source and **release everything together** (no phased, tier-by-tier publishing). Don't reintroduce `PackageReference` between these packages.
 
+## Extend the framework's options, never replace its call
+
+A package that carries a policy publishes it as an **extension on the type the framework already hands the host** — `LoggerConfiguration.WithDefaults()`, `IQuartzBuilder.WithPostgresDefaults()` — and never as an `Add…` method that wraps the framework's own. The host keeps writing `AddSerilog(…)` or `AddQuartz(…)`, so what it composes stays readable in its `ProgramBuilder`; only the policy moves here. `http-net` follows the same rule with its `ApiVersioningOptions` / `ProblemDetailsOptions` extensions, and its doc comments say so.
+
+Two facades were removed in 7.0.0 for breaking it: `AddSerilogContext`, which replaced `AddSerilog` and which no host in the family had adopted — each had hand-rolled the enrichers instead — and `AddValueObjectContext`, which registered validators nothing ever resolved, since each assembles itself through its static `Create()`. **Don't add another.** A policy belongs in an extension when the framework cannot read it from configuration; when it can — Serilog's sinks, levels and overrides — leave it in `appsettings`, where it can differ per app and per environment.
+
 ## Dependencies — Central Package Management
 
 Third-party package versions are centralized in **`Directory.Packages.props`** (repo root, `ManagePackageVersionsCentrally=true`): add or bump them **there** as `<PackageVersion>`, and reference packages in csproj **without** a `Version`. (Inter-package deps are `ProjectReference`, not packages — see above — so CPM doesn't manage them.)
