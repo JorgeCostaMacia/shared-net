@@ -127,5 +127,5 @@ public record BoolValueObject : IValueObject
     /// Returns the string representation of the encapsulated boolean value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string ("True" or "False").</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

@@ -115,5 +115,5 @@ public record ByteValueObject : IValueObject
     /// Note: This operation may be lossy or result in unreadable characters if the bytes do not represent valid UTF8 text.
     /// </summary>
     /// <returns>The internal byte array (<see cref="Value"/>) decoded as a UTF8 string.</returns>
-    public override string ToString() => System.Text.Encoding.UTF8.GetString(Value);
+    public sealed override string ToString() => System.Text.Encoding.UTF8.GetString(Value);
 }

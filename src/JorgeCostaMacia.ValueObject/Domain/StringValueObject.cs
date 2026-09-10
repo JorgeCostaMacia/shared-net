@@ -139,6 +139,12 @@ public record StringValueObject : IValueObject
     /// <summary>
     /// Returns the string representation of the encapsulated value.
     /// </summary>
+    /// <remarks>
+    /// <b>Sealed on purpose.</b> A record synthesizes its own <see cref="ToString"/> override unless it
+    /// declares one, and the synthesized one prints <c>TypeName { Value = … }</c>. Sealing here stops the
+    /// compiler from generating it in every derived value object, so the whole hierarchy keeps printing
+    /// the bare value without repeating this method.
+    /// </remarks>
     /// <returns>The internal value (<see cref="Value"/>).</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

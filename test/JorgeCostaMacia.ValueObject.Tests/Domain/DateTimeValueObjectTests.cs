@@ -104,4 +104,26 @@ public class DateTimeValueObjectTests
 
         public static new DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(DateTimeValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(DateTimeValueObject.FromOrNull(new DateTime(2026, 1, 1)));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(DateTimeValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(DateTimeValueObject.CreateOrNull(new DateTime(2026, 1, 1)));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<DateTimeValueObjectValidationException>(() => DateTimeValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
 }

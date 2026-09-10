@@ -100,5 +100,5 @@ public record PageNumberRangeValueObject : IValueObject
     /// Returns the string representation of the page number range in the format "Start Page - End Page".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>
-    public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+    public sealed override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
 }

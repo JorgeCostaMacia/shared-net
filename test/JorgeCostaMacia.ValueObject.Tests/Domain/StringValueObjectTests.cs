@@ -117,4 +117,21 @@ public class StringValueObjectTests
         /// <summary>Exposes the DateTime overload, the one conversion the probe was missing.</summary>
         public static new string Convert(DateTime value) => StringValueObject.Convert(value);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(StringValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(StringValueObject.FromOrNull("hi"));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(StringValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(StringValueObject.CreateOrNull("hi"));
 }

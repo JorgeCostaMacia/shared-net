@@ -57,4 +57,26 @@ public class UuidValueObjectTests
 
         public static new Guid Convert(string value) => UuidValueObject.Convert(value);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(UuidValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(UuidValueObject.FromOrNull(Guid.NewGuid()));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(UuidValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(UuidValueObject.CreateOrNull(Guid.NewGuid()));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<UuidValueObjectValidationException>(() => UuidValueObject.CreateOrNull(Guid.Empty));
 }

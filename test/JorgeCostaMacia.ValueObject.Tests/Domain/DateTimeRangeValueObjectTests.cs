@@ -46,4 +46,34 @@ public class DateTimeRangeValueObjectTests
     [Fact]
     public void Create_OnInvalid_ThrowsDateTimeRangeValueObjectValidationException()
         => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => DateTimeRangeValueObject.Create(_late, _early));
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(DateTimeRangeValueObject.FromOrNull(null, null));
+
+    // A window needs both bounds, so a half-supplied one gives no window rather than half of one.
+    [Fact]
+    public void FromOrNull_WithOnlyOneBound_ShortCircuitsToNull()
+    {
+        Assert.Null(DateTimeRangeValueObject.FromOrNull(new DateTime(2026, 1, 1), null));
+        Assert.Null(DateTimeRangeValueObject.FromOrNull(null, new DateTime(2026, 2, 1)));
+    }
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(DateTimeRangeValueObject.FromOrNull(new DateTime(2026, 1, 1), new DateTime(2026, 2, 1)));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(DateTimeRangeValueObject.CreateOrNull(null, null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(DateTimeRangeValueObject.CreateOrNull(new DateTime(2026, 1, 1), new DateTime(2026, 2, 1)));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<DateTimeRangeValueObjectValidationException>(() => DateTimeRangeValueObject.CreateOrNull(new DateTime(2026, 2, 1), new DateTime(2026, 1, 1)));
 }

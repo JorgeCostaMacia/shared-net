@@ -141,5 +141,5 @@ public record DateTimeValueObject : IValueObject
     /// Returns the string representation of the encapsulated <see cref="DateTime"/> value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

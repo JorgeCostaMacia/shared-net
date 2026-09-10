@@ -73,4 +73,26 @@ public class DateTimeUtcValueObjectTests
 
         public static DateTime ConvertToUtc(DateTime value, TimeZoneInfo fromTimeZone) => Convert(value, fromTimeZone);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(DateTimeUtcValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(DateTimeUtcValueObject.FromOrNull(new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc)));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(DateTimeUtcValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(DateTimeUtcValueObject.CreateOrNull(new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc)));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<DateTimeUtcValueObjectValidationException>(() => DateTimeUtcValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
 }
