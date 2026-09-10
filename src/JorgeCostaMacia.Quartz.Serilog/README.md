@@ -39,7 +39,7 @@ services
 
 The **.NET 10** SDK.
 
-Depends on [JorgeCostaMacia.Quartz](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/), [Quartz](https://www.nuget.org/packages/Quartz/) and [Serilog](https://www.nuget.org/packages/Serilog/).
+Depends on [JorgeCostaMacia.Quartz](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/), [Quartz](https://www.nuget.org/packages/Quartz/), [Serilog](https://www.nuget.org/packages/Serilog/) and the `Microsoft.Extensions` logging and dependency-injection abstractions.
 
 ## About
 
