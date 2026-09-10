@@ -45,6 +45,14 @@ public record DoubleValueObject : IValueObject
     public static DoubleValueObject From(double value) => new DoubleValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(double)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The double value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="DoubleValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static DoubleValueObject? FromOrNull(double? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(double)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -55,6 +63,21 @@ public record DoubleValueObject : IValueObject
     {
         DoubleValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(double)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The double value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="DoubleValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="DoubleValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static DoubleValueObject? CreateOrNull(double? value)
+    {
+        DoubleValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

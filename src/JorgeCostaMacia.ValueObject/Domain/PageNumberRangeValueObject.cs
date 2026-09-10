@@ -53,6 +53,15 @@ public record PageNumberRangeValueObject : IValueObject
     public static PageNumberRangeValueObject From(int valueStart, int valueEnd) => new PageNumberRangeValueObject(PageNumberValueObject.From(valueStart), PageNumberValueObject.From(valueEnd));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(int, int)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="valueStart">The start page number Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end page number Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="PageNumberRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static PageNumberRangeValueObject? FromOrNull(int? valueStart, int? valueEnd) => valueStart is null || valueEnd is null ? null : From(valueStart.Value, valueEnd.Value);
+
+    /// <summary>
     /// Creates: materializes the range through <see cref="From(int, int)"/> and validates it composed,
     /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
@@ -64,6 +73,22 @@ public record PageNumberRangeValueObject : IValueObject
     {
         PageNumberRangeValueObject vo = From(valueStart, valueEnd);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(int, int)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="valueStart">The start page number Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end page number Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="PageNumberRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="PageNumberRangeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static PageNumberRangeValueObject? CreateOrNull(int? valueStart, int? valueEnd)
+    {
+        PageNumberRangeValueObject? vo = FromOrNull(valueStart, valueEnd);
+        vo?.Validate();
 
         return vo;
     }

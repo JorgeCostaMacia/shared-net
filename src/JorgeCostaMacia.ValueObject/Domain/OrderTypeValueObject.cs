@@ -37,6 +37,14 @@ public record OrderTypeValueObject : StringValueObject
     public static new OrderTypeValueObject From(string value) => new OrderTypeValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The order-type string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="OrderTypeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static new OrderTypeValueObject? FromOrNull(string? value) => value is null ? null : From(value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -47,6 +55,21 @@ public record OrderTypeValueObject : StringValueObject
     {
         OrderTypeValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The order-type string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="OrderTypeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="OrderTypeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static new OrderTypeValueObject? CreateOrNull(string? value)
+    {
+        OrderTypeValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }
