@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\JorgeCostaMacia.Quartz\JorgeCostaMacia.Quartz.csproj" />
+	</ItemGroup>
+
+	<!-- Npgsql: Quartz resolves the provider by name at runtime, so the store cannot be built without it -->
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Npgsql" />
+		<PackageReference Include="Quartz" />
+		<PackageReference Include="Testcontainers.PostgreSql" />
+	</ItemGroup>
+
+</Project>

@@ -4,7 +4,7 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 
 ## Layout
 
-- `src/<Package>/` — one package per folder. `test/<Package>.Tests/` — its tests, plus `<Package>.IntegrationTests/` where a suite needs a real dependency (Testcontainers Postgres, a live Quartz scheduler). `assets/` — icons + social preview.
+- `src/<Package>/` — one package per folder. `test/<Package>.Tests/` — its tests, plus `<Package>.IntegrationTests/` where a suite needs a real dependency. Three do: `ValueObject.EfConverter` (Testcontainers Postgres for the converter mapping), `Quartz` (Postgres for the store configuration — Quartz 4 validates the schema on start, so nothing about it can be asserted from a fake) and `Quartz.Serilog` (a live in-memory scheduler, no container). `assets/` — icons + social preview.
 - **3-tier `Directory.Build.props`**: **root** (repo identity — Authors / Company / Copyright / Repository — + the single lockstep `VersionPrefix`; TFM `net10.0`; ImplicitUsings, Nullable, AnalysisLevel, EnforceCodeStyleInBuild) → **`src/`** (package-output: icon / readme / license, SourceLink, symbols, `GenerateDocumentationFile`, pack of LICENSE/COPYRIGHT/icon/README) → **`test/`** (test settings). Each `src` csproj declares **only** `Description` / `PackageTags`; everything else — the single `VersionPrefix`, package metadata, and the LICENSE/COPYRIGHT/icon/README packing — is inherited from the props (don't restate it).
 
 ## Targets & stack
@@ -107,6 +107,8 @@ dotnet test   shared-net.slnx -c Release       # MTP v2 via global.json (needs t
 dotnet pack   shared-net.slnx -c Release        # packs all packable; tests are IsPackable=false
 ```
 
-One suite needs **Docker running locally**: `ValueObject.EfConverter.IntegrationTests` starts a Testcontainers Postgres, and without a daemon `dotnet test` fails there rather than skipping. `Quartz.Serilog.IntegrationTests` needs nothing external — it drives a real but in-memory Quartz scheduler. The whole solution runs in well under a minute.
+Two suites need **Docker running locally** — `ValueObject.EfConverter.IntegrationTests` and `Quartz.IntegrationTests` each start a Testcontainers Postgres, and without a daemon `dotnet test` fails there rather than skipping. `Quartz.Serilog.IntegrationTests` needs nothing external: it drives a real but in-memory Quartz scheduler.
+
+One runtime requirement the packages cannot declare: `WithPostgresDefaults` makes Quartz resolve its ADO provider **by name at runtime**, so a host calling it must reference `Npgsql` itself. `JorgeCostaMacia.Quartz` deliberately does not depend on it — a consumer that only wants `JobTrace` should not pull in a database driver — and a host that forgets fails at startup with `ArgumentException: Error while reading metadata information for provider 'Npgsql'`.
 
 Run **`dotnet format` before committing** — it applies the `.editorconfig` (using ordering, whitespace), the CLI equivalent of Visual Studio's *Code Cleanup*, so generated code doesn't drift from what the IDE would produce. `develop.yml` runs the `--verify-no-changes` form, so skipping it fails CI rather than landing quietly.
