@@ -11,7 +11,6 @@
 		<PackageVersion Include="FluentValidation" Version="12.1.1" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.12" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.12" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
@@ -22,10 +21,7 @@
 		<PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
 		<PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
 		<PackageVersion Include="Serilog.Exceptions" Version="8.4.0" />
-		<PackageVersion Include="Serilog.Extensions.Hosting" Version="10.0.0" />
 		<PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
-		<PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.1" />
-		<PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
 		<PackageVersion Include="Serilog.Sinks.InMemory" Version="2.0.0" />
 		<PackageVersion Include="Testcontainers" Version="4.15.0" />
 		<PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
