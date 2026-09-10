@@ -54,4 +54,9 @@ public class EmailValueObjectTests
     [Fact]
     public void CreateOrNull_WithAValidValue_ReturnsTheValueObject()
         => Assert.Equal("user@host.com", EmailValueObject.CreateOrNull("user@host.com")!.Value);
+    // A record generates a ToString() that prints the type and its properties; the override replaces
+    // it with the bare value, which is what a log line or an interpolated string should show.
+    [Fact]
+    public void ToString_ShowsTheBareValue()
+        => Assert.Equal("user@host.com", EmailValueObject.From("user@host.com").ToString());
 }

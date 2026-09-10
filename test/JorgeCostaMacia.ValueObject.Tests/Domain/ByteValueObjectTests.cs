@@ -55,4 +55,21 @@ public class ByteValueObjectTests
 
         public static new byte[] Convert(string value) => ByteValueObject.Convert(value);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(ByteValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(ByteValueObject.FromOrNull(new byte[] { 1, 2 }));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(ByteValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(ByteValueObject.CreateOrNull(new byte[] { 1, 2 }));
 }

@@ -114,5 +114,5 @@ public record LongValueObject : IValueObject
     /// Returns the string representation of the encapsulated long value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

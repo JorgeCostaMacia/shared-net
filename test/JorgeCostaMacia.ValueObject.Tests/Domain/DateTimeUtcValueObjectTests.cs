@@ -72,5 +72,81 @@ public class DateTimeUtcValueObjectTests
         public TestUtc(DateTime value) : base(value) { }
 
         public static DateTime ConvertToUtc(DateTime value, TimeZoneInfo fromTimeZone) => Convert(value, fromTimeZone);
+
+        public static TimeSpan Delta(TimeZoneInfo fromTimeZone, DateTime value) => DaylightDelta(fromTimeZone, value);
+    }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(DateTimeUtcValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(DateTimeUtcValueObject.FromOrNull(new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc)));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(DateTimeUtcValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(DateTimeUtcValueObject.CreateOrNull(new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc)));
+
+    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    [Fact]
+    public void CreateOrNull_WithAnInvalidValue_StillThrows()
+        => Assert.Throws<DateTimeUtcValueObjectValidationException>(() => DateTimeUtcValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
+    // The daylight delta is read off the adjustment rule covering the date. Both paths matter: a zone
+    // with a rule for that date reports the rule's own delta, and a zone with no rule at all — UTC has
+    // none — falls back to one hour, which is what the invalid-time correction assumes.
+    [Fact]
+    public void DaylightDelta_WithARuleCoveringTheDate_ReturnsTheRuleDelta()
+    {
+        TimeZoneInfo madrid = TimeZoneInfo.FindSystemTimeZoneById(OperatingSystem.IsWindows() ? "Romance Standard Time" : "Europe/Madrid");
+        TimeZoneInfo.AdjustmentRule[] rules = madrid.GetAdjustmentRules();
+        Assert.NotEmpty(rules);   // guard: the assertion below is meaningless on a zone without rules
+
+        TimeZoneInfo.AdjustmentRule rule = rules[^1];
+        DateTime inside = rule.DateStart.Date.AddDays(1);
+
+        Assert.Equal(rule.DaylightDelta, TestUtc.Delta(madrid, inside));
+    }
+
+    // The window is an && of two comparisons, so a date has to miss on each side. A real zone will not
+    // do: its current rule runs from DateTime.MinValue to MaxValue, so nothing falls outside it. A custom
+    // zone with one bounded rule is what exercises both halves of the condition.
+    [Fact]
+    public void DaylightDelta_WithADateOutsideTheRuleWindow_FallsBackToOneHour()
+    {
+        TimeZoneInfo.AdjustmentRule rule = TimeZoneInfo.AdjustmentRule.CreateAdjustmentRule(
+            new DateTime(2020, 1, 1),
+            new DateTime(2020, 12, 31),
+            TimeSpan.FromHours(2),
+            TimeZoneInfo.TransitionTime.CreateFixedDateRule(new DateTime(1, 1, 1, 2, 0, 0), 3, 1),
+            TimeZoneInfo.TransitionTime.CreateFixedDateRule(new DateTime(1, 1, 1, 3, 0, 0), 10, 1));
+
+        TimeZoneInfo bounded = TimeZoneInfo.CreateCustomTimeZone(
+            "bounded-test",
+            TimeSpan.FromHours(1),
+            "Bounded",
+            "Bounded Standard",
+            "Bounded Daylight",
+            new TimeZoneInfo.AdjustmentRule[] { rule });
+
+        // inside the window: the rule answers
+        Assert.Equal(TimeSpan.FromHours(2), TestUtc.Delta(bounded, new DateTime(2020, 6, 1)));
+
+        // before it starts, and after it ends: each half of the && misses in turn
+        Assert.Equal(TimeSpan.FromHours(1), TestUtc.Delta(bounded, new DateTime(2019, 6, 1)));
+        Assert.Equal(TimeSpan.FromHours(1), TestUtc.Delta(bounded, new DateTime(2021, 6, 1)));
+    }
+
+    [Fact]
+    public void DaylightDelta_WithNoRuleAtAll_FallsBackToOneHour()
+    {
+        Assert.Empty(TimeZoneInfo.Utc.GetAdjustmentRules());   // guard: UTC never adjusts
+
+        Assert.Equal(TimeSpan.FromHours(1), TestUtc.Delta(TimeZoneInfo.Utc, new DateTime(2026, 6, 1)));
     }
 }

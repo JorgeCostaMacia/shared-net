@@ -73,4 +73,8 @@ public class IntRangeValueObjectTests
     [Fact]
     public void CreateOrNull_WithAValidRange_ReturnsTheValueObject()
         => Assert.Equal(5, IntRangeValueObject.CreateOrNull(1, 5)!.ValueEnd.Value);
+    // A range prints both bounds joined, not the record dump of the two value objects.
+    [Fact]
+    public void ToString_ShowsBothBoundsJoined()
+        => Assert.Equal("1 - 5", IntRangeValueObject.From(1, 5).ToString());
 }

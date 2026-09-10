@@ -100,5 +100,5 @@ public record IntRangeValueObject : IValueObject
     /// Returns the string representation of the integer range in the format "Start Value - End Value".
     /// </summary>
     /// <returns>The combined string representation of the range.</returns>
-    public override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
+    public sealed override string ToString() => ValueStart.ToString() + " - " + ValueEnd.ToString();
 }

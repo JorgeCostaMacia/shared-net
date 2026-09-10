@@ -128,5 +128,5 @@ public record DecimalValueObject : IValueObject
     /// Returns the string representation of the encapsulated decimal value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a string.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

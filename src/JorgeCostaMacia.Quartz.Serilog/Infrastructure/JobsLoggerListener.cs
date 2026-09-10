@@ -69,16 +69,20 @@ public sealed class JobsLoggerListener : IJobListener
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public ValueTask JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
     {
+        // The root cause is resolved once: asking twice walked the chain twice and left a branch that
+        // no input can reach (non-null at the test, null at the log call).
+        System.Exception? cause = jobException?.GetBaseException();
+
         using (PushProperties(context))
         using (LogContext.PushProperty("JobRunTime", context.JobRunTime))
         {
-            if (jobException?.GetBaseException() is null)
+            if (cause is null)
             {
                 _logger.LogInformation("JobWasExecuted");
             }
             else
             {
-                _logger.LogError(jobException?.GetBaseException(), "JobWasExecuted");
+                _logger.LogError(cause, "JobWasExecuted");
             }
         }
 

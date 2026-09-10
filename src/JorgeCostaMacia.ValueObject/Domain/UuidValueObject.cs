@@ -102,5 +102,5 @@ public record UuidValueObject : IValueObject
     /// Returns the string representation of the encapsulated GUID value.
     /// </summary>
     /// <returns>The internal value (<see cref="Value"/>) as a standard string representation of a GUID.</returns>
-    public override string ToString() => Value.ToString();
+    public sealed override string ToString() => Value.ToString();
 }

@@ -58,4 +58,26 @@ public class FloatValueObjectTests
 
         public static new float Convert(double value) => FloatValueObject.Convert(value);
     }
+    // The OrNull pair carries the field's optionality: absence in, absence out — never a second
+    // policy for invalid input.
+    [Fact]
+    public void FromOrNull_WithNoValue_ShortCircuitsToNull()
+        => Assert.Null(FloatValueObject.FromOrNull(null));
+
+    [Fact]
+    public void FromOrNull_WithAValue_MaterializesIt()
+        => Assert.NotNull(FloatValueObject.FromOrNull(1.5f));
+
+    [Fact]
+    public void CreateOrNull_WithNoValue_ShortCircuitsWithoutValidating()
+        => Assert.Null(FloatValueObject.CreateOrNull(null));
+
+    [Fact]
+    public void CreateOrNull_WithAValue_ReturnsTheValueObject()
+        => Assert.NotNull(FloatValueObject.CreateOrNull(1.5f));
+    // A record generates a ToString() that prints the type and its properties; the override replaces
+    // it with the bare value, which is what a log line or an interpolated string should show.
+    [Fact]
+    public void ToString_ShowsTheBareValue()
+        => Assert.Equal(1.5f.ToString(), FloatValueObject.From(1.5f).ToString());
 }
