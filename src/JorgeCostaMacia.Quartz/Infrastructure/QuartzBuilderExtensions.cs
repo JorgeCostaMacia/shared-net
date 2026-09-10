@@ -32,8 +32,14 @@ public static class QuartzBuilderExtensions
     /// cannot forget it and end up pointing at another schema. Note that this is Quartz's
     /// <c>TablePrefix</c>, which <b>replaces</b> its <c>QRTZ_</c> default rather than adding to it: with
     /// <c>bus</c> the store reads <c>bus.TRIGGERS</c> and <c>bus.JOB_DETAILS</c>, not <c>bus.QRTZ_TRIGGERS</c>.
+    /// The schema itself is not created: <c>ProvisionSchema()</c> creates the tables, never the schema
+    /// holding them, and Quartz 4 validates their presence when the scheduler starts.
     /// </param>
     /// <returns>The same <paramref name="builder"/>, for chaining.</returns>
+    /// <exception cref="System.ArgumentException">
+    /// Thrown when the scheduler starts and the host has not referenced <c>Npgsql</c>: Quartz resolves
+    /// its ADO provider by name at runtime, and this package depends on <c>Quartz</c> alone.
+    /// </exception>
     /// <remarks>
     /// Clustering is on, which is what lets several replicas share one store without firing a trigger
     /// twice; it requires the rows' instance ids to differ, hence the machine name. Job data is stored as

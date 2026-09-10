@@ -44,6 +44,8 @@ builder.Services.AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsB
 
 The three arguments are the only things that differ between hosts: the scheduler's name, the **name** of the connection string (Quartz resolves it from `ConnectionStrings`, and a name that does not resolve fails the scheduler's start with a `SchedulerConfigException` naming it), and the schema holding the store tables — **without** the trailing dot, which is appended for you.
 
+One requirement this package cannot declare: Quartz resolves its ADO provider **by name at runtime**, so your host must reference `Npgsql` itself. This package depends on `Quartz` alone — a consumer that only wants `JobTrace` should not pull in a database driver — and a host that forgets fails at startup with `ArgumentException: Error while reading metadata information for provider 'Npgsql'`.
+
 That last one is Quartz's `TablePrefix`, and it **replaces** the `QRTZ_` default rather than adding to it: with `bus` the store reads `bus.TRIGGERS` and `bus.JOB_DETAILS`, not `bus.QRTZ_TRIGGERS`.
 
 ## Requirements
