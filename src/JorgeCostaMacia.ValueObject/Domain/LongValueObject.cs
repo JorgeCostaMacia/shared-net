@@ -45,6 +45,14 @@ public record LongValueObject : IValueObject
     public static LongValueObject From(long value) => new LongValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(long)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The long value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="LongValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static LongValueObject? FromOrNull(long? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(long)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -55,6 +63,21 @@ public record LongValueObject : IValueObject
     {
         LongValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(long)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The long value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="LongValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="LongValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static LongValueObject? CreateOrNull(long? value)
+    {
+        LongValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

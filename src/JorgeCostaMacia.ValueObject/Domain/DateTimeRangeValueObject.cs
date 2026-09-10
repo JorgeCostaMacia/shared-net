@@ -53,6 +53,15 @@ public record DateTimeRangeValueObject : IValueObject
     public static DateTimeRangeValueObject From(DateTime valueStart, DateTime valueEnd) => new DateTimeRangeValueObject(DateTimeValueObject.From(valueStart), DateTimeValueObject.From(valueEnd));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(DateTime, DateTime)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="valueStart">The start date Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end date Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="DateTimeRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static DateTimeRangeValueObject? FromOrNull(DateTime? valueStart, DateTime? valueEnd) => valueStart is null || valueEnd is null ? null : From(valueStart.Value, valueEnd.Value);
+
+    /// <summary>
     /// Creates: materializes the range through <see cref="From(DateTime, DateTime)"/> and validates it composed,
     /// <b>once</b> — one exception with the complete failure list (parts and range invariant together).
     /// </summary>
@@ -64,6 +73,22 @@ public record DateTimeRangeValueObject : IValueObject
     {
         DateTimeRangeValueObject vo = From(valueStart, valueEnd);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when either bound is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(DateTime, DateTime)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="valueStart">The start date Value Object, or <see langword="null"/>.</param>
+    /// <param name="valueEnd">The end date Value Object, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="DateTimeRangeValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="DateTimeRangeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static DateTimeRangeValueObject? CreateOrNull(DateTime? valueStart, DateTime? valueEnd)
+    {
+        DateTimeRangeValueObject? vo = FromOrNull(valueStart, valueEnd);
+        vo?.Validate();
 
         return vo;
     }

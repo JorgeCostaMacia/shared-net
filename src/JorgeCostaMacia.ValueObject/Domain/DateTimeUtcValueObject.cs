@@ -38,6 +38,14 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     public static new DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(DateTime)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="DateTimeUtcValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static new DateTimeUtcValueObject? FromOrNull(DateTime? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -48,6 +56,21 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     {
         DateTimeUtcValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(DateTime)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static new DateTimeUtcValueObject? CreateOrNull(DateTime? value)
+    {
+        DateTimeUtcValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

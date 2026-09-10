@@ -45,6 +45,14 @@ public record FloatValueObject : IValueObject
     public static FloatValueObject From(float value) => new FloatValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(float)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The float value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="FloatValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static FloatValueObject? FromOrNull(float? value) => value is null ? null : From(value.Value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(float)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -55,6 +63,21 @@ public record FloatValueObject : IValueObject
     {
         FloatValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(float)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The float value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="FloatValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="FloatValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static FloatValueObject? CreateOrNull(float? value)
+    {
+        FloatValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

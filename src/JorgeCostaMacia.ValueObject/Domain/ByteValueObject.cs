@@ -44,6 +44,14 @@ public record ByteValueObject : IValueObject
     public static ByteValueObject From(byte[] value) => new ByteValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(byte[])"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The byte array to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="ByteValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static ByteValueObject? FromOrNull(byte[]? value) => value is null ? null : From(value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(byte[])"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -54,6 +62,21 @@ public record ByteValueObject : IValueObject
     {
         ByteValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(byte[])"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The byte array to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="ByteValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="ByteValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static ByteValueObject? CreateOrNull(byte[]? value)
+    {
+        ByteValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

@@ -36,6 +36,14 @@ public record IpValueObject : StringValueObject
     public static new IpValueObject From(string value) => new IpValueObject(Convert(value));
 
     /// <summary>
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
+    /// </summary>
+    /// <param name="value">The IP address string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, unvalidated <see cref="IpValueObject"/> instance, or <see langword="null"/>.</returns>
+    public static new IpValueObject? FromOrNull(string? value) => value is null ? null : From(value);
+
+    /// <summary>
     /// Creates: materializes the value through <see cref="From(string)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
@@ -46,6 +54,21 @@ public record IpValueObject : StringValueObject
     {
         IpValueObject vo = From(value);
         vo.Validate();
+
+        return vo;
+    }
+
+    /// <summary>
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
+    /// </summary>
+    /// <param name="value">The IP address string value to encapsulate, or <see langword="null"/>.</param>
+    /// <returns>A new, validated <see cref="IpValueObject"/> instance, or <see langword="null"/>.</returns>
+    /// <exception cref="IpValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    public static new IpValueObject? CreateOrNull(string? value)
+    {
+        IpValueObject? vo = FromOrNull(value);
+        vo?.Validate();
 
         return vo;
     }

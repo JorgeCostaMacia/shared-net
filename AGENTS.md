@@ -15,6 +15,35 @@ Foundational, self-contained .NET packages — DDD building blocks and small uti
 - Source is **UTF-8 without BOM** (`.editorconfig` `charset = utf-8`). camelCase locals, PascalCase types, I-prefixed interfaces. Copyright year stays **2023** (deliberate — don't bump).
 - **Explicit types everywhere — spell the type out.** Never `var`, never target-typed `new()`, never collection expressions `[]`: write `new Foo(...)`, `new byte[] { ... }`, `new List<T> { ... }`, `Array.Empty<T>()`. The `.editorconfig` sets all three to explicit, but only `var` is analyzer-enforced — `new()`/`[]` can't be flagged (the analyzer never reports the implicit form), so `develop.yml` guards them with a **grep step** that fails the build if either reappears — next to a **`dotnet format --verify-no-changes` step**, which is what catches whitespace and using order (those are not analyzer diagnostics, so they compile clean). Do not introduce `new()`/`[]` when editing — CI, not just review, will reject it.
 
+## The value-object factory surface
+
+Every value object carries **four** public static factories, and a contract test
+(`ValueObjectCreationSurfaceTests`) scans the assembly by reflection and fails if one is missing:
+
+| verb | input | returns | semantics |
+|---|---|---|---|
+| `From(T)` | a value | **non-null** | converts through `Convert`, **unvalidated** |
+| `Create(T)` | a value | **non-null** | `From` + `Validate()` — nothing invalid escapes |
+| `FromOrNull(T?)` | a value or nothing | nullable | absence propagates, still unvalidated |
+| `CreateOrNull(T?)` | a value or nothing | nullable | absence short-circuits; a supplied value is validated |
+
+Two rules keep the pair honest:
+
+- **The `OrNull` pair is about absence, not failure.** It answers "the field did not come, what do I
+  build?" — never "this might be invalid, don't throw at me". That is why there is no `TryFrom`:
+  `From` only converts and cannot fail, so there is nothing to try. Nor a `FromOrDefault`: an
+  out-of-range value is a caller mistake, and coercing it would hide the mistake *and* give two
+  callers different behaviour for the same rule.
+- **`CreateOrNull` branches on what `FromOrNull` returned**, not on whether the input was null, and
+  validates with `vo?.Validate()`. Branching on the input would hard-code "non-null in, non-null
+  out" and would break the day a `From` maps a sentinel to absence.
+
+The ten bases that derive from another base (`EmailValueObject : StringValueObject`,
+`PageSizeValueObject : IntValueObject`, `DateTimeUtcValueObject : DateTimeValueObject`, …) declare all
+four with **`static new`**, because a static factory returning the derived type cannot be inherited.
+The compiler proves each one is needed: `CS0109` ("`new` not required") would appear otherwise, and
+the build carries zero warnings.
+
 ## Inter-package dependencies
 
 Packages reference each other via **`ProjectReference`** (e.g. ValueObject → Exception, Aggregate → DomainEvent). `dotnet pack` turns each `ProjectReference` into a NuGet `<dependency>` at the sibling's version, so the dependency graph still ships in the nuspec — but you build against local source and **release everything together** (no phased, tier-by-tier publishing). Don't reintroduce `PackageReference` between these packages.
@@ -52,7 +81,7 @@ Skills that apply to this repo — let them trigger, or invoke explicitly. `gitf
 - **`ddd`** — tactical DDD, canon-anchored: aggregates, value objects, factories & hydration, validation principles, domain events, domain errors. This repo IS those building blocks — the skill is its conceptual spec.
 - **`testing`** — testing principles: done-means-tested, one test file per unit, names as specification, classicist doubles, rule coverage.
 - **`logging-net`** — the logging style for every log statement: fixed low-cardinality messages as grouping keys (no interpolation, no placeholders), all variable data via `LogContext` (a `PushProperties` helper per class), correlation ids in every scope. The `JorgeCostaMacia.Serilog` and `Quartz.Serilog` packages implement it.
-- **`validation-net`** — **the spec this library implements**: the three-verb surface (ctor hydrates · `From` converts · `Create` validates), per-call validators assembled via static `Create()` chains, family exceptions with fixed codes, the factory-vs-DI rule. Read it before touching ValueObject/Aggregate creation or validators.
+- **`validation-net`** — **the spec this library implements**: the creation surface (ctor hydrates · `From` converts · `Create` validates · the `OrNull` pair propagates absence — see *The value-object factory surface* above), per-call validators assembled via static `Create()` chains, family exceptions with fixed codes, the factory-vs-DI rule. Read it before touching ValueObject/Aggregate creation or validators.
 - **`dotnet`** — C# language server + general .NET development.
 - **`dotnet-msbuild`** — `Directory.Build.props`, project-file quality/review, Central Package Management, build perf, modernization (msbuild-antipatterns, directory-build-organization, convert-to-cpm…).
 - **`dotnet-nuget`** — dependency management and package modernization.
