@@ -70,11 +70,19 @@ public sealed record ClientName : StringValueObject
 
 This surface is **required**, not optional: the ecosystem depends on it — the EF converters rehydrate through the constructor, deserializers too — so every value object here carries it and a contract test keeps it that way.
 
-### Register the validators
+### No DI registration needed
+
+Each validator assembles itself through its static `Create()`, chaining the `Create()` of the validators
+it includes, so a value object's `Create()` reaches its rules with nothing registered anywhere:
 
 ```csharp
-services.AddValueObjectContext();   // registers every IValidator<…> for the value objects
+EmailValueObject email = EmailValueObject.Create("user@host.com");   // its validator builds itself
 ```
+
+The constructors stay public, so a consumer that wants a validator from its own container can register
+one — `services.AddScoped<IValidator<EmailValueObject>, EmailValueObjectValidator>()` — and inject the
+`IValidator<StringValueObject>` it composes. This package registers nothing on your behalf, and takes
+no dependency on the DI abstractions.
 
 ## Requirements
 
