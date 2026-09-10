@@ -28,8 +28,10 @@ public static class QuartzBuilderExtensions
     /// <c>SchedulerConfigException</c> naming it, so the host does not come up with a store it cannot reach.
     /// </param>
     /// <param name="schema">
-    /// The schema holding the <c>QRTZ_*</c> tables, without a trailing dot — it is appended here, so a
-    /// caller cannot forget it and end up pointing at the tables of another schema.
+    /// The schema holding the store tables, without a trailing dot — it is appended here, so a caller
+    /// cannot forget it and end up pointing at another schema. Note that this is Quartz's
+    /// <c>TablePrefix</c>, which <b>replaces</b> its <c>QRTZ_</c> default rather than adding to it: with
+    /// <c>bus</c> the store reads <c>bus.TRIGGERS</c> and <c>bus.JOB_DETAILS</c>, not <c>bus.QRTZ_TRIGGERS</c>.
     /// </param>
     /// <returns>The same <paramref name="builder"/>, for chaining.</returns>
     /// <remarks>

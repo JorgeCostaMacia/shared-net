@@ -42,7 +42,9 @@ builder.Services.AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsB
 
 `WithPostgresDefaults()` is an extension on `IQuartzBuilder`, **not** an `Add…` facade: your `AddQuartz` call stays in your `Program`, so what the host composes is visible where it happens. It applies the machine name as the instance id, a simple type loader, and the ADO store on Postgres with clustering, job data stored as strings, and the System.Text.Json serializer.
 
-The three arguments are the only things that differ between hosts: the scheduler's name, the **name** of the connection string (Quartz resolves it from `ConnectionStrings`, and a name that does not resolve fails the scheduler's start with a `SchedulerConfigException` naming it), and the schema holding the `QRTZ_*` tables — **without** the trailing dot, which is appended for you.
+The three arguments are the only things that differ between hosts: the scheduler's name, the **name** of the connection string (Quartz resolves it from `ConnectionStrings`, and a name that does not resolve fails the scheduler's start with a `SchedulerConfigException` naming it), and the schema holding the store tables — **without** the trailing dot, which is appended for you.
+
+That last one is Quartz's `TablePrefix`, and it **replaces** the `QRTZ_` default rather than adding to it: with `bus` the store reads `bus.TRIGGERS` and `bus.JOB_DETAILS`, not `bus.QRTZ_TRIGGERS`.
 
 ## Requirements
 
