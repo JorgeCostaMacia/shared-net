@@ -72,6 +72,14 @@ public record PageSizeValueObject : IntValueObject
         return vo;
     }
 
+    /// <summary>
+    /// How many pages a row count splits into at this page size — the ceiling division, in one place so
+    /// the last, partial page cannot be lost to an integer division written from memory.
+    /// </summary>
+    /// <param name="count">The number of rows to split. Zero or less is zero pages.</param>
+    /// <returns>The number of pages the count occupies at this size.</returns>
+    public int Pages(int count) => count <= 0 ? 0 : (count + Value - 1) / Value;
+
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageSizeValueObjectValidator.Create().ValidateAndThrow(this);
 }

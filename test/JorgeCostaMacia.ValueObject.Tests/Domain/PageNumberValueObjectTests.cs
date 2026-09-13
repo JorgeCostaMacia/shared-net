@@ -50,4 +50,18 @@ public class PageNumberValueObjectTests
     [Fact]
     public void ToString_ShowsTheBareValue()
         => Assert.Equal("3", PageNumberValueObject.From(3).ToString());
+
+    // Within bounds against runtime data, so each outcome is pinned: inside the data it is untouched,
+    // past it collapses onto the last page, and the boundary itself stays put.
+    [Fact]
+    public void Within_WhenThePageIsInsideTheData_KeepsIt()
+        => Assert.Equal(2, PageNumberValueObject.From(2).Within(7));
+
+    [Fact]
+    public void Within_WhenThePageReachedPastTheData_BecomesTheLastPage()
+        => Assert.Equal(7, PageNumberValueObject.From(99).Within(7));
+
+    [Fact]
+    public void Within_OnTheLastPage_LeavesItAlone()
+        => Assert.Equal(7, PageNumberValueObject.From(7).Within(7));
 }

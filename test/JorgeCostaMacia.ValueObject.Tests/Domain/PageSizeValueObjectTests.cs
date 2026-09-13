@@ -50,4 +50,22 @@ public class PageSizeValueObjectTests
     [Fact]
     public void ToString_ShowsTheBareValue()
         => Assert.Equal("50", PageSizeValueObject.From(50).ToString());
+
+    // The ceiling division is the point: the last, partial page must survive. An integer division
+    // written from memory (count / size) silently drops it.
+    [Fact]
+    public void Pages_KeepsThePartialLastPage()
+        => Assert.Equal(3, PageSizeValueObject.From(10).Pages(21));
+
+    [Fact]
+    public void Pages_OnAnExactMultiple_DoesNotAddAnEmptyPage()
+        => Assert.Equal(2, PageSizeValueObject.From(10).Pages(20));
+
+    [Fact]
+    public void Pages_OnNoRows_IsZero()
+        => Assert.Equal(0, PageSizeValueObject.From(10).Pages(0));
+
+    [Fact]
+    public void Pages_OnFewerRowsThanOnePage_IsOne()
+        => Assert.Equal(1, PageSizeValueObject.From(10).Pages(1));
 }
