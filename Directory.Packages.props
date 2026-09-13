@@ -18,7 +18,7 @@
 		<PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.401" />
 		<PackageVersion Include="Npgsql" Version="10.0.3" />
 		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
-		<PackageVersion Include="Quartz" Version="4.0.1" />
+		<PackageVersion Include="Quartz" Version="4.1.0" />
 		<PackageVersion Include="Serilog" Version="4.4.0" />
 		<PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
 		<PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
@@ -26,7 +26,7 @@
 		<PackageVersion Include="Serilog.Extensions.Logging" Version="10.0.0" />
 		<PackageVersion Include="Serilog.Sinks.InMemory" Version="2.0.0" />
 		<PackageVersion Include="Testcontainers.PostgreSql" Version="4.15.0" />
-		<PackageVersion Include="xunit.v3" Version="4.0.0" />
+		<PackageVersion Include="xunit.v3" Version="4.0.1" />
 	</ItemGroup>
 
 </Project>
