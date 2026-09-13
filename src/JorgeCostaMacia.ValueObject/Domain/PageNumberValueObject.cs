@@ -72,6 +72,19 @@ public record PageNumberValueObject : IntValueObject
         return vo;
     }
 
+    /// <summary>
+    /// This page, brought within the pages that exist: one that reached past the last becomes the last.
+    /// A step of its own on purpose — the factories keep taking the number the caller asked for, and the
+    /// bounding reads where it happens.
+    /// </summary>
+    /// <remarks>
+    /// What it bounds against is runtime state — how many pages the source holds — not a rule of this
+    /// type, which is why it is a method and not a factory. Expects at least one page.
+    /// </remarks>
+    /// <param name="pages">How many pages the source holds (see <see cref="PageSizeValueObject.Pages(int)"/>).</param>
+    /// <returns>This page, or the last one that exists when this reached past it.</returns>
+    public int Within(int pages) => Math.Min(Value, pages);
+
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageNumberValueObjectValidator.Create().ValidateAndThrow(this);
 }
