@@ -83,11 +83,11 @@ public class PageSizeValueObjectTests
     public void Offset_OnALaterPage_SkipsEveryPageBefore()
         => Assert.Equal(40, PageSizeValueObject.From(10).Offset(5));
 
-    // A page below the first is not a page to skip past: it reads as the beginning, not as a negative
-    // offset, which EF would reject at the query.
+    // A page below the first is a caller mistake, not something to read as the beginning: the offset
+    // goes negative and the query rejects it, which is louder than silently serving page one.
     [Fact]
-    public void Offset_BelowTheFirstPage_SkipsNothing()
-        => Assert.Equal(0, PageSizeValueObject.From(10).Offset(0));
+    public void Offset_BelowTheFirstPage_GoesNegative()
+        => Assert.Equal(-10, PageSizeValueObject.From(10).Offset(0));
 
     // The two directions meet: the offset of the last page plus one page covers the whole count.
     [Fact]
