@@ -80,6 +80,15 @@ public record PageSizeValueObject : IntValueObject
     /// <returns>The number of pages the count occupies at this size.</returns>
     public int Pages(int count) => count <= 0 ? 0 : (count + Value - 1) / Value;
 
+    /// <summary>
+    /// How many rows to skip to reach a page at this size — the other direction of <see cref="Pages(int)"/>,
+    /// kept beside it because the two conversions between rows and pages are the two places the arithmetic
+    /// goes wrong: the division that loses the last page, and the offset that misses it by one whole page.
+    /// </summary>
+    /// <param name="pageNumber">The 1-based page to reach. The first page, or anything below it, skips nothing.</param>
+    /// <returns>The number of rows preceding that page at this size.</returns>
+    public int Offset(int pageNumber) => pageNumber <= 1 ? 0 : (pageNumber - 1) * Value;
+
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageSizeValueObjectValidator.Create().ValidateAndThrow(this);
 }
