@@ -79,11 +79,17 @@ public record PageNumberValueObject : IntValueObject
     /// </summary>
     /// <remarks>
     /// What it bounds against is runtime state — how many pages the source holds — not a rule of this
-    /// type, which is why it is a method and not a factory. Expects at least one page.
+    /// type, which is why it is a method and not a factory.
     /// </remarks>
     /// <param name="pages">How many pages the source holds (see <see cref="PageSizeValueObject.Pages(int)"/>).</param>
     /// <returns>This page, or the last one that exists when this reached past it.</returns>
-    public int Within(int pages) => Math.Min(Value, pages);
+    /// <exception cref="ArgumentOutOfRangeException">Thrown below one page. There is no page to bound to, and answering zero would hand back something that is not a page at all.</exception>
+    public int Within(int pages)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(pages, 1);
+
+        return Math.Min(Value, pages);
+    }
 
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageNumberValueObjectValidator.Create().ValidateAndThrow(this);
