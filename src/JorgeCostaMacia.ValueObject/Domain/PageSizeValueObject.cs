@@ -91,14 +91,14 @@ public record PageSizeValueObject : IntValueObject
     /// kept beside it because the two conversions between rows and pages are the two places the arithmetic
     /// goes wrong: the division that loses the last page, and the offset that misses it by one whole page.
     /// </summary>
-    /// <param name="pageNumber">The 1-based page to reach. The first page skips nothing.</param>
+    /// <param name="page">The 1-based page to reach. The first page skips nothing.</param>
     /// <returns>The number of rows preceding that page at this size.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown below the first page, which has no offset to give: page zero does not begin anywhere.</exception>
-    public int Offset(int pageNumber)
+    public int Offset(int page)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(pageNumber, 1);
+        ArgumentOutOfRangeException.ThrowIfLessThan(page, 1);
 
-        return (pageNumber - 1) * Value;
+        return (page - 1) * Value;
     }
 
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
