@@ -76,9 +76,15 @@ public record PageSizeValueObject : IntValueObject
     /// How many pages a row count splits into at this page size — the ceiling division, in one place so
     /// the last, partial page cannot be lost to an integer division written from memory.
     /// </summary>
-    /// <param name="count">The number of rows to split. Zero or less is zero pages.</param>
+    /// <param name="count">The number of rows to split. No rows is no pages.</param>
     /// <returns>The number of pages the count occupies at this size.</returns>
-    public int Pages(int count) => count <= 0 ? 0 : (count + Value - 1) / Value;
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the count is negative, which is not a number of rows. Repairing it to zero would hide the caller's mistake behind a loop that simply never runs.</exception>
+    public int Pages(int count)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
+
+        return (count + Value - 1) / Value;
+    }
 
     /// <summary>
     /// How many rows to skip to reach a page at this size — the other direction of <see cref="Pages(int)"/>,
@@ -87,7 +93,13 @@ public record PageSizeValueObject : IntValueObject
     /// </summary>
     /// <param name="pageNumber">The 1-based page to reach. The first page skips nothing.</param>
     /// <returns>The number of rows preceding that page at this size.</returns>
-    public int Offset(int pageNumber) => (pageNumber - 1) * Value;
+    /// <exception cref="ArgumentOutOfRangeException">Thrown below the first page, which has no offset to give: page zero does not begin anywhere.</exception>
+    public int Offset(int pageNumber)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThan(pageNumber, 1);
+
+        return (pageNumber - 1) * Value;
+    }
 
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageSizeValueObjectValidator.Create().ValidateAndThrow(this);
