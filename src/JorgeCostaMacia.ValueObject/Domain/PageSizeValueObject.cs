@@ -76,30 +76,18 @@ public record PageSizeValueObject : IntValueObject
     /// How many pages a row count splits into at this page size — the ceiling division, in one place so
     /// the last, partial page cannot be lost to an integer division written from memory.
     /// </summary>
-    /// <param name="count">The number of rows to split. No rows is no pages.</param>
+    /// <param name="count">The number of rows to split. Zero or less is zero pages.</param>
     /// <returns>The number of pages the count occupies at this size.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when the count is negative, which is not a number of rows. Repairing it to zero would hide the caller's mistake behind a loop that simply never runs.</exception>
-    public int Pages(int count)
-    {
-        ArgumentOutOfRangeException.ThrowIfNegative(count);
-
-        return (count + Value - 1) / Value;
-    }
+    public int Pages(int count) => count <= 0 ? 0 : (count + Value - 1) / Value;
 
     /// <summary>
     /// How many rows to skip to reach a page at this size — the other direction of <see cref="Pages(int)"/>,
     /// kept beside it because the two conversions between rows and pages are the two places the arithmetic
     /// goes wrong: the division that loses the last page, and the offset that misses it by one whole page.
     /// </summary>
-    /// <param name="page">The 1-based page to reach. The first page skips nothing.</param>
+    /// <param name="page">The 1-based page to reach. The first page, or anything below it, skips nothing.</param>
     /// <returns>The number of rows preceding that page at this size.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown below the first page, which has no offset to give: page zero does not begin anywhere.</exception>
-    public int Offset(int page)
-    {
-        ArgumentOutOfRangeException.ThrowIfLessThan(page, 1);
-
-        return (page - 1) * Value;
-    }
+    public int Offset(int page) => page <= 1 ? 0 : (page - 1) * Value;
 
     /// <summary>Runs this value object through its own validator, throwing when a rule fails.</summary>
     private void Validate() => PageSizeValueObjectValidator.Create().ValidateAndThrow(this);

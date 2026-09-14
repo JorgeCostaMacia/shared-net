@@ -65,9 +65,9 @@ public class PageNumberValueObjectTests
     public void Within_OnTheLastPage_LeavesItAlone()
         => Assert.Equal(7, PageNumberValueObject.From(7).Within(7));
 
-    // Fewer than one page is not a bound to fit into: answering zero would return something that is
-    // not a page, and the caller's loop would run zero times without saying why.
+    // It chooses between two numbers the caller already has, rather than producing one, so there is
+    // no empty case for it to decide: no pages bounds to no pages, as Pages(0) also says.
     [Fact]
-    public void Within_OnFewerThanOnePage_Throws()
-        => Assert.Throws<ArgumentOutOfRangeException>(() => PageNumberValueObject.From(2).Within(0));
+    public void Within_OnFewerThanOnePage_IsThatCount()
+        => Assert.Equal(0, PageNumberValueObject.From(2).Within(0));
 }
