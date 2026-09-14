@@ -68,4 +68,39 @@ public class PageSizeValueObjectTests
     [Fact]
     public void Pages_OnFewerRowsThanOnePage_IsOne()
         => Assert.Equal(1, PageSizeValueObject.From(10).Pages(1));
+
+    // A count below zero is not a number of rows. Left to the arithmetic it yields a negative page
+    // count, and the caller's loop then runs zero times without a word -- the silence is the reason
+    // this throws rather than repairing it to zero.
+    [Fact]
+    public void Pages_OnANegativeCount_Throws()
+        => Assert.Throws<ArgumentOutOfRangeException>(() => PageSizeValueObject.From(10).Pages(-1));
+
+    // The off-by-one is the point: the first page skips nothing, and every page after it skips whole
+    // pages. Multiplying the page number instead of the page before it skips one page too many.
+    [Fact]
+    public void Offset_OnTheFirstPage_SkipsNothing()
+        => Assert.Equal(0, PageSizeValueObject.From(10).Offset(1));
+
+    [Fact]
+    public void Offset_OnTheSecondPage_SkipsOnePage()
+        => Assert.Equal(10, PageSizeValueObject.From(10).Offset(2));
+
+    [Fact]
+    public void Offset_OnALaterPage_SkipsEveryPageBefore()
+        => Assert.Equal(40, PageSizeValueObject.From(10).Offset(5));
+
+    // Page zero does not begin anywhere, so there is no offset to give.
+    [Fact]
+    public void Offset_BelowTheFirstPage_Throws()
+        => Assert.Throws<ArgumentOutOfRangeException>(() => PageSizeValueObject.From(10).Offset(0));
+
+    // The two directions meet: the offset of the last page plus one page covers the whole count.
+    [Fact]
+    public void Offset_OfTheLastPage_LeavesOnlyThatPage()
+    {
+        PageSizeValueObject size = PageSizeValueObject.From(10);
+
+        Assert.Equal(20, size.Offset(size.Pages(21)));
+    }
 }
