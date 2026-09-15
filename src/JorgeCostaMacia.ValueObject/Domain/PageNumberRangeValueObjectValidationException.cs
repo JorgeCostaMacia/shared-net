@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using FluentValidation.Results;
+using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
@@ -9,7 +10,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="IntRangeValueObjectValidationException"/> and is used to signal
+/// This exception inherits from <see cref="ValidationException"/> and is used to signal
 /// a violation of the domain's business rules specific to page number ranges (e.g., start page is zero or less, or start page > end page).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
@@ -18,7 +19,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// and self-identifying aggregate type for this specific constraint violation.
 /// </para>
 /// </remarks>
-public class PageNumberRangeValueObjectValidationException : IntRangeValueObjectValidationException
+public class PageNumberRangeValueObjectValidationException : ValidationException
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PageNumberRangeValueObjectValidationException"/> class with full context information.
