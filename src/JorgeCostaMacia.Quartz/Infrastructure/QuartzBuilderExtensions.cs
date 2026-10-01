@@ -14,8 +14,8 @@ public static class QuartzBuilderExtensions
 {
     /// <summary>
     /// Applies the clustered Postgres store every host in the family runs: the machine name as the
-    /// instance id, a simple type loader, the ADO store on Postgres with job data stored as strings, and
-    /// the System.Text.Json serializer.
+    /// instance id, a simple type loader, the ADO store on Postgres with job data stored as strings, the
+    /// System.Text.Json serializer, and the execution history kept in the store's own database.
     /// </summary>
     /// <param name="builder">The Quartz builder to configure.</param>
     /// <param name="instance">
@@ -45,6 +45,15 @@ public static class QuartzBuilderExtensions
     /// twice; it requires the rows' instance ids to differ, hence the machine name. Job data is stored as
     /// strings rather than a serialized blob — the setting Quartz 3 called <c>UseProperties</c> — so the
     /// tables stay readable and a payload written by one version can be read by the next.
+    /// <para>
+    /// The execution history is on: every node of the cluster records its executions and misfires in
+    /// the store's <c>EXECUTION_HISTORY</c> and <c>MISFIRE_HISTORY</c> tables, so the cluster has one
+    /// history instead of one per process, and the store trims it itself (24 hours, 2000 entries per
+    /// scheduler, unless the host sets <c>AddQuartzExecutionHistory</c>). The tables are part of the
+    /// schema the scheduler validates on start: a store created before Quartz 4.3 needs Quartz's
+    /// <c>database/migrations/4.2</c> and <c>4.3</c> scripts first, and the start fails naming them if
+    /// they have not been run.
+    /// </para>
     /// </remarks>
     public static IQuartzBuilder WithPostgresDefaults(this IQuartzBuilder builder, string instance, string connection, string schema)
     {
@@ -65,6 +74,7 @@ public static class QuartzBuilderExtensions
                     })
                     .UseClustering()
                     .UseSystemTextJsonSerializer()
+                    .UseExecutionHistory()
             );
 
         return builder;
