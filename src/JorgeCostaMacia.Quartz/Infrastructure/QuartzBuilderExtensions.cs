@@ -48,9 +48,11 @@ public static class QuartzBuilderExtensions
     /// <para>
     /// The execution history is on: every node of the cluster records its executions and misfires in
     /// the store's <c>EXECUTION_HISTORY</c> and <c>MISFIRE_HISTORY</c> tables, so the cluster has one
-    /// history instead of one per process, and the store trims it itself (24 hours, 2000 entries per
-    /// scheduler, unless the host sets <c>AddQuartzExecutionHistory</c>). The tables are part of the
-    /// schema the scheduler validates on start: a store created before Quartz 4.3 needs Quartz's
+    /// history instead of one per process, and the store trims it itself: 15 days, and at most 50 000
+    /// entries per scheduler — the count is there so the age is what binds, since the busiest host fires
+    /// some 3 000 times a day. A host that needs other bounds calls <c>AddQuartzExecutionHistory</c>
+    /// after this, and its values win. The tables are part of the schema the scheduler validates on
+    /// start: a store created before Quartz 4.3 needs Quartz's
     /// <c>database/migrations/4.2</c> and <c>4.3</c> scripts first, and the start fails naming them if
     /// they have not been run.
     /// </para>
@@ -76,6 +78,12 @@ public static class QuartzBuilderExtensions
                     .UseSystemTextJsonSerializer()
                     .UseExecutionHistory()
             );
+
+        builder.Services.AddQuartzExecutionHistory(options =>
+        {
+            options.Retention = TimeSpan.FromDays(15);
+            options.MaxEntriesPerScheduler = 50_000;
+        });
 
         return builder;
     }
