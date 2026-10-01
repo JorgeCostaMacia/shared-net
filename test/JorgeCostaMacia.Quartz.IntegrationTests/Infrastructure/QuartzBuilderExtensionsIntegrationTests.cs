@@ -3,6 +3,7 @@ using JorgeCostaMacia.Quartz.IntegrationTests.Support;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Npgsql;
 using Quartz;
 
 namespace JorgeCostaMacia.Quartz.IntegrationTests.Infrastructure;
@@ -84,7 +85,51 @@ public class QuartzBuilderExtensionsIntegrationTests
         Assert.Equal("orders.v1", stored.JobDataMap.GetString("Topic"));
     }
 
-    /// <summary>A durable job that never runs: these tests assert persistence, not execution.</summary>
+    [Fact]
+    public async Task WithPostgresDefaults_KeepsTheExecutionHistoryInTheStore()
+    {
+        ServiceProvider provider = Provider("retry-history-option");
+
+        await provider.GetRequiredService<ISchedulerFactory>().GetScheduler(TestContext.Current.CancellationToken);
+
+        Assert.True(provider.GetRequiredService<IOptions<AdoJobStoreOptions>>().Value.ExecutionHistory);
+    }
+
+    // The option alone could be on and still record nowhere; a job that runs and leaves its row in
+    // EXECUTION_HISTORY is what a dashboard, or an operator with psql, will actually read.
+    [Fact]
+    public async Task WithPostgresDefaults_RecordsAnExecutionInTheHistoryTable()
+    {
+        const string instance = "retry-history-row";
+        IScheduler scheduler = await Provider(instance).GetRequiredService<ISchedulerFactory>()
+            .GetScheduler(TestContext.Current.CancellationToken);
+
+        IJobDetail job = JobBuilder.Create<NoOpJob>().WithIdentity("history-1", "orders").Build();
+        ITrigger trigger = TriggerBuilder.Create().ForJob(job).WithIdentity("history-1", "orders").StartNow().Build();
+
+        await scheduler.ScheduleJob(job, trigger, cancellationToken: TestContext.Current.CancellationToken);
+        await scheduler.Start(TestContext.Current.CancellationToken);
+
+        long rows = 0;
+        for (int attempt = 0; attempt < 100 && rows == 0; attempt++)
+        {
+            await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
+
+            await using NpgsqlConnection connection = new NpgsqlConnection(_postgres.ConnectionString);
+            await connection.OpenAsync(TestContext.Current.CancellationToken);
+            await using NpgsqlCommand command = new NpgsqlCommand(
+                $"SELECT count(*) FROM {PostgreSqlFixture.Schema}.execution_history WHERE sched_name = @instance AND job_name = 'history-1' AND succeeded",
+                connection);
+            command.Parameters.AddWithValue("instance", instance);
+            rows = (long)(await command.ExecuteScalarAsync(TestContext.Current.CancellationToken))!;
+        }
+
+        await scheduler.Shutdown(waitForJobsToComplete: true, TestContext.Current.CancellationToken);
+
+        Assert.Equal(1, rows);
+    }
+
+    /// <summary>A job that does nothing: these tests assert persistence and its record, not the job.</summary>
     internal sealed class NoOpJob : IJob
     {
         public ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken) => ValueTask.CompletedTask;
