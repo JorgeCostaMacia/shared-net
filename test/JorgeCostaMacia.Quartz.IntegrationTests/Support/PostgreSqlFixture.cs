@@ -9,7 +9,7 @@ namespace JorgeCostaMacia.Quartz.IntegrationTests.Support;
 /// </summary>
 public sealed class PostgreSqlFixture : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:16").Build();
+    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:18").Build();
 
     /// <summary>The schema the store's table prefix points at, as <c>bus</c> does in the workers.</summary>
     public const string Schema = "bus";

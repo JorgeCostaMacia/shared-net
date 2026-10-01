@@ -9,7 +9,7 @@ namespace JorgeCostaMacia.Quartz.Serilog.Infrastructure;
 /// <summary>
 /// Quartz trigger listener that logs every trigger transition with a <b>fixed, low-cardinality
 /// message</b> (<c>TriggerFired</c> / <c>VetoJobExecution</c> / <c>TriggerMisfired</c> /
-/// <c>TriggerComplete</c>) and pushes everything variable — scheduler, job, trigger, data, times and
+/// <c>TriggerRetriesExhausted</c> / <c>TriggerComplete</c>) and pushes everything variable — scheduler, job, trigger, data, times and
 /// the <see cref="JobTrace"/> identifiers — through the Serilog log context.
 /// </summary>
 /// <remarks>
@@ -103,6 +103,26 @@ public sealed class TriggerLoggerListener : ITriggerListener
         using (LogContext.PushProperty("TriggerResult", triggerInstructionCode))
         {
             _logger.LogInformation("TriggerComplete");
+        }
+
+        return ValueTask.CompletedTask;
+    }
+
+    /// <summary>
+    /// Logs <c>TriggerRetriesExhausted</c> at <see cref="LogLevel.Warning"/>, with the root cause
+    /// attached, when a trigger with a retry policy stops retrying a failed firing. The failure itself
+    /// was already logged at <see cref="LogLevel.Error"/> by <see cref="JobsLoggerListener"/>; this is
+    /// the event that says no further attempt is coming.
+    /// </summary>
+    /// <param name="trigger">The trigger that gave up.</param>
+    /// <param name="context">The execution context of the last attempt.</param>
+    /// <param name="exception">The exception the last attempt ended with.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    public ValueTask TriggerRetriesExhausted(ITrigger trigger, IJobExecutionContext context, JobExecutionException exception, CancellationToken cancellationToken = default)
+    {
+        using (PushProperties(context))
+        {
+            _logger.LogWarning(exception.GetBaseException(), "TriggerRetriesExhausted");
         }
 
         return ValueTask.CompletedTask;
