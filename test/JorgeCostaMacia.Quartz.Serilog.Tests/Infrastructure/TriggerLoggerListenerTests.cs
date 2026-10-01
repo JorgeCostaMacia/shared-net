@@ -69,6 +69,23 @@ public class TriggerLoggerListenerTests
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.True(logEvent.Properties.ContainsKey("TriggerResult"));
     }
+    // A warning, not an error: the failure was the job listener's error already, and this one only says
+    // no further attempt is coming. The root cause rides along, not the JobExecutionException wrapper.
+    [Fact]
+    public async Task TriggerRetriesExhausted_LogsWarning_WithTheRootCause()
+    {
+        JobExecutionContextFake context = await JobExecutionContextFake.Create();
+        InvalidOperationException cause = new InvalidOperationException("the broker is down");
+
+        await Listener().TriggerRetriesExhausted(context.Trigger, context, new JobExecutionException(cause), TestContext.Current.CancellationToken);
+
+        LogEvent logEvent = Assert.Single(_sink.Events);
+        Assert.Equal("TriggerRetriesExhausted", logEvent.MessageTemplate.Text);
+        Assert.Equal(LogEventLevel.Warning, logEvent.Level);
+        Assert.Same(cause, logEvent.Exception);
+        Assert.Equal("\"trigger-1\"", logEvent.Properties["Trigger"].ToString());
+    }
+
     // The other side of the two ?. guards: Quartz leaves ScheduledFireTimeUtc empty on a manual
     // trigger and NextFireTimeUtc empty on a one-shot, so both have to log as null rather than throw.
     [Fact]
