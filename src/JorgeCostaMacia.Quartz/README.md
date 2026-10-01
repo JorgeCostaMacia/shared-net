@@ -2,7 +2,7 @@
 
 Quartz job-execution **trace correlation**: `JobTrace` get-or-creates the `AggregateId`/`CorrelationId` pair on the execution context, so every observer of the same execution — log listeners, event publishers, the job itself — shares the same identifiers **regardless of who runs first**.
 
-And the **clustered Postgres store** every host in the family repeats, as one `IQuartzBuilder` extension.
+And the **clustered Postgres store** every host in the family repeats, as one `IQuartzBuilder` extension, with its **execution history** bounds as one more, on `ExecutionHistoryOptions`.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.Quartz.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.Quartz.svg)](https://www.nuget.org/packages/JorgeCostaMacia.Quartz/)
@@ -40,7 +40,13 @@ using JorgeCostaMacia.Quartz.Infrastructure;
 builder.Services.AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"));
 ```
 
-`WithPostgresDefaults()` is an extension on `IQuartzBuilder`, **not** an `Add…` facade: your `AddQuartz` call stays in your `Program`, so what the host composes is visible where it happens. It applies the machine name as the instance id, a simple type loader, and the ADO store on Postgres with clustering, job data stored as strings, the System.Text.Json serializer, and the **execution history in the store's own database** — one history for the whole cluster, trimmed by the store itself: 15 days and at most 50 000 entries per scheduler. A host that needs other bounds calls `AddQuartzExecutionHistory` after `AddQuartz`, and its values win.
+`WithPostgresDefaults()` is an extension on `IQuartzBuilder`, **not** an `Add…` facade: your `AddQuartz` call stays in your `Program`, so what the host composes is visible where it happens. It applies the machine name as the instance id, a simple type loader, and the ADO store on Postgres with clustering, job data stored as strings, the System.Text.Json serializer, and the **execution history in the store's own database** — one history for the whole cluster, trimmed by the store itself. How much it keeps is the host's call: Quartz's own bounds apply until the host sets them, and the family's — 15 days, at most 50 000 entries per scheduler — are one more extension, on the options Quartz hands you:
+
+```csharp
+builder.Services
+    .AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"))
+    .AddQuartzExecutionHistory(options => options.WithDefaults());
+```
 
 The history tables are part of the schema Quartz validates on start. A store created from Quartz 4.3's `database/tables` scripts already has them; one created by an earlier version needs Quartz's `database/migrations/4.2` and `4.3` scripts first, and until then the scheduler refuses to start and names the script that is missing.
 
