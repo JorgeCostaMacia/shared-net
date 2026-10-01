@@ -58,6 +58,17 @@ public class QuartzBuilderExtensionsTests
         Assert.Equal("dwh", options.InstanceName);
     }
 
+    // How long the history is kept is the host's call: the store alone leaves Quartz's own bounds.
+    [Fact]
+    public void WithPostgresDefaults_LeavesTheHistoryBoundsToTheHost()
+    {
+        ExecutionHistoryOptions options = Provider()
+            .GetRequiredService<IOptions<ExecutionHistoryOptions>>().Value;
+
+        Assert.Equal(new ExecutionHistoryOptions().Retention, options.Retention);
+        Assert.Equal(new ExecutionHistoryOptions().MaxEntriesPerScheduler, options.MaxEntriesPerScheduler);
+    }
+
     // The connection string is resolved by name, so a name that is not in the host's ConnectionStrings
     // section fails the scheduler's start rather than leaving it pointing nowhere. No Postgres needed:
     // it never gets as far as connecting.
