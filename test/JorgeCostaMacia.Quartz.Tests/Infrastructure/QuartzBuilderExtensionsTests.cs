@@ -58,32 +58,15 @@ public class QuartzBuilderExtensionsTests
         Assert.Equal("dwh", options.InstanceName);
     }
 
-    // Fifteen days of history, with a count bound loose enough that the age is what binds on the busiest
-    // host (some 3 000 firings a day).
+    // How long the history is kept is the host's call: the store alone leaves Quartz's own bounds.
     [Fact]
-    public void WithPostgresDefaults_KeepsFifteenDaysOfHistory()
+    public void WithPostgresDefaults_LeavesTheHistoryBoundsToTheHost()
     {
         ExecutionHistoryOptions options = Provider()
             .GetRequiredService<IOptions<ExecutionHistoryOptions>>().Value;
 
-        Assert.Equal(TimeSpan.FromDays(15), options.Retention);
-        Assert.Equal(50_000, options.MaxEntriesPerScheduler);
-    }
-
-    // The bounds are a default, not a lock: a host that calls AddQuartzExecutionHistory after the
-    // defaults gets its own.
-    [Fact]
-    public void WithPostgresDefaults_LetsTheHostSetItsOwnHistoryBounds()
-    {
-        ServiceCollection services = new ServiceCollection();
-        services.AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"));
-        services.AddQuartzExecutionHistory(options => options.Retention = TimeSpan.FromDays(3));
-
-        ExecutionHistoryOptions options = services.BuildServiceProvider()
-            .GetRequiredService<IOptions<ExecutionHistoryOptions>>().Value;
-
-        Assert.Equal(TimeSpan.FromDays(3), options.Retention);
-        Assert.Equal(50_000, options.MaxEntriesPerScheduler);
+        Assert.Equal(new ExecutionHistoryOptions().Retention, options.Retention);
+        Assert.Equal(new ExecutionHistoryOptions().MaxEntriesPerScheduler, options.MaxEntriesPerScheduler);
     }
 
     // The connection string is resolved by name, so a name that is not in the host's ConnectionStrings
