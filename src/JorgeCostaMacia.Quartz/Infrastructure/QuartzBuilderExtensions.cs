@@ -52,8 +52,8 @@ public static class QuartzBuilderExtensions
     /// call, not the store's: Quartz's own bounds apply until the host sets them, and the family's are
     /// <see cref="ExecutionHistoryOptionsExtensions.WithDefaults"/>, passed to
     /// <c>AddQuartzExecutionHistory</c>. The tables are part of the schema the scheduler validates on
-    /// start: a store created before Quartz 4.3 needs Quartz's
-    /// <c>database/migrations/4.2</c> and <c>4.3</c> scripts first, and the start fails naming them if
+    /// start: a store created before Quartz 4.4 needs Quartz's
+    /// <c>database/migrations/4.2</c>, <c>4.3</c> and <c>4.4</c> scripts first, and the start fails naming them if
     /// they have not been run.
     /// </para>
     /// </remarks>
