@@ -1,3 +1,4 @@
+using System.Globalization;
 using JorgeCostaMacia.ValueObject.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Tests.Domain;
@@ -43,6 +44,23 @@ public class BoolValueObjectTests
     [InlineData("nope", false)]
     public void Convert_FromString_ParsesTruthyTokens(string input, bool expected)
         => Assert.Equal(expected, TestBool.Convert(input));
+
+    // The tokens are compared upper-cased with the invariant culture: under tr-TR, ToUpper turns "si" into "Sİ".
+    [Fact]
+    public void Convert_FromString_IndependentlyOfTheCulture()
+    {
+        CultureInfo culture = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = new CultureInfo("tr-TR");
+
+        try
+        {
+            Assert.True(TestBool.Convert("si"));
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = culture;
+        }
+    }
 
     [Fact]
     public void Convert_FromNumbers_OnlyOneMapsToTrue()
