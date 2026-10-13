@@ -8,7 +8,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator rules out what is not a date rather than what is an unlikely one. The floor is there for the
+/// This validator is a net for values that cannot be real dates. The floor is there for the
 /// zero dates other systems write when they have none, and it is strict because one of them sits on it:
 /// <c>0001-01-01</c> (.NET's default), <c>1753-01-01</c> (SQL Server's <c>datetime</c> minimum), <c>1899-12-30</c>
 /// (the zero of Delphi, OLE Automation and Excel) and <c>1900-01-01 00:00</c> (SQL Server's <c>CAST(0 AS datetime)</c>,
@@ -17,10 +17,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// child-bearing age.
 /// </para>
 /// <para>
-/// There is no ceiling, on purpose. What is reasonable above depends on the field — today for a birth date, a few
-/// years for a planned task, decades for a contract, <c>9999-12-31</c> where it marks an open end — and a derived
-/// validator can add a rule but never remove one it includes, so a ceiling here would bind every date in every
-/// consumer. A field that needs one declares it in its own Value Object.
+/// The ceiling, a hundred years from today, is the same kind of net on the other side: a year mistyped high
+/// (<c>2190</c> for <c>2019</c>) and the far-future sentinels. It is rolling, so it moves with the clock, and wide
+/// enough for any real planned date. It binds every consumer — a derived validator can add a rule but never
+/// remove one it includes — so an open-end marker such as <c>9999-12-31</c> does not pass; a field that needs a
+/// tighter bound declares it in its own Value Object.
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
@@ -28,6 +29,9 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///     </description></item>
 ///     <item><description>
 ///         <b>Minimum Date:</b> The date must be later than midnight on January 1st, 1900.
+///     </description></item>
+///     <item><description>
+///         <b>Maximum Date:</b> The date must be less than or equal to 100 years from the current UTC date.
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -40,7 +44,8 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
     {
         RuleFor(v => v.Value)
             .NotEmpty()
-            .GreaterThan(new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
+            .GreaterThan(new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc))
+            .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100));
     }
 
     /// <summary>
