@@ -24,7 +24,7 @@ public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+            .NotEmpty();
     }
 
     /// <summary>

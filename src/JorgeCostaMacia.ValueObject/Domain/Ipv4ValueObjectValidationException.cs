@@ -5,12 +5,12 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on a <see cref="UrlValueObject"/>.
+/// on an <c>Ipv4ValueObject</c>.
 /// </summary>
 /// <remarks>
 /// <para>
 /// This exception inherits from <see cref="StringValueObjectValidationException"/> and is used to signal
-/// a violation of the domain's business rules specific to URL/URI validation (e.g., malformed format, unsupported protocol).
+/// a violation of the domain's business rules specific to IPv4 address validation (e.g., malformed or non-canonical format).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
@@ -18,10 +18,10 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// and self-identifying aggregate type for this specific constraint violation.
 /// </para>
 /// </remarks>
-public class UrlValueObjectValidationException : StringValueObjectValidationException
+public class Ipv4ValueObjectValidationException : StringValueObjectValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UrlValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="Ipv4ValueObjectValidationException"/> class with full context information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -31,7 +31,7 @@ public class UrlValueObjectValidationException : StringValueObjectValidationExce
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
-    public UrlValueObjectValidationException(
+    public Ipv4ValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
         Guid aggregateCode,
@@ -63,7 +63,7 @@ public class UrlValueObjectValidationException : StringValueObjectValidationExce
     /// <param name="message">A user-friendly description of the error, or null to build one from the validations.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">The validation failures that triggered this exception.</param>
-    public UrlValueObjectValidationException(
+    public Ipv4ValueObjectValidationException(
         Guid? aggregateId,
         string? aggregateType,
         Guid? aggregateCode,
@@ -85,17 +85,17 @@ public class UrlValueObjectValidationException : StringValueObjectValidationExce
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UrlValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="Ipv4ValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    public UrlValueObjectValidationException(
+    public Ipv4ValueObjectValidationException(
         IEnumerable<ValidationFailure> validations,
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(UrlValueObjectValidationException).FullName ?? typeof(UrlValueObjectValidationException).Name,
-        new Guid("01951f44-0397-7ea0-8872-ef9b2ba6bfb1"),
+        typeof(Ipv4ValueObjectValidationException).FullName ?? typeof(Ipv4ValueObjectValidationException).Name,
+        new Guid("01a1366e-26d8-7e66-959e-533e3042249a"),
         null,
         null,
         null,

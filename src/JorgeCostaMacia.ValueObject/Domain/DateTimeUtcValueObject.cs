@@ -8,14 +8,14 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// The factories <b>assume the supplied value already represents UTC</b> and only tag it as such (via
-/// <see cref="DateTime.SpecifyKind(DateTime, DateTimeKind)"/> in <see cref="Convert(DateTime)"/>) — they never
-/// shift the time. To convert a wall-clock value from a known time zone into UTC, derived types can use the
+/// The factories bring the value to UTC through <see cref="Convert(DateTime)"/>: a <see cref="DateTimeKind.Local"/>
+/// value is converted, since it knows its instant; any other is <b>assumed to already represent UTC</b> and only
+/// tagged as such, never shifted. To convert a wall-clock value from a known time zone into UTC, derived types can use the
 /// protected <see cref="Convert(DateTime, TimeZoneInfo)"/> helper, which handles daylight-saving gaps.
 /// </para>
 /// <para>
 /// It exposes the three-verb creation surface: the constructor hydrates (stores the value <b>as-is</b>, e.g.
-/// ORM materialization), <see cref="From(DateTime)"/> converts (tags UTC, unvalidated) and
+/// ORM materialization), <see cref="From(DateTime)"/> converts (brings it to UTC, unvalidated) and
 /// <see cref="Create(DateTime)"/> fabricates validated.
 /// </para>
 /// </remarks>
@@ -29,12 +29,12 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     public DateTimeUtcValueObject(DateTime value) : base(value) { }
 
     /// <summary>
-    /// Converts: tags the value as <see cref="DateTimeKind.Utc"/> through <see cref="Convert(DateTime)"/>
-    /// <b>without shifting it</b> (assumes it already represents UTC) and materializes a new
+    /// Converts: brings the value to <see cref="DateTimeKind.Utc"/> through <see cref="Convert(DateTime)"/> (a Local value
+    /// is converted, any other is tagged <b>without shifting it</b>) and materializes a new
     /// <see cref="DateTimeUtcValueObject"/>, unvalidated. This is the path composites use to build their parts.
     /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
-    /// <returns>A new, UTC-tagged but unvalidated <see cref="DateTimeUtcValueObject"/> instance.</returns>
+    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent UTC.</param>
+    /// <returns>A new, UTC but unvalidated <see cref="DateTimeUtcValueObject"/> instance.</returns>
     public static new DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
 
     /// <summary>
@@ -49,7 +49,7 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value, assumed to already represent UTC.</param>
+    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent UTC.</param>
     /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance.</returns>
     /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
     public static new DateTimeUtcValueObject Create(DateTime value)
@@ -79,9 +79,14 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     private void Validate() => DateTimeUtcValueObjectValidator.Create().ValidateAndThrow(this);
 
     /// <summary>
-    /// Tags the value as <see cref="DateTimeKind.Utc"/> without shifting it (assumes it already represents UTC).
+    /// Brings the value to <see cref="DateTimeKind.Utc"/>. A <see cref="DateTimeKind.Local"/> value knows its instant,
+    /// so it is converted with <see cref="DateTime.ToUniversalTime"/>; relabelling it would move it by the host's offset.
+    /// Any other value is tagged without shifting, on the assumption that it already represents UTC: an
+    /// <see cref="DateTimeKind.Unspecified"/> one (text without a zone, a <c>timestamp</c> column) carries nothing to convert from.
+    /// On a UTC host the two branches give the same result.
     /// </summary>
-    protected static new DateTime Convert(DateTime value) => DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    protected static new DateTime Convert(DateTime value)
+        => value.Kind == DateTimeKind.Local ? value.ToUniversalTime() : DateTime.SpecifyKind(value, DateTimeKind.Utc);
 
     /// <summary>
     /// Treats <paramref name="value"/> as a local time in <paramref name="fromTimeZone"/> and converts it to UTC.

@@ -15,6 +15,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </remarks>
 public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObject>
 {
+    private static readonly List<string> _types = new List<string>() { "ASC", "DESC" };
+
     /// <summary>
     /// Initializes a new instance of the <see cref="OrderTypeValueObjectValidator"/> class and defines the validation rules.
     /// </summary>
@@ -24,9 +26,9 @@ public class OrderTypeValueObjectValidator : AbstractValidator<OrderTypeValueObj
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty()
-             .Must(v2 => v2 == "ASC" || v2 == "DESC")
-             .WithMessage("{PropertyName} must be 'ASC' or 'DESC'");
+            .NotEmpty()
+            .Must(_types.Contains)
+            .WithMessage("{PropertyName} must be one of " + string.Join(", ", _types));
     }
 
     /// <summary>

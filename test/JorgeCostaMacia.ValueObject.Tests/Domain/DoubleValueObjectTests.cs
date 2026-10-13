@@ -30,6 +30,19 @@ public class DoubleValueObjectTests
     public void Convert_FromString_ParsesNumber_InvariantCulture()
         => Assert.Equal(3.5d, TestDouble.Convert("3.5"));
 
+    // A comma is not read as a thousands separator: .NET would drop it wherever it sits, so a decimal comma
+    // ("12,50") or a misplaced one ("1,2,3") would silently come out as 1250 or 123.
+    [Theory]
+    [InlineData("1,5")]
+    [InlineData("12,50")]
+    [InlineData("1,000.5")]
+    public void Convert_FromStringWithAComma_Throws(string value)
+        => Assert.Throws<FormatException>(() => TestDouble.Convert(value));
+
+    [Fact]
+    public void Convert_FromString_ReadsAnExponent()
+        => Assert.Equal(1000d, TestDouble.Convert("1e3"));
+
     [Fact]
     public void Convert_Conversions()
     {

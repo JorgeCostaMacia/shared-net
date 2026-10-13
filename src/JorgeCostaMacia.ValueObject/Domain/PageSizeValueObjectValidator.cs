@@ -23,7 +23,7 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
         Include(validator);
 
         RuleFor(v => v.Value)
-             .GreaterThan(0);
+            .GreaterThan(0);
     }
 
     /// <summary>

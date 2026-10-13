@@ -1,37 +1,38 @@
 using System.Collections.Immutable;
 using FluentValidation.Results;
+using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on an <c>IpValueObject</c>.
+/// on a <see cref="UriValueObject"/> or any derived Value Object.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This exception inherits from <see cref="StringValueObjectValidationException"/> and is used to signal
-/// a violation of the domain's business rules specific to IP address validation (e.g., malformed format).
+/// This exception inherits from <see cref="ValidationException"/> and is used to signal
+/// a violation of the domain's business rules related to URI-based Value Objects (e.g., a missing or relative URI).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
 /// It provides specialized constructors for internal use, ensuring a consistent error code
-/// and self-identifying aggregate type for this specific constraint violation.
+/// and self-identifying aggregate type for this constraint violation.
 /// </para>
 /// </remarks>
-public class IpValueObjectValidationException : StringValueObjectValidationException
+public class UriValueObjectValidationException : ValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="IpValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="UriValueObjectValidationException"/> class with full context information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
-    /// <param name="aggregateCode">A specific code identifying the exception type (often a unique GUID).</param>
+    /// <param name="aggregateCode">A specific code identifying the exception type (often a unique URI).</param>
     /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type.</param>
     /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred.</param>
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
-    public IpValueObjectValidationException(
+    public UriValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
         Guid aggregateCode,
@@ -63,7 +64,7 @@ public class IpValueObjectValidationException : StringValueObjectValidationExcep
     /// <param name="message">A user-friendly description of the error, or null to build one from the validations.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">The validation failures that triggered this exception.</param>
-    public IpValueObjectValidationException(
+    public UriValueObjectValidationException(
         Guid? aggregateId,
         string? aggregateType,
         Guid? aggregateCode,
@@ -85,22 +86,21 @@ public class IpValueObjectValidationException : StringValueObjectValidationExcep
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="IpValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="UriValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    public IpValueObjectValidationException(
+    public UriValueObjectValidationException(
         IEnumerable<ValidationFailure> validations,
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(IpValueObjectValidationException).FullName ?? typeof(IpValueObjectValidationException).Name,
-        new Guid("01951f41-9ac1-7804-9d2d-adfe0eeb472b"),
+        typeof(UriValueObjectValidationException).FullName ?? typeof(UriValueObjectValidationException).Name,
+        new Guid("01a13676-73d8-744f-b79c-88ab07fea0d6"),
         null,
         null,
         null,
         innerException,
-        validations
-    )
+        validations)
     { }
 }

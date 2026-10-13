@@ -24,7 +24,7 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty();
+            .NotEmpty();
     }
 
     /// <summary>

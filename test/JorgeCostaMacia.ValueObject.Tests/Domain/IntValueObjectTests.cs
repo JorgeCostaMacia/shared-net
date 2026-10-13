@@ -46,15 +46,44 @@ public class IntValueObjectTests
     public void Convert_FromString_OutOfRange_Throws()
         => Assert.Throws<OverflowException>(() => TestInt.Convert("2147483648"));
 
+    // A fractional part is not dropped: truncating 5.9 to 5 would invent the value. A field that wants to
+    // truncate or round says so in its own Value Object.
     [Fact]
-    public void Convert_FromFractional_TruncatesTowardZero()
+    public void Convert_FromFractional_Throws()
     {
-        Assert.Equal(5, TestInt.Convert(5.9));      // not rounded up
-        Assert.Equal(2, TestInt.Convert(2.5));      // not banker's-rounded
-        Assert.Equal(3, TestInt.Convert(3.5));      // truncated, not rounded to 4
-        Assert.Equal(-5, TestInt.Convert(-5.9));    // toward zero
-        Assert.Equal(5, TestInt.Convert("5.9"));
-        Assert.Equal(5, TestInt.Convert(5.9m));
+        Assert.Throws<FormatException>(() => TestInt.Convert(5.9));
+        Assert.Throws<FormatException>(() => TestInt.Convert(-5.9));
+        Assert.Throws<FormatException>(() => TestInt.Convert(2.5f));
+        Assert.Throws<FormatException>(() => TestInt.Convert("2.7"));
+        Assert.Throws<FormatException>(() => TestInt.Convert(2.7m));
+    }
+
+    // float and double are checked on their own type, not through decimal: decimal keeps 7 and 15 significant
+    // digits, so it would accept 1.0000001f as 1 and turn 123456792f into 123456800.
+    [Fact]
+    public void Convert_FromFloatingPoint_KeepsItsPrecision()
+    {
+        Assert.Equal(123456792, TestInt.Convert(123456792f));
+        Assert.Throws<FormatException>(() => TestInt.Convert(1.0000001f));
+        Assert.Throws<FormatException>(() => TestInt.Convert(1000000000.0000001));
+    }
+
+    [Fact]
+    public void Convert_FromFloatingPoint_OutOfRange_Throws()
+    {
+        Assert.Throws<OverflowException>(() => TestInt.Convert(3e10f));
+        Assert.Throws<OverflowException>(() => TestInt.Convert(3e10));
+        Assert.Throws<OverflowException>(() => TestInt.Convert(double.PositiveInfinity));
+        Assert.Throws<FormatException>(() => TestInt.Convert(float.NaN));
+    }
+
+    // An integer written with a zero fraction is still an integer.
+    [Fact]
+    public void Convert_FromAZeroFraction_Accepts()
+    {
+        Assert.Equal(5, TestInt.Convert(5.0));
+        Assert.Equal(5, TestInt.Convert("5.0"));
+        Assert.Equal(-5, TestInt.Convert(-5.0m));
     }
 
     [Fact]
