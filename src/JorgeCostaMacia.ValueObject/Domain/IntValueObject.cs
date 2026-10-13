@@ -97,9 +97,12 @@ public record IntValueObject : IValueObject
     protected static int Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
-    /// Converts a float to an integer. Throws <see cref="FormatException"/> if it has a fractional part.
+    /// Converts a float to an integer. Throws <see cref="FormatException"/> if it has a fractional part (or is NaN) and
+    /// <see cref="OverflowException"/> if it is out of <see cref="int"/> range. Checked on the float itself, not through
+    /// decimal, which keeps only 7 significant digits: 123456792f would come out as 123456800.
     /// </summary>
-    protected static int Convert(float value) => Convert((decimal)value);
+    protected static int Convert(float value)
+        => value == float.Truncate(value) ? checked((int)value) : throw new FormatException($"{value} is not an integer");
 
     /// <summary>
     /// Converts a decimal to an integer. A fractional part throws <see cref="FormatException"/> instead of being dropped:
@@ -120,9 +123,12 @@ public record IntValueObject : IValueObject
     protected static int Convert(long value) => Convert((decimal)value);
 
     /// <summary>
-    /// Converts a double to an integer. Throws <see cref="FormatException"/> if it has a fractional part.
+    /// Converts a double to an integer. Throws <see cref="FormatException"/> if it has a fractional part (or is NaN) and
+    /// <see cref="OverflowException"/> if it is out of <see cref="int"/> range. Checked on the double itself, not through
+    /// decimal, which keeps only 15 significant digits and would round a fraction below them away.
     /// </summary>
-    protected static int Convert(double value) => Convert((decimal)value);
+    protected static int Convert(double value)
+        => value == double.Truncate(value) ? checked((int)value) : throw new FormatException($"{value} is not an integer");
 
     /// <summary>Implicitly converts the value object to its underlying <see cref="int"/> value.</summary>
     /// <param name="valueObject">The value object to convert.</param>

@@ -54,6 +54,25 @@ public class LongValueObjectTests
         Assert.Throws<FormatException>(() => TestLong.Convert(2.7m));
     }
 
+    // float and double are checked on their own type, not through decimal: decimal keeps 7 and 15 significant
+    // digits, so it would accept 1.0000001f as 1 and turn 1234567890123456768d into 1234567890123460000.
+    [Fact]
+    public void Convert_FromFloatingPoint_KeepsItsPrecision()
+    {
+        Assert.Equal(1234567890123456768L, TestLong.Convert(1234567890123456768d));
+        Assert.Throws<FormatException>(() => TestLong.Convert(1.0000001f));
+        Assert.Throws<FormatException>(() => TestLong.Convert(1000000000.0000001));
+    }
+
+    [Fact]
+    public void Convert_FromFloatingPoint_OutOfRange_Throws()
+    {
+        Assert.Throws<OverflowException>(() => TestLong.Convert(1e30f));
+        Assert.Throws<OverflowException>(() => TestLong.Convert(1e30));
+        Assert.Throws<OverflowException>(() => TestLong.Convert(double.PositiveInfinity));
+        Assert.Throws<FormatException>(() => TestLong.Convert(float.NaN));
+    }
+
     // An integer written with a zero fraction is still an integer.
     [Fact]
     public void Convert_FromAZeroFraction_Accepts()
