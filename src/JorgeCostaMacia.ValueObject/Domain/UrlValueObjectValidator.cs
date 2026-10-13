@@ -32,7 +32,6 @@ public class UrlValueObjectValidator : AbstractValidator<UrlValueObject>
 
         RuleFor(v => v.Value)
             .NotEmpty()
-            .MinimumLength(1)
             .Must(v => Uri.TryCreate(v, UriKind.Absolute, out Uri? uri) && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps))
             .WithErrorCode("UrlValidator")
             .WithMessage("{PropertyName} must be an http(s) Url");
