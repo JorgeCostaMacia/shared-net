@@ -37,13 +37,16 @@ public class DateTimeUtcValueObjectValidatorTests
     public void DateJustAfterTheFloor_Passes()
         => Assert.True(_validator.Validate(DateTimeUtcValueObject.From(new DateTime(1900, 1, 1, 0, 0, 1, DateTimeKind.Utc))).IsValid);
 
-    // No ceiling in the base: a field that needs one declares it in its own Value Object.
-    [Theory]
-    [InlineData(2190, 1, 1)]
-    [InlineData(9999, 12, 31)]
-    public void FarFutureDate_Passes(
-        int year,
-        int month,
-        int day)
-        => Assert.True(_validator.Validate(DateTimeUtcValueObject.From(new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc))).IsValid);
+    [Fact]
+    public void DateAtMaxBoundary_Passes()
+        => Assert.True(_validator.Validate(DateTimeUtcValueObject.From(DateTime.UtcNow.Date.AddYears(100))).IsValid);
+
+    [Fact]
+    public void DateAfterMaxBoundary_Fails()
+        => Assert.False(_validator.Validate(DateTimeUtcValueObject.From(DateTime.UtcNow.Date.AddYears(100).AddDays(1))).IsValid);
+
+    // The ceiling binds every date: a far-future sentinel does not pass.
+    [Fact]
+    public void OpenEndSentinel_Fails()
+        => Assert.False(_validator.Validate(DateTimeUtcValueObject.From(new DateTime(9999, 12, 31, 0, 0, 0, DateTimeKind.Utc))).IsValid);
 }
