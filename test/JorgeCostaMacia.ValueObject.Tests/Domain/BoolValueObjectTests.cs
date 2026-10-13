@@ -38,12 +38,28 @@ public class BoolValueObjectTests
     [InlineData("true", true)]
     [InlineData("1", true)]
     [InlineData("SI", true)]
-    [InlineData("YES", true)]
+    [InlineData("sí", true)]
+    [InlineData("S", true)]
+    [InlineData(" yes ", true)]
+    [InlineData("Y", true)]
+    [InlineData("FALSE", false)]
     [InlineData("false", false)]
     [InlineData("0", false)]
-    [InlineData("nope", false)]
-    public void Convert_FromString_ParsesTruthyTokens(string input, bool expected)
+    [InlineData("no", false)]
+    [InlineData("N", false)]
+    public void Convert_FromString_ParsesTheKnownTokens(
+        string input,
+        bool expected)
         => Assert.Equal(expected, TestBool.Convert(input));
+
+    // A token on neither list is not read as false: "S" used to be, which inverts every S/N field.
+    [Theory]
+    [InlineData("")]
+    [InlineData("nope")]
+    [InlineData("2")]
+    [InlineData("1.0")]
+    public void Convert_FromAnUnknownToken_Throws(string input)
+        => Assert.Throws<FormatException>(() => TestBool.Convert(input));
 
     // The tokens are compared upper-cased with the invariant culture: under tr-TR, ToUpper turns "si" into "Sİ".
     [Fact]
@@ -63,23 +79,30 @@ public class BoolValueObjectTests
     }
 
     [Fact]
-    public void Convert_FromNumbers_OnlyOneMapsToTrue()
+    public void Convert_FromNumbers_OneIsTrueAndZeroIsFalse()
     {
         Assert.True(TestBool.Convert(1));
         Assert.False(TestBool.Convert(0));
-        Assert.False(TestBool.Convert(2));
         Assert.True(TestBool.Convert(1L));
-        Assert.True(TestBool.Convert(1.0));
-        Assert.True(TestBool.Convert(1m));
-    }
-
-    // Every numeric overload funnels through Convert(int value == 1); float had no caller.
-    [Fact]
-    public void Convert_FromFloat_TreatsOneAsTrue()
-    {
+        Assert.False(TestBool.Convert(0L));
         Assert.True(TestBool.Convert(1f));
         Assert.False(TestBool.Convert(0f));
-        Assert.False(TestBool.Convert(2f));
+        Assert.True(TestBool.Convert(1.0));
+        Assert.False(TestBool.Convert(0.0));
+        Assert.True(TestBool.Convert(1m));
+        Assert.False(TestBool.Convert(0m));
+    }
+
+    // Any other number is not a boolean: 2 used to be false and 1.9 true.
+    [Fact]
+    public void Convert_FromAnyOtherNumber_Throws()
+    {
+        Assert.Throws<FormatException>(() => TestBool.Convert(2));
+        Assert.Throws<FormatException>(() => TestBool.Convert(-1L));
+        Assert.Throws<FormatException>(() => TestBool.Convert(1.9f));
+        Assert.Throws<FormatException>(() => TestBool.Convert(1.0000000000000002));
+        Assert.Throws<FormatException>(() => TestBool.Convert(0.5m));
+        Assert.Throws<FormatException>(() => TestBool.Convert(double.NaN));
     }
 
     public sealed record TestBool : BoolValueObject
