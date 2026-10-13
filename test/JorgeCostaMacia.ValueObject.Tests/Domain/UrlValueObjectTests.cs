@@ -27,11 +27,11 @@ public class UrlValueObjectTests
     [Fact]
     public void Create_OnEmpty_ReportsAllFailuresInOneException()
     {
-        // Empty violates the three rules (NotEmpty + MinimumLength + absolute-URI check) — one exception, the complete failure list.
+        // Empty violates both rules (NotEmpty + absolute-URI check) — one exception, the complete failure list.
         UrlValueObjectValidationException exception =
             Assert.Throws<UrlValueObjectValidationException>(() => UrlValueObject.Create(""));
 
-        Assert.Equal(3, exception.Validations.Count);
+        Assert.Equal(2, exception.Validations.Count);
     }
     // The OrNull pair carries the field's optionality: absence in, absence out — never a second
     // policy for invalid input.

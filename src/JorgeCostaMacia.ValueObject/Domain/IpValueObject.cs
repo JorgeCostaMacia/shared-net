@@ -17,6 +17,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <see cref="IpValueObjectValidator"/>.
 /// </para>
 /// </remarks>
+[Obsolete("Use Ipv4ValueObject: it validates an IPv4 in its canonical dotted-decimal form, which this one does not.")]
 public record IpValueObject : StringValueObject
 {
     /// <summary>

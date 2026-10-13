@@ -3,6 +3,8 @@ using JorgeCostaMacia.ValueObject.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Tests.Domain;
 
+// IpValueObject is obsolete; its tests stay until the type is removed in the next major.
+[Obsolete("Covers the obsolete IpValueObject.")]
 public class IpValueObjectValidatorTests
 {
     private static readonly IpValueObjectValidator _validator = IpValueObjectValidator.Create();

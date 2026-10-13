@@ -27,6 +27,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///     </description></item>
 /// </list>
 /// </remarks>
+[Obsolete("Use Ipv4ValueObjectValidator.")]
 public class IpValueObjectValidator : AbstractValidator<IpValueObject>
 {
     /// <summary>
@@ -43,7 +44,7 @@ public class IpValueObjectValidator : AbstractValidator<IpValueObject>
              .MaximumLength(15)
              .Must(v => string.IsNullOrEmpty(v) || (v.Count(c => c == '.') == 3 && IPAddress.TryParse(v, out _)))
              .WithErrorCode("IpValidator")
-             .WithMessage("{PropertyName} must be a IP");
+             .WithMessage("{PropertyName} must be an IP");
     }
 
     /// <summary>
