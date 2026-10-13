@@ -1,6 +1,6 @@
 # JorgeCostaMacia.ValueObject
 
-Immutable, type-safe **value objects** — primitives (`int`, `long`, `float`, `double`, `decimal`, `bool`, `byte`, `string`, `Guid`, `DateTime`, UTC `DateTime`), semantic strings (email, URL, IP, JSON), and paging/ordering — each with the same creation surface (constructor hydrates, `From(...)` converts unvalidated, `Create(...)` fabricates validated, and an `OrNull` sibling for each factory) and value equality. Every type ships a FluentValidation validator and a typed validation exception.
+Immutable, type-safe **value objects** — primitives (`int`, `long`, `float`, `double`, `decimal`, `bool`, `byte`, `string`, `Guid`, `DateTime`, UTC `DateTime`), semantic types (email, IPv4, JSON, URI), and paging/ordering — each with the same creation surface (constructor hydrates, `From(...)` converts unvalidated, `Create(...)` fabricates validated, and an `OrNull` sibling for each factory) and value equality. Every type ships a FluentValidation validator and a typed validation exception.
 
 [![NuGet](https://img.shields.io/nuget/v/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
 [![Downloads](https://img.shields.io/nuget/dt/JorgeCostaMacia.ValueObject.svg)](https://www.nuget.org/packages/JorgeCostaMacia.ValueObject/)
@@ -27,7 +27,7 @@ string raw = email.Value;                                            // access t
 string same = email;                                                 // or implicitly (VO -> primitive operator)
 
 UuidValueObject id = UuidValueObject.Create(Guid.NewGuid());
-DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(DateTime.UtcNow);   // tags Utc kind; convert wall-clock at the call site
+DateTimeUtcValueObject when = DateTimeUtcValueObject.Create(DateTime.UtcNow);   // brings it to Utc (a Local value is converted); a wall-clock from another zone is converted at the call site
 ```
 
 ### The creation surface
