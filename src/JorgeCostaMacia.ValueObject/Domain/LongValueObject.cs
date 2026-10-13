@@ -15,7 +15,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </para>
 /// <para>
 /// Both factories take the type's natural primitive (<see cref="long"/>). The protected <c>Convert</c>
-/// family carries the conversion logic from other primitive types (often involving truncation), so Value
+/// family carries the conversion logic from other primitive types (a fractional part is rejected, never truncated), so Value
 /// Objects deriving from this one in consuming contexts can reuse and redefine it.
 /// </para>
 /// </remarks>
@@ -88,20 +88,28 @@ public record LongValueObject : IValueObject
     /// <summary>Converts a long value (identity conversion).</summary>
     protected static long Convert(long value) => value;
 
-    /// <summary>Parses a string into a decimal, then truncates it to a long — the fractional part is dropped toward zero, never rounded (trimming whitespace first).</summary>
+    /// <summary>
+    /// Parses a string into a decimal (trimming whitespace first), then converts it to a long: <c>"5.0"</c> is accepted,
+    /// <c>"5.9"</c> throws <see cref="FormatException"/>.
+    /// </summary>
     protected static long Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a long value (widening; exact).</summary>
     protected static long Convert(int value) => value;
 
-    /// <summary>Converts a float to a long value, truncating the fractional part toward zero.</summary>
+    /// <summary>Converts a float to a long value. Throws <see cref="FormatException"/> if it has a fractional part.</summary>
     protected static long Convert(float value) => Convert((decimal)value);
 
-    /// <summary>Converts a double to a long value, truncating the fractional part toward zero.</summary>
+    /// <summary>Converts a double to a long value. Throws <see cref="FormatException"/> if it has a fractional part.</summary>
     protected static long Convert(double value) => Convert((decimal)value);
 
-    /// <summary>Converts a decimal to a long value, truncating the fractional part toward zero. Throws <see cref="OverflowException"/> if out of <see cref="long"/> range.</summary>
-    protected static long Convert(decimal value) => (long)value;
+    /// <summary>
+    /// Converts a decimal to a long value. A fractional part throws <see cref="FormatException"/> instead of being dropped:
+    /// truncating 5.9 to 5 would invent the value, and a field that wants to truncate or round says so in its own
+    /// Value Object. Throws <see cref="OverflowException"/> if out of <see cref="long"/> range.
+    /// </summary>
+    protected static long Convert(decimal value)
+        => value == decimal.Truncate(value) ? (long)value : throw new FormatException($"{value} is not an integer");
 
     /// <summary>Converts a boolean to a long value (true = 1, false = 0).</summary>
     protected static long Convert(bool value) => value ? 1L : 0L;
