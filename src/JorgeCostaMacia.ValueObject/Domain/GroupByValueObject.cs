@@ -16,6 +16,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// Both factories take the type's natural primitive (<see cref="string"/>). The protected <c>Convert</c>
 /// family remains available for Value Objects deriving from this one in consuming contexts.
 /// </para>
+/// <para>
+/// The base only requires a criterion. As with <see cref="OrderByValueObject"/>, a derived Value Object restricts
+/// it to the fields its aggregate can be grouped by, and the upper case is what makes that comparison independent
+/// of how the caller wrote the field.
+/// </para>
 /// </remarks>
 public record GroupByValueObject : StringValueObject
 {
@@ -78,9 +83,10 @@ public record GroupByValueObject : StringValueObject
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>
-    /// cleansing (trimming) and then converting the result to uppercase.
+    /// cleansing (trimming) and then converting the result to uppercase with the invariant culture: under the
+    /// current one, a Turkish process would turn <c>"id"</c> into <c>"&#304;D"</c>.
     /// </summary>
     /// <param name="value">The string to convert.</param>
     /// <returns>The cleansed, uppercase string.</returns>
-    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpperInvariant();
 }
