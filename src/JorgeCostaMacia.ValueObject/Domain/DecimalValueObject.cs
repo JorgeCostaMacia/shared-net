@@ -91,9 +91,10 @@ public record DecimalValueObject : IValueObject
     protected static decimal Convert(decimal value) => value;
 
     /// <summary>
-    /// Parses a string into a decimal value, trimming whitespace first.
+    /// Parses a string into a decimal value, trimming whitespace first. A comma is rejected rather than read as a
+    /// thousands separator: .NET would drop it wherever it sits, so <c>"12,50"</c> would come out as 1250.
     /// </summary>
-    protected static decimal Convert(string value) => Convert(decimal.Parse(value.Trim(), CultureInfo.InvariantCulture));
+    protected static decimal Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts an integer to a decimal value.

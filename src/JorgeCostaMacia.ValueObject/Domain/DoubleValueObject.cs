@@ -88,8 +88,11 @@ public record DoubleValueObject : IValueObject
     /// <summary>Converts a double value (identity conversion).</summary>
     protected static double Convert(double value) => value;
 
-    /// <summary>Parses a string into a double value, trimming whitespace first.</summary>
-    protected static double Convert(string value) => Convert(double.Parse(value.Trim(), CultureInfo.InvariantCulture));
+    /// <summary>
+    /// Parses a string into a double value, trimming whitespace first. A comma is rejected rather than read as a
+    /// thousands separator: .NET would drop it wherever it sits, so <c>"12,50"</c> would come out as 1250.
+    /// </summary>
+    protected static double Convert(string value) => Convert(double.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a double value.</summary>
     protected static double Convert(int value) => Convert((double)value);
