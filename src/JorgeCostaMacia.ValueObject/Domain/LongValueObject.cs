@@ -97,11 +97,21 @@ public record LongValueObject : IValueObject
     /// <summary>Converts an integer to a long value (widening; exact).</summary>
     protected static long Convert(int value) => value;
 
-    /// <summary>Converts a float to a long value. Throws <see cref="FormatException"/> if it has a fractional part.</summary>
-    protected static long Convert(float value) => Convert((decimal)value);
+    /// <summary>
+    /// Converts a float to a long value. Throws <see cref="FormatException"/> if it has a fractional part (or is NaN) and
+    /// <see cref="OverflowException"/> if it is out of <see cref="long"/> range. Checked on the float itself, not through
+    /// decimal, which keeps only 7 significant digits.
+    /// </summary>
+    protected static long Convert(float value)
+        => value == float.Truncate(value) ? checked((long)value) : throw new FormatException($"{value} is not an integer");
 
-    /// <summary>Converts a double to a long value. Throws <see cref="FormatException"/> if it has a fractional part.</summary>
-    protected static long Convert(double value) => Convert((decimal)value);
+    /// <summary>
+    /// Converts a double to a long value. Throws <see cref="FormatException"/> if it has a fractional part (or is NaN) and
+    /// <see cref="OverflowException"/> if it is out of <see cref="long"/> range. Checked on the double itself, not through
+    /// decimal, which keeps only 15 significant digits: 1234567890123456768d would come out as 1234567890123460000.
+    /// </summary>
+    protected static long Convert(double value)
+        => value == double.Truncate(value) ? checked((long)value) : throw new FormatException($"{value} is not an integer");
 
     /// <summary>
     /// Converts a decimal to a long value. A fractional part throws <see cref="FormatException"/> instead of being dropped:
