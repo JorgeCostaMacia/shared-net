@@ -27,6 +27,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///     </description></item>
 /// </list>
 /// </remarks>
+[Obsolete("Use Ipv4ValueObjectValidator.")]
 public class IpValueObjectValidator : AbstractValidator<IpValueObject>
 {
     /// <summary>

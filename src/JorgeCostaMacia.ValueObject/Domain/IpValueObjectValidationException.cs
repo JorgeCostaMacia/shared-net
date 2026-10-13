@@ -18,6 +18,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// and self-identifying aggregate type for this specific constraint violation.
 /// </para>
 /// </remarks>
+[Obsolete("Use Ipv4ValueObjectValidationException.")]
 public class IpValueObjectValidationException : StringValueObjectValidationException
 {
     /// <summary>
