@@ -8,16 +8,18 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces the general rule of a URI Value Object: it is present and absolute, whatever its scheme.
-/// A derived Value Object that needs a narrower rule (only <c>http</c>/<c>https</c>, for one) includes this validator
-/// and adds its own.
+/// This validator enforces only the general rule of a URI Value Object: it is present. A <see cref="Uri"/> cannot be
+/// malformed — building one from text that is not a URI throws <see cref="UriFormatException"/> before validation —
+/// so the base accepts any URI, relative or absolute, of any scheme.
+/// </para>
+/// <para>
+/// A derived Value Object that needs a narrower rule includes this validator and adds its own: an absolute URI
+/// (<see cref="Uri.IsAbsoluteUri"/>), a web URL (absolute and <c>http</c>/<c>https</c>), a relative path. A rule on
+/// the scheme must check <see cref="Uri.IsAbsoluteUri"/> first, because <see cref="Uri.Scheme"/> throws on a relative URI.
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
 ///         <b>Not Null:</b> Ensures the URI is present.
-///     </description></item>
-///     <item><description>
-///         <b>Absolute:</b> Ensures the URI is absolute (<see cref="Uri.IsAbsoluteUri"/>).
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -29,10 +31,7 @@ public class UriValueObjectValidator : AbstractValidator<UriValueObject>
     public UriValueObjectValidator()
     {
         RuleFor(v => v.Value)
-            .NotNull()
-            .Must(v => v is not null && v.IsAbsoluteUri)
-            .WithErrorCode("UriValidator")
-            .WithMessage("{PropertyName} must be an absolute Uri");
+            .NotNull();
     }
 
     /// <summary>

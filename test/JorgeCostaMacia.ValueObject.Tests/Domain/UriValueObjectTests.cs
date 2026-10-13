@@ -16,15 +16,19 @@ public class UriValueObjectTests
 
     [Fact]
     public void From_OnInvalid_DoesNotThrow()
-        => Assert.False(UriValueObject.From(new Uri("relative/path", UriKind.Relative)).Value.IsAbsoluteUri);
+        => Assert.Null(UriValueObject.From(null!).Value);
 
     [Fact]
     public void Create_KeepsValue()
         => Assert.Equal(_uri, UriValueObject.Create(_uri).Value);
 
     [Fact]
-    public void Create_OnRelative_ThrowsUriValueObjectValidationException()
-        => Assert.Throws<UriValueObjectValidationException>(() => UriValueObject.Create(new Uri("relative/path", UriKind.Relative)));
+    public void Create_OnRelative_KeepsIt()
+        => Assert.Equal("relative/path", UriValueObject.Create(new Uri("relative/path", UriKind.Relative)).Value.OriginalString);
+
+    [Fact]
+    public void Create_OnNull_ThrowsUriValueObjectValidationException()
+        => Assert.Throws<UriValueObjectValidationException>(() => UriValueObject.Create(null!));
 
     // The base takes any scheme: narrowing it is a derived Value Object's job.
     [Theory]
@@ -54,7 +58,7 @@ public class UriValueObjectTests
         => Assert.Equal(_uri, TestUri.Convert("  https://example.com/api/v1?x=1  "));
 
     [Fact]
-    public void Convert_FromString_KeepsARelativeUriForTheValidatorToReject()
+    public void Convert_FromString_KeepsARelativeUri()
         => Assert.False(TestUri.Convert("relative/path").IsAbsoluteUri);
 
     [Fact]
@@ -86,8 +90,8 @@ public class UriValueObjectTests
     public void CreateOrNull_WithAValue_ReturnsTheValueObject()
         => Assert.NotNull(UriValueObject.CreateOrNull(_uri));
 
-    // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
+    // The base has no invalid non-null URI to supply: a relative one is as valid as an absolute one.
     [Fact]
-    public void CreateOrNull_WithAnInvalidValue_StillThrows()
-        => Assert.Throws<UriValueObjectValidationException>(() => UriValueObject.CreateOrNull(new Uri("relative/path", UriKind.Relative)));
+    public void CreateOrNull_WithARelativeValue_ReturnsIt()
+        => Assert.NotNull(UriValueObject.CreateOrNull(new Uri("relative/path", UriKind.Relative)));
 }
