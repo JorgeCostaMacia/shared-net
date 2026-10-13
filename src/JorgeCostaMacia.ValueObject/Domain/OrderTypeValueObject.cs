@@ -79,9 +79,10 @@ public record OrderTypeValueObject : StringValueObject
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>
-    /// cleansing (trimming) and then converting the result to uppercase.
+    /// cleansing (trimming) and then converting the result to uppercase with the invariant culture: under the
+    /// current one, a Turkish process would turn <c>"id"</c> into <c>"&#304;D"</c>.
     /// </summary>
     /// <param name="value">The string to convert.</param>
     /// <returns>The cleansed, uppercase string.</returns>
-    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpperInvariant();
 }
