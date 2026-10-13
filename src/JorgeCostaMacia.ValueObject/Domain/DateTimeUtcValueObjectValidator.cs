@@ -9,7 +9,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This validator <b>includes</b> the base <see cref="DateTimeValueObjectValidator"/> rules via constructor
-/// injection (not empty, minimum January 1st 1900, no ceiling), so the
+/// injection (not empty, later than midnight on January 1st 1900, no ceiling), so the
 /// date-range knowledge lives once, in the base family. Rules specific to the UTC specialization (if any)
 /// are defined within the constructor.
 /// </para>
