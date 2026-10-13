@@ -8,62 +8,56 @@ public class UriValueObjectValidatorTests
 {
     private static readonly UriValueObjectValidator _validator = UriValueObjectValidator.Create();
 
+    // The base takes any URI: absolute of any scheme, or relative. Narrowing it is a derived Value Object's job.
     [Theory]
     [InlineData("https://example.com")]
     [InlineData("http://localhost:8080/path")]
     [InlineData("ftp://files.example.com")]
     [InlineData("urn:isbn:0451450523")]
-    public void AbsoluteUri_Passes(string value)
-        => Assert.True(_validator.Validate(UriValueObject.From(new Uri(value))).IsValid);
-
-    [Theory]
-    [InlineData("relative/path")]
     [InlineData("/rooted/path")]
-    public void RelativeUri_Fails(string value)
-    {
-        ValidationResult result = _validator.Validate(UriValueObject.From(new Uri(value, UriKind.Relative)));
+    [InlineData("relative/path")]
+    public void AnyUri_Passes(string value)
+        => Assert.True(_validator.Validate(UriValueObject.From(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
 
-        Assert.Equal("UriValidator", Assert.Single(result.Errors).ErrorCode);
-    }
-
-    // No cascade: a missing value reports both what it is (null) and what it is not (an absolute Uri).
     [Fact]
-    public void Null_ReportsBothRules()
+    public void Null_Fails()
     {
         ValidationResult result = _validator.Validate(new UriValueObject(null!));
 
-        Assert.Equal(2, result.Errors.Count);
+        Assert.Equal("NotNullValidator", Assert.Single(result.Errors).ErrorCode);
     }
+
+    [Fact]
+    public void Null_ValidateAndThrow_ThrowsTypedException()
+        => Assert.Throws<UriValueObjectValidationException>(() => _validator.ValidateAndThrow(new UriValueObject(null!)));
 
     // The derived Value Object narrows the rule: this is how an http(s)-only URL is built on the base.
-    [Fact]
-    public void DerivedValidator_CanNarrowTheScheme()
-    {
-        HttpUriValidator validator = new HttpUriValidator();
+    [Theory]
+    [InlineData("https://example.com", true)]
+    [InlineData("http://example.com/a", true)]
+    [InlineData("ftp://example.com", false)]
+    [InlineData("/rooted/path", false)]
+    public void DerivedValidator_NarrowsToAWebUrl(
+        string value,
+        bool valid)
+        => Assert.Equal(valid, new WebUrlValidator().Validate(new WebUrl(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
 
-        Assert.True(validator.Validate(new HttpUri(new Uri("https://example.com"))).IsValid);
-        Assert.False(validator.Validate(new HttpUri(new Uri("ftp://example.com"))).IsValid);
+    public sealed record WebUrl : UriValueObject
+    {
+        public WebUrl(Uri value) : base(value) { }
     }
 
-    [Fact]
-    public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<UriValueObjectValidationException>(() => _validator.ValidateAndThrow(UriValueObject.From(new Uri("relative", UriKind.Relative))));
-
-    public sealed record HttpUri : UriValueObject
+    public sealed class WebUrlValidator : AbstractValidator<WebUrl>
     {
-        public HttpUri(Uri value) : base(value) { }
-    }
-
-    public sealed class HttpUriValidator : AbstractValidator<HttpUri>
-    {
-        public HttpUriValidator()
+        public WebUrlValidator()
         {
             Include(UriValueObjectValidator.Create());
 
+            // IsAbsoluteUri first: Uri.Scheme throws on a relative URI.
             RuleFor(v => v.Value)
-                .Must(v => v.Scheme == Uri.UriSchemeHttp || v.Scheme == Uri.UriSchemeHttps)
-                .WithErrorCode("HttpUriValidator")
-                .WithMessage("{PropertyName} must be an http(s) Uri");
+                .Must(v => v is not null && v.IsAbsoluteUri && (v.Scheme == Uri.UriSchemeHttp || v.Scheme == Uri.UriSchemeHttps))
+                .WithErrorCode("WebUrlValidator")
+                .WithMessage("{PropertyName} must be an http(s) Url");
         }
     }
 }

@@ -3,7 +3,7 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates a single absolute <see cref="Uri"/>.
+/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="Uri"/>, relative or absolute.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -13,8 +13,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// fabricates validated (nothing invalid escapes it).
 /// </para>
 /// <para>
-/// The base rule is deliberately general — the URI must be absolute, whatever its scheme. A Value Object that needs
-/// more (only <c>http</c>/<c>https</c>, a given host) derives from this one and adds the rule in its own validator,
+/// The base rule is deliberately general — the URI must be present, relative or absolute, whatever its scheme. A
+/// Value Object that needs more (absolute, only <c>http</c>/<c>https</c>, a given host) derives from this one and adds the rule in its own validator,
 /// the same way a module's string Value Object adds its format to <see cref="StringValueObject"/>.
 /// </para>
 /// <para>
@@ -96,8 +96,8 @@ public record UriValueObject : IValueObject
     protected static Uri Convert(Uri value) => value;
 
     /// <summary>
-    /// Converts a string to a URI value. Text that is not a URI throws <see cref="UriFormatException"/>; a relative
-    /// URI converts, and it is the validator that rejects it.
+    /// Converts a string to a URI value. Text that is not a URI throws <see cref="UriFormatException"/>; relative and
+    /// absolute URIs both convert.
     /// </summary>
     protected static Uri Convert(string value) => Convert(new Uri(value.Trim(), UriKind.RelativeOrAbsolute));
 
