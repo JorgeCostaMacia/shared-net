@@ -6,7 +6,7 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
 /// Represents a domain exception thrown when one or more constraints fail validation
-/// on a <see cref="StringValueObject"/> or any derived Value Object (e.g., <c>IpValueObject</c>, <c>EmailValueObject</c>).
+/// on a <see cref="StringValueObject"/> or any derived Value Object (e.g., <c>Ipv4ValueObject</c>, <c>EmailValueObject</c>).
 /// </summary>
 /// <remarks>
 /// <para>
