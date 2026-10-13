@@ -36,7 +36,7 @@ public class StringValueObjectTests
     [Fact]
     public void Equality_DifferentVoTypesSameValue_AreNotEqual()
         // Record equality includes the runtime type, so two different VO types with the same value differ.
-        => Assert.NotEqual<StringValueObject>(EmailValueObject.From("abc"), UrlValueObject.From("abc"));
+        => Assert.NotEqual<StringValueObject>(EmailValueObject.From("abc"), OrderByValueObject.From("abc"));
 
     // The protected Convert family is the toolbox for derived VOs in consuming contexts —
     // exercised through a derived test type, like a real derived VO would.
