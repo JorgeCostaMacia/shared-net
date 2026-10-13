@@ -16,6 +16,12 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// inherited <c>Convert</c> family. The validation of the JSON structure itself is handled by
 /// <see cref="JsonValueObjectValidator"/>.
 /// </para>
+/// <para>
+/// The document is kept as text on purpose, not as a <see cref="System.Text.Json.JsonDocument"/>: that type is
+/// <see cref="IDisposable"/> (it rents pooled memory a record cannot know when to return) and compares by reference,
+/// so two identical documents would not be equal Value Objects; a <c>JsonNode</c> is mutable. A consumer that needs
+/// the content parses <see cref="StringValueObject.Value"/> where it uses it.
+/// </para>
 /// </remarks>
 public record JsonValueObject : StringValueObject
 {
