@@ -30,10 +30,10 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
         Include(validator);
 
         RuleFor(v => v.Value)
-             .NotEmpty()
-             .Must(BeJson)
-             .WithErrorCode("JsonValidator")
-             .WithMessage("{PropertyName} must be a JSON");
+            .NotEmpty()
+            .Must(BeJson)
+            .WithErrorCode("JsonValidator")
+            .WithMessage("{PropertyName} must be a JSON");
     }
 
     /// <summary>

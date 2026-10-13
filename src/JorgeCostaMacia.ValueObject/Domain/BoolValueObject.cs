@@ -92,7 +92,7 @@ public record BoolValueObject : IValueObject
     /// <summary>
     /// Converts a string to a boolean. Supports "TRUE", "1", "SI", or "YES" (case-insensitive).
     /// </summary>
-    protected static bool Convert(string value) => Convert(value.Trim().ToUpper() == "TRUE" || value.Trim().ToUpper() == "1" || value.Trim().ToUpper() == "SI" || value.Trim().ToUpper() == "YES");
+    protected static bool Convert(string value) => Convert(value.Trim().ToUpperInvariant() == "TRUE" || value.Trim().ToUpperInvariant() == "1" || value.Trim().ToUpperInvariant() == "SI" || value.Trim().ToUpperInvariant() == "YES");
 
     /// <summary>
     /// Converts an integer to a boolean. Only <c>1</c> maps to <c>true</c>.
