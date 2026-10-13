@@ -8,8 +8,15 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces common constraints on the encapsulated <see cref="DateTime"/> value,
-/// ensuring that the date is a valid, meaningful date within a defined range.
+/// This validator rules out what is not a date rather than what is an unlikely one. The floor of 1900 is there
+/// for the zero dates other systems write when they have none: <c>0001-01-01</c> (.NET's default) and
+/// <c>1899-12-30</c> (the zero of Delphi, OLE Automation and Excel). No real value in these systems is older.
+/// </para>
+/// <para>
+/// There is no ceiling, on purpose. What is reasonable above depends on the field — today for a birth date, a few
+/// years for a planned task, decades for a contract, <c>9999-12-31</c> where it marks an open end — and a derived
+/// validator can add a rule but never remove one it includes, so a ceiling here would bind every date in every
+/// consumer. A field that needs one declares it in its own Value Object.
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
@@ -17,9 +24,6 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 ///     </description></item>
 ///     <item><description>
 ///         <b>Minimum Date:</b> The date must be greater than or equal to January 1st, 1900.
-///     </description></item>
-///     <item><description>
-///         <b>Maximum Date:</b> The date must be less than or equal to 100 years from the current UTC date.
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -32,8 +36,7 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
     {
         RuleFor(v => v.Value)
             .NotEmpty()
-            .GreaterThanOrEqualTo(new DateTime(1900, 1, 1, 1, 0, 0, 0, DateTimeKind.Utc).Date)
-            .LessThanOrEqualTo(DateTime.UtcNow.Date.AddYears(100));
+            .GreaterThanOrEqualTo(new DateTime(1900, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
     }
 
     /// <summary>
