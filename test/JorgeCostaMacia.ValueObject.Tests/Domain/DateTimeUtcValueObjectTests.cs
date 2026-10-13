@@ -23,6 +23,27 @@ public class DateTimeUtcValueObjectTests
         Assert.Equal(12, valueObject.Value.Hour);   // tagged UTC, not shifted
     }
 
+    // A Local value knows its instant, so it is converted rather than relabelled: tagging 10:00 (+02:00) as UTC
+    // would move it two hours. On a UTC host both give the same result; this is what keeps any other host right.
+    [Fact]
+    public void From_ConvertsALocalValue_ToTheSameInstant()
+    {
+        DateTime local = new DateTime(2026, 6, 29, 12, 0, 0, DateTimeKind.Local);
+
+        DateTimeUtcValueObject valueObject = DateTimeUtcValueObject.From(local);
+
+        Assert.Equal(DateTimeKind.Utc, valueObject.Value.Kind);
+        Assert.Equal(local.ToUniversalTime(), valueObject.Value);
+    }
+
+    [Fact]
+    public void From_KeepsAUtcValue()
+    {
+        DateTime utc = new DateTime(2026, 6, 29, 12, 0, 0, DateTimeKind.Utc);
+
+        Assert.Equal(utc, DateTimeUtcValueObject.From(utc).Value);
+    }
+
     [Fact]
     public void From_OnInvalid_DoesNotThrow()
         => Assert.Equal(DateTimeKind.Utc, DateTimeUtcValueObject.From(default).Value.Kind);
