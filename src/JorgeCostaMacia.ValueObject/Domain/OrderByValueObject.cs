@@ -16,6 +16,26 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// Both factories take the type's natural primitive (<see cref="string"/>). The protected <c>Convert</c>
 /// family remains available for Value Objects deriving from this one in consuming contexts.
 /// </para>
+/// <para>
+/// The base only requires a criterion. A derived Value Object restricts it to the fields its aggregate can be
+/// ordered by, and the upper case is what makes that comparison independent of how the caller wrote the field.
+/// One dictionary can be both the whitelist the derived validator checks and the selector the query applies,
+/// so a field is added in one place and nothing ever orders by text it does not list:
+/// <code>
+/// private static readonly Dictionary&lt;string, Expression&lt;Func&lt;Pedidos, object&gt;&gt;&gt; _selectors =
+///     new Dictionary&lt;string, Expression&lt;Func&lt;Pedidos, object&gt;&gt;&gt;()
+///     {
+///         { "ID", e =&gt; e.Id.Value },
+///         { "CREATED_AT", e =&gt; e.MetaCreatedAt.Value },
+///     };
+///
+/// public static IReadOnlyCollection&lt;string&gt; Fields =&gt; _selectors.Keys;
+///
+/// public Expression&lt;Func&lt;Pedidos, object&gt;&gt; Selector =&gt; _selectors[Value];
+/// </code>
+/// The derived validator checks <c>.Must(PedidosOrderBy.Fields.Contains)</c>, and the query applies
+/// <c>OrderBy(orderBy.Selector)</c> or <c>OrderByDescending(orderBy.Selector)</c>.
+/// </para>
 /// </remarks>
 public record OrderByValueObject : StringValueObject
 {
@@ -78,9 +98,10 @@ public record OrderByValueObject : StringValueObject
 
     /// <summary>
     /// Converts the input string by first applying the base <see cref="StringValueObject.Convert(string)"/>
-    /// cleansing (trimming) and then converting the result to uppercase.
+    /// cleansing (trimming) and then converting the result to uppercase with the invariant culture: under the
+    /// current one, a Turkish process would turn <c>"id"</c> into <c>"&#304;D"</c>.
     /// </summary>
     /// <param name="value">The string to convert.</param>
     /// <returns>The cleansed, uppercase string.</returns>
-    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpper();
+    protected static new string Convert(string value) => StringValueObject.Convert(value).ToUpperInvariant();
 }
