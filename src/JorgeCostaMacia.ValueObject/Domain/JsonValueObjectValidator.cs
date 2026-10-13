@@ -10,7 +10,9 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This validator enforces constraints specific to JSON documents, ensuring that the encapsulated string
-/// is not empty and parses as a JSON object or array (scalar roots like a bare string or number are rejected).
+/// is not empty and parses as a JSON document — any of them: object, array, string, number, boolean or
+/// <c>null</c>. Which kind a field accepts is the derived Value Object's to say: one that needs an object or an array
+/// includes this validator and adds a rule on the root's <see cref="JsonValueKind"/>.
 /// </para>
 /// <para>
 /// It <b>includes</b> the base <see cref="StringValueObjectValidator"/> rules via constructor injection,
@@ -29,7 +31,7 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
 
         RuleFor(v => v.Value)
              .NotEmpty()
-             .Must(BeJsonObjectOrArray)
+             .Must(BeJson)
              .WithErrorCode("JsonValidator")
              .WithMessage("{PropertyName} must be a JSON");
     }
@@ -42,11 +44,11 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
     public static JsonValueObjectValidator Create() => new JsonValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
-    /// Determines whether the supplied string parses as a JSON document whose root is an object or an array.
+    /// Determines whether the supplied string parses as a JSON document.
     /// </summary>
     /// <param name="value">The string to inspect.</param>
-    /// <returns><c>true</c> when the string is a JSON object or array; otherwise <c>false</c>.</returns>
-    private static bool BeJsonObjectOrArray(string value)
+    /// <returns><c>true</c> when the string is a JSON document; otherwise <c>false</c>.</returns>
+    private static bool BeJson(string value)
     {
         if (string.IsNullOrEmpty(value))
         {
@@ -56,7 +58,8 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
         try
         {
             using JsonDocument document = JsonDocument.Parse(value);
-            return document.RootElement.ValueKind is JsonValueKind.Object or JsonValueKind.Array;
+
+            return true;
         }
         catch (JsonException)
         {
