@@ -46,6 +46,7 @@ builder.Property(e => e.Id)
 
 - **Rehydration goes through the value object's constructor** (found by reflection, compiled once) — **not** the `Create` factory — so reads do not re-run domain validation on already-persisted data. The constructor may be non-public.
 - Querying by the underlying value uses the value object's conversion operator, e.g. `where (int)e.Id > 1000` or `where ((string)e.Name).StartsWith("a")`.
+- **`UriValueObject`** maps to a text column through `UriValueObjectConverter<>`: it stores the `OriginalString` (the text as it arrived, not `Uri`'s normalized form) and rehydrates it as `RelativeOrAbsolute`, so a relative URI comes back as it was.
 - **`byte[]`-backed value objects** (`ByteValueObject`): `byte[]` is a mutable reference type, so EF Core needs a [`ValueComparer`](https://learn.microsoft.com/ef/core/modeling/value-comparers) to detect changes by content rather than by reference. Value objects are immutable (you replace the whole object, which EF sees as a new reference), so this only matters if you mutate the array in place — an anti-pattern. If you do, configure a comparer on that property.
 
 ## About

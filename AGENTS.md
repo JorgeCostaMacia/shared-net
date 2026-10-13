@@ -38,7 +38,7 @@ Two rules keep the pair honest:
   validates with `vo?.Validate()`. Branching on the input would hard-code "non-null in, non-null
   out" and would break the day a `From` maps a sentinel to absence.
 
-The ten bases that derive from another base (`EmailValueObject : StringValueObject`,
+The nine bases that derive from another base (`EmailValueObject : StringValueObject`,
 `PageSizeValueObject : IntValueObject`, `DateTimeUtcValueObject : DateTimeValueObject`, …) declare all
 four with **`static new`**, because a static factory returning the derived type cannot be inherited.
 The compiler proves each one is needed: `CS0109` ("`new` not required") would appear otherwise, and
