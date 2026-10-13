@@ -1,3 +1,4 @@
+using System.Globalization;
 using JorgeCostaMacia.ValueObject.Domain;
 
 namespace JorgeCostaMacia.ValueObject.Tests.Domain;
@@ -23,6 +24,23 @@ public class GroupByValueObjectTests
     [Fact]
     public void Create_OnInvalid_ThrowsGroupByValueObjectValidationException()
         => Assert.Throws<GroupByValueObjectValidationException>(() => GroupByValueObject.Create(""));
+    // Upper-casing ignores the process culture: under tr-TR, ToUpper turns an "i" into a dotted "İ".
+    [Fact]
+    public void From_UppercasesIndependentlyOfTheCulture()
+    {
+        CultureInfo culture = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = new CultureInfo("tr-TR");
+
+        try
+        {
+            Assert.Equal("ID", GroupByValueObject.From("id").Value);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = culture;
+        }
+    }
+
     // The OrNull pair carries the field's optionality: absence in, absence out — never a second
     // policy for invalid input.
     [Fact]
