@@ -46,15 +46,25 @@ public class IntValueObjectTests
     public void Convert_FromString_OutOfRange_Throws()
         => Assert.Throws<OverflowException>(() => TestInt.Convert("2147483648"));
 
+    // A fractional part is not dropped: truncating 5.9 to 5 would invent the value. A field that wants to
+    // truncate or round says so in its own Value Object.
     [Fact]
-    public void Convert_FromFractional_TruncatesTowardZero()
+    public void Convert_FromFractional_Throws()
     {
-        Assert.Equal(5, TestInt.Convert(5.9));      // not rounded up
-        Assert.Equal(2, TestInt.Convert(2.5));      // not banker's-rounded
-        Assert.Equal(3, TestInt.Convert(3.5));      // truncated, not rounded to 4
-        Assert.Equal(-5, TestInt.Convert(-5.9));    // toward zero
-        Assert.Equal(5, TestInt.Convert("5.9"));
-        Assert.Equal(5, TestInt.Convert(5.9m));
+        Assert.Throws<FormatException>(() => TestInt.Convert(5.9));
+        Assert.Throws<FormatException>(() => TestInt.Convert(-5.9));
+        Assert.Throws<FormatException>(() => TestInt.Convert(2.5f));
+        Assert.Throws<FormatException>(() => TestInt.Convert("2.7"));
+        Assert.Throws<FormatException>(() => TestInt.Convert(2.7m));
+    }
+
+    // An integer written with a zero fraction is still an integer.
+    [Fact]
+    public void Convert_FromAZeroFraction_Accepts()
+    {
+        Assert.Equal(5, TestInt.Convert(5.0));
+        Assert.Equal(5, TestInt.Convert("5.0"));
+        Assert.Equal(-5, TestInt.Convert(-5.0m));
     }
 
     [Fact]

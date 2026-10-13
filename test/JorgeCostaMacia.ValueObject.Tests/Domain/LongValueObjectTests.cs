@@ -42,14 +42,25 @@ public class LongValueObjectTests
     public void Convert_FromString_OutOfRange_Throws()
         => Assert.Throws<OverflowException>(() => TestLong.Convert("9223372036854775808"));
 
+    // A fractional part is not dropped: truncating 5.9 to 5 would invent the value. A field that wants to
+    // truncate or round says so in its own Value Object.
     [Fact]
-    public void Convert_FromFractional_TruncatesTowardZero()
+    public void Convert_FromFractional_Throws()
     {
-        Assert.Equal(5L, TestLong.Convert(5.9));
-        Assert.Equal(3L, TestLong.Convert(3.5));    // truncated, not rounded
-        Assert.Equal(-5L, TestLong.Convert(-5.9));
-        Assert.Equal(5L, TestLong.Convert("5.9"));
-        Assert.Equal(5L, TestLong.Convert(5.9m));
+        Assert.Throws<FormatException>(() => TestLong.Convert(5.9));
+        Assert.Throws<FormatException>(() => TestLong.Convert(-5.9));
+        Assert.Throws<FormatException>(() => TestLong.Convert(2.5f));
+        Assert.Throws<FormatException>(() => TestLong.Convert("2.7"));
+        Assert.Throws<FormatException>(() => TestLong.Convert(2.7m));
+    }
+
+    // An integer written with a zero fraction is still an integer.
+    [Fact]
+    public void Convert_FromAZeroFraction_Accepts()
+    {
+        Assert.Equal(5L, TestLong.Convert(5.0));
+        Assert.Equal(5L, TestLong.Convert("5.0"));
+        Assert.Equal(-5L, TestLong.Convert(-5.0m));
     }
 
     [Fact]
