@@ -48,7 +48,7 @@ builder.Services
     .AddQuartzExecutionHistory(options => options.WithDefaults());
 ```
 
-The history tables are part of the schema Quartz validates on start. A store created from Quartz 4.4's `database/tables` scripts already has them; one created by an earlier version needs Quartz's `database/migrations/4.2`, `4.3` and `4.4` scripts first (each one only if the store predates it), and until then the scheduler refuses to start and names the script that is missing.
+Quartz 4.6 validates three more columns on start (`scheduler_state.quartz_version`, `fired_triggers.interrupt_requested_time`, `triggers.misfire_threshold`): a store created before 4.6 needs Quartz's `database/migrations/4.6` scripts first, and a 4.5 node keeps running on a migrated store. The history tables are part of the schema Quartz validates on start. A store created from Quartz 4.4's `database/tables` scripts already has them; one created by an earlier version needs Quartz's `database/migrations/4.2`, `4.3` and `4.4` scripts first (each one only if the store predates it), and until then the scheduler refuses to start and names the script that is missing.
 
 The three arguments are the only things that differ between hosts: the scheduler's name, the **name** of the connection string (Quartz resolves it from `ConnectionStrings`, and a name that does not resolve fails the scheduler's start with a `SchedulerConfigException` naming it), and the schema holding the store tables — **without** the trailing dot, which is appended for you.
 
