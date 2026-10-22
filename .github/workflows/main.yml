@@ -13,6 +13,9 @@ permissions:
   id-token: write
   contents: read
 
+concurrency:
+  group: main
+
 jobs:
   publish:
     runs-on: ubuntu-latest
