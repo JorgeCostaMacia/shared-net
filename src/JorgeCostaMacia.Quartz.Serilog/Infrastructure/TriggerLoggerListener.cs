@@ -9,7 +9,8 @@ namespace JorgeCostaMacia.Quartz.Serilog.Infrastructure;
 /// <summary>
 /// Quartz trigger listener that logs every trigger transition with a <b>fixed, low-cardinality
 /// message</b> (<c>TriggerFired</c> / <c>VetoJobExecution</c> / <c>TriggerMisfired</c> /
-/// <c>TriggerRetriesExhausted</c> / <c>TriggerComplete</c>) and pushes everything variable — scheduler, job, trigger, data, times and
+/// <c>TriggerRetriesExhausted</c> / <c>TriggerComplete</c>) and pushes everything variable — scheduler, job, trigger,
+/// data, times and
 /// the <see cref="JobTrace"/> identifiers — through the Serilog log context.
 /// </summary>
 /// <remarks>
@@ -41,7 +42,11 @@ public sealed class TriggerLoggerListener : ITriggerListener
     /// <param name="trigger">The fired trigger.</param>
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public ValueTask TriggerFired(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask TriggerFired(
+        ITrigger trigger,
+        IJobExecutionContext context,
+        CancellationToken cancellationToken = default
+    )
     {
         using (PushProperties(context))
         {
@@ -56,7 +61,11 @@ public sealed class TriggerLoggerListener : ITriggerListener
     /// <param name="context">The execution context.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns><see langword="false"/>, always — this listener only observes.</returns>
-    public ValueTask<bool> VetoJobExecution(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default)
+    public ValueTask<bool> VetoJobExecution(
+        ITrigger trigger,
+        IJobExecutionContext context,
+        CancellationToken cancellationToken = default
+    )
     {
         using (PushProperties(context))
         {
@@ -73,7 +82,11 @@ public sealed class TriggerLoggerListener : ITriggerListener
     /// <param name="trigger">The misfired trigger.</param>
     /// <param name="scheduler">The scheduler the trigger belongs to.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public ValueTask TriggerMisfired(ITrigger trigger, IScheduler scheduler, CancellationToken cancellationToken = default)
+    public ValueTask TriggerMisfired(
+        ITrigger trigger,
+        IScheduler scheduler,
+        CancellationToken cancellationToken = default
+    )
     {
         JobTrace trace = JobTrace.Create();
 
@@ -92,12 +105,18 @@ public sealed class TriggerLoggerListener : ITriggerListener
         return ValueTask.CompletedTask;
     }
 
-    /// <summary>Logs <c>TriggerComplete</c> at <see cref="LogLevel.Information"/>, including the scheduler's resulting instruction.</summary>
+    /// <summary>Logs <c>TriggerComplete</c> at <see cref="LogLevel.Information"/>, including the scheduler's resulting
+    /// instruction.</summary>
     /// <param name="trigger">The completed trigger.</param>
     /// <param name="context">The execution context.</param>
     /// <param name="triggerInstructionCode">The instruction the trigger returned to the scheduler.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public ValueTask TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode, CancellationToken cancellationToken = default)
+    public ValueTask TriggerComplete(
+        ITrigger trigger,
+        IJobExecutionContext context,
+        SchedulerInstruction triggerInstructionCode,
+        CancellationToken cancellationToken = default
+    )
     {
         using (PushProperties(context))
         using (LogContext.PushProperty("TriggerResult", triggerInstructionCode))
@@ -118,7 +137,12 @@ public sealed class TriggerLoggerListener : ITriggerListener
     /// <param name="context">The execution context of the last attempt.</param>
     /// <param name="exception">The exception the last attempt ended with.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public ValueTask TriggerRetriesExhausted(ITrigger trigger, IJobExecutionContext context, JobExecutionException exception, CancellationToken cancellationToken = default)
+    public ValueTask TriggerRetriesExhausted(
+        ITrigger trigger,
+        IJobExecutionContext context,
+        JobExecutionException exception,
+        CancellationToken cancellationToken = default
+    )
     {
         using (PushProperties(context))
         {
@@ -128,7 +152,8 @@ public sealed class TriggerLoggerListener : ITriggerListener
         return ValueTask.CompletedTask;
     }
 
-    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire identity, retry state and recovery state — into the log context, in a single native push.</summary>
+    /// <summary>Pushes the execution's variable data — trace identifiers, scheduler, job, trigger, data, times, fire
+    /// identity, retry state and recovery state — into the log context, in a single native push.</summary>
     /// <param name="context">The execution context.</param>
     /// <returns>A disposable that pops the pushed properties.</returns>
     private static IDisposable PushProperties(IJobExecutionContext context)

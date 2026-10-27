@@ -2,12 +2,41 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestExistException(string? message = null)
-    : ExistException(null, null, null, null, null, message, null);
+file sealed class TestExistException : ExistException
+{
+    public TestExistException(string? message = null) : base(
+        null,
+        null,
+        null,
+        null,
+        null,
+        message,
+        null
+    )
+    { }
+}
 
-file sealed class TestExplicitExistException(
-    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
-    : ExistException(id, type, code, httpCode, occurredAt, message, innerException);
+file sealed class TestExplicitExistException : ExistException
+{
+    public TestExplicitExistException(
+        Guid id,
+        string type,
+        Guid code,
+        int httpCode,
+        DateTime occurredAt,
+        string? message,
+        System.Exception? innerException
+    ) : base(
+        id,
+        type,
+        code,
+        httpCode,
+        occurredAt,
+        message,
+        innerException
+    )
+    { }
+}
 
 // Test Data Builder: defaults the metadata noise so each test states only the field it varies.
 file sealed class ExistExceptionBuilder
@@ -21,7 +50,14 @@ file sealed class ExistExceptionBuilder
     }
 
     public TestExplicitExistException Build()
-        => new TestExplicitExistException(Guid.NewGuid(), "T", Guid.NewGuid(), 409, DateTime.UtcNow, "m", _innerException);
+        => new TestExplicitExistException(
+            Guid.NewGuid(),
+            "T",
+            Guid.NewGuid(),
+            409,
+            DateTime.UtcNow,
+            "m",
+            _innerException);
 }
 
 public class ExistExceptionTests
@@ -60,7 +96,14 @@ public class ExistExceptionTests
         Guid code = Guid.NewGuid();
         DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitExistException exception = new TestExplicitExistException(id, "My.Type", code, 409, occurredAt, "msg", null);
+        TestExplicitExistException exception = new TestExplicitExistException(
+            id,
+            "My.Type",
+            code,
+            409,
+            occurredAt,
+            "msg",
+            null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Type", exception.AggregateType);

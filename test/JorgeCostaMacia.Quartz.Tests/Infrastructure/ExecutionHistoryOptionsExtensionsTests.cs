@@ -35,7 +35,7 @@ public class ExecutionHistoryOptionsExtensionsTests
     {
         ServiceCollection services = new ServiceCollection();
         services
-            .AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"))
+            .AddQuartz(quartz => quartz.WithPostgresDefaults("orders", "Scheduler", "quartz"))
             .AddQuartzExecutionHistory(options => options.WithDefaults());
 
         ExecutionHistoryOptions options = services.BuildServiceProvider()

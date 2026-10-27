@@ -4,11 +4,13 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="float"/> (single-precision floating-point) value.
+/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="float"/> (single-precision
+/// floating-point) value.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This class serves as the base for domain Value Objects based on numeric values that require floating-point arithmetic (e.g., coordinates, physical measurements).
+/// This class serves as the base for domain Value Objects based on numeric values that require floating-point
+/// arithmetic (e.g., coordinates, physical measurements).
 /// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
 /// deserializers), <see cref="From(float)"/> converts (materializes, unvalidated) and
 /// <see cref="Create(float)"/> fabricates validated (nothing invalid escapes it).
@@ -38,14 +40,16 @@ public record FloatValueObject : IValueObject
 
     /// <summary>
     /// Converts: materializes a new <see cref="FloatValueObject"/> from the natural primitive through
-    /// <see cref="Convert(float)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// <see cref="Convert(float)"/>, <b>without validating it</b>. This is the path composites use to build their
+    /// parts.
     /// </summary>
     /// <param name="value">The source float value.</param>
     /// <returns>A new, unvalidated <see cref="FloatValueObject"/> instance.</returns>
     public static FloatValueObject From(float value) => new FloatValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(float)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The float value to encapsulate, or <see langword="null"/>.</param>
@@ -58,7 +62,8 @@ public record FloatValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source float value.</param>
     /// <returns>A new, validated <see cref="FloatValueObject"/> instance.</returns>
-    /// <exception cref="FloatValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="FloatValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static FloatValueObject Create(float value)
     {
         FloatValueObject vo = From(value);
@@ -68,12 +73,14 @@ public record FloatValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(float)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The float value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="FloatValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="FloatValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="FloatValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static FloatValueObject? CreateOrNull(float? value)
     {
         FloatValueObject? vo = FromOrNull(value);
@@ -94,7 +101,8 @@ public record FloatValueObject : IValueObject
     /// Parses a string into a float value, trimming whitespace first. A comma is rejected rather than read as a
     /// thousands separator: .NET would drop it wherever it sits, so <c>"12,50"</c> would come out as 1250.
     /// </summary>
-    protected static float Convert(string value) => Convert(float.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
+    protected static float Convert(string value)
+        => Convert(float.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts an integer to a float value.

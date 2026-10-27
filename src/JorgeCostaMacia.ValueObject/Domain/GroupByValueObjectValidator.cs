@@ -16,9 +16,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GroupByValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="GroupByValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base
+    /// validation rules.</param>
     public GroupByValueObjectValidator(IValidator<StringValueObject> validator)
     {
         Include(validator);
@@ -32,7 +34,8 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="GroupByValueObjectValidator"/> instance.</returns>
-    public static GroupByValueObjectValidator Create() => new GroupByValueObjectValidator(StringValueObjectValidator.Create());
+    public static GroupByValueObjectValidator Create()
+        => new GroupByValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -40,7 +43,10 @@ public class GroupByValueObjectValidator : AbstractValidator<GroupByValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="GroupByValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<GroupByValueObject> context, ValidationResult result)
-        => throw new GroupByValueObjectValidationException(result.Errors);
+    /// <exception cref="GroupByValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<GroupByValueObject> context,
+        ValidationResult result
+    ) => throw new GroupByValueObjectValidationException(result.Errors);
 }

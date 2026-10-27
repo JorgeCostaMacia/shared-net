@@ -9,7 +9,11 @@ namespace JorgeCostaMacia.Quartz.Serilog.Tests.Fakes;
 internal sealed class JobExecutionContextFake : IJobExecutionContext
 {
 
-    public JobExecutionContextFake(IScheduler scheduler, IJobDetail jobDetail, ITrigger trigger)
+    public JobExecutionContextFake(
+        IScheduler scheduler,
+        IJobDetail jobDetail,
+        ITrigger trigger
+    )
     {
         Scheduler = scheduler;
         JobDetail = jobDetail;
@@ -68,6 +72,9 @@ internal sealed class JobExecutionContextFake : IJobExecutionContext
     /// <summary>Inert job type for the fake's job detail — never executed.</summary>
     internal sealed class NoOpJob : IJob
     {
-        public ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken) => ValueTask.CompletedTask;
+        public ValueTask Execute(
+            IJobExecutionContext context,
+            CancellationToken cancellationToken
+        ) => ValueTask.CompletedTask;
     }
 }

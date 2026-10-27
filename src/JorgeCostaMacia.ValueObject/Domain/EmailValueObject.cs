@@ -36,7 +36,8 @@ public record EmailValueObject : StringValueObject
     public static new EmailValueObject From(string value) => new EmailValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The email string value to encapsulate, or <see langword="null"/>.</param>
@@ -49,7 +50,8 @@ public record EmailValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source email string value.</param>
     /// <returns>A new, validated <see cref="EmailValueObject"/> instance.</returns>
-    /// <exception cref="EmailValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="EmailValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new EmailValueObject Create(string value)
     {
         EmailValueObject vo = From(value);
@@ -59,12 +61,14 @@ public record EmailValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The email string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="EmailValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="EmailValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="EmailValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new EmailValueObject? CreateOrNull(string? value)
     {
         EmailValueObject? vo = FromOrNull(value);

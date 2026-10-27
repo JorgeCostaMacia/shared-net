@@ -44,7 +44,8 @@ public class DateTimeValueObjectTests
 
     [Fact]
     public void Create_OnInvalid_ThrowsDateTimeValueObjectValidationException()
-        => Assert.Throws<DateTimeValueObjectValidationException>(() => DateTimeValueObject.Create(new DateTime(1800, 1, 1)));
+        => Assert.Throws<DateTimeValueObjectValidationException>(
+            () => DateTimeValueObject.Create(new DateTime(1800, 1, 1)));
 
     [Fact]
     public void Create_OnDefault_ReportsAllFailuresInOneException()
@@ -72,7 +73,8 @@ public class DateTimeValueObjectTests
         DateTime date = new DateTime(2026, 3, 15, 9, 8, 7);
         DateTime time = new DateTime(2001, 1, 1, 14, 30, 45);
 
-        Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));   // hour is 14 (from time), not 9 (from date)
+        // hour is 14 (from time), not 9 (from date)
+        Assert.Equal(new DateTime(2026, 3, 15, 14, 30, 45), TestDateTime.Convert(date, time));
     }
 
     [Fact]
@@ -111,13 +113,16 @@ public class DateTimeValueObjectTests
 
         public static new DateTime Convert(decimal value) => DateTimeValueObject.Convert(value);
 
-        public static new DateTime Convert(DateTime valueDate, DateTime valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(DateTime valueDate, DateTime valueTime)
+            => DateTimeValueObject.Convert(valueDate, valueTime);
 
-        public static new DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(DateOnly valueDate, TimeOnly valueTime)
+            => DateTimeValueObject.Convert(valueDate, valueTime);
 
         public static new DateTime Convert(string value) => DateTimeValueObject.Convert(value);
 
-        public static new DateTime Convert(string valueDate, string valueTime) => DateTimeValueObject.Convert(valueDate, valueTime);
+        public static new DateTime Convert(string valueDate, string valueTime)
+            => DateTimeValueObject.Convert(valueDate, valueTime);
     }
     // The OrNull pair carries the field's optionality: absence in, absence out — never a second
     // policy for invalid input.
@@ -140,5 +145,6 @@ public class DateTimeValueObjectTests
     // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
-        => Assert.Throws<DateTimeValueObjectValidationException>(() => DateTimeValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
+        => Assert.Throws<DateTimeValueObjectValidationException>(
+            () => DateTimeValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
 }

@@ -8,7 +8,8 @@ public class EmailValueObjectValidatorTests
 {
     private static readonly EmailValueObjectValidator _validator = EmailValueObjectValidator.Create();
 
-    // The base takes every address the standard does, the rare ones included: narrowing it is a derived Value Object's job.
+    // The base takes every address the standard does, the rare ones included: narrowing it is a derived Value Object's
+    // job.
     [Theory]
     [InlineData("user@host.com")]
     [InlineData("a.b+tag@sub.domain.co")]
@@ -49,9 +50,13 @@ public class EmailValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<EmailValueObjectValidationException>(() => _validator.ValidateAndThrow(EmailValueObject.From("a b@c.com")));
+        => Assert.Throws<EmailValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(EmailValueObject.From("a b@c.com")));
 
     [Fact]
     public void InjectableCtor_ComposesLikeCreate()
-        => Assert.False(new EmailValueObjectValidator(new StringValueObjectValidator()).Validate(EmailValueObject.From("notanemail")).IsValid);
+        => Assert.False(
+            new EmailValueObjectValidator(new StringValueObjectValidator())
+                .Validate(EmailValueObject.From("notanemail"))
+                .IsValid);
 }

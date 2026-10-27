@@ -22,5 +22,6 @@ public class PageSizeValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<PageSizeValueObjectValidationException>(() => _validator.ValidateAndThrow(PageSizeValueObject.From(0)));
+        => Assert.Throws<PageSizeValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(PageSizeValueObject.From(0)));
 }

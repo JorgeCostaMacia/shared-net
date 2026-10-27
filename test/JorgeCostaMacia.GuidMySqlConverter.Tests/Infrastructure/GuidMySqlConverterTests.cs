@@ -56,16 +56,36 @@ public class GuidMySqlConverterTests
     [InlineData(15)]
     [InlineData(17)]
     public void ConvertFromBytes_WrongLength_Throws(int length)
-        => Assert.Throws<ArgumentException>(() => GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(new byte[length]));
+        => Assert.Throws<ArgumentException>(
+            () => GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(new byte[length]));
 
     [Fact]
     public void ConvertFromBytes_Null_Throws()
-        => Assert.Throws<ArgumentNullException>(() => GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(null!));
+        => Assert.Throws<ArgumentNullException>(
+            () => GuidMySqlConverter.Infrastructure.GuidMySqlConverter.ConvertFromBytes(null!));
 
     public static TheoryData<Guid> BoundaryGuids() => new TheoryData<Guid>
     {
         Guid.Empty,
         _knownGuid,
-        new Guid(new byte[] { 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff }),
+        new Guid(new byte[]
+        {
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff,
+            0xff
+        }),
     };
 }

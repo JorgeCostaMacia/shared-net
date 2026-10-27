@@ -43,5 +43,6 @@ public class Ipv4ValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<Ipv4ValueObjectValidationException>(() => _validator.ValidateAndThrow(Ipv4ValueObject.From("010.0.0.1")));
+        => Assert.Throws<Ipv4ValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(Ipv4ValueObject.From("010.0.0.1")));
 }

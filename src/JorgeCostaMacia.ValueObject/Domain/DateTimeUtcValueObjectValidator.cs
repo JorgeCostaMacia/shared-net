@@ -17,9 +17,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="DateTimeUtcValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="DateTimeValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="DateTimeValueObject"/> used to inherit base
+    /// validation rules.</param>
     public DateTimeUtcValueObjectValidator(IValidator<DateTimeValueObject> validator)
     {
         Include(validator);
@@ -30,7 +32,8 @@ public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValu
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="DateTimeUtcValueObjectValidator"/> instance.</returns>
-    public static DateTimeUtcValueObjectValidator Create() => new DateTimeUtcValueObjectValidator(DateTimeValueObjectValidator.Create());
+    public static DateTimeUtcValueObjectValidator Create()
+        => new DateTimeUtcValueObjectValidator(DateTimeValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -38,7 +41,10 @@ public class DateTimeUtcValueObjectValidator : AbstractValidator<DateTimeUtcValu
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<DateTimeUtcValueObject> context, ValidationResult result)
-        => throw new DateTimeUtcValueObjectValidationException(result.Errors);
+    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<DateTimeUtcValueObject> context,
+        ValidationResult result
+    ) => throw new DateTimeUtcValueObjectValidationException(result.Errors);
 }

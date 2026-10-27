@@ -4,7 +4,8 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="double"/> (double-precision floating-point) value.
+/// Represents an immutable <b>Value Object</b> that encapsulates a single <see cref="double"/> (double-precision
+/// floating-point) value.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -38,14 +39,16 @@ public record DoubleValueObject : IValueObject
 
     /// <summary>
     /// Converts: materializes a new <see cref="DoubleValueObject"/> from the natural primitive through
-    /// <see cref="Convert(double)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// <see cref="Convert(double)"/>, <b>without validating it</b>. This is the path composites use to build their
+    /// parts.
     /// </summary>
     /// <param name="value">The source double value.</param>
     /// <returns>A new, unvalidated <see cref="DoubleValueObject"/> instance.</returns>
     public static DoubleValueObject From(double value) => new DoubleValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(double)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The double value to encapsulate, or <see langword="null"/>.</param>
@@ -58,7 +61,8 @@ public record DoubleValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source double value.</param>
     /// <returns>A new, validated <see cref="DoubleValueObject"/> instance.</returns>
-    /// <exception cref="DoubleValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="DoubleValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static DoubleValueObject Create(double value)
     {
         DoubleValueObject vo = From(value);
@@ -68,12 +72,14 @@ public record DoubleValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(double)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The double value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="DoubleValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="DoubleValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="DoubleValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static DoubleValueObject? CreateOrNull(double? value)
     {
         DoubleValueObject? vo = FromOrNull(value);
@@ -92,7 +98,8 @@ public record DoubleValueObject : IValueObject
     /// Parses a string into a double value, trimming whitespace first. A comma is rejected rather than read as a
     /// thousands separator: .NET would drop it wherever it sits, so <c>"12,50"</c> would come out as 1250.
     /// </summary>
-    protected static double Convert(string value) => Convert(double.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
+    protected static double Convert(string value)
+        => Convert(double.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>Converts an integer to a double value.</summary>
     protected static double Convert(int value) => Convert((double)value);

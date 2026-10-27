@@ -53,14 +53,19 @@ public class DateTimeValueObjectMappingIntegrationTests
         Assert.Equal(DateTimeKind.Utc, loaded.WhenUtc.Value.Kind);
     }
 
-    private static async Task<string?> ColumnTypeAsync(ProbeDbContext context, string column, CancellationToken cancellationToken)
+    private static async Task<string?> ColumnTypeAsync(
+        ProbeDbContext context,
+        string column,
+        CancellationToken cancellationToken
+    )
     {
         await context.Database.OpenConnectionAsync(cancellationToken);
 
         try
         {
             await using System.Data.Common.DbCommand command = context.Database.GetDbConnection().CreateCommand();
-            command.CommandText = $"SELECT data_type FROM information_schema.columns WHERE table_name = 'Samples' AND column_name = '{column}'";
+            command.CommandText =
+                $"SELECT data_type FROM information_schema.columns WHERE table_name = 'Samples' AND column_name = '{column}'";
 
             return (string?)await command.ExecuteScalarAsync(cancellationToken);
         }

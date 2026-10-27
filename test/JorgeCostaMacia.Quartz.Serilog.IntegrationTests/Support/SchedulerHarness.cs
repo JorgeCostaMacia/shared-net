@@ -16,7 +16,10 @@ internal sealed class SchedulerHarness : IAsyncDisposable
 {
     private readonly IScheduler _scheduler;
 
-    private SchedulerHarness(IScheduler scheduler, CapturingSink sink)
+    private SchedulerHarness(
+        IScheduler scheduler,
+        CapturingSink sink
+    )
     {
         _scheduler = scheduler;
         Sink = sink;
@@ -39,8 +42,10 @@ internal sealed class SchedulerHarness : IAsyncDisposable
                 .UseInMemoryStore())
             .BuildScheduler();
 
-        scheduler.ListenerManager.AddJobListener(new JobsLoggerListener(loggerFactory.CreateLogger<JobsLoggerListener>()));
-        scheduler.ListenerManager.AddTriggerListener(new TriggerLoggerListener(loggerFactory.CreateLogger<TriggerLoggerListener>()));
+        scheduler.ListenerManager.AddJobListener(
+            new JobsLoggerListener(loggerFactory.CreateLogger<JobsLoggerListener>()));
+        scheduler.ListenerManager.AddTriggerListener(
+            new TriggerLoggerListener(loggerFactory.CreateLogger<TriggerLoggerListener>()));
 
         await scheduler.Start();
 
@@ -63,7 +68,10 @@ internal sealed class SchedulerHarness : IAsyncDisposable
         await WaitForAsync("TriggerComplete", cancellationToken);
     }
 
-    private async Task WaitForAsync(string message, CancellationToken cancellationToken)
+    private async Task WaitForAsync(
+        string message,
+        CancellationToken cancellationToken
+    )
     {
         for (int attempt = 0; attempt < 200; attempt++)
         {

@@ -15,7 +15,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <para>
 /// A derived Value Object that needs a narrower rule includes this validator and adds its own: an absolute URI
 /// (<see cref="Uri.IsAbsoluteUri"/>), a web URL (absolute and <c>http</c>/<c>https</c>), a relative path. A rule on
-/// the scheme must check <see cref="Uri.IsAbsoluteUri"/> first, because <see cref="Uri.Scheme"/> throws on a relative URI.
+/// the scheme must check <see cref="Uri.IsAbsoluteUri"/> first, because <see cref="Uri.Scheme"/> throws on a relative
+/// URI.
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
@@ -46,7 +47,10 @@ public class UriValueObjectValidator : AbstractValidator<UriValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="UriValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<UriValueObject> context, ValidationResult result)
-        => throw new UriValueObjectValidationException(result.Errors);
+    /// <exception cref="UriValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<UriValueObject> context,
+        ValidationResult result
+    ) => throw new UriValueObjectValidationException(result.Errors);
 }

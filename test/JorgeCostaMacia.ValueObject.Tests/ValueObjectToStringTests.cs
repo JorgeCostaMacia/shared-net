@@ -33,11 +33,16 @@ public class ValueObjectToStringTests
             MethodInfo toString = valueObject.GetMethod("ToString", Type.EmptyTypes)!;
             if (!toString.IsFinal)
             {
-                violations.Add($"{valueObject.Name}: ToString() comes from {toString.DeclaringType?.Name} and is not sealed — a record-synthesized override is shadowing the root's");
+                violations.Add(
+                    $"{valueObject.Name}: ToString() comes from {toString.DeclaringType?.Name} and is not sealed — a record-synthesized override is shadowing the root's");
             }
         }
 
-        Assert.True(violations.Count == 0, "Record-synthesized ToString() found on:" + Environment.NewLine + string.Join(Environment.NewLine, violations));
+        Assert.True(
+            violations.Count == 0,
+            "Record-synthesized ToString() found on:"
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, violations));
     }
 
     // Spot-check on the two levels the reflection test generalizes: a root and something derived from it.

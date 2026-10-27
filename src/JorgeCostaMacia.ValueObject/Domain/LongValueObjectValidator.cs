@@ -34,7 +34,10 @@ public class LongValueObjectValidator : AbstractValidator<LongValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="LongValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<LongValueObject> context, ValidationResult result)
-        => throw new LongValueObjectValidationException(result.Errors);
+    /// <exception cref="LongValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<LongValueObject> context,
+        ValidationResult result
+    ) => throw new LongValueObjectValidationException(result.Errors);
 }

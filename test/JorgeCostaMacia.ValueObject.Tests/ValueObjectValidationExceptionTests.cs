@@ -52,7 +52,9 @@ public class ValueObjectValidationExceptionTests
         Assert.NotEqual(Guid.Empty, Read<Guid>(instance, "AggregateId"));
         Assert.Equal(400, Read<int>(instance, "AggregateHttpCode"));
         Assert.Equal(exception.FullName, Read<string>(instance, "AggregateType"));
-        Assert.Equal("boom", Assert.Single(Read<ImmutableList<ValidationFailure>>(instance, "Validations")).ErrorMessage);
+        Assert.Equal(
+            "boom",
+            Assert.Single(Read<ImmutableList<ValidationFailure>>(instance, "Validations")).ErrorMessage);
     }
 
     // Every code is distinct: two value objects failing must not report the same error identity.
@@ -110,11 +112,18 @@ public class ValueObjectValidationExceptionTests
         Assert.Equal(occurredAt, Read<DateTime>(instance, "AggregateOccurredAt"));
     }
 
-    private static object Construct(Type exception, object?[] arguments)
+    private static object Construct(
+        Type exception,
+        object?[] arguments
+    )
         => Activator.CreateInstance(exception, arguments)
             ?? throw new InvalidOperationException($"{exception.Name}: could not be constructed.");
 
-    private static ConstructorInfo ConstructorWith(Type exception, int parameterCount, Type lastParameter)
+    private static ConstructorInfo ConstructorWith(
+        Type exception,
+        int parameterCount,
+        Type lastParameter
+    )
         => exception.GetConstructors()
             .Single(constructor =>
             {
@@ -122,6 +131,8 @@ public class ValueObjectValidationExceptionTests
                 return parameters.Length == parameterCount && parameters[^1].ParameterType == lastParameter;
             });
 
-    private static T Read<T>(object instance, string property)
-        => (T)instance.GetType().GetProperty(property)!.GetValue(instance)!;
+    private static T Read<T>(
+        object instance,
+        string property
+    ) => (T)instance.GetType().GetProperty(property)!.GetValue(instance)!;
 }

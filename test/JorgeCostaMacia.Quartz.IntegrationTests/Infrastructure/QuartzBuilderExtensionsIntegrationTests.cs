@@ -27,23 +27,24 @@ public class QuartzBuilderExtensionsIntegrationTests
     {
         ServiceCollection services = new ServiceCollection();
         services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?> { ["ConnectionStrings:JobsBus"] = _postgres.ConnectionString })
+            .AddInMemoryCollection(
+                new Dictionary<string, string?> { ["ConnectionStrings:Scheduler"] = _postgres.ConnectionString })
             .Build());
 
         // ProvisionSchema creates the tables under the prefix; the schema holding them is the fixture's.
         services.AddQuartz(quartz => quartz
-            .WithPostgresDefaults(instance, "JobsBus", PostgreSqlFixture.Schema)
+            .WithPostgresDefaults(instance, "Scheduler", PostgreSqlFixture.Schema)
             .UsePersistentStore(store => store.ProvisionSchema()));
 
         return services.BuildServiceProvider();
     }
 
-    // The dot appended to the schema is what makes the store read bus.TRIGGERS rather than the
+    // The dot appended to the schema is what makes the store read quartz.TRIGGERS rather than the
     // QRTZ_TRIGGERS of Quartz's own default, and the options are only materialized once it connects.
     [Fact]
     public async Task WithPostgresDefaults_AppendsTheDotToTheSchemaAndStoresJobDataAsStrings()
     {
-        ServiceProvider provider = Provider("retry-prefix");
+        ServiceProvider provider = Provider("orders-prefix");
 
         IScheduler scheduler = await provider.GetRequiredService<ISchedulerFactory>()
             .GetScheduler(TestContext.Current.CancellationToken);
@@ -59,7 +60,7 @@ public class QuartzBuilderExtensionsIntegrationTests
     [Fact]
     public async Task WithPostgresDefaults_PersistsAJobAndItsDataAcrossSchedulers()
     {
-        IScheduler first = await Provider("retry-persist").GetRequiredService<ISchedulerFactory>()
+        IScheduler first = await Provider("orders-persist").GetRequiredService<ISchedulerFactory>()
             .GetScheduler(TestContext.Current.CancellationToken);
 
         IJobDetail job = JobBuilder.Create<NoOpJob>()
@@ -76,10 +77,12 @@ public class QuartzBuilderExtensionsIntegrationTests
         await first.ScheduleJob(job, trigger, cancellationToken: TestContext.Current.CancellationToken);
 
         // A second scheduler over the same store reads what the first wrote — the point of persistence.
-        IScheduler second = await Provider("retry-persist").GetRequiredService<ISchedulerFactory>()
+        IScheduler second = await Provider("orders-persist").GetRequiredService<ISchedulerFactory>()
             .GetScheduler(TestContext.Current.CancellationToken);
 
-        IJobDetail? stored = await second.GetJobDetail(new JobKey("message-1:0", "orders"), TestContext.Current.CancellationToken);
+        IJobDetail? stored = await second.GetJobDetail(
+            new JobKey("message-1:0", "orders"),
+            TestContext.Current.CancellationToken);
 
         Assert.NotNull(stored);
         Assert.Equal("orders.v1", stored.JobDataMap.GetString("Topic"));
@@ -88,7 +91,7 @@ public class QuartzBuilderExtensionsIntegrationTests
     [Fact]
     public async Task WithPostgresDefaults_KeepsTheExecutionHistoryInTheStore()
     {
-        ServiceProvider provider = Provider("retry-history-option");
+        ServiceProvider provider = Provider("orders-history-option");
 
         await provider.GetRequiredService<ISchedulerFactory>().GetScheduler(TestContext.Current.CancellationToken);
 
@@ -100,7 +103,7 @@ public class QuartzBuilderExtensionsIntegrationTests
     [Fact]
     public async Task WithPostgresDefaults_RecordsAnExecutionInTheHistoryTable()
     {
-        const string instance = "retry-history-row";
+        const string instance = "orders-history-row";
         IScheduler scheduler = await Provider(instance).GetRequiredService<ISchedulerFactory>()
             .GetScheduler(TestContext.Current.CancellationToken);
 
@@ -132,6 +135,9 @@ public class QuartzBuilderExtensionsIntegrationTests
     /// <summary>A job that does nothing: these tests assert persistence and its record, not the job.</summary>
     internal sealed class NoOpJob : IJob
     {
-        public ValueTask Execute(IJobExecutionContext context, CancellationToken cancellationToken) => ValueTask.CompletedTask;
+        public ValueTask Execute(
+            IJobExecutionContext context,
+            CancellationToken cancellationToken
+        ) => ValueTask.CompletedTask;
     }
 }

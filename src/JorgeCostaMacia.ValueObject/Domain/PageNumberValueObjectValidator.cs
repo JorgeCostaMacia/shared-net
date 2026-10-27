@@ -15,9 +15,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PageNumberValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="PageNumberValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="IntValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="IntValueObject"/> used to inherit base validation
+    /// rules.</param>
     public PageNumberValueObjectValidator(IValidator<IntValueObject> validator)
     {
         Include(validator);
@@ -31,7 +33,8 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="PageNumberValueObjectValidator"/> instance.</returns>
-    public static PageNumberValueObjectValidator Create() => new PageNumberValueObjectValidator(IntValueObjectValidator.Create());
+    public static PageNumberValueObjectValidator Create()
+        => new PageNumberValueObjectValidator(IntValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -39,7 +42,10 @@ public class PageNumberValueObjectValidator : AbstractValidator<PageNumberValueO
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="PageNumberValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<PageNumberValueObject> context, ValidationResult result)
-        => throw new PageNumberValueObjectValidationException(result.Errors);
+    /// <exception cref="PageNumberValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<PageNumberValueObject> context,
+        ValidationResult result
+    ) => throw new PageNumberValueObjectValidationException(result.Errors);
 }

@@ -19,5 +19,6 @@ public class OrderByValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<OrderByValueObjectValidationException>(() => _validator.ValidateAndThrow(OrderByValueObject.From("")));
+        => Assert.Throws<OrderByValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(OrderByValueObject.From("")));
 }

@@ -10,7 +10,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This exception inherits from <see cref="StringValueObjectValidationException"/> and is used to signal
-/// a violation of the domain's business rules specific to order direction/type (e.g., unsupported 'ASC' or 'DESC' value).
+/// a violation of the domain's business rules specific to order direction/type (e.g., unsupported 'ASC' or 'DESC'
+/// value).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
@@ -21,7 +22,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class OrderTypeValueObjectValidationException : StringValueObjectValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="OrderTypeValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="OrderTypeValueObjectValidationException"/> class with full context
+    /// information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -30,7 +32,8 @@ public class OrderTypeValueObjectValidationException : StringValueObjectValidati
     /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred.</param>
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
+    /// <param name="validations">A list of specific validation failures associated with the constraint
+    /// violation.</param>
     public OrderTypeValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
@@ -53,14 +56,19 @@ public class OrderTypeValueObjectValidationException : StringValueObjectValidati
     { }
 
     /// <summary>
-    /// Forwarding constructor with nullable metadata; used by derived value-object exceptions to set their own code and type.
+    /// Forwarding constructor with nullable metadata; used by derived value-object exceptions to set their own code and
+    /// type.
     /// </summary>
-    /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception, or null to auto-generate one.</param>
+    /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception, or null to
+    /// auto-generate one.</param>
     /// <param name="aggregateType">The type identifier of the aggregate, or null to use the default.</param>
     /// <param name="aggregateCode">A specific code identifying the exception type, or null to use the default.</param>
-    /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type, or null to use the default.</param>
-    /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred, or null to use the current time.</param>
-    /// <param name="message">A user-friendly description of the error, or null to build one from the validations.</param>
+    /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type, or null to use the
+    /// default.</param>
+    /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred, or null to use the current
+    /// time.</param>
+    /// <param name="message">A user-friendly description of the error, or null to build one from the
+    /// validations.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     public OrderTypeValueObjectValidationException(
@@ -85,7 +93,8 @@ public class OrderTypeValueObjectValidationException : StringValueObjectValidati
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="OrderTypeValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="OrderTypeValueObjectValidationException"/> class from the given
+    /// validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
@@ -94,7 +103,8 @@ public class OrderTypeValueObjectValidationException : StringValueObjectValidati
         System.Exception? innerException = null
     ) : base(
         null,
-        typeof(OrderTypeValueObjectValidationException).FullName ?? typeof(OrderTypeValueObjectValidationException).Name,
+        typeof(OrderTypeValueObjectValidationException).FullName
+            ?? typeof(OrderTypeValueObjectValidationException).Name,
         new Guid("01951f42-bb30-7ebe-8bf5-c6ee31b6789a"),
         null,
         null,

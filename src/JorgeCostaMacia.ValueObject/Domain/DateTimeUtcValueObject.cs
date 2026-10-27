@@ -10,7 +10,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <para>
 /// The factories bring the value to UTC through <see cref="Convert(DateTime)"/>: a <see cref="DateTimeKind.Local"/>
 /// value is converted, since it knows its instant; any other is <b>assumed to already represent UTC</b> and only
-/// tagged as such, never shifted. To convert a wall-clock value from a known time zone into UTC, derived types can use the
+/// tagged as such, never shifted. To convert a wall-clock value from a known time zone into UTC, derived types can use
+/// the
 /// protected <see cref="Convert(DateTime, TimeZoneInfo)"/> helper, which handles daylight-saving gaps.
 /// </para>
 /// <para>
@@ -29,16 +30,19 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     public DateTimeUtcValueObject(DateTime value) : base(value) { }
 
     /// <summary>
-    /// Converts: brings the value to <see cref="DateTimeKind.Utc"/> through <see cref="Convert(DateTime)"/> (a Local value
+    /// Converts: brings the value to <see cref="DateTimeKind.Utc"/> through <see cref="Convert(DateTime)"/> (a Local
+    /// value
     /// is converted, any other is tagged <b>without shifting it</b>) and materializes a new
     /// <see cref="DateTimeUtcValueObject"/>, unvalidated. This is the path composites use to build their parts.
     /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent UTC.</param>
+    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent
+    /// UTC.</param>
     /// <returns>A new, UTC but unvalidated <see cref="DateTimeUtcValueObject"/> instance.</returns>
     public static new DateTimeUtcValueObject From(DateTime value) => new DateTimeUtcValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(DateTime)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
@@ -49,9 +53,11 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// Creates: materializes the value through <see cref="From(DateTime)"/> and validates it —
     /// nothing invalid escapes this factory.
     /// </summary>
-    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent UTC.</param>
+    /// <param name="value">The source <see cref="DateTime"/> value; unless Local, assumed to already represent
+    /// UTC.</param>
     /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance.</returns>
-    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when the resulting value violates a
+    /// validation rule.</exception>
     public static new DateTimeUtcValueObject Create(DateTime value)
     {
         DateTimeUtcValueObject vo = From(value);
@@ -61,12 +67,14 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(DateTime)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="DateTimeUtcValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="DateTimeUtcValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new DateTimeUtcValueObject? CreateOrNull(DateTime? value)
     {
         DateTimeUtcValueObject? vo = FromOrNull(value);
@@ -80,9 +88,11 @@ public record DateTimeUtcValueObject : DateTimeValueObject
 
     /// <summary>
     /// Brings the value to <see cref="DateTimeKind.Utc"/>. A <see cref="DateTimeKind.Local"/> value knows its instant,
-    /// so it is converted with <see cref="DateTime.ToUniversalTime"/>; relabelling it would move it by the host's offset.
+    /// so it is converted with <see cref="DateTime.ToUniversalTime"/>; relabelling it would move it by the host's
+    /// offset.
     /// Any other value is tagged without shifting, on the assumption that it already represents UTC: an
-    /// <see cref="DateTimeKind.Unspecified"/> one (text without a zone, a <c>timestamp</c> column) carries nothing to convert from.
+    /// <see cref="DateTimeKind.Unspecified"/> one (text without a zone, a <c>timestamp</c> column) carries nothing to
+    /// convert from.
     /// On a UTC host the two branches give the same result.
     /// </summary>
     protected static new DateTime Convert(DateTime value)
@@ -96,7 +106,10 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// <param name="value">The wall-clock value to convert.</param>
     /// <param name="fromTimeZone">The time zone the wall-clock value is expressed in.</param>
     /// <returns>The equivalent UTC <see cref="DateTime"/>.</returns>
-    protected static DateTime Convert(DateTime value, TimeZoneInfo fromTimeZone)
+    protected static DateTime Convert(
+        DateTime value,
+        TimeZoneInfo fromTimeZone
+    )
     {
         DateTime local = DateTime.SpecifyKind(value, DateTimeKind.Unspecified);
 
@@ -115,7 +128,10 @@ public record DateTimeUtcValueObject : DateTimeValueObject
     /// <param name="fromTimeZone">The time zone whose adjustment rules are inspected.</param>
     /// <param name="value">The value whose applicable daylight delta is looked up.</param>
     /// <returns>The applicable daylight-saving <see cref="TimeSpan"/> delta.</returns>
-    protected static TimeSpan DaylightDelta(TimeZoneInfo fromTimeZone, DateTime value)
+    protected static TimeSpan DaylightDelta(
+        TimeZoneInfo fromTimeZone,
+        DateTime value
+    )
     {
         foreach (TimeZoneInfo.AdjustmentRule rule in fromTimeZone.GetAdjustmentRules())
         {

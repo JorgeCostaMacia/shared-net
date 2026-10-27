@@ -24,7 +24,8 @@ public sealed class PostgreSqlFixture : IAsyncLifetime
 
     /// <summary>A fresh context over the container, with no identity-map state carried between calls.</summary>
     internal ProbeDbContext NewContext()
-        => new ProbeDbContext(new DbContextOptionsBuilder<ProbeDbContext>().UseNpgsql(_container.GetConnectionString()).Options);
+        => new ProbeDbContext(
+            new DbContextOptionsBuilder<ProbeDbContext>().UseNpgsql(_container.GetConnectionString()).Options);
 }
 
 /// <summary>Binds the fixture to a single collection so the container is started once and shared.</summary>

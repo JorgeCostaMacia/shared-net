@@ -39,7 +39,10 @@ public sealed record JobTrace
     /// <summary>Initializes the trace with the given identifiers.</summary>
     /// <param name="aggregateId">The execution subject's unique identifier.</param>
     /// <param name="correlationId">The workflow correlation identifier.</param>
-    public JobTrace(Guid aggregateId, Guid correlationId)
+    public JobTrace(
+        Guid aggregateId,
+        Guid correlationId
+    )
     {
         AggregateId = aggregateId;
         CorrelationId = correlationId;
@@ -55,7 +58,9 @@ public sealed record JobTrace
     {
         Guid aggregateId = Guid.CreateVersion7();
 
-        return new JobTrace(aggregateId, aggregateId);
+        return new JobTrace(
+            aggregateId,
+            aggregateId);
     }
 
     /// <summary>
@@ -75,6 +80,8 @@ public sealed record JobTrace
         map[AggregateIdKey] = aggregateId;
         map[CorrelationIdKey] = correlationId;
 
-        return new JobTrace(aggregateId, correlationId);
+        return new JobTrace(
+            aggregateId,
+            correlationId);
     }
 }

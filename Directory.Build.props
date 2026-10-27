@@ -17,6 +17,19 @@
 		<Nullable>enable</Nullable>
 		<AnalysisLevel>latest</AnalysisLevel>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!-- A project packs only by saying so: src/ opts in, everything else (tests) stays out -->
+		<IsPackable>false</IsPackable>
+	</PropertyGroup>
+
+	<!-- NuGet vulnerability audit on every restore: direct AND transitive packages, every severity reported.
+	     With TreatWarningsAsErrors every reported advisory fails the build; NU1903/NU1904 are pinned so the two
+	     highest stay errors even if the blanket setting ever goes. -->
+	<PropertyGroup>
+		<NuGetAudit>true</NuGetAudit>
+		<NuGetAuditMode>all</NuGetAuditMode>
+		<NuGetAuditLevel>low</NuGetAuditLevel>
+		<WarningsAsErrors>$(WarningsAsErrors);NU1903;NU1904</WarningsAsErrors>
 	</PropertyGroup>
 
 </Project>

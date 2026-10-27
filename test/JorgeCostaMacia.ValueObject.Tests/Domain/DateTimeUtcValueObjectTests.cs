@@ -61,7 +61,8 @@ public class DateTimeUtcValueObjectTests
 
     [Fact]
     public void Create_OnInvalid_ThrowsDateTimeUtcValueObjectValidationException()
-        => Assert.Throws<DateTimeUtcValueObjectValidationException>(() => DateTimeUtcValueObject.Create(new DateTime(1800, 1, 1)));
+        => Assert.Throws<DateTimeUtcValueObjectValidationException>(
+            () => DateTimeUtcValueObject.Create(new DateTime(1800, 1, 1)));
 
     // Convert(value, fromTimeZone) is protected — exercised through a derived test type, like a real derived VO would.
     [Fact]
@@ -92,9 +93,15 @@ public class DateTimeUtcValueObjectTests
     {
         public TestUtc(DateTime value) : base(value) { }
 
-        public static DateTime ConvertToUtc(DateTime value, TimeZoneInfo fromTimeZone) => Convert(value, fromTimeZone);
+        public static DateTime ConvertToUtc(
+            DateTime value,
+            TimeZoneInfo fromTimeZone
+        ) => Convert(value, fromTimeZone);
 
-        public static TimeSpan Delta(TimeZoneInfo fromTimeZone, DateTime value) => DaylightDelta(fromTimeZone, value);
+        public static TimeSpan Delta(
+            TimeZoneInfo fromTimeZone,
+            DateTime value
+        ) => DaylightDelta(fromTimeZone, value);
     }
     // The OrNull pair carries the field's optionality: absence in, absence out — never a second
     // policy for invalid input.
@@ -117,14 +124,16 @@ public class DateTimeUtcValueObjectTests
     // Absence short-circuits, invalidity does not: a supplied value still goes through the rules.
     [Fact]
     public void CreateOrNull_WithAnInvalidValue_StillThrows()
-        => Assert.Throws<DateTimeUtcValueObjectValidationException>(() => DateTimeUtcValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
+        => Assert.Throws<DateTimeUtcValueObjectValidationException>(
+            () => DateTimeUtcValueObject.CreateOrNull(new DateTime(1800, 1, 1)));
     // The daylight delta is read off the adjustment rule covering the date. Both paths matter: a zone
     // with a rule for that date reports the rule's own delta, and a zone with no rule at all — UTC has
     // none — falls back to one hour, which is what the invalid-time correction assumes.
     [Fact]
     public void DaylightDelta_WithARuleCoveringTheDate_ReturnsTheRuleDelta()
     {
-        TimeZoneInfo madrid = TimeZoneInfo.FindSystemTimeZoneById(OperatingSystem.IsWindows() ? "Romance Standard Time" : "Europe/Madrid");
+        TimeZoneInfo madrid = TimeZoneInfo.FindSystemTimeZoneById(
+            OperatingSystem.IsWindows() ? "Romance Standard Time" : "Europe/Madrid");
         TimeZoneInfo.AdjustmentRule[] rules = madrid.GetAdjustmentRules();
         Assert.NotEmpty(rules);   // guard: the assertion below is meaningless on a zone without rules
 

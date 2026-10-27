@@ -8,14 +8,14 @@ public class ExceptionDefaultsTests
     [Fact]
     public void EveryExceptionType_HasADistinctAggregateCode()
     {
-        Guid[] codes =
-        [
+        Guid[] codes = new Guid[]
+        {
             DomainExceptionDefaults.AGGREGATE_CODE,
             ErrorExceptionDefaults.AGGREGATE_CODE,
             ExistExceptionDefaults.AGGREGATE_CODE,
             NotFoundExceptionDefaults.AGGREGATE_CODE,
             ValidationExceptionDefaults.AGGREGATE_CODE,
-        ];
+        };
 
         Assert.Equal(codes.Length, codes.Distinct().Count());
     }

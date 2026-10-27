@@ -3,7 +3,8 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates an "order by" criterion (e.g., a field name) for queries.
+/// Represents an immutable <b>Value Object</b> that encapsulates an "order by" criterion (e.g., a field name) for
+/// queries.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -56,7 +57,8 @@ public record OrderByValueObject : StringValueObject
     public static new OrderByValueObject From(string value) => new OrderByValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The order-by string value to encapsulate, or <see langword="null"/>.</param>
@@ -69,7 +71,8 @@ public record OrderByValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source order-by string value.</param>
     /// <returns>A new, validated <see cref="OrderByValueObject"/> instance.</returns>
-    /// <exception cref="OrderByValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="OrderByValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new OrderByValueObject Create(string value)
     {
         OrderByValueObject vo = From(value);
@@ -79,12 +82,14 @@ public record OrderByValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The order-by string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="OrderByValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="OrderByValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="OrderByValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new OrderByValueObject? CreateOrNull(string? value)
     {
         OrderByValueObject? vo = FromOrNull(value);

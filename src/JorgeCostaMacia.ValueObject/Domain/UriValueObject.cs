@@ -14,7 +14,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </para>
 /// <para>
 /// The base rule is deliberately general — the URI must be present, relative or absolute, whatever its scheme. A
-/// Value Object that needs more (absolute, only <c>http</c>/<c>https</c>, a given host) derives from this one and adds the rule in its own validator,
+/// Value Object that needs more (absolute, only <c>http</c>/<c>https</c>, a given host) derives from this one and adds
+/// the rule in its own validator,
 /// the same way a module's string Value Object adds its format to <see cref="StringValueObject"/>.
 /// </para>
 /// <para>
@@ -50,7 +51,8 @@ public record UriValueObject : IValueObject
     public static UriValueObject From(Uri value) => new UriValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(Uri)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The URI value to encapsulate, or <see langword="null"/>.</param>
@@ -63,7 +65,8 @@ public record UriValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source URI value.</param>
     /// <returns>A new, validated <see cref="UriValueObject"/> instance.</returns>
-    /// <exception cref="UriValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="UriValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static UriValueObject Create(Uri value)
     {
         UriValueObject vo = From(value);
@@ -73,12 +76,14 @@ public record UriValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(Uri)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The URI value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="UriValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="UriValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="UriValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static UriValueObject? CreateOrNull(Uri? value)
     {
         UriValueObject? vo = FromOrNull(value);

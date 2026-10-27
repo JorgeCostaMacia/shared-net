@@ -19,13 +19,15 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
+///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected
+///         <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
 ///     </description></item>
 ///     <item><description>
 ///         <b>Not Empty:</b> Ensures the IPv4 address string is not null or empty.
 ///     </description></item>
 ///     <item><description>
-///         <b>IPv4 Format Check:</b> Ensures the string parses as an IPv4 address and is exactly that address's canonical form.
+///         <b>IPv4 Format Check:</b> Ensures the string parses as an IPv4 address and is exactly that address's
+///         canonical form.
 ///     </description></item>
 /// </list>
 /// </remarks>
@@ -34,14 +36,17 @@ public class Ipv4ValueObjectValidator : AbstractValidator<Ipv4ValueObject>
     /// <summary>
     /// Initializes a new instance of the <see cref="Ipv4ValueObjectValidator"/> class and defines the validation rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base
+    /// validation rules.</param>
     public Ipv4ValueObjectValidator(IValidator<StringValueObject> validator)
     {
         Include(validator);
 
         RuleFor(v => v.Value)
             .NotEmpty()
-            .Must(v => IPAddress.TryParse(v, out IPAddress? ip) && ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() == v)
+            .Must(v => IPAddress.TryParse(v, out IPAddress? ip)
+                && ip.AddressFamily == AddressFamily.InterNetwork
+                && ip.ToString() == v)
             .WithErrorCode("Ipv4Validator")
             .WithMessage("{PropertyName} must be an IPv4");
     }
@@ -51,7 +56,8 @@ public class Ipv4ValueObjectValidator : AbstractValidator<Ipv4ValueObject>
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="Ipv4ValueObjectValidator"/> instance.</returns>
-    public static Ipv4ValueObjectValidator Create() => new Ipv4ValueObjectValidator(StringValueObjectValidator.Create());
+    public static Ipv4ValueObjectValidator Create()
+        => new Ipv4ValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -59,7 +65,10 @@ public class Ipv4ValueObjectValidator : AbstractValidator<Ipv4ValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<Ipv4ValueObject> context, ValidationResult result)
-        => throw new Ipv4ValueObjectValidationException(result.Errors);
+    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<Ipv4ValueObject> context,
+        ValidationResult result
+    ) => throw new Ipv4ValueObjectValidationException(result.Errors);
 }

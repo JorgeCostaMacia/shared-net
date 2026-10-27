@@ -38,7 +38,10 @@ public class StringValueObjectValidator : AbstractValidator<StringValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="StringValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<StringValueObject> context, ValidationResult result)
-        => throw new StringValueObjectValidationException(result.Errors);
+    /// <exception cref="StringValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<StringValueObject> context,
+        ValidationResult result
+    ) => throw new StringValueObjectValidationException(result.Errors);
 }
