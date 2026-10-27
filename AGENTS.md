@@ -83,7 +83,7 @@ Use the **`gitflow` skill** for any branch/release work — never improvise.
 
 Skills that apply to this repo — let them trigger, or invoke explicitly. The first group is from `jorgecostamacia-agent-skills` (each `-net` skill brings the generic one it realizes); the rest from `dotnet-agent-skills` (the `dotnet/skills` marketplace).
 
-`.claude/settings.json` declares both marketplaces (`extraKnownMarketplaces`) and enables exactly these plugins (`enabledPlugins`, each dependency listed too). Once the folder is trusted, Claude Code fetches the marketplaces; on a machine that does not have a plugin yet, install it once with `claude plugin install <plugin>@<marketplace> --scope project` — the Errors tab of `/plugin` lists the ones enabled here but missing.
+A skill listed here but missing on this machine is one command away: `claude plugin marketplace add JorgeCostaMacia/skills` (or `dotnet/skills`) once, then `claude plugin install <skill>@<marketplace>`.
 
 - **`ddd-net`** (with **`ddd`**) — **the spec this library implements**: the base types, the four-factory surface (`From`, `FromOrNull`, `Create`, `CreateOrNull`) and why every one is declared, `Convert` as the one place a value is altered, no coercion and no defaults, the aggregate's `From`/`Create`, the exception family with its UUIDv7 codes, events on the root. `ddd` is the canon behind it. Read them before touching ValueObject, Aggregate, Entity, DomainEvent or Exception.
 - **`validation-net`** — the validators: one per validated thing, per-call `Create()` chains with `Include`/`SetValidator`, no `Cascade`, `RaiseValidationException` raising the typed exception, and what each base validator checks — the list there must match this repo's validators.
