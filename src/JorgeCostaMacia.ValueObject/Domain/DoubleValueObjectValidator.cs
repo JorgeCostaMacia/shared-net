@@ -34,7 +34,10 @@ public class DoubleValueObjectValidator : AbstractValidator<DoubleValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="DoubleValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<DoubleValueObject> context, ValidationResult result)
-        => throw new DoubleValueObjectValidationException(result.Errors);
+    /// <exception cref="DoubleValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<DoubleValueObject> context,
+        ValidationResult result
+    ) => throw new DoubleValueObjectValidationException(result.Errors);
 }

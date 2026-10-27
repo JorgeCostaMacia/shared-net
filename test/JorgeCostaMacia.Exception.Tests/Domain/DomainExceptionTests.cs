@@ -2,12 +2,45 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestDomainException(string? message = null, Guid? id = null, string? type = null)
-    : DomainException(id, type, null, null, null, message, null);
+file sealed class TestDomainException : DomainException
+{
+    public TestDomainException(
+        string? message = null,
+        Guid? id = null,
+        string? type = null
+    ) : base(
+        id,
+        type,
+        null,
+        null,
+        null,
+        message,
+        null
+    )
+    { }
+}
 
-file sealed class TestExplicitDomainException(
-    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
-    : DomainException(id, type, code, httpCode, occurredAt, message, innerException);
+file sealed class TestExplicitDomainException : DomainException
+{
+    public TestExplicitDomainException(
+        Guid id,
+        string type,
+        Guid code,
+        int httpCode,
+        DateTime occurredAt,
+        string? message,
+        System.Exception? innerException
+    ) : base(
+        id,
+        type,
+        code,
+        httpCode,
+        occurredAt,
+        message,
+        innerException
+    )
+    { }
+}
 
 // Test Data Builder: defaults the metadata noise so each test states only the field it varies.
 file sealed class DomainExceptionBuilder
@@ -28,7 +61,14 @@ file sealed class DomainExceptionBuilder
     }
 
     public TestExplicitDomainException Build()
-        => new TestExplicitDomainException(Guid.NewGuid(), "T", Guid.NewGuid(), 500, DateTime.UtcNow, _message, _innerException);
+        => new TestExplicitDomainException(
+            Guid.NewGuid(),
+            "T",
+            Guid.NewGuid(),
+            500,
+            DateTime.UtcNow,
+            _message,
+            _innerException);
 }
 
 public class DomainExceptionTests
@@ -76,7 +116,9 @@ public class DomainExceptionTests
     {
         Guid id = Guid.NewGuid();
 
-        TestDomainException exception = new TestDomainException("x", id);
+        TestDomainException exception = new TestDomainException(
+            "x",
+            id);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.StartsWith($"{id}/DomainException", exception.Message);
@@ -89,7 +131,14 @@ public class DomainExceptionTests
         Guid code = Guid.NewGuid();
         DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitDomainException exception = new TestExplicitDomainException(id, "My.Custom.Type", code, 418, occurredAt, "msg", null);
+        TestExplicitDomainException exception = new TestExplicitDomainException(
+            id,
+            "My.Custom.Type",
+            code,
+            418,
+            occurredAt,
+            "msg",
+            null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Custom.Type", exception.AggregateType);
@@ -115,7 +164,9 @@ public class DomainExceptionTests
     [Fact]
     public void Message_UsesLastSegmentOfDottedType()
     {
-        TestDomainException exception = new TestDomainException("boom", type: "A.B.C.Widget");
+        TestDomainException exception = new TestDomainException(
+            "boom",
+            type: "A.B.C.Widget");
 
         Assert.Equal($"{exception.AggregateId}/Widget => boom", exception.Message);
     }

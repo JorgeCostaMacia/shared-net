@@ -16,9 +16,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="OrderByValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="OrderByValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base
+    /// validation rules.</param>
     public OrderByValueObjectValidator(IValidator<StringValueObject> validator)
     {
         Include(validator);
@@ -32,7 +34,8 @@ public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="OrderByValueObjectValidator"/> instance.</returns>
-    public static OrderByValueObjectValidator Create() => new OrderByValueObjectValidator(StringValueObjectValidator.Create());
+    public static OrderByValueObjectValidator Create()
+        => new OrderByValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -40,7 +43,10 @@ public class OrderByValueObjectValidator : AbstractValidator<OrderByValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="OrderByValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<OrderByValueObject> context, ValidationResult result)
-        => throw new OrderByValueObjectValidationException(result.Errors);
+    /// <exception cref="OrderByValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<OrderByValueObject> context,
+        ValidationResult result
+    ) => throw new OrderByValueObjectValidationException(result.Errors);
 }

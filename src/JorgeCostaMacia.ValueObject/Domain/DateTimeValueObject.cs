@@ -50,7 +50,8 @@ public record DateTimeValueObject : IValueObject
     public static DateTimeValueObject From(DateTime value) => new DateTimeValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(DateTime)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
@@ -63,7 +64,8 @@ public record DateTimeValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source <see cref="DateTime"/> value.</param>
     /// <returns>A new, validated <see cref="DateTimeValueObject"/> instance.</returns>
-    /// <exception cref="DateTimeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="DateTimeValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static DateTimeValueObject Create(DateTime value)
     {
         DateTimeValueObject vo = From(value);
@@ -73,12 +75,14 @@ public record DateTimeValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(DateTime)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The DateTime value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="DateTimeValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="DateTimeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="DateTimeValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static DateTimeValueObject? CreateOrNull(DateTime? value)
     {
         DateTimeValueObject? vo = FromOrNull(value);
@@ -99,24 +103,35 @@ public record DateTimeValueObject : IValueObject
     /// Combines the date part of the first parameter with the time part of the second parameter.
     /// The resulting <see cref="DateTimeKind"/> is not set explicitly.
     /// </summary>
-    protected static DateTime Convert(DateTime valueDate, DateTime valueTime) => valueDate.Date.AddHours(valueTime.Hour).AddMinutes(valueTime.Minute).AddSeconds(valueTime.Second).AddMilliseconds(valueTime.Millisecond).AddMicroseconds(valueTime.Microsecond);
+    protected static DateTime Convert(DateTime valueDate, DateTime valueTime)
+        => valueDate.Date
+            .AddHours(valueTime.Hour)
+            .AddMinutes(valueTime.Minute)
+            .AddSeconds(valueTime.Second)
+            .AddMilliseconds(valueTime.Millisecond)
+            .AddMicroseconds(valueTime.Microsecond);
 
     /// <summary>
     /// Combines a <see cref="DateOnly"/> and a <see cref="TimeOnly"/> into a <see cref="DateTime"/> (kind unspecified).
     /// </summary>
-    protected static DateTime Convert(DateOnly valueDate, TimeOnly valueTime) => Convert(valueDate.ToDateTime(valueTime));
+    protected static DateTime Convert(DateOnly valueDate, TimeOnly valueTime)
+        => Convert(valueDate.ToDateTime(valueTime));
 
     /// <summary>
     /// Parses a string into a <see cref="DateTime"/> object, trimming whitespace first.
     /// Note: The resulting <see cref="DateTimeKind"/> depends on the input string format/culture.
     /// </summary>
-    protected static DateTime Convert(string value) => Convert(DateTime.Parse(value.Trim(), CultureInfo.InvariantCulture));
+    protected static DateTime Convert(string value)
+        => Convert(DateTime.Parse(value.Trim(), CultureInfo.InvariantCulture));
 
     /// <summary>
-    /// Converts separate date and time strings by parsing them and combining them using <see cref="DateOnly"/> and <see cref="TimeOnly"/>.
+    /// Converts separate date and time strings by parsing them and combining them using <see cref="DateOnly"/> and
+    /// <see cref="TimeOnly"/>.
     /// Note: The resulting <see cref="DateTimeKind"/> is not set explicitly.
     /// </summary>
-    protected static DateTime Convert(string valueDate, string valueTime) => Convert(DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim(), CultureInfo.InvariantCulture)).ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim(), CultureInfo.InvariantCulture))));
+    protected static DateTime Convert(string valueDate, string valueTime)
+        => Convert(DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim(), CultureInfo.InvariantCulture))
+            .ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim(), CultureInfo.InvariantCulture))));
 
     /// <summary>
     /// Creates a new <see cref="DateTime"/> from an integer interpreted as Ticks (kind unspecified).

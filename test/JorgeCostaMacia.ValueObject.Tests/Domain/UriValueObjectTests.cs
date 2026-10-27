@@ -8,7 +8,9 @@ public class UriValueObjectTests
 
     [Fact]
     public void Ctor_HydratesRaw_WithoutValidating()
-        => Assert.Equal("relative/path", new UriValueObject(new Uri("relative/path", UriKind.Relative)).Value.OriginalString);
+        => Assert.Equal(
+            "relative/path",
+            new UriValueObject(new Uri("relative/path", UriKind.Relative)).Value.OriginalString);
 
     [Fact]
     public void From_KeepsValue()
@@ -24,7 +26,9 @@ public class UriValueObjectTests
 
     [Fact]
     public void Create_OnRelative_KeepsIt()
-        => Assert.Equal("relative/path", UriValueObject.Create(new Uri("relative/path", UriKind.Relative)).Value.OriginalString);
+        => Assert.Equal(
+            "relative/path",
+            UriValueObject.Create(new Uri("relative/path", UriKind.Relative)).Value.OriginalString);
 
     [Fact]
     public void Create_OnNull_ThrowsUriValueObjectValidationException()

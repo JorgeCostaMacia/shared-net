@@ -35,11 +35,11 @@ public class QuartzHostedServiceOptionsExtensionsTests
     {
         ServiceCollection services = new ServiceCollection();
         services
-            .AddQuartz(quartz => quartz.WithPostgresDefaults("pasarela", "Jobs", "scheduler"))
+            .AddQuartz(quartz => quartz.WithPostgresDefaults("orders", "Scheduler", "quartz"))
             .AddQuartzHostedService(options => options.WithDefaults());
 
         QuartzHostedServiceOptions options = services.BuildServiceProvider()
-            .GetRequiredService<IOptionsMonitor<QuartzHostedServiceOptions>>().Get("pasarela");
+            .GetRequiredService<IOptionsMonitor<QuartzHostedServiceOptions>>().Get("orders");
 
         Assert.True(options.AwaitApplicationStarted);
         Assert.True(options.WaitForJobsToComplete);

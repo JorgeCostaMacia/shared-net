@@ -37,7 +37,8 @@ public record OrderTypeValueObject : StringValueObject
     public static new OrderTypeValueObject From(string value) => new OrderTypeValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The order-type string value to encapsulate, or <see langword="null"/>.</param>
@@ -50,7 +51,8 @@ public record OrderTypeValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source order-type string value.</param>
     /// <returns>A new, validated <see cref="OrderTypeValueObject"/> instance.</returns>
-    /// <exception cref="OrderTypeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="OrderTypeValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new OrderTypeValueObject Create(string value)
     {
         OrderTypeValueObject vo = From(value);
@@ -60,12 +62,14 @@ public record OrderTypeValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The order-type string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="OrderTypeValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="OrderTypeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="OrderTypeValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new OrderTypeValueObject? CreateOrNull(string? value)
     {
         OrderTypeValueObject? vo = FromOrNull(value);

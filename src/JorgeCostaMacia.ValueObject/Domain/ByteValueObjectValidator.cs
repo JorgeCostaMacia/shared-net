@@ -33,7 +33,10 @@ public class ByteValueObjectValidator : AbstractValidator<ByteValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="ByteValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<ByteValueObject> context, ValidationResult result)
-        => throw new ByteValueObjectValidationException(result.Errors);
+    /// <exception cref="ByteValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<ByteValueObject> context,
+        ValidationResult result
+    ) => throw new ByteValueObjectValidationException(result.Errors);
 }

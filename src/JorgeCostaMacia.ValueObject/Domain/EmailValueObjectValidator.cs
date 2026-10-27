@@ -11,7 +11,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <para>
 /// This validator accepts a single email address as the standard defines it, and nothing around it.
 /// FluentValidation's <c>EmailAddress</c> rule is not used: it only checks for one <c>@</c> that is neither first nor
-/// last, so <c>"a b@c.com"</c>, <c>"Name &lt;a@b.com&gt;"</c> or <c>"a..b@c.com"</c> pass. That naivety is deliberate for a
+/// last, so <c>"a b@c.com"</c>, <c>"Name &lt;a@b.com&gt;"</c> or <c>"a..b@c.com"</c> pass. That naivety is deliberate
+/// for a
 /// form backed by a confirmation email; a Value Object has no such flow behind it. The address is parsed with
 /// <see cref="MailAddress"/> instead, and the text has to equal the address it parsed to: on its own,
 /// <see cref="MailAddress.TryCreate(string, out MailAddress)"/> reads <c>"a b@c.com"</c> as the display name <c>a</c>
@@ -25,7 +26,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </para>
 /// <list type="bullet">
 ///     <item><description>
-///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
+///         <b>Inherited Validation:</b> Includes all base validation rules defined in the injected
+///         <see cref="IValidator{T}"/> for the <see cref="StringValueObject"/>.
 ///     </description></item>
 ///     <item><description>
 ///         <b>Not Empty:</b> Ensures the email value is not null or empty.
@@ -38,9 +40,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EmailValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="EmailValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base
+    /// validation rules.</param>
     public EmailValueObjectValidator(IValidator<StringValueObject> validator)
     {
         Include(validator);
@@ -57,7 +61,8 @@ public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="EmailValueObjectValidator"/> instance.</returns>
-    public static EmailValueObjectValidator Create() => new EmailValueObjectValidator(StringValueObjectValidator.Create());
+    public static EmailValueObjectValidator Create()
+        => new EmailValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -65,7 +70,10 @@ public class EmailValueObjectValidator : AbstractValidator<EmailValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="EmailValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<EmailValueObject> context, ValidationResult result)
-        => throw new EmailValueObjectValidationException(result.Errors);
+    /// <exception cref="EmailValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<EmailValueObject> context,
+        ValidationResult result
+    ) => throw new EmailValueObjectValidationException(result.Errors);
 }

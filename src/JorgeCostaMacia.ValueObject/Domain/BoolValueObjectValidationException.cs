@@ -11,7 +11,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// <remarks>
 /// <para>
 /// This exception inherits from <see cref="ValidationException"/> and is used to signal
-/// a violation of the domain's business rules related to Boolean-based Value Objects (e.g., when a field must be true but is false).
+/// a violation of the domain's business rules related to Boolean-based Value Objects (e.g., when a field must be true
+/// but is false).
 /// It carries the specific validation failures from FluentValidation.
 /// </para>
 /// <para>
@@ -22,7 +23,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class BoolValueObjectValidationException : ValidationException
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BoolValueObjectValidationException"/> class with full context information.
+    /// Initializes a new instance of the <see cref="BoolValueObjectValidationException"/> class with full context
+    /// information.
     /// </summary>
     /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception.</param>
     /// <param name="aggregateType">The type identifier of the aggregate (e.g., entity name).</param>
@@ -31,7 +33,8 @@ public class BoolValueObjectValidationException : ValidationException
     /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred.</param>
     /// <param name="message">A user-friendly description of the error.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
-    /// <param name="validations">A list of specific validation failures associated with the constraint violation.</param>
+    /// <param name="validations">A list of specific validation failures associated with the constraint
+    /// violation.</param>
     public BoolValueObjectValidationException(
         Guid aggregateId,
         string aggregateType,
@@ -54,14 +57,19 @@ public class BoolValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Forwarding constructor with nullable metadata; used by derived value-object exceptions to set their own code and type.
+    /// Forwarding constructor with nullable metadata; used by derived value-object exceptions to set their own code and
+    /// type.
     /// </summary>
-    /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception, or null to auto-generate one.</param>
+    /// <param name="aggregateId">The unique identifier of the aggregate that caused the exception, or null to
+    /// auto-generate one.</param>
     /// <param name="aggregateType">The type identifier of the aggregate, or null to use the default.</param>
     /// <param name="aggregateCode">A specific code identifying the exception type, or null to use the default.</param>
-    /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type, or null to use the default.</param>
-    /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred, or null to use the current time.</param>
-    /// <param name="message">A user-friendly description of the error, or null to build one from the validations.</param>
+    /// <param name="aggregateHttpCode">The recommended HTTP status code for this exception type, or null to use the
+    /// default.</param>
+    /// <param name="aggregateOccurredAt">The UTC date and time the exception occurred, or null to use the current
+    /// time.</param>
+    /// <param name="message">A user-friendly description of the error, or null to build one from the
+    /// validations.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     public BoolValueObjectValidationException(
@@ -86,7 +94,8 @@ public class BoolValueObjectValidationException : ValidationException
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="BoolValueObjectValidationException"/> class from the given validation failures, applying the default error code for this type.
+    /// Initializes a new instance of the <see cref="BoolValueObjectValidationException"/> class from the given
+    /// validation failures, applying the default error code for this type.
     /// </summary>
     /// <param name="validations">The validation failures that triggered this exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or null.</param>

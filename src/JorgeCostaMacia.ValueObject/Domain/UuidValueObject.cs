@@ -44,7 +44,8 @@ public record UuidValueObject : IValueObject
     public static UuidValueObject From(Guid value) => new UuidValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(Guid)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The GUID value to encapsulate, or <see langword="null"/>.</param>
@@ -57,7 +58,8 @@ public record UuidValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source GUID value.</param>
     /// <returns>A new, validated <see cref="UuidValueObject"/> instance.</returns>
-    /// <exception cref="UuidValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="UuidValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static UuidValueObject Create(Guid value)
     {
         UuidValueObject vo = From(value);
@@ -67,12 +69,14 @@ public record UuidValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(Guid)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The GUID value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="UuidValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="UuidValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="UuidValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static UuidValueObject? CreateOrNull(Guid? value)
     {
         UuidValueObject? vo = FromOrNull(value);

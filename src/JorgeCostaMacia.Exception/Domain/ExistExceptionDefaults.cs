@@ -11,9 +11,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///
 /// <para>Properties provide default values for:</para>
 /// <list type="bullet">
-///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base <see cref="ExistException"/>.</description></item>
-///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (409) for resource conflict errors.</description></item>
-///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified existence errors.</description></item>
+///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base
+///    <see cref="ExistException"/>.</description></item>
+///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (409) for resource conflict
+///    errors.</description></item>
+///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified existence
+///    errors.</description></item>
 /// </list>
 /// </remarks>
 public static class ExistExceptionDefaults
@@ -30,7 +33,8 @@ public static class ExistExceptionDefaults
 
     /// <summary>
     /// The default fixed unique identifier representing a generic existence conflict error.
-    /// This constant allows grouping of all unspecified <see cref="ExistException"/> instances under a single code for logging and monitoring.
+    /// This constant allows grouping of all unspecified <see cref="ExistException"/> instances under a single code for
+    /// logging and monitoring.
     /// </summary>
     public static Guid AGGREGATE_CODE => new Guid("019ab6ff-ffdc-7cb7-8b57-8bddf0f63806");
 }

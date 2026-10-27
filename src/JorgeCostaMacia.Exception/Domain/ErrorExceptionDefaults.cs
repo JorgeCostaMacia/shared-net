@@ -11,9 +11,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///
 /// <para>Properties provide default values for:</para>
 /// <list type="bullet">
-///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base <see cref="ErrorException"/>.</description></item>
-///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (400) for general, aggregated client errors.</description></item>
-///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified aggregation errors.</description></item>
+///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base
+///    <see cref="ErrorException"/>.</description></item>
+///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (400) for general, aggregated
+///    client errors.</description></item>
+///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified aggregation
+///    errors.</description></item>
 /// </list>
 /// </remarks>
 public static class ErrorExceptionDefaults
@@ -30,7 +33,8 @@ public static class ErrorExceptionDefaults
 
     /// <summary>
     /// The default fixed unique identifier representing a generic Aggregated Domain Error.
-    /// This constant allows grouping of all unspecified <see cref="ErrorException"/> instances under a single code for logging and monitoring.
+    /// This constant allows grouping of all unspecified <see cref="ErrorException"/> instances under a single code for
+    /// logging and monitoring.
     /// </summary>
     public static Guid AGGREGATE_CODE => new Guid("019ab6fc-8bb5-7c62-ad6f-b5062c8d5575");
 }

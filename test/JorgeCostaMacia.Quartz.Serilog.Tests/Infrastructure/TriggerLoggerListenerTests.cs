@@ -13,7 +13,14 @@ public class TriggerLoggerListenerTests
     private readonly CapturingSink _sink = new CapturingSink();
 
     private TriggerLoggerListener Listener()
-        => new TriggerLoggerListener(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(_sink).CreateLogger()).CreateLogger<TriggerLoggerListener>());
+        => new TriggerLoggerListener(
+            new SerilogLoggerFactory(
+                new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .Enrich.FromLogContext()
+                    .WriteTo.Sink(_sink)
+                    .CreateLogger())
+                .CreateLogger<TriggerLoggerListener>());
 
     [Fact]
     public async Task TriggerFired_LogsInformation_WithFixedMessageAndContext()
@@ -34,7 +41,10 @@ public class TriggerLoggerListenerTests
     {
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
 
-        bool vetoed = await Listener().VetoJobExecution(context.Trigger, context, TestContext.Current.CancellationToken);
+        bool vetoed = await Listener().VetoJobExecution(
+            context.Trigger,
+            context,
+            TestContext.Current.CancellationToken);
 
         Assert.False(vetoed);
         LogEvent logEvent = Assert.Single(_sink.Events);
@@ -54,7 +64,8 @@ public class TriggerLoggerListenerTests
         Assert.Equal(LogEventLevel.Error, logEvent.Level);
         Assert.Equal("\"trigger-1\"", logEvent.Properties["Trigger"].ToString());
         Assert.Equal("\"job-1\"", logEvent.Properties["Job"].ToString());
-        Assert.True(logEvent.Properties.ContainsKey("AggregateId"));   // freshly minted — a misfire has no execution context
+        // freshly minted — a misfire has no execution context
+        Assert.True(logEvent.Properties.ContainsKey("AggregateId"));
     }
 
     [Fact]
@@ -62,7 +73,11 @@ public class TriggerLoggerListenerTests
     {
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
 
-        await Listener().TriggerComplete(context.Trigger, context, SchedulerInstruction.NoInstruction, TestContext.Current.CancellationToken);
+        await Listener().TriggerComplete(
+            context.Trigger,
+            context,
+            SchedulerInstruction.NoInstruction,
+            TestContext.Current.CancellationToken);
 
         LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerComplete", logEvent.MessageTemplate.Text);
@@ -77,7 +92,11 @@ public class TriggerLoggerListenerTests
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
         InvalidOperationException cause = new InvalidOperationException("the broker is down");
 
-        await Listener().TriggerRetriesExhausted(context.Trigger, context, new JobExecutionException(cause), TestContext.Current.CancellationToken);
+        await Listener().TriggerRetriesExhausted(
+            context.Trigger,
+            context,
+            new JobExecutionException(cause),
+            TestContext.Current.CancellationToken);
 
         LogEvent logEvent = Assert.Single(_sink.Events);
         Assert.Equal("TriggerRetriesExhausted", logEvent.MessageTemplate.Text);

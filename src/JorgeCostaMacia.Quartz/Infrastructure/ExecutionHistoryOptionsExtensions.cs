@@ -25,7 +25,7 @@ public static class ExecutionHistoryOptionsExtensions
     /// <example>
     /// <code>
     /// builder.Services
-    ///     .AddQuartz(quartz => quartz.WithPostgresDefaults("retry", "JobsBus", "bus"))
+    ///     .AddQuartz(quartz => quartz.WithPostgresDefaults("orders", "Scheduler", "quartz"))
     ///     .AddQuartzExecutionHistory(options => options.WithDefaults());
     /// </code>
     /// </example>

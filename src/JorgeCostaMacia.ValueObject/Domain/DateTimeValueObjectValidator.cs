@@ -38,7 +38,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="DateTimeValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
     public DateTimeValueObjectValidator()
     {
@@ -61,7 +62,10 @@ public class DateTimeValueObjectValidator : AbstractValidator<DateTimeValueObjec
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="DateTimeValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<DateTimeValueObject> context, ValidationResult result)
-        => throw new DateTimeValueObjectValidationException(result.Errors);
+    /// <exception cref="DateTimeValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<DateTimeValueObject> context,
+        ValidationResult result
+    ) => throw new DateTimeValueObjectValidationException(result.Errors);
 }

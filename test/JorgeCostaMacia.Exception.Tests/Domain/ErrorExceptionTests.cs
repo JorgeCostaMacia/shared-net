@@ -3,12 +3,47 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestErrorException(IEnumerable<string> errors, string? message = null)
-    : ErrorException(null, null, null, null, null, message, null, errors);
+file sealed class TestErrorException : ErrorException
+{
+    public TestErrorException(
+        IEnumerable<string> errors,
+        string? message = null
+    ) : base(
+        null,
+        null,
+        null,
+        null,
+        null,
+        message,
+        null,
+        errors
+    )
+    { }
+}
 
-file sealed class TestExplicitErrorException(
-    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException, ImmutableList<string> errors)
-    : ErrorException(id, type, code, httpCode, occurredAt, message, innerException, errors);
+file sealed class TestExplicitErrorException : ErrorException
+{
+    public TestExplicitErrorException(
+        Guid id,
+        string type,
+        Guid code,
+        int httpCode,
+        DateTime occurredAt,
+        string? message,
+        System.Exception? innerException,
+        ImmutableList<string> errors
+    ) : base(
+        id,
+        type,
+        code,
+        httpCode,
+        occurredAt,
+        message,
+        innerException,
+        errors
+    )
+    { }
+}
 
 // Test Data Builder: defaults the metadata noise so each test states only the field it varies.
 file sealed class ErrorExceptionBuilder
@@ -36,7 +71,15 @@ file sealed class ErrorExceptionBuilder
     }
 
     public TestExplicitErrorException Build()
-        => new TestExplicitErrorException(_id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", _innerException, _errors);
+        => new TestExplicitErrorException(
+            _id,
+            "T",
+            Guid.NewGuid(),
+            400,
+            DateTime.UtcNow,
+            "m",
+            _innerException,
+            _errors);
 }
 
 public class ErrorExceptionTests
@@ -63,7 +106,9 @@ public class ErrorExceptionTests
     [Fact]
     public void ExplicitMessage_OverridesJoinedErrors()
     {
-        TestErrorException exception = new TestErrorException(new string[] { "a", "b" }, "custom");
+        TestErrorException exception = new TestErrorException(
+            new string[] { "a", "b" },
+            "custom");
 
         Assert.EndsWith("=> custom", exception.Message);
         Assert.Equal(new string[] { "a", "b" }, exception.Errors.ToArray());

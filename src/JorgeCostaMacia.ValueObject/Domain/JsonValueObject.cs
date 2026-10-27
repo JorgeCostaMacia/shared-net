@@ -42,7 +42,8 @@ public record JsonValueObject : StringValueObject
     public static new JsonValueObject From(string value) => new JsonValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The JSON string value to encapsulate, or <see langword="null"/>.</param>
@@ -55,7 +56,8 @@ public record JsonValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source JSON string value.</param>
     /// <returns>A new, validated <see cref="JsonValueObject"/> instance.</returns>
-    /// <exception cref="JsonValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="JsonValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new JsonValueObject Create(string value)
     {
         JsonValueObject vo = From(value);
@@ -65,12 +67,14 @@ public record JsonValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The JSON string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="JsonValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="JsonValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="JsonValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new JsonValueObject? CreateOrNull(string? value)
     {
         JsonValueObject? vo = FromOrNull(value);

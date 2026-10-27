@@ -3,7 +3,8 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates a "group by" criterion (e.g., a field name) for queries.
+/// Represents an immutable <b>Value Object</b> that encapsulates a "group by" criterion (e.g., a field name) for
+/// queries.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -41,7 +42,8 @@ public record GroupByValueObject : StringValueObject
     public static new GroupByValueObject From(string value) => new GroupByValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The group-by string value to encapsulate, or <see langword="null"/>.</param>
@@ -54,7 +56,8 @@ public record GroupByValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source group-by string value.</param>
     /// <returns>A new, validated <see cref="GroupByValueObject"/> instance.</returns>
-    /// <exception cref="GroupByValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="GroupByValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new GroupByValueObject Create(string value)
     {
         GroupByValueObject vo = From(value);
@@ -64,12 +67,14 @@ public record GroupByValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The group-by string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="GroupByValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="GroupByValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="GroupByValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new GroupByValueObject? CreateOrNull(string? value)
     {
         GroupByValueObject? vo = FromOrNull(value);

@@ -29,7 +29,8 @@ public class UriValueObjectValidatorTests
 
     [Fact]
     public void Null_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<UriValueObjectValidationException>(() => _validator.ValidateAndThrow(new UriValueObject(null!)));
+        => Assert.Throws<UriValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(new UriValueObject(null!)));
 
     // The derived Value Object narrows the rule: this is how an http(s)-only URL is built on the base.
     [Theory]
@@ -39,8 +40,10 @@ public class UriValueObjectValidatorTests
     [InlineData("/rooted/path", false)]
     public void DerivedValidator_NarrowsToAWebUrl(
         string value,
-        bool valid)
-        => Assert.Equal(valid, new WebUrlValidator().Validate(new WebUrl(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
+        bool valid
+    ) => Assert.Equal(
+        valid,
+        new WebUrlValidator().Validate(new WebUrl(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
 
     public sealed record WebUrl : UriValueObject
     {
@@ -55,7 +58,9 @@ public class UriValueObjectValidatorTests
 
             // IsAbsoluteUri first: Uri.Scheme throws on a relative URI.
             RuleFor(v => v.Value)
-                .Must(v => v is not null && v.IsAbsoluteUri && (v.Scheme == Uri.UriSchemeHttp || v.Scheme == Uri.UriSchemeHttps))
+                .Must(v => v is not null
+                    && v.IsAbsoluteUri
+                    && (v.Scheme == Uri.UriSchemeHttp || v.Scheme == Uri.UriSchemeHttps))
                 .WithErrorCode("WebUrlValidator")
                 .WithMessage("{PropertyName} must be an http(s) Url");
         }

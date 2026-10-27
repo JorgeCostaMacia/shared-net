@@ -39,7 +39,9 @@ public class JobsLoggerListenerIntegrationTests
         Assert.Equal(0, Assert.IsType<int>(((ScalarValue)was.Properties["RetryAttempt"]).Value));
 
         // the trace identity is shared across the firing's callbacks (a real MergedJobDataMap on the context)
-        Assert.Equal(((ScalarValue)toBe.Properties["AggregateId"]).Value, ((ScalarValue)was.Properties["AggregateId"]).Value);
+        Assert.Equal(
+            ((ScalarValue)toBe.Properties["AggregateId"]).Value,
+            ((ScalarValue)was.Properties["AggregateId"]).Value);
     }
 
     [Fact]
@@ -49,9 +51,12 @@ public class JobsLoggerListenerIntegrationTests
 
         await harness.RunOnceAsync<ThrowingJob>(TestContext.Current.CancellationToken);
 
-        LogEvent was = Assert.Single(harness.Sink.Snapshot(), logEvent => logEvent.MessageTemplate.Text == "JobWasExecuted");
+        LogEvent was = Assert.Single(
+            harness.Sink.Snapshot(),
+            logEvent => logEvent.MessageTemplate.Text == "JobWasExecuted");
         Assert.Equal(LogEventLevel.Error, was.Level);
-        InvalidOperationException cause = Assert.IsType<InvalidOperationException>(was.Exception);   // the root cause, not the Quartz wrapper
+        // the root cause, not the Quartz wrapper
+        InvalidOperationException cause = Assert.IsType<InvalidOperationException>(was.Exception);
         Assert.Equal("boom", cause.Message);
     }
 }

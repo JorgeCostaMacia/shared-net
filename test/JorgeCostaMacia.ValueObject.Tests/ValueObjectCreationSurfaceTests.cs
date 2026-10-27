@@ -31,30 +31,42 @@ public class ValueObjectCreationSurfaceTests
 
             if (!DeclaresSingleFactory(valueObject, "From"))
             {
-                violations.Add($"{valueObject.Name}: needs exactly one public static 'From' returning {valueObject.Name}");
+                violations.Add(
+                    $"{valueObject.Name}: needs exactly one public static 'From' returning {valueObject.Name}");
             }
 
             if (!DeclaresSingleFactory(valueObject, "Create"))
             {
-                violations.Add($"{valueObject.Name}: needs exactly one public static 'Create' returning {valueObject.Name}");
+                violations.Add(
+                    $"{valueObject.Name}: needs exactly one public static 'Create' returning {valueObject.Name}");
             }
 
             if (!DeclaresSingleFactory(valueObject, "FromOrNull"))
             {
-                violations.Add($"{valueObject.Name}: needs exactly one public static 'FromOrNull' returning {valueObject.Name}?");
+                violations.Add(
+                    $"{valueObject.Name}: needs exactly one public static 'FromOrNull' returning {valueObject.Name}?");
             }
 
             if (!DeclaresSingleFactory(valueObject, "CreateOrNull"))
             {
-                violations.Add($"{valueObject.Name}: needs exactly one public static 'CreateOrNull' returning {valueObject.Name}?");
+                violations.Add(
+                    $"{valueObject.Name}: needs exactly one public static 'CreateOrNull' returning {valueObject.Name}?");
             }
         }
 
-        Assert.True(violations.Count == 0, "Value object creation-surface violations:" + Environment.NewLine + string.Join(Environment.NewLine, violations));
+        Assert.True(
+            violations.Count == 0,
+            "Value object creation-surface violations:"
+                + Environment.NewLine
+                + string.Join(Environment.NewLine, violations));
     }
 
-    /// <summary>The type declares exactly one public static factory of the given name that returns the type itself.</summary>
-    private static bool DeclaresSingleFactory(Type valueObject, string name)
+    /// <summary>The type declares exactly one public static factory of the given name that returns the type
+    /// itself.</summary>
+    private static bool DeclaresSingleFactory(
+        Type valueObject,
+        string name
+    )
         => valueObject.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Count(method => method.Name == name && method.ReturnType == valueObject) == 1;
 }

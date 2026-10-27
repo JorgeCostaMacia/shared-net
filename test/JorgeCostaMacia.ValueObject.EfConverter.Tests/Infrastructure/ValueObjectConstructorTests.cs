@@ -25,7 +25,8 @@ public class ValueObjectConstructorTests
     [Fact]
     public void Constructing_Throws_WhenNoSingleValueConstructorExists()
     {
-        InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => new IntValueObjectConverter<TestNoSingleValueCtor>());
+        InvalidOperationException exception = Assert.Throws<InvalidOperationException>(
+            () => new IntValueObjectConverter<TestNoSingleValueCtor>());
 
         Assert.Contains("needs a constructor taking a single", exception.Message);
     }
@@ -34,7 +35,8 @@ public class ValueObjectConstructorTests
     {
         public TestCreateThrows(int value) : base(value) { }
 
-        public static new TestCreateThrows Create(int value) => throw new InvalidOperationException("Create must not be called by the converter.");
+        public static new TestCreateThrows Create(int value)
+            => throw new InvalidOperationException("Create must not be called by the converter.");
     }
 
     public record TestPrivateCtor : StringValueObject
@@ -47,6 +49,9 @@ public class ValueObjectConstructorTests
     // Derives from a family base but has NO single-int constructor, so rehydration cannot find one.
     public record TestNoSingleValueCtor : IntValueObject
     {
-        public TestNoSingleValueCtor(int value, string _) : base(value) { }
+        public TestNoSingleValueCtor(
+            int value,
+            string _
+        ) : base(value) { }
     }
 }

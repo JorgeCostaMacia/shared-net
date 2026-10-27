@@ -4,12 +4,47 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestValidationException(IEnumerable<ValidationFailure> validations, string? message = null)
-    : ValidationException(null, null, null, null, null, message, null, validations);
+file sealed class TestValidationException : ValidationException
+{
+    public TestValidationException(
+        IEnumerable<ValidationFailure> validations,
+        string? message = null
+    ) : base(
+        null,
+        null,
+        null,
+        null,
+        null,
+        message,
+        null,
+        validations
+    )
+    { }
+}
 
-file sealed class TestExplicitValidationException(
-    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException, ImmutableList<ValidationFailure> validations)
-    : ValidationException(id, type, code, httpCode, occurredAt, message, innerException, validations);
+file sealed class TestExplicitValidationException : ValidationException
+{
+    public TestExplicitValidationException(
+        Guid id,
+        string type,
+        Guid code,
+        int httpCode,
+        DateTime occurredAt,
+        string? message,
+        System.Exception? innerException,
+        ImmutableList<ValidationFailure> validations
+    ) : base(
+        id,
+        type,
+        code,
+        httpCode,
+        occurredAt,
+        message,
+        innerException,
+        validations
+    )
+    { }
+}
 
 // Test Data Builder: defaults the metadata noise so each test states only the field it varies.
 file sealed class ValidationExceptionBuilder
@@ -37,7 +72,15 @@ file sealed class ValidationExceptionBuilder
     }
 
     public TestExplicitValidationException Build()
-        => new TestExplicitValidationException(_id, "T", Guid.NewGuid(), 400, DateTime.UtcNow, "m", _innerException, _validations);
+        => new TestExplicitValidationException(
+            _id,
+            "T",
+            Guid.NewGuid(),
+            400,
+            DateTime.UtcNow,
+            "m",
+            _innerException,
+            _validations);
 }
 
 public class ValidationExceptionTests
@@ -65,7 +108,9 @@ public class ValidationExceptionTests
 
         Assert.Equal(2, exception.Validations.Count);
         Assert.Equal("Name", exception.Validations[0].PropertyName);
-        Assert.Equal($"{exception.AggregateId}/ValidationException => Name: is required; Age: must be positive", exception.Message);
+        Assert.Equal(
+            $"{exception.AggregateId}/ValidationException => Name: is required; Age: must be positive",
+            exception.Message);
     }
 
     [Fact]
@@ -91,9 +136,13 @@ public class ValidationExceptionTests
     public void ExplicitCtor_StoresValidationsAndMetadata()
     {
         Guid id = Guid.NewGuid();
-        ImmutableList<ValidationFailure> validations = ImmutableList.Create(new ValidationFailure("Name", "is required"));
+        ImmutableList<ValidationFailure> validations = ImmutableList.Create(
+            new ValidationFailure("Name", "is required"));
 
-        TestExplicitValidationException exception = new ValidationExceptionBuilder().WithId(id).WithValidations(validations).Build();
+        TestExplicitValidationException exception = new ValidationExceptionBuilder()
+            .WithId(id)
+            .WithValidations(validations)
+            .Build();
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal(validations, exception.Validations);
@@ -112,7 +161,8 @@ public class ValidationExceptionTests
     [Fact]
     public void Validations_WithNullPropertyName_FormatWithLeadingColon()
     {
-        TestValidationException exception = new TestValidationException(new ValidationFailure[] { new ValidationFailure(null, "is required") });
+        TestValidationException exception = new TestValidationException(
+            new ValidationFailure[] { new ValidationFailure(null, "is required") });
 
         Assert.EndsWith("=> : is required", exception.Message);
     }

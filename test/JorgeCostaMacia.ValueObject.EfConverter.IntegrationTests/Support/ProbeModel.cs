@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JorgeCostaMacia.ValueObject.EfConverter.IntegrationTests.Support;
 
-/// <summary>An entity carrying one value object per converter family, so a single round-trip exercises them all.</summary>
+/// <summary>An entity carrying one value object per converter family, so a single round-trip exercises them
+/// all.</summary>
 internal sealed class Sample
 {
     public SampleId Id { get; set; } = null!;
@@ -48,9 +49,12 @@ internal sealed class ProbeDbContext : DbContext
         => builder.Entity<Sample>(entity =>
         {
             entity.HasKey(sample => sample.Id);
-            entity.Property(sample => sample.Id).HasConversion(new IntValueObjectConverter<SampleId>()).ValueGeneratedNever();
+            entity.Property(sample => sample.Id)
+                .HasConversion(new IntValueObjectConverter<SampleId>())
+                .ValueGeneratedNever();
             entity.Property(sample => sample.Name).HasConversion(new StringValueObjectConverter<SampleName>());
-            entity.Property(sample => sample.Nick).HasConversion(typeof(StringValueObjectConverter<SampleName>));   // Type overload: the instance overload warns (CS8620) on a nullable property
+            // Type overload: the instance overload warns (CS8620) on a nullable property
+            entity.Property(sample => sample.Nick).HasConversion(typeof(StringValueObjectConverter<SampleName>));
             entity.Property(sample => sample.Ref).HasConversion(new UuidValueObjectConverter<SampleRef>());
             entity.Property(sample => sample.Flag).HasConversion(new BoolValueObjectConverter<SampleFlag>());
             entity.Property(sample => sample.Count).HasConversion(new LongValueObjectConverter<SampleCount>());
@@ -58,7 +62,11 @@ internal sealed class ProbeDbContext : DbContext
             entity.Property(sample => sample.Ratio).HasConversion(new DoubleValueObjectConverter<SampleRatio>());
             entity.Property(sample => sample.Weight).HasConversion(new FloatValueObjectConverter<SampleWeight>());
             entity.Property(sample => sample.Blob).HasConversion(new ByteValueObjectConverter<SampleBlob>());
-            entity.Property(sample => sample.When).HasConversion(new DateTimeValueObjectConverter<SampleWhen>()).HasColumnType("timestamp without time zone");
-            entity.Property(sample => sample.WhenUtc).HasConversion(new DateTimeValueObjectConverter<SampleWhenUtc>()).HasColumnType("timestamp with time zone");
+            entity.Property(sample => sample.When)
+                .HasConversion(new DateTimeValueObjectConverter<SampleWhen>())
+                .HasColumnType("timestamp without time zone");
+            entity.Property(sample => sample.WhenUtc)
+                .HasConversion(new DateTimeValueObjectConverter<SampleWhenUtc>())
+                .HasColumnType("timestamp with time zone");
         });
 }

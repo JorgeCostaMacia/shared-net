@@ -10,9 +10,12 @@ namespace JorgeCostaMacia.Entity.Domain;
 /// In Domain-Driven Design (DDD), an Entity has the following key characteristics:
 /// </para>
 /// <list type="bullet">
-///     <item><description><b>Identity:</b> Has a unique identifier (ID) that persists across changes in state. Two entities are considered equal if their IDs are equal, regardless of their attributes.</description></item>
-///     <item><description><b>Mutability:</b> Its attributes and state can change throughout its lifecycle, unlike Value Objects.</description></item>
-///     <item><description><b>Behavior:</b> Encapsulates business logic related to its own state and identity.</description></item>
+///     <item><description><b>Identity:</b> Has a unique identifier (ID) that persists across changes in state. Two
+///     entities are considered equal if their IDs are equal, regardless of their attributes.</description></item>
+///     <item><description><b>Mutability:</b> Its attributes and state can change throughout its lifecycle, unlike Value
+///     Objects.</description></item>
+///     <item><description><b>Behavior:</b> Encapsulates business logic related to its own state and
+///     identity.</description></item>
 /// </list>
 ///
 /// <para>
@@ -28,8 +31,10 @@ namespace JorgeCostaMacia.Entity.Domain;
 ///
 /// <para><b>Usage Examples:</b></para>
 /// <list type="bullet">
-///     <item><description>A <c>Customer</c> object is an Entity: its properties (name, address) can change, but its ID remains constant.</description></item>
-///     <item><description>An <c>OrderLine</c> entity within an <c>Order</c> aggregate is identified by its own ID, distinct from being the Aggregate Root of that boundary.</description></item>
+///     <item><description>A <c>Customer</c> object is an Entity: its properties (name, address) can change, but its ID
+///     remains constant.</description></item>
+///     <item><description>An <c>OrderLine</c> entity within an <c>Order</c> aggregate is identified by its own ID,
+///     distinct from being the Aggregate Root of that boundary.</description></item>
 /// </list>
 /// </remarks>
 public interface IEntity { }

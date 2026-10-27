@@ -12,7 +12,11 @@ namespace JorgeCostaMacia.Quartz.Tests.Infrastructure;
 /// </summary>
 public class QuartzBuilderExtensionsTests
 {
-    private static ServiceProvider Provider(string instance = "retry", string connection = "JobsBus", string schema = "bus")
+    private static ServiceProvider Provider(
+        string instance = "orders",
+        string connection = "Scheduler",
+        string schema = "quartz"
+    )
     {
         ServiceCollection services = new ServiceCollection();
         services.AddQuartz(quartz => quartz.WithPostgresDefaults(instance, connection, schema));
@@ -30,7 +34,7 @@ public class QuartzBuilderExtensionsTests
         services.AddQuartz(quartz =>
         {
             captured = quartz;
-            returned = quartz.WithPostgresDefaults("retry", "JobsBus", "bus");
+            returned = quartz.WithPostgresDefaults("orders", "Scheduler", "quartz");
         });
 
         Assert.NotNull(captured);
@@ -42,10 +46,10 @@ public class QuartzBuilderExtensionsTests
     [Fact]
     public void WithPostgresDefaults_NamesTheSchedulerAndIdentifiesTheInstance()
     {
-        QuartzSchedulerOptions options = Provider(instance: "retry")
+        QuartzSchedulerOptions options = Provider(instance: "orders")
             .GetRequiredService<IOptions<QuartzSchedulerOptions>>().Value;
 
-        Assert.Equal("retry", options.InstanceName);
+        Assert.Equal("orders", options.InstanceName);
         Assert.Equal(Environment.MachineName, options.InstanceId);
     }
 

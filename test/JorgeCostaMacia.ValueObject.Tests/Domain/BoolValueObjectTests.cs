@@ -49,8 +49,8 @@ public class BoolValueObjectTests
     [InlineData("N", false)]
     public void Convert_FromString_ParsesTheKnownTokens(
         string input,
-        bool expected)
-        => Assert.Equal(expected, TestBool.Convert(input));
+        bool expected
+    ) => Assert.Equal(expected, TestBool.Convert(input));
 
     // A token on neither list is not read as false: "S" used to be, which inverts every S/N field.
     [Theory]

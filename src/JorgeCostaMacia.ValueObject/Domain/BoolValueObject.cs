@@ -47,7 +47,8 @@ public record BoolValueObject : IValueObject
     public static BoolValueObject From(bool value) => new BoolValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(bool)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The boolean value to encapsulate, or <see langword="null"/>.</param>
@@ -60,7 +61,8 @@ public record BoolValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source boolean value.</param>
     /// <returns>A new, validated <see cref="BoolValueObject"/> instance.</returns>
-    /// <exception cref="BoolValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="BoolValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static BoolValueObject Create(bool value)
     {
         BoolValueObject vo = From(value);
@@ -70,12 +72,14 @@ public record BoolValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(bool)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The boolean value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="BoolValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="BoolValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="BoolValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static BoolValueObject? CreateOrNull(bool? value)
     {
         BoolValueObject? vo = FromOrNull(value);
@@ -115,23 +119,27 @@ public record BoolValueObject : IValueObject
     }
 
     /// <summary>
-    /// Converts an integer to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws <see cref="FormatException"/>.
+    /// Converts an integer to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws
+    /// <see cref="FormatException"/>.
     /// </summary>
     protected static bool Convert(int value) => Convert((decimal)value);
 
     /// <summary>
-    /// Converts a float to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws <see cref="FormatException"/>.
+    /// Converts a float to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws
+    /// <see cref="FormatException"/>.
     /// Widening to double is exact, so nothing is rounded on the way.
     /// </summary>
     protected static bool Convert(float value) => Convert((double)value);
 
     /// <summary>
-    /// Converts a long to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws <see cref="FormatException"/>.
+    /// Converts a long to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws
+    /// <see cref="FormatException"/>.
     /// </summary>
     protected static bool Convert(long value) => Convert((decimal)value);
 
     /// <summary>
-    /// Converts a double to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws <see cref="FormatException"/>.
+    /// Converts a double to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws
+    /// <see cref="FormatException"/>.
     /// Compared on the double itself, not through decimal, which keeps only 15 significant digits.
     /// </summary>
     protected static bool Convert(double value)
@@ -150,7 +158,8 @@ public record BoolValueObject : IValueObject
     }
 
     /// <summary>
-    /// Converts a decimal to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws <see cref="FormatException"/>.
+    /// Converts a decimal to a boolean: <c>1</c> is true, <c>0</c> is false, anything else throws
+    /// <see cref="FormatException"/>.
     /// </summary>
     protected static bool Convert(decimal value)
     {
