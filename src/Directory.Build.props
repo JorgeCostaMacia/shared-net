@@ -3,7 +3,8 @@
 	<!-- Inherit the repo-root common settings -->
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
-	<!-- Doc XML for IntelliSense — src only (keeps CS1591 off the test projects); TFMs are inherited from the root props -->
+	<!-- What makes src/ the packages: packing opted in, and doc XML for IntelliSense (keeps CS1591 off the test projects).
+	     TFMs are inherited from the root props -->
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
