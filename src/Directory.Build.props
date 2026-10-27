@@ -5,6 +5,7 @@
 
 	<!-- Doc XML for IntelliSense — src only (keeps CS1591 off the test projects); TFMs are inherited from the root props -->
 	<PropertyGroup>
+		<IsPackable>true</IsPackable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 

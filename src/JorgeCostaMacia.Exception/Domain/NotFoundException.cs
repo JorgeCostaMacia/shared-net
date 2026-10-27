@@ -19,7 +19,10 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///
 /// <para>Properties include:</para>
 /// <list type="bullet">
-///    <item><description>Inherited metadata from <see cref="DomainException"/>: <see cref="DomainException.AggregateId"/>, <see cref="DomainException.AggregateType"/>, <see cref="DomainException.AggregateCode"/>, <see cref="DomainException.AggregateHttpCode"/>, and <see cref="DomainException.AggregateOccurredAt"/>.</description></item>
+///    <item><description>Inherited metadata from <see cref="DomainException"/>:
+///    <see cref="DomainException.AggregateId"/>, <see cref="DomainException.AggregateType"/>,
+///    <see cref="DomainException.AggregateCode"/>, <see cref="DomainException.AggregateHttpCode"/>, and
+///    <see cref="DomainException.AggregateOccurredAt"/>.</description></item>
 /// </list>
 ///
 /// <para>
@@ -31,7 +34,8 @@ public abstract class NotFoundException : DomainException
 {
     /// <summary>
     /// Constructor with explicit metadata for resource not found exceptions.
-    /// Provides full control over all base exception properties and delegates initialization to the base <see cref="DomainException"/> constructor.
+    /// Provides full control over all base exception properties and delegates initialization to the base
+    /// <see cref="DomainException"/> constructor.
     /// </summary>
     /// <param name="aggregateId">Unique identifier for this exception instance. (Required)</param>
     /// <param name="aggregateType">Full type name of the exception. (Required)</param>
@@ -63,12 +67,18 @@ public abstract class NotFoundException : DomainException
     /// Constructor with optional metadata, automatically generating IDs and using 'Not Found' defaults.
     /// The default <see cref="DomainException.AggregateHttpCode"/> is set to 404 Not Found.
     /// </summary>
-    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using <see cref="Guid.CreateVersion7()"/> if null.</param>
-    /// <param name="aggregateType">Optional full type name of the exception. Defaults to <see cref="NotFoundExceptionDefaults.AGGREGATE_TYPE"/> if null.</param>
-    /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the fixed GUID from <see cref="NotFoundExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
-    /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to 404 (Not Found) from <see cref="NotFoundExceptionDefaults.AGGREGATE_HTTP_CODE"/> if null.</param>
-    /// <param name="aggregateOccurredAt">Optional timestamp of when this exception occurred. Defaults to <see cref="DateTime.UtcNow"/> if null.</param>
-    /// <param name="message">Optional exception message. Delegates to the base message logic defined in <see cref="DomainException"/>.</param>
+    /// <param name="aggregateId">Optional unique identifier of this exception instance. Defaults to a new GUID using
+    /// <see cref="Guid.CreateVersion7()"/> if null.</param>
+    /// <param name="aggregateType">Optional full type name of the exception. Defaults to
+    /// <see cref="NotFoundExceptionDefaults.AGGREGATE_TYPE"/> if null.</param>
+    /// <param name="aggregateCode">Optional unique code representing the specific domain error. Defaults to the fixed
+    /// GUID from <see cref="NotFoundExceptionDefaults.AGGREGATE_CODE"/> if null.</param>
+    /// <param name="aggregateHttpCode">Optional HTTP status code associated with this error. Defaults to 404 (Not
+    /// Found) from <see cref="NotFoundExceptionDefaults.AGGREGATE_HTTP_CODE"/> if null.</param>
+    /// <param name="aggregateOccurredAt">Optional timestamp of when this exception occurred. Defaults to
+    /// <see cref="DateTime.UtcNow"/> if null.</param>
+    /// <param name="message">Optional exception message. Delegates to the base message logic defined in
+    /// <see cref="DomainException"/>.</param>
     /// <param name="innerException">Inner exception, if any.</param>
     protected NotFoundException(
         Guid? aggregateId,

@@ -14,9 +14,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 /// </para>
 /// <para>Available defaults:</para>
 /// <list type="bullet">
-///    <item><description><see cref="AGGREGATE_TYPE"/>: Provides the full type name of the base <see cref="DomainException"/>.</description></item>
-///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (500) for general domain exceptions.</description></item>
-///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed, default error code for unclassified domain errors.</description></item>
+///    <item><description><see cref="AGGREGATE_TYPE"/>: Provides the full type name of the base
+///    <see cref="DomainException"/>.</description></item>
+///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (500) for general domain
+///    exceptions.</description></item>
+///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed, default error code for unclassified domain
+///    errors.</description></item>
 /// </list>
 /// </remarks>
 public static class DomainExceptionDefaults

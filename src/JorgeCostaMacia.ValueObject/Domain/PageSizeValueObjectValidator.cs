@@ -15,9 +15,11 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObject>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PageSizeValueObjectValidator"/> class and defines the validation rules.
+    /// Initializes a new instance of the <see cref="PageSizeValueObjectValidator"/> class and defines the validation
+    /// rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="IntValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="IntValueObject"/> used to inherit base validation
+    /// rules.</param>
     public PageSizeValueObjectValidator(IValidator<IntValueObject> validator)
     {
         Include(validator);
@@ -31,7 +33,8 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="PageSizeValueObjectValidator"/> instance.</returns>
-    public static PageSizeValueObjectValidator Create() => new PageSizeValueObjectValidator(IntValueObjectValidator.Create());
+    public static PageSizeValueObjectValidator Create()
+        => new PageSizeValueObjectValidator(IntValueObjectValidator.Create());
 
     /// <summary>
     /// Overrides the default FluentValidation exception mechanism to throw a custom domain exception
@@ -39,7 +42,10 @@ public class PageSizeValueObjectValidator : AbstractValidator<PageSizeValueObjec
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="PageSizeValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<PageSizeValueObject> context, ValidationResult result)
-        => throw new PageSizeValueObjectValidationException(result.Errors);
+    /// <exception cref="PageSizeValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<PageSizeValueObject> context,
+        ValidationResult result
+    ) => throw new PageSizeValueObjectValidationException(result.Errors);
 }

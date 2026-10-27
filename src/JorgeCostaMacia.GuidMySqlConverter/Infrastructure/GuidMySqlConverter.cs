@@ -43,7 +43,9 @@ public static class GuidMySqlConverter
 
         if (guid.Length != 16)
         {
-            throw new ArgumentException("A MySQL/MariaDB BINARY(16) GUID must be exactly 16 bytes.", nameof(guid));
+            throw new ArgumentException(
+                "A MySQL/MariaDB BINARY(16) GUID must be exactly 16 bytes.",
+                nameof(guid));
         }
 
         byte[] value = (byte[])guid.Clone();

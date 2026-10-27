@@ -11,9 +11,12 @@ namespace JorgeCostaMacia.Exception.Domain;
 ///
 /// <para>Properties provide default values for:</para>
 /// <list type="bullet">
-///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base <see cref="ValidationException"/>.</description></item>
-///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (400) for client-side validation errors.</description></item>
-///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified validation errors.</description></item>
+///    <item><description><see cref="AGGREGATE_TYPE"/>: The full type name of the base
+///    <see cref="ValidationException"/>.</description></item>
+///    <item><description><see cref="AGGREGATE_HTTP_CODE"/>: The default HTTP status code (400) for client-side
+///    validation errors.</description></item>
+///    <item><description><see cref="AGGREGATE_CODE"/>: The fixed code for unclassified validation
+///    errors.</description></item>
 /// </list>
 /// </remarks>
 public static class ValidationExceptionDefaults
@@ -30,7 +33,8 @@ public static class ValidationExceptionDefaults
 
     /// <summary>
     /// The default fixed unique identifier representing a generic Validation Error.
-    /// This constant allows grouping of all unspecified <see cref="ValidationException"/> instances under a single code for logging and monitoring.
+    /// This constant allows grouping of all unspecified <see cref="ValidationException"/> instances under a single code
+    /// for logging and monitoring.
     /// </summary>
     public static Guid AGGREGATE_CODE => new Guid("019ab702-1cb1-7a71-a8f0-2f789e830fb5");
 }

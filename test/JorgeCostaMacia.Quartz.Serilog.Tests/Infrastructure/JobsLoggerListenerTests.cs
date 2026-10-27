@@ -13,7 +13,14 @@ public class JobsLoggerListenerTests
     private readonly CapturingSink _sink = new CapturingSink();
 
     private JobsLoggerListener Listener()
-        => new JobsLoggerListener(new SerilogLoggerFactory(new LoggerConfiguration().MinimumLevel.Verbose().Enrich.FromLogContext().WriteTo.Sink(_sink).CreateLogger()).CreateLogger<JobsLoggerListener>());
+        => new JobsLoggerListener(
+            new SerilogLoggerFactory(
+                new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .Enrich.FromLogContext()
+                    .WriteTo.Sink(_sink)
+                    .CreateLogger())
+                .CreateLogger<JobsLoggerListener>());
 
     [Fact]
     public async Task JobToBeExecuted_LogsInformation_WithFixedMessageAndContext()
@@ -32,8 +39,10 @@ public class JobsLoggerListenerTests
         Assert.True(logEvent.Properties.ContainsKey("AggregateId"));
         Assert.True(logEvent.Properties.ContainsKey("CorrelationId"));
         Assert.True(logEvent.Properties.ContainsKey("FireTime"));
-        Assert.Equal("\"fire-1\"", logEvent.Properties["FireInstanceId"].ToString());   // the native per-fire correlation id
-        Assert.False(logEvent.Properties.ContainsKey("JobRunTime"));                    // run time is not known until the job completes
+        // the native per-fire correlation id
+        Assert.Equal("\"fire-1\"", logEvent.Properties["FireInstanceId"].ToString());
+        // run time is not known until the job completes
+        Assert.False(logEvent.Properties.ContainsKey("JobRunTime"));
     }
 
     [Fact]
@@ -59,7 +68,8 @@ public class JobsLoggerListenerTests
         Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Information, logEvent.Level);
         Assert.Null(logEvent.Exception);
-        Assert.True(logEvent.Properties.ContainsKey("JobRunTime"));                     // run time is pushed for the completed event
+        // run time is pushed for the completed event
+        Assert.True(logEvent.Properties.ContainsKey("JobRunTime"));
     }
 
     [Fact]
@@ -68,12 +78,16 @@ public class JobsLoggerListenerTests
         JobExecutionContextFake context = await JobExecutionContextFake.Create();
         InvalidOperationException cause = new InvalidOperationException("boom");
 
-        await Listener().JobWasExecuted(context, new JobExecutionException(cause), TestContext.Current.CancellationToken);
+        await Listener().JobWasExecuted(
+            context,
+            new JobExecutionException(cause),
+            TestContext.Current.CancellationToken);
 
         LogEvent logEvent = Assert.Single(_sink.Events);
-        Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);   // same fixed message; the level carries the outcome
+        // same fixed message; the level carries the outcome
+        Assert.Equal("JobWasExecuted", logEvent.MessageTemplate.Text);
         Assert.Equal(LogEventLevel.Error, logEvent.Level);
-        Assert.Same(cause, logEvent.Exception);                          // the root cause, not the Quartz wrapper
+        Assert.Same(cause, logEvent.Exception);   // the root cause, not the Quartz wrapper
     }
 
     [Fact]
@@ -87,8 +101,12 @@ public class JobsLoggerListenerTests
         await listener.JobWasExecuted(context, jobException: null, TestContext.Current.CancellationToken);
 
         Assert.Equal(2, _sink.Events.Count);
-        Assert.Equal(_sink.Events[0].Properties["AggregateId"].ToString(), _sink.Events[1].Properties["AggregateId"].ToString());
-        Assert.Equal(_sink.Events[0].Properties["CorrelationId"].ToString(), _sink.Events[1].Properties["CorrelationId"].ToString());
+        Assert.Equal(
+            _sink.Events[0].Properties["AggregateId"].ToString(),
+            _sink.Events[1].Properties["AggregateId"].ToString());
+        Assert.Equal(
+            _sink.Events[0].Properties["CorrelationId"].ToString(),
+            _sink.Events[1].Properties["CorrelationId"].ToString());
     }
     // The other side of the two ?. guards: Quartz leaves ScheduledFireTimeUtc empty on a manual
     // trigger and NextFireTimeUtc empty on a one-shot, so both have to log as null rather than throw.

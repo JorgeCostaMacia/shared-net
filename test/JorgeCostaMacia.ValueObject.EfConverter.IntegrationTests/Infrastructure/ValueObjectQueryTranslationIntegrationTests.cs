@@ -39,9 +39,27 @@ public class ValueObjectQueryTranslationIntegrationTests
 
         await using (ProbeDbContext write = _fixture.NewContext())
         {
-            write.Add(NewSample(200, Prefix + "alice", Prefix + "nick", 50L, 500m, new DateTime(2026, 1, 1, 0, 0, 0)));
-            write.Add(NewSample(201, Prefix + "bob", null, 150L, 1500m, new DateTime(2026, 6, 1, 0, 0, 0)));
-            write.Add(NewSample(202, Prefix + "alice-two", Prefix + "other", 250L, 2500m, new DateTime(2026, 12, 1, 0, 0, 0)));
+            write.Add(NewSample(
+                200,
+                Prefix + "alice",
+                Prefix + "nick",
+                50L,
+                500m,
+                new DateTime(2026, 1, 1, 0, 0, 0)));
+            write.Add(NewSample(
+                201,
+                Prefix + "bob",
+                null,
+                150L,
+                1500m,
+                new DateTime(2026, 6, 1, 0, 0, 0)));
+            write.Add(NewSample(
+                202,
+                Prefix + "alice-two",
+                Prefix + "other",
+                250L,
+                2500m,
+                new DateTime(2026, 12, 1, 0, 0, 0)));
             await write.SaveChangesAsync(cancellationToken);
         }
 
@@ -50,26 +68,55 @@ public class ValueObjectQueryTranslationIntegrationTests
         // --- these translate to SQL: work with the VO, or cast it to its primitive ---
 
         // equality over a value object
-        Assert.Equal(1, await read.Samples.CountAsync(s => s.Name == new SampleName(Prefix + "alice"), cancellationToken));
+        Assert.Equal(
+            1,
+            await read.Samples.CountAsync(s => s.Name == new SampleName(Prefix + "alice"), cancellationToken));
 
         // null / not-null over a nullable value object
-        Assert.Equal(1, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && s.Nick == null, cancellationToken));
-        Assert.Equal(2, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && s.Nick != null, cancellationToken));
+        Assert.Equal(
+            1,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && s.Nick == null,
+                cancellationToken));
+        Assert.Equal(
+            2,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && s.Nick != null,
+                cancellationToken));
 
         // order comparisons, comparing value object to value object (implicit operator)
-        Assert.Equal(2, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && s.Count > new SampleCount(100L), cancellationToken));
-        Assert.Equal(2, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && s.Amount < new SampleAmount(2000m), cancellationToken));
+        Assert.Equal(
+            2,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && s.Count > new SampleCount(100L),
+                cancellationToken));
+        Assert.Equal(
+            2,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && s.Amount < new SampleAmount(2000m),
+                cancellationToken));
 
         // string matching via the cast to the primitive
         Assert.Equal(3, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix), cancellationToken));
-        Assert.Equal(2, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && ((string)s.Name).Contains("alice"), cancellationToken));
+        Assert.Equal(
+            2,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && ((string)s.Name).Contains("alice"),
+                cancellationToken));
         Assert.Equal(1, await read.Samples.CountAsync(s => ((string)s.Name).EndsWith("-two"), cancellationToken));
 
         // nullable string matching: null guard + cast
-        Assert.Equal(1, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && s.Nick != null && ((string)s.Nick).Contains("nick"), cancellationToken));
+        Assert.Equal(
+            1,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && s.Nick != null && ((string)s.Nick).Contains("nick"),
+                cancellationToken));
 
         // ordering by a value object
-        List<Sample> ordered = await read.Samples.Where(s => ((string)s.Name).StartsWith(Prefix)).OrderBy(s => s.Count).ToListAsync(cancellationToken);
+        List<Sample> ordered = await read.Samples
+            .Where(s => ((string)s.Name).StartsWith(Prefix))
+            .OrderBy(s => s.Count)
+            .ToListAsync(cancellationToken);
         Assert.Equal(50L, ordered[0].Count.Value);
         Assert.Equal(250L, ordered[^1].Count.Value);
 
@@ -87,22 +134,49 @@ public class ValueObjectQueryTranslationIntegrationTests
         DateTime lowerUtc = new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Utc);
         DateTime upperUtc = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        Assert.Equal(2, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && (DateTime)s.WhenUtc > lowerUtc, cancellationToken));
-        Assert.Equal(1, await read.Samples.CountAsync(s => ((string)s.Name).StartsWith(Prefix) && (DateTime)s.WhenUtc >= lowerUtc && (DateTime)s.WhenUtc < upperUtc, cancellationToken));
-        List<Sample> byDate = await read.Samples.Where(s => ((string)s.Name).StartsWith(Prefix)).OrderBy(s => s.WhenUtc).ToListAsync(cancellationToken);
+        Assert.Equal(
+            2,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix) && (DateTime)s.WhenUtc > lowerUtc,
+                cancellationToken));
+        Assert.Equal(
+            1,
+            await read.Samples.CountAsync(
+                s => ((string)s.Name).StartsWith(Prefix)
+                    && (DateTime)s.WhenUtc >= lowerUtc
+                    && (DateTime)s.WhenUtc < upperUtc,
+                cancellationToken));
+        List<Sample> byDate = await read.Samples
+            .Where(s => ((string)s.Name).StartsWith(Prefix))
+            .OrderBy(s => s.WhenUtc)
+            .ToListAsync(cancellationToken);
         Assert.Equal(new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc), byDate[0].WhenUtc.Value);
         Assert.Equal(new DateTime(2026, 12, 1, 0, 0, 0, DateTimeKind.Utc), byDate[^1].WhenUtc.Value);
 
         // --- these do NOT translate: reaching through .Value throws (the rule to avoid) ---
 
-        await Assert.ThrowsAsync<InvalidOperationException>(() => read.Samples.Where(s => s.Count.Value > 100).ToListAsync(cancellationToken));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => read.Samples.Where(s => s.Name.Value.Contains("alice")).ToListAsync(cancellationToken));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => read.Samples.Where(s => EF.Functions.Like(s.Name.Value, "%alice%")).ToListAsync(cancellationToken));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => read.Samples.OrderBy(s => s.Count.Value).ToListAsync(cancellationToken));
-        await Assert.ThrowsAsync<InvalidOperationException>(() => read.Samples.Where(s => s.When.Value > new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Unspecified)).ToListAsync(cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => read.Samples.Where(s => s.Count.Value > 100).ToListAsync(cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => read.Samples.Where(s => s.Name.Value.Contains("alice")).ToListAsync(cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => read.Samples.Where(s => EF.Functions.Like(s.Name.Value, "%alice%")).ToListAsync(cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => read.Samples.OrderBy(s => s.Count.Value).ToListAsync(cancellationToken));
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => read.Samples
+                .Where(s => s.When.Value > new DateTime(2026, 3, 1, 0, 0, 0, DateTimeKind.Unspecified))
+                .ToListAsync(cancellationToken));
     }
 
-    private static Sample NewSample(int id, string name, string? nick, long count, decimal amount, DateTime when)
+    private static Sample NewSample(
+        int id,
+        string name,
+        string? nick,
+        long count,
+        decimal amount,
+        DateTime when
+    )
         => new Sample
         {
             Id = new SampleId(id),

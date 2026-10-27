@@ -8,7 +8,8 @@ namespace JorgeCostaMacia.ValueObject.Domain;
 /// </summary>
 /// <remarks>
 /// <para>
-/// This class serves as the base for domain Value Objects based on precise numeric values (e.g., Money, Quantity, Price).
+/// This class serves as the base for domain Value Objects based on precise numeric values (e.g., Money, Quantity,
+/// Price).
 /// It exposes the three-verb creation surface: the constructor hydrates (raw assignment for ORMs and
 /// deserializers), <see cref="From(decimal)"/> converts (materializes, unvalidated) and
 /// <see cref="Create(decimal)"/> fabricates validated (nothing invalid escapes it).
@@ -38,14 +39,16 @@ public record DecimalValueObject : IValueObject
 
     /// <summary>
     /// Converts: materializes a new <see cref="DecimalValueObject"/> from the natural primitive through
-    /// <see cref="Convert(decimal)"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// <see cref="Convert(decimal)"/>, <b>without validating it</b>. This is the path composites use to build their
+    /// parts.
     /// </summary>
     /// <param name="value">The source decimal value.</param>
     /// <returns>A new, unvalidated <see cref="DecimalValueObject"/> instance.</returns>
     public static DecimalValueObject From(decimal value) => new DecimalValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(decimal)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The decimal value to encapsulate, or <see langword="null"/>.</param>
@@ -58,7 +61,8 @@ public record DecimalValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source decimal value.</param>
     /// <returns>A new, validated <see cref="DecimalValueObject"/> instance.</returns>
-    /// <exception cref="DecimalValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="DecimalValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static DecimalValueObject Create(decimal value)
     {
         DecimalValueObject vo = From(value);
@@ -68,12 +72,14 @@ public record DecimalValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(decimal)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The decimal value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="DecimalValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="DecimalValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="DecimalValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static DecimalValueObject? CreateOrNull(decimal? value)
     {
         DecimalValueObject? vo = FromOrNull(value);
@@ -94,7 +100,8 @@ public record DecimalValueObject : IValueObject
     /// Parses a string into a decimal value, trimming whitespace first. A comma is rejected rather than read as a
     /// thousands separator: .NET would drop it wherever it sits, so <c>"12,50"</c> would come out as 1250.
     /// </summary>
-    protected static decimal Convert(string value) => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
+    protected static decimal Convert(string value)
+        => Convert(decimal.Parse(value.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture));
 
     /// <summary>
     /// Converts an integer to a decimal value.

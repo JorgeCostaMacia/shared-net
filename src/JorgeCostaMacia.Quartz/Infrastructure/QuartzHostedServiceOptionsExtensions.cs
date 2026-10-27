@@ -32,7 +32,7 @@ public static class QuartzHostedServiceOptionsExtensions
     /// <example>
     /// <code>
     /// builder.Services
-    ///     .AddQuartz(quartz => quartz.WithPostgresDefaults("pasarela", "Jobs", "scheduler"))
+    ///     .AddQuartz(quartz => quartz.WithPostgresDefaults("orders", "Scheduler", "quartz"))
     ///     .AddQuartzHostedService(options => options.WithDefaults());
     /// </code>
     /// </example>

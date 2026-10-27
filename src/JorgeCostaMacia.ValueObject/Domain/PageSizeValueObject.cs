@@ -35,7 +35,8 @@ public record PageSizeValueObject : IntValueObject
     public static new PageSizeValueObject From(int value) => new PageSizeValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(int)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The page size value to encapsulate, or <see langword="null"/>.</param>
@@ -48,7 +49,8 @@ public record PageSizeValueObject : IntValueObject
     /// </summary>
     /// <param name="value">The source page size value.</param>
     /// <returns>A new, validated <see cref="PageSizeValueObject"/> instance.</returns>
-    /// <exception cref="PageSizeValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="PageSizeValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new PageSizeValueObject Create(int value)
     {
         PageSizeValueObject vo = From(value);
@@ -58,12 +60,14 @@ public record PageSizeValueObject : IntValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(int)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The page size value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="PageSizeValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="PageSizeValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="PageSizeValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new PageSizeValueObject? CreateOrNull(int? value)
     {
         PageSizeValueObject? vo = FromOrNull(value);

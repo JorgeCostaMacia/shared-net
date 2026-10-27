@@ -23,5 +23,6 @@ public class PageNumberValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<PageNumberValueObjectValidationException>(() => _validator.ValidateAndThrow(PageNumberValueObject.From(0)));
+        => Assert.Throws<PageNumberValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(PageNumberValueObject.From(0)));
 }

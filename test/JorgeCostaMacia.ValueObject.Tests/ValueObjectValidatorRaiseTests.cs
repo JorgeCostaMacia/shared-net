@@ -50,7 +50,8 @@ public class ValueObjectValidatorRaiseTests
             ?? throw new InvalidOperationException($"{validator.Name}: no RaiseValidationException override.");
 
         object instance = Create(validator);
-        ValidationResult result = new ValidationResult(new List<ValidationFailure> { new ValidationFailure("Value", "boom") });
+        ValidationResult result = new ValidationResult(
+            new List<ValidationFailure> { new ValidationFailure("Value", "boom") });
 
         TargetInvocationException invocation = Assert.Throws<TargetInvocationException>(
             () => raise.Invoke(instance, new object?[] { null, result }));
@@ -98,5 +99,6 @@ public class ValueObjectValidatorRaiseTests
     }
 
     private static object Create(Type validator)
-        => validator.GetMethod("Create", BindingFlags.Public | BindingFlags.Static)!.Invoke(null, Array.Empty<object>())!;
+        => validator.GetMethod("Create", BindingFlags.Public | BindingFlags.Static)!
+            .Invoke(null, Array.Empty<object>())!;
 }

@@ -24,7 +24,8 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonValueObjectValidator"/> class and defines the validation rules.
     /// </summary>
-    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base validation rules.</param>
+    /// <param name="validator">The specific validator for <see cref="StringValueObject"/> used to inherit base
+    /// validation rules.</param>
     public JsonValueObjectValidator(IValidator<StringValueObject> validator)
     {
         Include(validator);
@@ -41,7 +42,8 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
     /// <c>Create</c> factories of the validators it composes.
     /// </summary>
     /// <returns>A new <see cref="JsonValueObjectValidator"/> instance.</returns>
-    public static JsonValueObjectValidator Create() => new JsonValueObjectValidator(StringValueObjectValidator.Create());
+    public static JsonValueObjectValidator Create()
+        => new JsonValueObjectValidator(StringValueObjectValidator.Create());
 
     /// <summary>
     /// Determines whether the supplied string parses as a JSON document.
@@ -73,7 +75,10 @@ public class JsonValueObjectValidator : AbstractValidator<JsonValueObject>
     /// </summary>
     /// <param name="context">The validation context containing the instance being validated.</param>
     /// <param name="result">The result object containing the list of validation failures.</param>
-    /// <exception cref="JsonValueObjectValidationException">Thrown when the validation fails, encapsulating the <see cref="ValidationResult.Errors"/>.</exception>
-    protected override void RaiseValidationException(ValidationContext<JsonValueObject> context, ValidationResult result)
-        => throw new JsonValueObjectValidationException(result.Errors);
+    /// <exception cref="JsonValueObjectValidationException">Thrown when the validation fails, encapsulating the
+    /// <see cref="ValidationResult.Errors"/>.</exception>
+    protected override void RaiseValidationException(
+        ValidationContext<JsonValueObject> context,
+        ValidationResult result
+    ) => throw new JsonValueObjectValidationException(result.Errors);
 }

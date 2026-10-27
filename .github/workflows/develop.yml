@@ -39,6 +39,8 @@ jobs:
           dotnet-version: 10.0.x
       - name: Build
         run: dotnet build ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }}
+      - name: Format
+        run: dotnet format ${{ env.SOLUTION }} --verify-no-changes --no-restore
       - name: Test
         run: dotnet test ${{ env.SOLUTION }} -c ${{ env.CONFIGURATION }} --no-build
       - name: Pack

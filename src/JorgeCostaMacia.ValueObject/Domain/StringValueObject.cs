@@ -38,14 +38,16 @@ public record StringValueObject : IValueObject
 
     /// <summary>
     /// Converts: normalizes the input through <see cref="Convert(string)"/> (trims whitespace) and materializes
-    /// a new <see cref="StringValueObject"/>, <b>without validating it</b>. This is the path composites use to build their parts.
+    /// a new <see cref="StringValueObject"/>, <b>without validating it</b>. This is the path composites use to build
+    /// their parts.
     /// </summary>
     /// <param name="value">The source string value.</param>
     /// <returns>A new, normalized but unvalidated <see cref="StringValueObject"/> instance.</returns>
     public static StringValueObject From(string value) => new StringValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The string value to encapsulate, or <see langword="null"/>.</param>
@@ -58,7 +60,8 @@ public record StringValueObject : IValueObject
     /// </summary>
     /// <param name="value">The source string value.</param>
     /// <returns>A new, validated <see cref="StringValueObject"/> instance.</returns>
-    /// <exception cref="StringValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="StringValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static StringValueObject Create(string value)
     {
         StringValueObject vo = From(value);
@@ -68,12 +71,14 @@ public record StringValueObject : IValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="StringValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="StringValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="StringValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static StringValueObject? CreateOrNull(string? value)
     {
         StringValueObject? vo = FromOrNull(value);

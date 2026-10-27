@@ -92,6 +92,8 @@ public class SerilogConfigurationExtensionsTests
         Assert.Equal(correlationId.ToString(), Scalar(Assert.Single(sink.LogEvents), "CorrelationId"));
     }
 
-    private static string? Scalar(LogEvent logEvent, string property)
-        => ((ScalarValue)logEvent.Properties[property]).Value?.ToString();
+    private static string? Scalar(
+        LogEvent logEvent,
+        string property
+    ) => ((ScalarValue)logEvent.Properties[property]).Value?.ToString();
 }

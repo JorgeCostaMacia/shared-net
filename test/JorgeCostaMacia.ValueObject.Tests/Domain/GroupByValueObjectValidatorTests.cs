@@ -19,5 +19,6 @@ public class GroupByValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<GroupByValueObjectValidationException>(() => _validator.ValidateAndThrow(GroupByValueObject.From("")));
+        => Assert.Throws<GroupByValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(GroupByValueObject.From("")));
 }

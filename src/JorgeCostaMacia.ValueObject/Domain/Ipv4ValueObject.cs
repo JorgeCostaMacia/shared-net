@@ -3,7 +3,8 @@ using FluentValidation;
 namespace JorgeCostaMacia.ValueObject.Domain;
 
 /// <summary>
-/// Represents an immutable <b>Value Object</b> that encapsulates an IPv4 address string in its canonical dotted-decimal form.
+/// Represents an immutable <b>Value Object</b> that encapsulates an IPv4 address string in its canonical dotted-decimal
+/// form.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -36,7 +37,8 @@ public record Ipv4ValueObject : StringValueObject
     public static new Ipv4ValueObject From(string value) => new Ipv4ValueObject(Convert(value));
 
     /// <summary>
-    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise
+    /// Converts, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise
     /// the same result as <see cref="From(string)"/> — <b>without validating it</b>.
     /// </summary>
     /// <param name="value">The IPv4 address string value to encapsulate, or <see langword="null"/>.</param>
@@ -49,7 +51,8 @@ public record Ipv4ValueObject : StringValueObject
     /// </summary>
     /// <param name="value">The source IPv4 address string value.</param>
     /// <returns>A new, validated <see cref="Ipv4ValueObject"/> instance.</returns>
-    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when the resulting value violates a validation rule.</exception>
+    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when the resulting value violates a validation
+    /// rule.</exception>
     public static new Ipv4ValueObject Create(string value)
     {
         Ipv4ValueObject vo = From(value);
@@ -59,12 +62,14 @@ public record Ipv4ValueObject : StringValueObject
     }
 
     /// <summary>
-    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is <see langword="null"/>, otherwise the
+    /// Creates, propagating absence: gives <see langword="null"/> when <paramref name="value"/> is
+    /// <see langword="null"/>, otherwise the
     /// same result as <see cref="Create(string)"/>. Absence short-circuits; a supplied value still has to be valid.
     /// </summary>
     /// <param name="value">The IPv4 address string value to encapsulate, or <see langword="null"/>.</param>
     /// <returns>A new, validated <see cref="Ipv4ValueObject"/> instance, or <see langword="null"/>.</returns>
-    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when a supplied value violates a validation rule.</exception>
+    /// <exception cref="Ipv4ValueObjectValidationException">Thrown when a supplied value violates a validation
+    /// rule.</exception>
     public static new Ipv4ValueObject? CreateOrNull(string? value)
     {
         Ipv4ValueObject? vo = FromOrNull(value);

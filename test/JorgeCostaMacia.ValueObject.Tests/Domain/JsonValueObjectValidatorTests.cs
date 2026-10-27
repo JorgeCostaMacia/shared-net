@@ -44,9 +44,11 @@ public class JsonValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<JsonValueObjectValidationException>(() => _validator.ValidateAndThrow(JsonValueObject.From("notjson")));
+        => Assert.Throws<JsonValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(JsonValueObject.From("notjson")));
 
-    // The derived Value Object narrows the kind: this is how a field that takes only a JSON object is built on the base.
+    // The derived Value Object narrows the kind: this is how a field that takes only a JSON object is built on the
+    // base.
     [Theory]
     [InlineData("{\"a\":1}", true)]
     [InlineData("[1]", false)]
@@ -54,8 +56,8 @@ public class JsonValueObjectValidatorTests
     [InlineData("null", false)]
     public void DerivedValidator_NarrowsToAnObject(
         string value,
-        bool valid)
-        => Assert.Equal(valid, new JsonObjectValidator().Validate(new JsonObject(value)).IsValid);
+        bool valid
+    ) => Assert.Equal(valid, new JsonObjectValidator().Validate(new JsonObject(value)).IsValid);
 
     public sealed record JsonObject : JsonValueObject
     {

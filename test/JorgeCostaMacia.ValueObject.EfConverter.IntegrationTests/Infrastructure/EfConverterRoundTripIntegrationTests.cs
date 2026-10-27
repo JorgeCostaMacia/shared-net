@@ -40,12 +40,13 @@ public class EfConverterRoundTripIntegrationTests
 
         // fresh context: the row comes back from the database, not from an identity map
         await using ProbeDbContext read = _fixture.NewContext();
-        Sample? loaded = await read.Samples.FindAsync(new object[] { new SampleId(1) }, cancellationToken);   // key lookup translates through the converter
+        // key lookup translates through the converter
+        Sample? loaded = await read.Samples.FindAsync(new object[] { new SampleId(1) }, cancellationToken);
 
         Assert.NotNull(loaded);
         Assert.Equal(1, loaded!.Id.Value);
         Assert.Equal("alice", loaded.Name.Value);
-        Assert.Null(loaded.Nick);                                     // nullable value object: NULL column -> null reference
+        Assert.Null(loaded.Nick);   // nullable value object: NULL column -> null reference
         Assert.Equal(reference, loaded.Ref.Value);
         Assert.True(loaded.Flag.Value);
         Assert.Equal(9_000_000_000L, loaded.Count.Value);

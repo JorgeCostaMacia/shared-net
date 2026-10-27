@@ -24,5 +24,6 @@ public class OrderTypeValueObjectValidatorTests
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
-        => Assert.Throws<OrderTypeValueObjectValidationException>(() => _validator.ValidateAndThrow(OrderTypeValueObject.From("UP")));
+        => Assert.Throws<OrderTypeValueObjectValidationException>(
+            () => _validator.ValidateAndThrow(OrderTypeValueObject.From("UP")));
 }

@@ -2,7 +2,8 @@
 * text=auto
 
 # Source & project files
-*.cs        text diff=csharp
+# C# is checked out CRLF everywhere, as .editorconfig requires — what lets the format check run on a Linux runner
+*.cs        text diff=csharp eol=crlf
 *.csproj    text
 *.sln       text
 *.slnx      text

@@ -2,12 +2,41 @@ using JorgeCostaMacia.Exception.Domain;
 
 namespace JorgeCostaMacia.Exception.Tests.Domain;
 
-file sealed class TestNotFoundException(string? message = null)
-    : NotFoundException(null, null, null, null, null, message, null);
+file sealed class TestNotFoundException : NotFoundException
+{
+    public TestNotFoundException(string? message = null) : base(
+        null,
+        null,
+        null,
+        null,
+        null,
+        message,
+        null
+    )
+    { }
+}
 
-file sealed class TestExplicitNotFoundException(
-    Guid id, string type, Guid code, int httpCode, DateTime occurredAt, string? message, System.Exception? innerException)
-    : NotFoundException(id, type, code, httpCode, occurredAt, message, innerException);
+file sealed class TestExplicitNotFoundException : NotFoundException
+{
+    public TestExplicitNotFoundException(
+        Guid id,
+        string type,
+        Guid code,
+        int httpCode,
+        DateTime occurredAt,
+        string? message,
+        System.Exception? innerException
+    ) : base(
+        id,
+        type,
+        code,
+        httpCode,
+        occurredAt,
+        message,
+        innerException
+    )
+    { }
+}
 
 // Test Data Builder: defaults the metadata noise so each test states only the field it varies.
 file sealed class NotFoundExceptionBuilder
@@ -21,7 +50,14 @@ file sealed class NotFoundExceptionBuilder
     }
 
     public TestExplicitNotFoundException Build()
-        => new TestExplicitNotFoundException(Guid.NewGuid(), "T", Guid.NewGuid(), 404, DateTime.UtcNow, "m", _innerException);
+        => new TestExplicitNotFoundException(
+            Guid.NewGuid(),
+            "T",
+            Guid.NewGuid(),
+            404,
+            DateTime.UtcNow,
+            "m",
+            _innerException);
 }
 
 public class NotFoundExceptionTests
@@ -60,7 +96,14 @@ public class NotFoundExceptionTests
         Guid code = Guid.NewGuid();
         DateTime occurredAt = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        TestExplicitNotFoundException exception = new TestExplicitNotFoundException(id, "My.Type", code, 404, occurredAt, "msg", null);
+        TestExplicitNotFoundException exception = new TestExplicitNotFoundException(
+            id,
+            "My.Type",
+            code,
+            404,
+            occurredAt,
+            "msg",
+            null);
 
         Assert.Equal(id, exception.AggregateId);
         Assert.Equal("My.Type", exception.AggregateType);

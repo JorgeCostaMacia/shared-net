@@ -65,7 +65,8 @@ public class OrderByValueObjectTests
         => Assert.Throws<OrderByValueObjectValidationException>(() => OrderByValueObject.CreateOrNull(""));
     // A record generates a ToString() that prints the type and its properties; the override replaces
     // it with the bare value, which is what a log line or an interpolated string should show.
+    // Convert upper-cases: these are SQL fragments
     [Fact]
     public void ToString_ShowsTheBareValue()
-        => Assert.Equal("NAME", OrderByValueObject.From("name").ToString());   // Convert upper-cases: these are SQL fragments
+        => Assert.Equal("NAME", OrderByValueObject.From("name").ToString());
 }
