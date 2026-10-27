@@ -27,7 +27,7 @@ Remote is always `origin`. The main branch is `main` (legacy repos may use `mast
 
 ## Conventions
 
-- **Merges are always `--no-ff`** (every feature/release/hotfix keeps its own merge commit). On conflict, abort and resolve manually.
+- **Merges are always `--no-ff --no-edit`** (every feature/release/hotfix keeps its own merge commit, with git's default message). On conflict, abort and resolve manually.
 - **Tags** are annotated, prefixed with `v` (e.g. `v1.0.0`), created on `main`. Messages: `Release v<version>` / `Hotfix v<version>`.
 - The working tree must be **clean** before starting or finishing any branch.
 
@@ -43,7 +43,7 @@ git push -u origin feature/my-change-202606281530
 
 # finish: merge into develop (--no-ff), publish, delete branch
 git checkout develop && git pull
-git merge --no-ff feature/my-change-202606281530
+git merge --no-ff --no-edit feature/my-change-202606281530
 git push origin develop
 git push origin --delete feature/my-change-202606281530
 git branch -d feature/my-change-202606281530
@@ -64,9 +64,9 @@ git push -u origin release/1.2.0
 
 # finish
 git checkout develop && git pull
-git merge --no-ff release/1.2.0
+git merge --no-ff --no-edit release/1.2.0
 git checkout main && git pull
-git merge --no-ff release/1.2.0
+git merge --no-ff --no-edit release/1.2.0
 git tag -a v1.2.0 -m "Release v1.2.0"
 git push --atomic origin main develop --tags
 git push origin --delete release/1.2.0
