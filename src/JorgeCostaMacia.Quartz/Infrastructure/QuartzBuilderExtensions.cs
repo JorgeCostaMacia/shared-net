@@ -31,7 +31,8 @@ public static class QuartzBuilderExtensions
     /// The schema holding the store tables, without a trailing dot — it is appended here, so a caller
     /// cannot forget it and end up pointing at another schema. Note that this is Quartz's
     /// <c>TablePrefix</c>, which <b>replaces</b> its <c>QRTZ_</c> default rather than adding to it: with
-    /// <c>quartz</c> the store reads <c>quartz.TRIGGERS</c> and <c>quartz.JOB_DETAILS</c>, not <c>quartz.QRTZ_TRIGGERS</c>.
+    /// <c>quartz</c> the store reads <c>quartz.TRIGGERS</c> and <c>quartz.JOB_DETAILS</c>, not
+    /// <c>quartz.QRTZ_TRIGGERS</c>.
     /// The schema itself is not created: <c>ProvisionSchema()</c> creates the tables, never the schema
     /// holding them, and Quartz 4 validates their presence when the scheduler starts.
     /// </param>

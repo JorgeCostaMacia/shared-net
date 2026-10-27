@@ -18,6 +18,8 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<!-- A project packs only by saying so: src/ opts in, everything else (tests) stays out -->
+		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<!-- NuGet vulnerability audit on every restore: direct AND transitive packages, every severity reported.

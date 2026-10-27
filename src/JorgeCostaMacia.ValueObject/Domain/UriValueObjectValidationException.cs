@@ -109,6 +109,7 @@ public class UriValueObjectValidationException : ValidationException
         null,
         null,
         innerException,
-        validations)
+        validations
+    )
     { }
 }

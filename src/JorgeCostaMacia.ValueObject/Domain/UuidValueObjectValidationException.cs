@@ -110,6 +110,7 @@ public class UuidValueObjectValidationException : ValidationException
         null,
         null,
         innerException,
-        validations)
+        validations
+    )
     { }
 }

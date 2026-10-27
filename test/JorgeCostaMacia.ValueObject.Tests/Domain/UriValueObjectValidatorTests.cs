@@ -41,9 +41,10 @@ public class UriValueObjectValidatorTests
     public void DerivedValidator_NarrowsToAWebUrl(
         string value,
         bool valid
-    ) => Assert.Equal(
-        valid,
-        new WebUrlValidator().Validate(new WebUrl(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
+    )
+        => Assert.Equal(
+            valid,
+            new WebUrlValidator().Validate(new WebUrl(new Uri(value, UriKind.RelativeOrAbsolute))).IsValid);
 
     public sealed record WebUrl : UriValueObject
     {

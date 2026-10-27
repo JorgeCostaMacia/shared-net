@@ -130,8 +130,9 @@ public record DateTimeValueObject : IValueObject
     /// Note: The resulting <see cref="DateTimeKind"/> is not set explicitly.
     /// </summary>
     protected static DateTime Convert(string valueDate, string valueTime)
-        => Convert(DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim(), CultureInfo.InvariantCulture))
-            .ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim(), CultureInfo.InvariantCulture))));
+        => Convert(
+            DateOnly.FromDateTime(DateTime.Parse(valueDate.Trim(), CultureInfo.InvariantCulture))
+                .ToDateTime(TimeOnly.FromDateTime(DateTime.Parse(valueTime.Trim(), CultureInfo.InvariantCulture))));
 
     /// <summary>
     /// Creates a new <see cref="DateTime"/> from an integer interpreted as Ticks (kind unspecified).

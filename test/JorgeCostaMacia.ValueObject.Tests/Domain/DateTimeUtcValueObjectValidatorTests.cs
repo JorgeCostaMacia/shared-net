@@ -30,9 +30,10 @@ public class DateTimeUtcValueObjectValidatorTests
         int year,
         int month,
         int day
-    ) => Assert.False(
-        _validator.Validate(
-            DateTimeUtcValueObject.From(new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc))).IsValid);
+    )
+        => Assert.False(
+            _validator.Validate(
+                DateTimeUtcValueObject.From(new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc))).IsValid);
 
     [Fact]
     public void Invalid_ValidateAndThrow_ThrowsTypedException()
