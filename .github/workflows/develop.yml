@@ -34,6 +34,14 @@ jobs:
             echo "::error::Target-typed 'new(' or implicit 'new[]' found — the convention requires explicit types (write 'new Type(...)'). See AGENTS.md."
             exit 1
           fi
+      - name: Convention guard — no collection expressions
+        # Nor does it flag a collection expression (prefer_collection_expression = false only stops the IDE from
+        # offering one). code-style-net's pattern: attributes, indexers, array types and list patterns never match it.
+        run: |
+          if grep -rnE '(=|=>|return|\(|,)[[:space:]]*\[[^]]*\][[:space:]]*[;,)]|(=|=>|return)[[:space:]]*\[[[:space:]]*$|^[[:space:]]*\[[[:space:]]*$' --include='*.cs' --exclude-dir=obj --exclude-dir=bin src test; then
+            echo "::error::Collection expression '[…]' found — the convention requires an explicit collection (write 'new List<T>()', 'Array.Empty<T>()'). See AGENTS.md."
+            exit 1
+          fi
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
