@@ -1,4 +1,5 @@
-# Integration pipeline: build, test and verify packaging on develop and pull requests (no publish).
+# Integration pipeline: the explicit-types guard, build, the format check, test and a packaging check on develop and
+# pull requests (no publish).
 name: Develop
 
 on:
