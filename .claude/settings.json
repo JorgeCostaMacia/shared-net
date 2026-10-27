@@ -1,36 +1,4 @@
 {
-  "extraKnownMarketplaces": {
-    "jorgecostamacia-agent-skills": {
-      "source": { "source": "github", "repo": "JorgeCostaMacia/skills" }
-    },
-    "dotnet-agent-skills": {
-      "source": { "source": "github", "repo": "dotnet/skills" }
-    }
-  },
-  "enabledPlugins": {
-    "ddd@jorgecostamacia-agent-skills": true,
-    "ddd-net@jorgecostamacia-agent-skills": true,
-    "validation-net@jorgecostamacia-agent-skills": true,
-    "efcore-net@jorgecostamacia-agent-skills": true,
-    "efcore-postgres-net@jorgecostamacia-agent-skills": true,
-    "logging@jorgecostamacia-agent-skills": true,
-    "logging-net@jorgecostamacia-agent-skills": true,
-    "code-style-net@jorgecostamacia-agent-skills": true,
-    "build-net@jorgecostamacia-agent-skills": true,
-    "testing@jorgecostamacia-agent-skills": true,
-    "testing-net@jorgecostamacia-agent-skills": true,
-    "clean-architecture@jorgecostamacia-agent-skills": true,
-    "solid@jorgecostamacia-agent-skills": true,
-    "gitflow@jorgecostamacia-agent-skills": true,
-
-    "dotnet@dotnet-agent-skills": true,
-    "dotnet-msbuild@dotnet-agent-skills": true,
-    "dotnet-nuget@dotnet-agent-skills": true,
-    "dotnet-test@dotnet-agent-skills": true,
-    "dotnet-test-migration@dotnet-agent-skills": true,
-    "dotnet-upgrade@dotnet-agent-skills": true,
-    "dotnet-data@dotnet-agent-skills": true
-  },
   "permissions": {
     "deny": [
       "Read(.env)",
